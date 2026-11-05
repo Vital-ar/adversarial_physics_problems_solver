@@ -1,0 +1,3 @@
+PyYAML>=6.0
+huggingface_hub>=0.26
+datasets>=3.0

@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "adversarial-physics-problem-solver"
+version = "0.1.0"
+description = "Reproducible project for the Lexsi AI hackathon"
+requires-python = ">=3.11"
+dependencies = [
+  "PyYAML>=6.0",
+  "huggingface_hub>=0.26",
+  "datasets>=3.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

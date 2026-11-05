@@ -1,0 +1,3 @@
+-r core.txt
+# AlignTune is installed separately in the Linux GPU environment after
+# aligntune
