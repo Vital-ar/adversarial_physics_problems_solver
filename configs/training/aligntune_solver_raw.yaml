@@ -1,9 +1,12 @@
 schema_version: 1
 experiment_id: E1_solver_raw
 
+runtime:
+  backend: "auto"                 # "auto" | "kaggle_gpu" | "hf_zerogpu" | "local_cpu"
+
 dataset:
-  curation_config: "configs/data/generation_gemini.yaml"
-  repo_id: "YOUR_HF_USERNAME/adversarial-physics-raw-synthetic"
+  curation_config: "configs/data/generation_aya.yaml"
+  repo_id: "vital-ar/adversarial-physics-raw-synthetic"
   revision: "REPLACE_WITH_RAW_DATASET_COMMIT_SHA"
   split: "train"
   config_name: null
@@ -42,7 +45,7 @@ evaluation:
   config_path: "configs/evaluation/auditkit_benchmark.yaml"
 
 output:
-  repo_id: "YOUR_HF_USERNAME/adversarial-physics-solver-raw-lora"
+  repo_id: "vital-ar/adversarial-physics-solver-raw-lora"
   local_dir: "checkpoints/solver_raw_lora"
   revision_label: "e1-solver-raw"
 

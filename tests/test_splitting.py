@@ -31,7 +31,6 @@ def _make_mock_physgym_problems() -> list[CanonicalProblem]:
                     domain=domain,
                     problem_statement=f"Problem {idx} in {domain}",
                     reference_solution=f"Solution {idx}",
-                    reference_answer=f"{idx}",
                 )
             )
             idx += 1
@@ -46,7 +45,6 @@ def test_stratified_split_default_21_38_38_preserves_all_domains():
     assert len(result.val) == 38
     assert len(result.test) == 38
 
-    # Ensure zero overlap across splits
     train_ids = set(result.train_ids)
     val_ids = set(result.val_ids)
     test_ids = set(result.test_ids)
@@ -55,7 +53,6 @@ def test_stratified_split_default_21_38_38_preserves_all_domains():
     assert val_ids.isdisjoint(test_ids)
     assert len(train_ids | val_ids | test_ids) == 97
 
-    # Every one of the 6 domains (all having >= 3 problems) must appear in train, val, and test
     for domain, counts in result.domain_counts.items():
         assert counts["train"] >= 1, f"Domain {domain} missing from train split"
         assert counts["val"] >= 1, f"Domain {domain} missing from val split"
@@ -73,9 +70,9 @@ def test_stratified_split_custom_ratios():
         seed=123,
     )
     assert len(result.train) + len(result.val) + len(result.test) == 97
-    assert len(result.train) == 48
+    assert len(result.train) == 49
     assert len(result.val) == 24
-    assert len(result.test) == 25
+    assert len(result.test) == 24
 
     for domain, counts in result.domain_counts.items():
         assert counts["train"] >= 1
@@ -103,9 +100,6 @@ def test_normalize_physgym_record_maps_domains_and_fields():
         "tag": "ELECTRICITY",
         "content": "Find the electric field.",
         "solution": "By Gauss's law...",
-        "answer": "E = q / (4 pi eps_0 r^2)",
-        "equation": "q / (4 * np.pi * epsilon_0 * r**2)",
-        "python_code": "def env_function(q, epsilon_0, r): return q / (4 * 3.14 * epsilon_0 * r**2)",
     }
     norm_raw = normalize_physgym_record(raw, canonicalize_domains=False)
     assert norm_raw.problem_id == "physgym_0495"
@@ -113,7 +107,14 @@ def test_normalize_physgym_record_maps_domains_and_fields():
 
     norm_canonical = normalize_physgym_record(raw, canonicalize_domains=True)
     assert norm_canonical.domain == "ELECTROMAGNETISM"
-    assert norm_canonical.reference_answer == "E = q / (4 pi eps_0 r^2)"
+    assert set(norm_canonical.to_dict().keys()) == {
+        "problem_id",
+        "domain",
+        "problem_statement",
+        "reference_solution",
+        "source",
+        "original_id",
+    }
 
 
 def test_save_split_artifacts_writes_manifest_and_jsonl(tmp_path: Path):

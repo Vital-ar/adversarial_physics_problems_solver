@@ -7,15 +7,18 @@ name = "adversarial-physics-problem-solver"
 version = "0.1.0"
 description = "Adversarial Physics Solver-Verifier pipeline for the Lexsi AI Safety & Alignment Hackathon (Track 1, Problem 8)"
 requires-python = ">=3.11"
+authors = [{ name = "vital-ar" }]
 dependencies = [
   "PyYAML>=6.0",
   "huggingface_hub>=0.26",
   "datasets>=3.0",
-  "sympy>=1.12",
-  "numpy>=1.26",
   "pypdf>=4.0",
   "python-docx>=1.1",
 ]
+
+[project.urls]
+Repository = "https://github.com/vital-ar/adversarial_physics_problems_solver"
+HuggingFace = "https://huggingface.co/vital-ar"
 
 [project.optional-dependencies]
 dev = [

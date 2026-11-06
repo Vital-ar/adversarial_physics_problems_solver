@@ -1,4 +1,9 @@
 -r core.txt
-# AlignTune and AuditKIT are installed in the Linux GPU environment (Kaggle / Colab / WSL2):
+# AlignTune, CuratorKIT, AuditKIT, and GPU inference packages for Kaggle / ZeroGPU / Linux GPU:
+# curatorkit[all]
 # aligntune
 # auditkit
+# transformers>=4.46
+# accelerate
+# bitsandbytes
+# spaces

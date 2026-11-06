@@ -1,9 +1,12 @@
 schema_version: 1
 experiment_id: E3_verifier_curated
 
+runtime:
+  backend: "auto"                 # "auto" | "kaggle_gpu" | "hf_zerogpu" | "local_cpu"
+
 dataset:
   curation_config: "configs/data/curatorkit_pipeline.yaml"
-  repo_id: "YOUR_HF_USERNAME/adversarial-physics-curated"
+  repo_id: "vital-ar/adversarial-physics-curated"
   revision: "REPLACE_WITH_CURATED_DATASET_COMMIT_SHA"
   split: "verifier_curated"
   config_name: null
@@ -42,7 +45,7 @@ evaluation:
   config_path: "configs/evaluation/auditkit_benchmark.yaml"
 
 output:
-  repo_id: "YOUR_HF_USERNAME/adversarial-physics-verifier-curated-lora"
+  repo_id: "vital-ar/adversarial-physics-verifier-curated-lora"
   local_dir: "checkpoints/verifier_curated_lora"
   revision_label: "e3-verifier-curated"
 

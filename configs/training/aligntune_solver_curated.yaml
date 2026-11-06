@@ -1,9 +1,12 @@
 schema_version: 1
 experiment_id: E2_solver_curated
 
+runtime:
+  backend: "auto"                 # "auto" | "kaggle_gpu" | "hf_zerogpu" | "local_cpu"
+
 dataset:
   curation_config: "configs/data/curatorkit_pipeline.yaml"
-  repo_id: "YOUR_HF_USERNAME/adversarial-physics-curated"
+  repo_id: "vital-ar/adversarial-physics-curated"
   revision: "REPLACE_WITH_CURATED_DATASET_COMMIT_SHA"
   split: "solver_curated"
   config_name: null
@@ -42,7 +45,7 @@ evaluation:
   config_path: "configs/evaluation/auditkit_benchmark.yaml"
 
 output:
-  repo_id: "YOUR_HF_USERNAME/adversarial-physics-solver-curated-lora"
+  repo_id: "vital-ar/adversarial-physics-solver-curated-lora"
   local_dir: "checkpoints/solver_curated_lora"
   revision_label: "e2-solver-curated"
 

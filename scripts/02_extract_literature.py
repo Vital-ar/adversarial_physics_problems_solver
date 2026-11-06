@@ -1,4 +1,4 @@
-"""Stage 1.2 CLI: Download textbooks & solution manuals, pair problems with official solutions, and extract verified problems."""
+"""Stage 1.2 CLI: Download textbooks & solution manuals, split into chapter exercise PDFs, pair problems with official solutions, and extract problems via Aya-Expanse."""
 from __future__ import annotations
 
 import argparse
@@ -16,6 +16,10 @@ from adversarial_physics.data.ingestion.literature_extractor import (  # noqa: E
     build_paired_problem_chunks,
     run_literature_extraction_from_config,
 )
+from adversarial_physics.data.ingestion.pdf_chapter_splitter import (  # noqa: E402
+    DEFAULT_CHAPTERS_DIR,
+    split_books_into_chapter_pdfs,
+)
 from adversarial_physics.utils.config import load_book_ingestion_config  # noqa: E402
 from adversarial_physics.utils.logging import get_logger  # noqa: E402
 
@@ -24,13 +28,25 @@ logger = get_logger("stage_1_2_cli")
 
 def build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Stage 1.2: Download physics books, map problems to official solutions, and extract CanonicalProblem records."
+        description="Stage 1.2: Download physics books, split chapter exercise PDFs, map problems to official solutions, and extract CanonicalProblem records with Aya-Expanse."
     )
     parser.add_argument(
         "--config",
         type=str,
         default="configs/data/book_ingestion.yaml",
         help="Path to book ingestion YAML config (default: configs/data/book_ingestion.yaml).",
+    )
+    parser.add_argument(
+        "--backend",
+        choices=["auto", "kaggle_gpu", "hf_zerogpu", "local_cpu"],
+        default="auto",
+        help="Execution backend for Aya-Expanse inference (default: auto).",
+    )
+    parser.add_argument(
+        "--model",
+        type=str,
+        default=None,
+        help="Override Aya-Expanse model repo ID (e.g. CohereForAI/aya-expanse-8b or CohereForAI/aya-expanse-32b).",
     )
     parser.add_argument(
         "--book-id",
@@ -49,7 +65,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--download",
         action="store_true",
-        help="Download missing books that have a 'url' configured before running extraction.",
+        help="Download missing books that have a 'url' configured before running.",
     )
     parser.add_argument(
         "--download-only",
@@ -62,9 +78,19 @@ def build_arg_parser() -> argparse.ArgumentParser:
         help="Re-download files even if they already exist locally.",
     )
     parser.add_argument(
+        "--split-chapters",
+        action="store_true",
+        help="Split downloaded books into data/chapters/<book_id>/<XX>_<chapter_title>.pdf and <book_id>_solutions.pdf.",
+    )
+    parser.add_argument(
+        "--split-chapters-only",
+        action="store_true",
+        help="Only generate data/chapters/<book_id>/ PDFs and exit.",
+    )
+    parser.add_argument(
         "--link-only",
         action="store_true",
-        help="Segment problem books, map problems to their solutions in the solution manual, print the linking report, and exit without calling the LLM.",
+        help="Segment problem books, map problems to their solutions in the solution manual, print the linking report, and exit without calling Aya-Expanse.",
     )
     parser.add_argument(
         "--target-count",
@@ -92,7 +118,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--dry-run",
         action="store_true",
-        help="Run pipeline without invoking the live Gemini API.",
+        help="Run pipeline without invoking the live Aya-Expanse model.",
     )
     return parser
 
@@ -102,7 +128,9 @@ def main(argv: list[str] | None = None) -> int:
     cfg = load_book_ingestion_config(args.config)
     sources = list(cfg.get("books", []))
     download_cfg = cfg.get("download", {}) or {}
+    chapters_cfg = cfg.get("chapters", {}) or {}
     download_dir = str(download_cfg.get("dir") or DEFAULT_DOWNLOAD_DIR)
+    chapters_dir = str(chapters_cfg.get("dir") or DEFAULT_CHAPTERS_DIR)
 
     if args.book_ids:
         wanted = set(args.book_ids)
@@ -122,6 +150,25 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps([r.to_dict() for r in results], indent=2))
         return 0
+
+    if args.split_chapters or args.split_chapters_only:
+        if args.download:
+            download_books(
+                sources,
+                download_dir=download_dir,
+                force=args.force_download,
+                timeout=float(download_cfg.get("timeout_s", 120)),
+            )
+        split_res = split_books_into_chapter_pdfs(
+            args.config,
+            chapters_dir=chapters_dir,
+            download_dir=download_dir,
+            book_ids=args.book_ids,
+            include_disabled=True,
+        )
+        if args.split_chapters_only:
+            print(json.dumps([r.to_dict() for r in split_res], indent=2))
+            return 0
 
     if args.link_only:
         if args.download:
@@ -156,6 +203,8 @@ def main(argv: list[str] | None = None) -> int:
         max_steps=args.max_steps,
         require_official_solution=(False if args.allow_unmatched else None),
         download=True if args.download else None,
+        backend=args.backend,  # type: ignore[arg-type]
+        model_name=args.model,
         dry_run=args.dry_run,
     )
     print(json.dumps(summary.to_dict(), indent=2))

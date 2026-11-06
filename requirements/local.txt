@@ -1,6 +1,7 @@
 -r core.txt
 pytest>=8.0
-# Uncomment when running Stage 2 CuratorKIT synthesis & gating or Stage 6 AuditKIT evaluation locally:
+# Uncomment when running Stage 2 CuratorKIT + Aya-Expanse synthesis & gating or Stage 6 AuditKIT evaluation locally:
 # curatorkit[all]
 # auditkit
-# google-genai
+# transformers>=4.46
+# torch

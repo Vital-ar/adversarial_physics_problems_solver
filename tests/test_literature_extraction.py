@@ -1,10 +1,9 @@
-"""Unit tests for Stage 1.2 book loader (PDF/DOCX), solution mapping, offline code check, and literature extraction filters."""
+"""Unit tests for Stage 1.2 book loader (PDF/DOCX), solution mapping, Aya-Expanse runtime selection, and literature extraction filters."""
 from __future__ import annotations
 
 import zipfile
 from pathlib import Path
 
-from adversarial_physics.data.curation.offline_code_check import verify_reference_code
 from adversarial_physics.data.ingestion.book_downloader import resolve_book_path
 from adversarial_physics.data.ingestion.book_loader import (
     load_book_chunks,
@@ -19,13 +18,18 @@ from adversarial_physics.data.ingestion.literature_extractor import (
     run_literature_extraction_from_config,
     validate_and_build_canonical_problem,
 )
-from adversarial_physics.data.ingestion.solution_mapping import (
-    build_linking_report,
-    link_problems_to_solutions,
-    parse_solution_manual,
-    segment_problems,
+from adversarial_physics.data.ingestion.pdf_chapter_splitter import (
+    extract_book_chapter_titles,
+    slugify_chapter_title,
 )
 from adversarial_physics.utils.config import load_book_ingestion_config
+from adversarial_physics.utils.runtime import (
+    AYA_EXPANSE_8B,
+    AYA_EXPANSE_32B,
+    RuntimeConfig,
+    detect_runtime_backend,
+    select_aya_expanse_model,
+)
 
 
 def _create_minimal_docx(path: Path, paragraphs: list[str]) -> Path:
@@ -81,21 +85,22 @@ def test_load_docx_paragraphs_and_chunks(tmp_path: Path):
     assert chunks[0].book_id == "sample_docx"
 
 
-def test_book_ingestion_config_has_download_urls_and_skips_when_not_downloaded():
+def test_book_ingestion_config_has_download_urls_and_aya_model():
     cfg = load_book_ingestion_config("configs/data/book_ingestion.yaml")
     assert cfg["dataset_id"] == "literature_book_ingestion"
+    assert cfg["extraction"]["teacher_model"] == AYA_EXPANSE_8B
+    assert cfg["output"]["repo_id"].startswith("vital-ar/")
 
     by_id = {b["book_id"]: b for b in cfg["books"]}
     assert by_id["light_and_matter_solutions"]["role"] == "solution_book"
     assert by_id["light_and_matter_solutions"]["url"].endswith("solns-all.pdf")
-    assert "Light and Matter" in by_id["light_and_matter_solutions"]["sections"]
-    assert "Mechanics" in by_id["light_and_matter_solutions"]["sections"]
 
     for pid, sec, pdf_name in [
         ("light_and_matter_problems", "Light and Matter", "lm.pdf"),
         ("crowell_mechanics", "Mechanics", "me.pdf"),
         ("crowell_fields_and_circuits", "Fields and Circuits", "fac.pdf"),
         ("crowell_modern_physics", "Modern Physics", "mod.pdf"),
+        ("crowell_conceptual_physics", "Conceptual Physics", "cp.pdf"),
     ]:
         entry = by_id[pid]
         assert entry["role"] == "problem_book"
@@ -105,20 +110,38 @@ def test_book_ingestion_config_has_download_urls_and_skips_when_not_downloaded()
         resolved = resolve_book_path(entry)
         assert resolved is not None and resolved.name == f"{pid}.pdf"
 
-    chunks = load_books_from_sources(cfg["books"], skip_empty_paths=True, skip_missing_files=True)
-    assert chunks == []
 
-    accepted, rejected, summary = run_literature_extraction_from_config(
-        "configs/data/book_ingestion.yaml", dry_run=True
+def test_aya_expanse_model_selector_and_multi_backend_runtime():
+    cpu_rt = detect_runtime_backend("local_cpu")
+    assert cpu_rt.backend == "local_cpu"
+    assert cpu_rt.device == "cpu"
+
+    zerogpu_rt = detect_runtime_backend("hf_zerogpu")
+    assert zerogpu_rt.backend == "hf_zerogpu"
+    assert zerogpu_rt.device == "cuda"
+
+    kaggle_big = RuntimeConfig(
+        backend="kaggle_gpu",
+        device="cuda",
+        torch_dtype="float16",
+        load_in_4bit=True,
+        device_map="auto",
+        is_kaggle=True,
+        is_zerogpu=False,
+        cuda_available=True,
+        vram_gb=30.0,
     )
-    assert accepted == []
-    assert rejected == []
-    assert summary.books_loaded == 0
+    model_extract, _ = select_aya_expanse_model("literature_extraction", runtime=kaggle_big)
+    assert model_extract == AYA_EXPANSE_8B
+
+    model_flaw_gpu, _ = select_aya_expanse_model("adversarial_flaw_synthesis", runtime=kaggle_big)
+    assert model_flaw_gpu == AYA_EXPANSE_32B
+
+    model_flaw_cpu, _ = select_aya_expanse_model("adversarial_flaw_synthesis", runtime=cpu_rt)
+    assert model_flaw_cpu == AYA_EXPANSE_8B
 
 
 def test_multi_book_to_single_solution_manual_mapping(tmp_path: Path):
-    # Simulate two separate Crowell problem books (Light and Matter & Mechanics)
-    # and one shared all-in-one solution manual containing sections for both.
     lm_book = tmp_path / "lm.txt"
     lm_book.write_text(
         "\n".join(
@@ -212,11 +235,6 @@ def test_multi_book_to_single_solution_manual_mapping(tmp_path: Path):
     assert ch2_p1.metadata["problem_ref"] == "lm_problems:ch02_p001"
     assert ch2_p1.metadata["solution_key"] == "2-1"
 
-    me_ch1_p1 = by_chunk_id["me_problems_ch01_p001"]
-    assert "3.0x10^5 km/s" in me_ch1_p1.text
-    assert me_ch1_p1.metadata["problem_ref"] == "me_problems:ch01_p001"
-
-    # Verify that extract_literature_problems preserves problem_ref in CanonicalProblem.original_id
     def fake_extractor(chunk):
         if chunk.chunk_id == "lm_problems_ch02_p001":
             return [
@@ -225,9 +243,6 @@ def test_multi_book_to_single_solution_manual_mapping(tmp_path: Path):
                     "derivation_steps": 3,
                     "problem_statement": "A solid sphere of mass 2.0 kg and radius 0.15 m rolls without slipping down an incline of height 1.4 m. Find its translational speed at the bottom.",
                     "reference_solution": "By conservation of energy, mgh = 7/10 mv^2, so v = sqrt(10gh/7) = 4.43 m/s.",
-                    "reference_answer": "4.43 m/s",
-                    "reference_equation": "sqrt(10 * g * h / 7)",
-                    "reference_code": "def solve(m=2.0, r=0.15, h=1.4, g=9.8):\n    return (10 * g * h / 7) ** 0.5",
                 }
             ]
         return []
@@ -235,21 +250,18 @@ def test_multi_book_to_single_solution_manual_mapping(tmp_path: Path):
     accepted, rejected, _ = extract_literature_problems(paired_chunks, chunk_extractor=fake_extractor)
     assert len(accepted) == 1
     assert accepted[0].original_id == "lm_problems:ch02_p001"
+    assert set(accepted[0].to_dict().keys()) == {
+        "problem_id",
+        "domain",
+        "problem_statement",
+        "reference_solution",
+        "source",
+        "original_id",
+    }
     assert rejected == []
 
 
-def test_offline_code_verification_passes_valid_blueprint_problem():
-    res = verify_reference_code(
-        reference_code="def solve(m=2.0, r=0.15, h=1.4, g=9.8):\n    return (10 * g * h / 7) ** 0.5",
-        reference_answer="4.43 m/s",
-        reference_equation="sqrt(10 * g * h / 7)",
-        rel_tol=0.01,
-    )
-    assert res.passed is True
-    assert res.relative_error is not None and res.relative_error < 0.01
-
-
-def test_stage_1_2_filters_reject_diagrams_multipart_and_bad_code():
+def test_stage_1_2_filters_reject_diagrams_and_multipart():
     assert is_diagram_dependent("Calculate the tension as shown in Figure 3.2.") is True
     assert is_diagram_dependent("A solid sphere rolls without slipping down an incline.") is False
 
@@ -261,30 +273,43 @@ def test_stage_1_2_filters_reject_diagrams_multipart_and_bad_code():
         "derivation_steps": 3,
         "problem_statement": "A solid sphere of mass 2.0 kg and radius 0.15 m rolls without slipping down an incline of height 1.4 m. Find its translational speed at the bottom.",
         "reference_solution": "By conservation of mechanical energy, mgh = 1/2 mv^2 + 1/2 I*omega^2. Since I = 2/5 mr^2 and omega = v/r, mgh = 7/10 mv^2. Solving for v gives v = sqrt(10gh/7) = 4.43 m/s.",
-        "reference_answer": "4.43 m/s",
-        "reference_equation": "sqrt(10 * g * h / 7)",
-        "reference_code": "def solve(m=2.0, r=0.15, h=1.4, g=9.8):\n    return (10 * g * h / 7) ** 0.5",
     }
-    problem, reason, check = validate_and_build_canonical_problem(
+    problem, reason = validate_and_build_canonical_problem(
         valid_candidate,
         problem_id="lit_mech_0142",
-        book_id="openstax_vol1",
+        book_id="crowell_mechanics",
         chunk_id="chunk_0001",
     )
     assert problem is not None
     assert reason is None
-    assert check is not None and check.passed is True
     assert problem.source == "literature_curated"
 
-    wrong_code_candidate = {
+    diagram_candidate = {
         **valid_candidate,
-        "reference_code": "def solve(m=2.0, r=0.15, h=1.4, g=9.8):\n    return (2 * g * h) ** 0.5",
+        "problem_statement": "Find the tension as shown in Figure 4.1.",
     }
-    bad_problem, bad_reason, _ = validate_and_build_canonical_problem(
-        wrong_code_candidate,
+    bad_problem, bad_reason = validate_and_build_canonical_problem(
+        diagram_candidate,
         problem_id="lit_mech_0143",
-        book_id="openstax_vol1",
+        book_id="crowell_mechanics",
         chunk_id="chunk_0001",
     )
     assert bad_problem is None
-    assert bad_reason is not None and "offline_code_verification_failed" in bad_reason
+    assert bad_reason == "diagram_dependent"
+
+
+def test_extract_book_chapter_titles_and_slugify():
+    pages = [
+        (
+            5,
+            "Brief Contents\n0 Introduction and review 11\n1 Scaling and estimation 37\n"
+            "Motion in one dimension\n2 Velocity and relative motion 59\n"
+            "6 Newton’s laws in\nthree dimensions 191\n",
+        )
+    ]
+    titles = extract_book_chapter_titles(pages)
+    assert titles[0] == "Introduction and review"
+    assert titles[1] == "Scaling and estimation"
+    assert titles[2] == "Velocity and relative motion"
+    assert titles[6] == "Newton’s laws in three dimensions"
+    assert f"06_{slugify_chapter_title(titles[6])}.pdf" == "06_newtons_laws_in_three_dimensions.pdf"

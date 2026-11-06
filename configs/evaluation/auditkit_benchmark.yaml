@@ -1,5 +1,8 @@
 schema_version: 1
 
+runtime:
+  backend: "auto"                 # "auto" | "kaggle_gpu" | "hf_zerogpu" | "local_cpu"
+
 data:
   validation_split: "validation"
   test_split: "test"
@@ -8,13 +11,13 @@ data:
   evaluation_revision: "8e122553897e77495dc2690f16d8055aea1655d7"
 
 selection:
-  primary_metric: "numerical_symbolic_accuracy"
+  primary_metric: "derivation_accuracy"
   direction: "maximize"
   constraints:
     max_false_approval_rate: 0.15
 
 metrics:
-  - "numerical_symbolic_accuracy"
+  - "derivation_accuracy"
   - "unit_consistency_score"
   - "verifier_challenge_f1"
   - "verifier_false_approval_rate"
@@ -27,7 +30,6 @@ inference:
   temperature: 0.1
   do_sample: false
   batch_size: 1
-  numerical_tolerance_rel: 0.015
 
 reporting:
   save_predictions: true

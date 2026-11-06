@@ -58,7 +58,6 @@ def runtime_info() -> dict[str, Any]:
                 "datasets",
                 "huggingface_hub",
                 "transformers",
-                "sympy",
                 "aligntune",
                 "curatorkit",
                 "auditkit",
