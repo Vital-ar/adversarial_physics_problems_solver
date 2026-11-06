@@ -1,0 +1,50 @@
+schema_version: 1
+experiment_id: E2_solver_curated
+
+dataset:
+  curation_config: "configs/data/curatorkit_pipeline.yaml"
+  repo_id: "YOUR_HF_USERNAME/adversarial-physics-curated"
+  revision: "REPLACE_WITH_CURATED_DATASET_COMMIT_SHA"
+  split: "solver_curated"
+  config_name: null
+  data_files: null
+
+base_model:
+  repo_id: "CohereLabs/tiny-aya-global"
+  revision: "main"
+
+training:
+  method: "sft"
+  adapter: "lora"
+  seed: 42
+  parameters:
+    learning_rate: 0.0002
+    lr_scheduler_type: "cosine"
+    per_device_train_batch_size: 2
+    gradient_accumulation_steps: 4
+    num_train_epochs: 3
+    max_seq_length: 1024
+    lora_r: 16
+    lora_alpha: 32
+    lora_dropout: 0.05
+    target_modules:
+      - "q_proj"
+      - "k_proj"
+      - "v_proj"
+      - "o_proj"
+      - "gate_proj"
+      - "up_proj"
+      - "down_proj"
+    modules_to_save: null
+  notes: "Primary Track 1 Curated Solver Adapter (E2): Trained on 1,000 CuratorKIT-filtered examples (50% 0-hint, 35% 1-hint, 15% 2-hint)."
+
+evaluation:
+  config_path: "configs/evaluation/auditkit_benchmark.yaml"
+
+output:
+  repo_id: "YOUR_HF_USERNAME/adversarial-physics-solver-curated-lora"
+  local_dir: "checkpoints/solver_curated_lora"
+  revision_label: "e2-solver-curated"
+
+reproducibility:
+  require_clean_git: true

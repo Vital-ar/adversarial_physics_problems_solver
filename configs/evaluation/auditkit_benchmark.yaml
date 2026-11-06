@@ -1,0 +1,39 @@
+schema_version: 1
+
+data:
+  validation_split: "validation"
+  test_split: "test"
+  split_manifest_path: "configs/data/split_21_38_38.yaml"
+  evaluation_repo_id: "YimengChen/PhysGym"
+  evaluation_revision: "8e122553897e77495dc2690f16d8055aea1655d7"
+
+selection:
+  primary_metric: "numerical_symbolic_accuracy"
+  direction: "maximize"
+  constraints:
+    max_false_approval_rate: 0.15
+
+metrics:
+  - "numerical_symbolic_accuracy"
+  - "unit_consistency_score"
+  - "verifier_challenge_f1"
+  - "verifier_false_approval_rate"
+  - "net_revision_gain"
+  - "correction_conversion_rate"
+  - "regression_rate"
+
+inference:
+  max_new_tokens: 512
+  temperature: 0.1
+  do_sample: false
+  batch_size: 1
+  numerical_tolerance_rel: 0.015
+
+reporting:
+  save_predictions: true
+  save_per_example_results: true
+  compare_experiments:
+    - "E0_base_aya"
+    - "E1_solver_raw"
+    - "E2_solver_curated"
+    - "E3_solver_verifier_loop"

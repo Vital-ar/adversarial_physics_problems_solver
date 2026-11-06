@@ -1,0 +1,12 @@
+orchestrator:
+  base_model: "CohereLabs/tiny-aya-global"
+  solver_adapter_path: "checkpoints/solver_curated_lora"
+  verifier_adapter_path: "checkpoints/verifier_curated_lora"
+  max_revision_iterations: 2       # 1 initial attempt (Turn 0) + up to 2 hinted revisions (Turns 1 & 2)
+  solver_max_new_tokens: 512
+  verifier_max_new_tokens: 128
+  temperature_solver: 0.1          # Low temperature for deterministic math derivation
+  temperature_verifier: 0.0        # Greedy decoding for consistent verdict classification
+  stop_strings:
+    - "[[APPROVE]]"
+    - "[[CHALLENGE]]"

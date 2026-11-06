@@ -1,3 +1,4 @@
 -r core.txt
-# AlignTune is installed separately in the Linux GPU environment after
+# AlignTune and AuditKIT are installed in the Linux GPU environment (Kaggle / Colab / WSL2):
 # aligntune
+# auditkit
