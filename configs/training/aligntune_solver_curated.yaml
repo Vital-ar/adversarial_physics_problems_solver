@@ -1,16 +1,40 @@
 schema_version: 1
-experiment_id: E2_solver_curated
+experiment_id: E1_to_E4_aligntune_recipes
 
 runtime:
-  backend: "auto"                 # "auto" | "kaggle_gpu" | "hf_zerogpu" | "local_cpu"
+  backend: "auto"                 # "auto" | "kaggle_gpu" | "hf_gpu" | "local_cpu"
 
-dataset:
-  curation_config: "configs/data/curatorkit_pipeline.yaml"
-  repo_id: "vital-ar/adversarial-physics-curated"
-  revision: "REPLACE_WITH_CURATED_DATASET_COMMIT_SHA"
-  split: "solver_curated"
-  config_name: null
-  data_files: null
+# 4 Progressive Solver Datasets + 1 Verifier Dataset to Isolate Every Lexsi CuratorKIT Capability:
+datasets:
+  E1_solver_manual_deterministic_only:
+    path: "data/intermediate/01a_manual_deterministic_only_pool.jsonl"
+    expected_records: 1076        # 12 accepted PhysGym seeds + 1,064 manual-rule-accepted book problems (BEFORE CuratorKIT)
+    output_repo_id: "vital-ar/adversarial-physics-solver-e1-manual-det-lora"
+    local_dir: "checkpoints/solver_e1_manual_det_lora"
+  E2_solver_curatorkit_no_llm:
+    path: "data/intermediate/01b_deterministic_curated_pool.jsonl"
+    expected_records: 728         # 11 PhysGym seeds + 717 book problems (AFTER CuratorKIT TextCleaner, Exact/MinHashDedup, Schema/Reward/DiversityGate without LLM)
+    output_repo_id: "vital-ar/adversarial-physics-solver-e2-curatorkit-nollm-lora"
+    local_dir: "checkpoints/solver_e2_curatorkit_nollm_lora"
+  E3_solver_curatorkit_with_llm:
+    path: "data/processed/canonical_train.jsonl"
+    expected_records: 681         # 12 PhysGym seeds + 669 book problems (AFTER CuratorKIT + aya-expanse-8b 1-10 step normalization + post-LLM gates)
+    output_repo_id: "vital-ar/adversarial-physics-solver-e3-canonical-llm-lora"
+    local_dir: "checkpoints/solver_e3_canonical_llm_lora"
+  E4_solver_adversarial_curated:
+    path: "data/sft/solver_curated_adversarial/train.jsonl"
+    expected_records: 1444        # 763 zero-hint (681 Sol1 + 82 Minority Sol2) + 340 1-hint + 341 2-hint
+    output_repo_id: "vital-ar/adversarial-physics-solver-e4-adversarial-lora"
+    local_dir: "checkpoints/solver_e4_adversarial_lora"
+  E4_verifier_curated:
+    path: "data/sft/verifier_curated/train.jsonl"
+    expected_records: 1180        # All surviving deduplicated flawed trajectories + hints (~1,000) + 180 domain-balanced approvals (30/domain)
+    output_repo_id: "vital-ar/adversarial-physics-verifier-e4-curated-lora"
+    local_dir: "checkpoints/verifier_e4_curated_lora"
+
+validation_dataset:
+  path: "data/splits/validation.jsonl"
+  expected_records: 38
 
 base_model:
   repo_id: "CohereLabs/tiny-aya-global"
@@ -21,12 +45,23 @@ training:
   adapter: "lora"
   seed: 42
   parameters:
-    learning_rate: 0.0002
-    lr_scheduler_type: "cosine"
+    learning_rate_solver: 0.0002
+    learning_rate_verifier: 0.00015
+    lr_scheduler_type: "cosine_with_restarts"
+    warmup_ratio: 0.10
+    weight_decay: 0.01
+    max_grad_norm: 1.0
     per_device_train_batch_size: 2
     gradient_accumulation_steps: 4
-    num_train_epochs: 3
-    max_seq_length: 1024
+    num_train_epochs: 8           # Raised from 3 to 8 epochs with validation early stopping
+    max_seq_length: 2048
+    eval_strategy: "epoch"
+    save_strategy: "epoch"
+    load_best_model_at_end: true
+    metric_for_best_model: "eval_loss"
+    greater_is_better: false
+    early_stopping_patience: 2
+    early_stopping_threshold: 0.005
     lora_r: 16
     lora_alpha: 32
     lora_dropout: 0.05
@@ -39,15 +74,10 @@ training:
       - "up_proj"
       - "down_proj"
     modules_to_save: null
-  notes: "Primary Track 1 Curated Solver Adapter (E2): Trained on 1,000 CuratorKIT-filtered examples (50% 0-hint, 35% 1-hint, 15% 2-hint)."
+  notes: "Controlled AlignTune LoRA SFT across E1 -> E2 -> E3 -> E4 with 8 max epochs, cosine-with-restarts scheduler (10% warmup), and validation early stopping (patience=2) on the 38 frozen Validation problems."
 
 evaluation:
   config_path: "configs/evaluation/auditkit_benchmark.yaml"
-
-output:
-  repo_id: "vital-ar/adversarial-physics-solver-curated-lora"
-  local_dir: "checkpoints/solver_curated_lora"
-  revision_label: "e2-solver-curated"
 
 reproducibility:
   require_clean_git: true

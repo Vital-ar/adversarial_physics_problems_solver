@@ -1,0 +1,271 @@
+schema_version: 1
+dataset_id: literature_book_ingestion
+
+# Stage 1.2: Literature & Textbook Ingestion with Paired Problem & Solution Books
+#
+# Model & Runtime Policy:
+# - Uses CohereForAI/aya-expanse-8b for textbook problem extraction, multi-part question splitting,
+#   and domain classification (8B is fast and sufficient because problem statements and official
+#   worked solutions are already deterministically paired via `solution_mapping.py`).
+# - Supports execution across `kaggle_gpu` (CUDA fp16/bf16 or 4-bit), `hf_gpu` (Hugging Face GPU via InferenceClient or L4/T4 container),
+#   and `local_cpu` (`torch.float32`).
+
+runtime:
+  backend: "auto"                 # "auto" | "kaggle_gpu" | "hf_gpu" | "local_cpu"
+  load_in_4bit: true              # Use 4-bit NF4 quantization when running on 16GB T4 GPUs
+
+download:
+  enabled: false                  # Set true or pass `--download` / `--download-only` to download missing PDFs
+  dir: "data/books"
+  timeout_s: 120
+
+chapters:
+  dir: "data/chapters"            # Per-book folders with `<XX>_<chapter_title>.pdf` and `<book_id>_solutions.pdf`
+  initial_book_dataset_path: "data/literature/initial_book_dataset.jsonl"
+  initial_book_summary_path: "data/literature/initial_book_dataset_summary.json"
+  chapter_domains:
+    crowell_conceptual_physics:
+      01_conservation_of_mass_and_energy: "MECHANICS"
+      02_conservation_of_momentum: "MECHANICS"
+      03_conservation_of_angular_momentum: "MECHANICS"
+      04_relativity: "RELATIVITY"
+      05_electricity: "ELECTROMAGNETISM"
+      06_fields: "ELECTROMAGNETISM"
+      07_the_ray_model_of_light: "OPTICS"
+      08_waves: "MECHANICS"
+    crowell_fields_and_circuits:
+      01_the_electric_and_magnetic_fields: "ELECTROMAGNETISM"
+      02_gausss_law: "ELECTROMAGNETISM"
+      03_models_of_matter: "MODERN_PHYSICS"
+      04_the_electric_potential: "ELECTROMAGNETISM"
+      05_electromagnetism: "ELECTROMAGNETISM"
+      06_radiation: "ELECTROMAGNETISM"
+      07_more_about_relativity: "RELATIVITY"
+      08_electrical_resistance: "ELECTROMAGNETISM"
+      09_parallel_and_series_circuits: "ELECTROMAGNETISM"
+      10_iterated_integrals: "SIDE"
+      11_sources_of_magnetism: "ELECTROMAGNETISM"
+      12_review_of_oscillations_resonance_and_complex_numbers: "SIDE"
+      13_ac_circuits: "ELECTROMAGNETISM"
+      14_impedance: "ELECTROMAGNETISM"
+      15_stokess_theorem: "SIDE"
+      17_relativity: "RELATIVITY"
+    crowell_mechanics:
+      00_introduction_and_review: "SIDE"
+      01_scaling_and_estimation: "SIDE"
+      02_velocity_and_relative_motion: "MECHANICS"
+      03_acceleration_and_free_fall: "MECHANICS"
+      04_force_and_motion: "MECHANICS"
+      05_analysis_of_forces: "MECHANICS"
+      06_newtons_laws_in_three_dimensions: "MECHANICS"
+      07_vectors: "SIDE"
+      08_vectors_and_motion: "MECHANICS"
+      09_circular_motion: "MECHANICS"
+      10_gravity: "MECHANICS"
+      11_conservation_of_energy: "MECHANICS"
+      12_simplifying_the_energy_zoo: "MECHANICS"
+      13_work_the_transfer_of_mechanical_energy: "MECHANICS"
+      14_conservation_of_momentum: "MECHANICS"
+      15_conservation_of_angular_momentum: "MECHANICS"
+      16_vibrations: "MECHANICS"
+      17_resonance: "MECHANICS"
+    crowell_modern_physics:
+      01_time: "RELATIVITY"
+      02_waves: "MECHANICS"
+      03_electromagnetic_waves: "ELECTROMAGNETISM"
+      04_the_lorentz_transformation: "RELATIVITY"
+      05_waves_done_medium_well: "MECHANICS"
+      06_relativistic_energy_and_momentum: "RELATIVITY"
+      07_statistics_and_the_ideal_gas: "THERMODYNAMICS"
+      08_the_macroscopic_picture: "THERMODYNAMICS"
+      09_entropy: "THERMODYNAMICS"
+      10_images_qualitatively: "OPTICS"
+      11_images_quantiitatively: "OPTICS"
+      12_wave_optics: "OPTICS"
+      13_the_atom_and_the_nucleus: "MODERN_PHYSICS"
+      14_probability_distributions_and_a_first_glimpse_of_quantum_physics: "MODERN_PHYSICS"
+      15_light_as_a_particle: "MODERN_PHYSICS"
+      16_matter_as_a_wave: "MODERN_PHYSICS"
+      17_the_schrodinger_equation: "MODERN_PHYSICS"
+      18_quantization_of_angular_momentum: "MODERN_PHYSICS"
+    light_and_matter_problems:
+      00_introduction_and_review: "SIDE"
+      01_scaling_and_estimation: "SIDE"
+      02_velocity_and_relative_motion: "MECHANICS"
+      03_acceleration_and_free_fall: "MECHANICS"
+      04_force_and_motion: "MECHANICS"
+      05_analysis_of_forces: "MECHANICS"
+      06_newtons_laws_in_three_dimensions: "MECHANICS"
+      07_vectors: "SIDE"
+      08_vectors_and_motion: "MECHANICS"
+      09_circular_motion: "MECHANICS"
+      10_gravity: "MECHANICS"
+      11_conservation_of_energy: "MECHANICS"
+      12_simplifying_the_energy_zoo: "MECHANICS"
+      13_work_the_transfer_of_mechanical_energy: "MECHANICS"
+      14_conservation_of_momentum: "MECHANICS"
+      15_conservation_of_angular_momentum: "MECHANICS"
+      16_thermodynamics: "THERMODYNAMICS"
+      17_vibrations: "MECHANICS"
+      18_resonance: "MECHANICS"
+      19_free_waves: "MECHANICS"
+      20_bounded_waves: "MECHANICS"
+      21_electricity_and_circuits: "ELECTROMAGNETISM"
+      22_the_nonmechanical_universe: "ELECTROMAGNETISM"
+      23_relativity_and_magnetism: "ELECTROMAGNETISM"
+      24_electromagnetism: "ELECTROMAGNETISM"
+      25_capacitance_and_inductance: "ELECTROMAGNETISM"
+      26_the_atom_and_e_mc_2: "MODERN_PHYSICS"
+      27_general_relativity: "RELATIVITY"
+      28_the_ray_model_of_light: "OPTICS"
+      29_images_by_reflection: "OPTICS"
+      30_images_quantitatively: "OPTICS"
+      31_refraction: "OPTICS"
+      32_wave_optics: "OPTICS"
+      33_rules_of_randomness: "SIDE"
+      34_light_as_a_particle: "MODERN_PHYSICS"
+      35_matter_as_a_wave: "MODERN_PHYSICS"
+      36_the_atom: "MODERN_PHYSICS"
+
+pairing:
+  require_official_solution: true # Only pass problems that matched an official solution in the manual
+  shuffle_seed: 42                # Interleave chapters/books before teacher extraction
+  linking_report_path: "data/literature/linking_report.json"
+  linked_pairs_path: "data/literature/linked_problem_solution_pairs.jsonl"
+
+books:
+  # ============================================================================
+  # 1. Shared All-in-One Solution Manual (referenced by all Crowell books below)
+  # ============================================================================
+  - book_id: "light_and_matter_solutions"
+    role: "solution_book"         # "problem_book" | "solution_book" | "standalone"
+    title: "Solutions for Conceptual Physics, Light and Matter, Mechanics, Simple Nature, Fields and Circuits, and Modern Physics (B. Crowell & B. Shotwell)"
+    format: "pdf"
+    url: "https://archive.org/download/lm_solutions/solns-all.pdf"
+    path: ""                      # Defaults to data/books/light_and_matter_solutions.pdf when downloaded
+    domain: "MULTY-DOMAIN"
+    start_page: 1
+    end_page: null
+    solution_book_id: null
+    sections:
+      - "Light and Matter"
+      - "Simple Nature"
+      - "Mechanics"
+      - "Conceptual Physics"
+      - "Fields and Circuits"
+      - "Modern Physics"
+    enabled: true
+
+  # ============================================================================
+  # 2. Crowell Problem Textbooks (each links to `light_and_matter_solutions`)
+  # ============================================================================
+  - book_id: "light_and_matter_problems"
+    role: "problem_book"
+    title: "Light and Matter (Benjamin Crowell)"
+    format: "pdf"
+    url: "https://archive.org/download/lm_20220102/lm.pdf"
+    path: ""                      # Defaults to data/books/light_and_matter_problems.pdf
+    domain: "MULTY-DOMAIN"
+    start_page: 1
+    end_page: null
+    solution_book_id: "light_and_matter_solutions"
+    solution_section: "Light and Matter"
+    enabled: true
+
+  - book_id: "crowell_mechanics"
+    role: "problem_book"
+    title: "Mechanics (Benjamin Crowell)"
+    format: "pdf"
+    url: "https://archive.org/download/me_20220102/me.pdf"
+    path: ""                      # Defaults to data/books/crowell_mechanics.pdf
+    domain: "MECHANICS"
+    start_page: 1
+    end_page: null
+    solution_book_id: "light_and_matter_solutions"
+    solution_section: "Mechanics"
+    enabled: true
+
+  - book_id: "crowell_fields_and_circuits"
+    role: "problem_book"
+    title: "Fields and Circuits (Benjamin Crowell)"
+    format: "pdf"
+    url: "https://archive.org/download/fac_20220102/fac.pdf"
+    path: ""                      # Defaults to data/books/crowell_fields_and_circuits.pdf
+    domain: "ELECTROMAGNETISM"
+    start_page: 1
+    end_page: null
+    solution_book_id: "light_and_matter_solutions"
+    solution_section: "Fields and Circuits"
+    enabled: true
+
+  - book_id: "crowell_modern_physics"
+    role: "problem_book"
+    title: "Modern Physics: With Waves, Thermodynamics, and Optics (Benjamin Crowell)"
+    format: "pdf"
+    url: "https://archive.org/download/mod_20220102/mod.pdf"
+    path: ""                      # Defaults to data/books/crowell_modern_physics.pdf
+    domain: "MODERN_PHYSICS"
+    start_page: 1
+    end_page: null
+    solution_book_id: "light_and_matter_solutions"
+    solution_section: "Modern Physics"
+    enabled: true
+
+  - book_id: "crowell_conceptual_physics"
+    role: "problem_book"
+    title: "Conceptual Physics (Benjamin Crowell)"
+    format: "pdf"
+    url: "https://archive.org/download/cp_20220102/cp.pdf"
+    path: ""                      # Defaults to data/books/crowell_conceptual_physics.pdf
+    domain: "MULTY-DOMAIN"
+    start_page: 1
+    end_page: null
+    solution_book_id: "light_and_matter_solutions"
+    solution_section: "Conceptual Physics"
+    enabled: true
+
+  - book_id: "crowell_simple_nature"
+    role: "problem_book"
+    title: "Simple Nature (Benjamin Crowell)"
+    format: "pdf"
+    url: "https://archive.org/download/simple_nature/simple.pdf"
+    path: ""                      # Defaults to data/books/crowell_simple_nature.pdf
+    domain: "MULTY-DOMAIN"
+    start_page: 1
+    end_page: null
+    solution_book_id: "light_and_matter_solutions"
+    solution_section: "Simple Nature"
+    enabled: false
+
+chunking:
+  chunk_size_chars: 4000
+  chunk_overlap_chars: 400
+
+extraction:
+  teacher_model: "CohereForAI/aya-expanse-8b"
+  temperature: 0.2
+  target_problem_count: null      # null = include ALL valid, self-contained problems (no 250 cap)
+  physgym_seed_count: 21
+  canonical_pool_target: null     # null = include ALL valid, anti-leakage-verified problems
+  id_prefix: "lit"
+
+filtering:
+  # Substage 1.2 Selection Filter: 1-to-10 logical derivation steps (counting logical reasoning operations, not displayed lines)
+  min_derivation_steps: 1
+  max_derivation_steps: 10
+  preferred_max_steps: 8
+  max_solution_chars: 4500
+  solver_max_new_tokens: 1536
+  verifier_max_new_tokens: 192
+
+  # Substage 1.2 Diagram & Multi-Part Filtering
+  reject_diagram_dependent: true
+  split_or_reject_multipart: true
+
+output:
+  extracted_problems_path: "data/literature/extracted_problems.jsonl"
+  rejected_problems_path: "data/literature/rejected_candidates.jsonl"
+  leak_free_raw_pool_path: "data/intermediate/01a_leak_free_raw_pool.jsonl"
+  deterministic_curated_pool_path: "data/intermediate/01b_deterministic_curated_pool.jsonl"
+  canonical_pool_path: "data/processed/canonical_train.jsonl"
+  repo_id: "vital-ar/adversarial-physics-canonical-pool"

@@ -1,0 +1,41 @@
+schema_version: 1
+dataset_id: physgym_seed_ingestion
+
+# Stage 1.1: PhysGym seed ingestion and domain-stratified 21 / 38 / 38 split
+source:
+  kind: hub
+  repo_id: "YimengChen/PhysGym"
+  revision: "8e122553897e77495dc2690f16d8055aea1655d7"
+  split: "train"
+  config_name: null
+  data_files: null
+
+normalization:
+  id_prefix: "physgym"
+  # Set true to map raw PhysGym tags (ELECTRICITY, MODERN, ADVANCED) to
+  # (ELECTROMAGNETISM, MODERN_PHYSICS, RELATIVITY). Both preserve all 6 domains.
+  canonicalize_domains: true
+  domain_aliases:
+    MECHANICS: "MECHANICS"
+    THERMODYNAMICS: "THERMODYNAMICS"
+    ELECTRICITY: "ELECTROMAGNETISM"
+    ELECTROMAGNETISM: "ELECTROMAGNETISM"
+    OPTICS: "OPTICS"
+    MODERN: "MODERN_PHYSICS"
+    MODERN_PHYSICS: "MODERN_PHYSICS"
+    ADVANCED: "RELATIVITY"
+    RELATIVITY: "RELATIVITY"
+
+splitting:
+  seed: 42
+  # Either specify exact sizes (21 / 38 / 38) or ratios (e.g. train_ratio, val_ratio, test_ratio)
+  train_size: 21
+  val_size: 38
+  test_size: 38
+
+output:
+  split_manifest_path: "configs/data/split_21_38_38.yaml"
+  splits_dir: "data/splits"
+  repo_id: "vital-ar/adversarial-physics-splits"
+  repo_type: "dataset"
+  revision_label: "physgym-splits-v1"

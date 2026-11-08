@@ -1,0 +1,53 @@
+schema_version: 1
+dataset_id: adversarial_physics_curated
+
+# Stage 2.4 & 2.5: CuratorKIT & Aya-Expanse-8B trajectory deduplication, quality gating, directive leak checks, and dataset export
+runtime:
+  backend: "auto"                 # "auto" | "kaggle_gpu" | "hf_gpu" | "local_cpu"
+  curation_model: "CohereForAI/aya-expanse-8b"
+
+source:
+  kind: local
+  path: "data/processed/canonical_train.jsonl"
+  raw_pool_e1_path: "data/intermediate/01a_leak_free_raw_pool.jsonl"
+  deterministic_pool_e2_path: "data/intermediate/01b_deterministic_curated_pool.jsonl"
+  canonical_pool_e3_path: "data/processed/canonical_train.jsonl"
+
+processing:
+  deduplication: true
+  deduplication_cosine_threshold: 0.85
+  diversity_gate_threshold: 0.88
+  quality_filtering: true
+  synthetic_generation: true
+  forbid_answer_leak_in_directives: true
+  banned_relative_phrases:
+    - "in step"
+    - "your first equation"
+    - "above"
+    - "in line"
+  notes: "CuratorKIT trajectory deduplication before hint generation, SchemaGate, HallucinationGate, RewardGate, Adaptive Recovery, and deterministic SymPy/SI-unit/leakage checks."
+
+target_composition:
+  # 4 Progressive Solver Datasets to Isolate Every Lexsi CuratorKIT Capability:
+  solver_e1_manual_deterministic_only:
+    source_file: "data/intermediate/01a_manual_deterministic_only_pool.jsonl"
+    total_examples: 1076             # 12 accepted PhysGym seeds + 1,064 manual-rule-accepted book problems (BEFORE CuratorKIT)
+  solver_e2_curatorkit_no_llm:
+    source_file: "data/intermediate/01b_deterministic_curated_pool.jsonl"
+    total_examples: 728              # 11 PhysGym seeds + 717 book problems (CuratorKIT TextCleaner + Exact/MinHashDedup + Schema/Reward/DiversityGate without LLM)
+  solver_e3_curatorkit_llm_canonical:
+    source_file: "data/processed/canonical_train.jsonl"
+    total_examples: 681              # 12 PhysGym seeds + 669 book problems (CuratorKIT + aya-expanse-8b 1-10 step normalization + post-LLM gates)
+  solver_e4_adversarial_curated:
+    turn_0_no_hints: 763             # 681 Canonical Solution 1 + 82 Minority-Domain Alternative Solution 2 (Optics 24, Relativity 36, Thermodynamics 22)
+    turn_1_one_hint_share: 0.50      # 50% of problems (~340) paired with 1 self-contained directive
+    turn_2_two_hints_share: 0.50     # 50% of problems (~341) paired with 2 accumulated self-contained directives
+    total_examples: 1444             # 763 zero-hint + 681 hinted (half 1-hint, half 2-hints)
+  verifier_e4_curated:
+    approved_share_of_original: 0.264 # 180 domain-balanced [[APPROVE]] examples (30 per domain across all 6 domains = 26.4% of 681)
+    challenged_ trajectories: "all_surviving_deduplicated_flawed_trajectories"  # ~950-1,100 surviving trajectories from (681 aya-expanse-8b wrong + 681 tiny-aya-global wrong)
+
+output:
+  repo_id: "vital-ar/adversarial-physics-curated"
+  repo_type: "dataset"
+  revision_label: "curated-v2"

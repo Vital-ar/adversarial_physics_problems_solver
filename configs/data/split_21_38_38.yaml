@@ -1,0 +1,154 @@
+schema_version: 1
+created_at_utc: '2026-11-05T11:32:26+00:00'
+seed: 42
+total_problems: 97
+split_counts:
+  train: 21
+  val: 38
+  test: 38
+split_ratios:
+  train: 0.2165
+  val: 0.3918
+  test: 0.3918
+domain_distribution:
+  ELECTROMAGNETISM:
+    total: 31
+    train: 7
+    val: 12
+    test: 12
+  MECHANICS:
+    total: 39
+    train: 9
+    val: 15
+    test: 15
+  MODERN_PHYSICS:
+    total: 7
+    train: 1
+    val: 3
+    test: 3
+  OPTICS:
+    total: 7
+    train: 1
+    val: 3
+    test: 3
+  RELATIVITY:
+    total: 3
+    train: 1
+    val: 1
+    test: 1
+  THERMODYNAMICS:
+    total: 10
+    train: 2
+    val: 4
+    test: 4
+source_provenance:
+  kind: hub
+  repo_id: YimengChen/PhysGym
+  requested_revision: 8e122553897e77495dc2690f16d8055aea1655d7
+  resolved_revision: 8e122553897e77495dc2690f16d8055aea1655d7
+  split: train
+  config_name: null
+  data_files: null
+  num_rows: 97
+  fingerprint: 01e967e972e5fbff
+splits:
+  train_ids:
+  - physgym_0010
+  - physgym_0039
+  - physgym_0041
+  - physgym_0043
+  - physgym_0069
+  - physgym_0072
+  - physgym_0088
+  - physgym_0101
+  - physgym_0115
+  - physgym_0250
+  - physgym_0284
+  - physgym_0367
+  - physgym_0401
+  - physgym_0423
+  - physgym_0636
+  - physgym_0649
+  - physgym_0653
+  - physgym_0654
+  - physgym_0674
+  - physgym_0702
+  - physgym_0766
+  val_ids:
+  - physgym_0025
+  - physgym_0036
+  - physgym_0037
+  - physgym_0042
+  - physgym_0050
+  - physgym_0055
+  - physgym_0062
+  - physgym_0065
+  - physgym_0095
+  - physgym_0100
+  - physgym_0106
+  - physgym_0110
+  - physgym_0112
+  - physgym_0118
+  - physgym_0120
+  - physgym_0121
+  - physgym_0124
+  - physgym_0134
+  - physgym_0139
+  - physgym_0211
+  - physgym_0221
+  - physgym_0318
+  - physgym_0321
+  - physgym_0333
+  - physgym_0412
+  - physgym_0443
+  - physgym_0493
+  - physgym_0495
+  - physgym_0498
+  - physgym_0505
+  - physgym_0603
+  - physgym_0617
+  - physgym_0630
+  - physgym_0648
+  - physgym_0670
+  - physgym_0716
+  - physgym_0719
+  - physgym_0737
+  test_ids:
+  - physgym_0033
+  - physgym_0045
+  - physgym_0054
+  - physgym_0058
+  - physgym_0071
+  - physgym_0083
+  - physgym_0089
+  - physgym_0103
+  - physgym_0117
+  - physgym_0131
+  - physgym_0133
+  - physgym_0140
+  - physgym_0143
+  - physgym_0204
+  - physgym_0206
+  - physgym_0228
+  - physgym_0256
+  - physgym_0259
+  - physgym_0281
+  - physgym_0285
+  - physgym_0310
+  - physgym_0331
+  - physgym_0332
+  - physgym_0336
+  - physgym_0409
+  - physgym_0419
+  - physgym_0420
+  - physgym_0432
+  - physgym_0450
+  - physgym_0453
+  - physgym_0457
+  - physgym_0458
+  - physgym_0478
+  - physgym_0497
+  - physgym_0650
+  - physgym_0688
+  - physgym_0708
+  - physgym_0709

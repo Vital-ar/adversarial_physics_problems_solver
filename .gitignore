@@ -16,7 +16,7 @@ __pycache__/
 .ipynb_checkpoints/
 
 # Large/generated artifacts (store in HF or temporary Kaggle storage)
-data/
+/data/
 outputs/
 checkpoints/
 artifacts/

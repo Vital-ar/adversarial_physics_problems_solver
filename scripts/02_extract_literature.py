@@ -12,6 +12,11 @@ if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
 from adversarial_physics.data.ingestion.book_downloader import DEFAULT_DOWNLOAD_DIR, download_books  # noqa: E402
+from adversarial_physics.data.ingestion.chapter_domain_extractor import (  # noqa: E402
+    DEFAULT_CHAPTER_DOMAIN_SUMMARY_PATH,
+    DEFAULT_INITIAL_BOOK_DATASET_PATH,
+    build_initial_book_dataset,
+)
 from adversarial_physics.data.ingestion.literature_extractor import (  # noqa: E402
     build_paired_problem_chunks,
     run_literature_extraction_from_config,
@@ -19,6 +24,9 @@ from adversarial_physics.data.ingestion.literature_extractor import (  # noqa: E
 from adversarial_physics.data.ingestion.pdf_chapter_splitter import (  # noqa: E402
     DEFAULT_CHAPTERS_DIR,
     split_books_into_chapter_pdfs,
+)
+from adversarial_physics.data.processing.canonical_pool_builder import (  # noqa: E402
+    build_stage1_canonical_pool,
 )
 from adversarial_physics.utils.config import load_book_ingestion_config  # noqa: E402
 from adversarial_physics.utils.logging import get_logger  # noqa: E402
@@ -38,7 +46,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--backend",
-        choices=["auto", "kaggle_gpu", "hf_zerogpu", "local_cpu"],
+        choices=["auto", "kaggle_gpu", "hf_gpu", "local_cpu"],
         default="auto",
         help="Execution backend for Aya-Expanse inference (default: auto).",
     )
@@ -86,6 +94,21 @@ def build_arg_parser() -> argparse.ArgumentParser:
         "--split-chapters-only",
         action="store_true",
         help="Only generate data/chapters/<book_id>/ PDFs and exit.",
+    )
+    parser.add_argument(
+        "--build-initial-dataset",
+        action="store_true",
+        help="Extract problems and paired solutions from non-SIDE chapters in data/chapters/ into data/literature/initial_book_dataset.jsonl and exit.",
+    )
+    parser.add_argument(
+        "--build-canonical-pool",
+        action="store_true",
+        help="Run Stage 1.3 & 1.4 filtering, 0.85 anti-leakage deduplication, and domain-balanced selection to produce data/processed/canonical_train_250.jsonl.",
+    )
+    parser.add_argument(
+        "--use-llm-refinement",
+        action="store_true",
+        help="When used with --build-canonical-pool, run resumable CohereForAI/aya-expanse-8b normalization over the selected 250 canonical problems.",
     )
     parser.add_argument(
         "--link-only",
@@ -169,6 +192,32 @@ def main(argv: list[str] | None = None) -> int:
         if args.split_chapters_only:
             print(json.dumps([r.to_dict() for r in split_res], indent=2))
             return 0
+
+    if args.build_initial_dataset:
+        out_path = str(chapters_cfg.get("initial_book_dataset_path") or DEFAULT_INITIAL_BOOK_DATASET_PATH)
+        sum_path = str(chapters_cfg.get("initial_book_summary_path") or DEFAULT_CHAPTER_DOMAIN_SUMMARY_PATH)
+        ch_domains = chapters_cfg.get("chapter_domains")
+        _, ds_summary = build_initial_book_dataset(
+            chapters_dir=chapters_dir,
+            output_path=out_path,
+            summary_path=sum_path,
+            chapter_domain_map=ch_domains if isinstance(ch_domains, dict) else None,
+            require_matched_solution=not args.allow_unmatched,
+        )
+        print(json.dumps(ds_summary.to_dict(), indent=2))
+        return 0
+
+    if args.build_canonical_pool:
+        _, pool_summary = build_stage1_canonical_pool(
+            target_total=args.target_count,
+            min_logical_steps=int(args.min_steps or 1),
+            max_logical_steps=int(args.max_steps or 10),
+            use_llm_refinement=args.use_llm_refinement,
+            llm_backend=args.backend,  # type: ignore[arg-type]
+            llm_model_name=args.model or "CohereForAI/aya-expanse-8b",
+        )
+        print(json.dumps(pool_summary.to_dict(), indent=2))
+        return 0
 
     if args.link_only:
         if args.download:

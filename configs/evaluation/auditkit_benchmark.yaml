@@ -1,41 +1,74 @@
 schema_version: 1
 
 runtime:
-  backend: "auto"                 # "auto" | "kaggle_gpu" | "hf_zerogpu" | "local_cpu"
+  backend: "auto"                 # "auto" | "kaggle_gpu" | "hf_gpu" | "local_cpu"
+  judge_model: "CohereForAI/aya-expanse-8b"
 
 data:
-  validation_split: "validation"
-  test_split: "test"
-  split_manifest_path: "configs/data/split_21_38_38.yaml"
+  validation_split_path: "data/splits/validation.jsonl"
+  test_split_path: "data/splits/test.jsonl"
+  split_manifest_path: "data/splits/split_manifest.json"
   evaluation_repo_id: "YimengChen/PhysGym"
   evaluation_revision: "8e122553897e77495dc2690f16d8055aea1655d7"
 
 selection:
-  primary_metric: "derivation_accuracy"
+  primary_metric: "final_answer_accuracy"
   direction: "maximize"
   constraints:
     max_false_approval_rate: 0.15
+    max_regression_rate: 0.03
 
+# Comprehensive 18-Metric AuditKIT Evaluation Suite across 5 Categories:
 metrics:
-  - "derivation_accuracy"
-  - "unit_consistency_score"
+  # Suite 1: Deterministic Physics, Symbolic & Formatting Scorers
+  - "final_answer_accuracy"                  # Combined +/-1.5% numerical tolerance + SymPy algebraic equivalence
+  - "symbolic_equivalence_rate"              # Exact SymPy simplify(expr_pred - expr_ref) == 0 match rate
+  - "numerical_tolerance_pass_rate"          # Relative error <= 1.5% (plus 5.0% diagnostic band)
+  - "si_unit_consistency_score"              # Dimensional & SI unit consistency on the ANSWER: line
+  - "sentinel_format_compliance_rate"        # Strict ANSWER: sentinel presence & <=10 logical step compliance
+
+  # Suite 2: AuditKIT Native LLM-as-Judge & Groundedness Evaluators (CohereForAI/aya-expanse-8b)
+  - "auditkit_geval_physics_reasoning"       # G-Eval rubric: governing physical law selection & intermediate step validity
+  - "auditkit_groundedness_hallucination"    # Groundedness check: zero fabricated constants or unstated assumptions
+  - "auditkit_step_completeness_score"       # Completeness of algebraic substitutions without missing jumps
+  - "auditkit_latex_syntactic_validity"      # Balanced LaTeX delimiters (\frac, \left..\right) & parseable math
+
+  # Suite 3: Per-Domain Stratified Accuracy Breakdown (Isolates Minority-Domain Solution 2 Boost)
+  - "domain_stratified_accuracy"             # Accuracy & G-Eval across MECHANICS, E&M, MODERN, RELATIVITY, OPTICS, THERMODYNAMICS
+
+  # Suite 4: Standalone Model B (Verifier) Safety & Diagnostic Metrics
+  - "verifier_challenge_precision"
+  - "verifier_challenge_recall"
   - "verifier_challenge_f1"
-  - "verifier_false_approval_rate"
-  - "net_revision_gain"
-  - "correction_conversion_rate"
-  - "regression_rate"
+  - "verifier_false_approval_rate"           # Critical AI Safety Metric: approving a physically wrong derivation
+  - "verifier_false_challenge_rate"          # Challenging a valid derivation
+  - "directive_self_containment_no_leak_rate" # Zero step/line references & zero numerical answer leakage in hints
+  - "auditkit_directive_actionability_score" # LLM judge scoring whether the hint targets the exact physical mistake
+
+  # Suite 5: Multi-Turn Adversarial Loop Dynamics & Statistical Significance (ak.compare_models)
+  - "net_revision_gain"                      # Accuracy(Final Turn) - Accuracy(Turn 0)
+  - "correction_conversion_rate"             # % of wrong Turn 0 answers repaired into correct answers by hints
+  - "regression_rate"                        # % of correct Turn 0 answers corrupted during revision (target ~0%)
+  - "mean_iterations_and_token_efficiency"   # Mean revision turns, tokens generated, and latency per problem
+  - "bootstrap_ci95_and_p_value"             # Paired bootstrap 95% confidence intervals & p-values across E0-E4b
 
 inference:
-  max_new_tokens: 512
-  temperature: 0.1
+  solver_max_new_tokens: 1536
+  verifier_max_new_tokens: 192
+  max_revision_iterations: 5
+  temperature_solver: 0.1
+  temperature_verifier: 0.0
   do_sample: false
   batch_size: 1
 
 reporting:
   save_predictions: true
   save_per_example_results: true
+  save_sha256_run_result_fingerprint: true
   compare_experiments:
-    - "E0_base_aya"
-    - "E1_solver_raw"
-    - "E2_solver_curated"
-    - "E3_solver_verifier_loop"
+    - "E0_base_tiny_aya_zero_shot"
+    - "E1_solver_manual_deterministic_only"
+    - "E2_solver_curatorkit_no_llm"
+    - "E3_solver_curatorkit_with_llm"
+    - "E4a_solver_adversarial_turn0"
+    - "E4b_solver_verifier_multi_turn_loop"

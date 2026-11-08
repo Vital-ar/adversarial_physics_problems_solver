@@ -18,6 +18,12 @@ from adversarial_physics.data.ingestion.literature_extractor import (
     run_literature_extraction_from_config,
     validate_and_build_canonical_problem,
 )
+from adversarial_physics.data.ingestion.chapter_domain_extractor import (
+    MANUAL_CHAPTER_DOMAIN_MAP,
+    SIDE_DOMAIN,
+    VALID_CANONICAL_DOMAINS,
+    build_initial_book_dataset,
+)
 from adversarial_physics.data.ingestion.pdf_chapter_splitter import (
     extract_book_chapter_titles,
     slugify_chapter_title,
@@ -313,3 +319,31 @@ def test_extract_book_chapter_titles_and_slugify():
     assert titles[2] == "Velocity and relative motion"
     assert titles[6] == "Newton’s laws in three dimensions"
     assert f"06_{slugify_chapter_title(titles[6])}.pdf" == "06_newtons_laws_in_three_dimensions.pdf"
+
+
+def test_manual_chapter_domain_map_and_initial_book_dataset():
+    # Every manually classified chapter must map to one of the 6 canonical domains or SIDE
+    all_assigned = {
+        domain
+        for book_map in MANUAL_CHAPTER_DOMAIN_MAP.values()
+        for domain in book_map.values()
+    }
+    assert all_assigned == (VALID_CANONICAL_DOMAINS | {SIDE_DOMAIN})
+
+    # Verify non-physics / general-math chapters are assigned to SIDE
+    assert MANUAL_CHAPTER_DOMAIN_MAP["crowell_mechanics"]["00_introduction_and_review"] == SIDE_DOMAIN
+    assert MANUAL_CHAPTER_DOMAIN_MAP["crowell_mechanics"]["01_scaling_and_estimation"] == SIDE_DOMAIN
+    assert MANUAL_CHAPTER_DOMAIN_MAP["crowell_mechanics"]["07_vectors"] == SIDE_DOMAIN
+    assert MANUAL_CHAPTER_DOMAIN_MAP["crowell_fields_and_circuits"]["10_iterated_integrals"] == SIDE_DOMAIN
+    assert MANUAL_CHAPTER_DOMAIN_MAP["crowell_fields_and_circuits"]["15_stokess_theorem"] == SIDE_DOMAIN
+    assert MANUAL_CHAPTER_DOMAIN_MAP["light_and_matter_problems"]["33_rules_of_randomness"] == SIDE_DOMAIN
+
+    # Verify physics chapters map to their respective canonical domain
+    assert MANUAL_CHAPTER_DOMAIN_MAP["crowell_mechanics"]["08_vectors_and_motion"] == "MECHANICS"
+    assert MANUAL_CHAPTER_DOMAIN_MAP["crowell_fields_and_circuits"]["05_electromagnetism"] == "ELECTROMAGNETISM"
+    assert MANUAL_CHAPTER_DOMAIN_MAP["crowell_modern_physics"]["01_time"] == "RELATIVITY"
+    assert MANUAL_CHAPTER_DOMAIN_MAP["crowell_modern_physics"]["15_light_as_a_particle"] == "MODERN_PHYSICS"
+    assert MANUAL_CHAPTER_DOMAIN_MAP["crowell_modern_physics"]["07_statistics_and_the_ideal_gas"] == "THERMODYNAMICS"
+    assert MANUAL_CHAPTER_DOMAIN_MAP["crowell_conceptual_physics"]["07_the_ray_model_of_light"] == "OPTICS"
+
+

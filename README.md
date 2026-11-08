@@ -81,12 +81,26 @@ Stage 1.2 ingests Benjamin Crowell's open-source physics textbooks (`lightandmat
    python scripts/02_extract_literature.py --split-chapters-only
    ```
 
-3. **Segment & Link Problems to Official Solutions (No LLM Calls):**
+3. **Build Initial Book Dataset by Chapter Domain (`data/literature/initial_book_dataset.jsonl`):**
+   ```powershell
+   python scripts/02_extract_literature.py --build-initial-dataset
+   ```
+
+4. **Build the 250-Problem Canonical Training Pool (`data/processed/canonical_train_250.jsonl`) — Stage 1.3 & 1.4:**
+   ```powershell
+   # Fast deterministic filtering + 0.85 anti-leakage gate + domain-balanced selection (< 5 seconds):
+   python scripts/03_build_canonical_pool.py
+
+   # Optional resumable CohereForAI/aya-expanse-8b normalization pass (with per-problem checkpointing):
+   python scripts/03_build_canonical_pool.py --use-llm --backend local_cpu
+   ```
+
+5. **Segment & Link Problems to Official Solutions (No LLM Calls):**
    ```powershell
    python scripts/02_extract_literature.py --link-only
    ```
 
-4. **Run Extraction with `CohereForAI/aya-expanse-8b` (`kaggle_gpu`, `hf_zerogpu`, or `local_cpu`):**
+6. **Run Extraction with `CohereForAI/aya-expanse-8b` (`kaggle_gpu`, `hf_zerogpu`, or `local_cpu`):**
    ```powershell
    python scripts/02_extract_literature.py --config configs/data/book_ingestion.yaml --backend auto
    ```

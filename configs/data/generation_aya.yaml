@@ -1,0 +1,59 @@
+schema_version: 1
+dataset_id: canonical_pool_681
+
+# Stage 2: Linked synthetic trajectory, failure harvesting, and self-contained directive generation
+#
+# Model & Cost/Efficiency Rationale (Unified CohereForAI/aya-expanse-8b):
+# - Stage 1.3 LLM normalization across 800 problems took ~6.17 hours and cost ~$6.60 on HF GPU.
+# - Using `CohereForAI/aya-expanse-32b` across 3-4 trajectories per problem would require a 4x larger
+#   multi-GPU endpoint (~$4.50-$6.50/hr) and >20 hours (~$50+).
+# - Because Stage 2 prompts always provide the verified `problem_statement` AND ground-truth step-by-step
+#   `reference_solution`, `CohereForAI/aya-expanse-8b` reliably synthesizes alternative derivations,
+#   controlled 1-error perturbations, and concise corrective directives—while keeping the Lexsi
+#   `CuratorKIT` ablation controlled (100% same 8B teacher model across all stages).
+
+runtime:
+  backend: "auto"                 # "auto" | "kaggle_gpu" | "hf_gpu" | "local_cpu"
+  load_in_4bit: true
+
+source:
+  kind: local
+  path: "data/processed/canonical_train.jsonl"
+  format: "jsonl"
+  split: "train"
+
+literature_expansion:
+  target_canonical_pool_size: null   # Retain all valid curated problems (681 in canonical_train.jsonl)
+  physgym_seed_count: 12             # 12 accepted PhysGym seeds (<= 10 logical steps)
+  literature_extract_count: 669      # 669 curated Crowell problems
+  max_derivation_steps: 10
+  reject_diagram_dependent: true
+  anti_leakage_cosine_threshold: 0.85
+
+generation:
+  teacher_model: "CohereForAI/aya-expanse-8b"
+  rephrase_model: "CohereForAI/aya-expanse-8b"
+  harvester_base_model: "CohereLabs/tiny-aya-global"
+  alternative_solution_domains:
+    - "OPTICS"                       # 24 problems -> +24 Alternative Solution 2
+    - "RELATIVITY"                   # 36 problems -> +36 Alternative Solution 2
+    - "THERMODYNAMICS"               # 22 problems -> +22 Alternative Solution 2 (Total = 82)
+  rephrased_correct_per_minority_problem: 1
+  synthetic_flawed_per_problem: 1    # 1 controlled error trajectory per problem via aya-expanse-8b (681 total)
+  real_model_a_trajectories_per_problem: 1  # 1 zero-shot trajectory per problem via tiny-aya-global (681 total)
+  deduplicate_trajectories_before_hints: true
+  directives_per_surviving_trajectory: 1
+  approval_fraction_of_original: 0.264   # 180 domain-balanced approvals (30 per domain across all 6 domains = 26.4% of 681)
+  approval_equal_across_domains: true
+  error_taxonomy:
+    - "incorrect_physical_model"
+    - "incorrect_formula"
+    - "algebraic_error"
+    - "dimensional_unit_error"
+    - "arithmetic_sign_error"
+  strict_self_contained_directives: true
+
+output:
+  repo_id: "vital-ar/adversarial-physics-raw-synthetic"
+  repo_type: "dataset"
+  revision_label: "raw-synthetic-v2"
