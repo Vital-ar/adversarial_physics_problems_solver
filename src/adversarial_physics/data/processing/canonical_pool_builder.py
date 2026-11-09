@@ -48,7 +48,6 @@ from adversarial_physics.data.curation.curatorkit_stage1 import (
     write_curatorkit_provenance_bundle,
 )
 from adversarial_physics.data.ingestion.chapter_domain_extractor import build_initial_book_dataset
-from adversarial_physics.data.ingestion.literature_extractor import is_diagram_dependent
 from adversarial_physics.data.processing.deduplication import (
     DEFAULT_ANTI_LEAKAGE_COSINE_THRESHOLD,
     DEFAULT_ANTI_LEAKAGE_NGRAM_CONTAINMENT_THRESHOLD,
@@ -67,6 +66,31 @@ from adversarial_physics.utils.logging import get_logger
 from adversarial_physics.utils.runtime import AYA_EXPANSE_8B, BackendName, build_aya_chat_generator
 
 logger = get_logger("stage_1_3_canonical_pool_builder")
+
+DEFAULT_DIAGRAM_PATTERNS: tuple[str, ...] = (
+    r"\bfigure\s+(?:\d+|[a-z]{1,2}\b)",
+    r"\bfig\.\s*(?:\d+|[a-z]{1,2}\b)",
+    r"\bas\s+shown\s+in\s+(?:the\s+)?(?:figure|diagram|graph|picture|sketch|illustration|image|photo)",
+    r"\b(?:the\s+)?(?:figure|diagram|graph|photo|picture|illustration)\s+(?:shows|depicts|illustrates)\b",
+    r"\b(?:in|from|on|below|above)\s+the\s+(?:accompanying\s+|inset\s+)?(?:figure|diagram|graph|photo|table|chart)\b",
+    r"\brefer(?:ring)?\s+to\s+(?:the\s+)?(?:figure|diagram|graph|table|chart)",
+    r"\b(?:draw|sketch|redraw|trace)\s+(?:a\s+|the\s+|all\s+)?(?:graph|plot|plots|ray\s+diagram|diagram|shape|trajectory|diffraction\s+pattern|four\s+panels)",
+    r"\bshown\s+below\b",
+    r"\bsee\s+(?:the\s+)?(?:figure|diagram|graph)\b",
+)
+
+
+def is_diagram_dependent(
+    text: str,
+    *,
+    custom_patterns: list[str] | tuple[str, ...] | None = None,
+) -> bool:
+    """Return True if a problem statement or solution references a visual diagram/figure."""
+    patterns = custom_patterns if custom_patterns is not None else DEFAULT_DIAGRAM_PATTERNS
+    for pattern in patterns:
+        if re.search(pattern, text, flags=re.IGNORECASE):
+            return True
+    return False
 
 DEFAULT_TRAIN_SEEDS_PATH = "data/splits/train_seeds.jsonl"
 DEFAULT_VALIDATION_PATH = "data/splits/validation.jsonl"
@@ -1270,7 +1294,6 @@ def build_stage1_canonical_pool(
         "manifest": str(manifest_file),
         "curatorkit_manifest": str(ck_bundle_paths["manifest"]),
         "curatorkit_rejected": str(ck_bundle_paths["rejected"]),
-        "dataset_card": str(ck_bundle_paths["dataset_card"]),
         "lexsi_provenance": str(ck_bundle_paths["lexsi_provenance"]),
         "checksums": str(checksums_file),
     }

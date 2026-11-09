@@ -163,7 +163,6 @@ def test_curatorkit_stage1_gates_adaptive_recovery_and_provenance(tmp_path: Path
     )
     assert bundle["manifest"].is_file()
     assert bundle["rejected"].is_file()
-    assert bundle["dataset_card"].is_file()
     assert bundle["lexsi_provenance"].is_file()
     assert bundle["checksums"].is_file()
 

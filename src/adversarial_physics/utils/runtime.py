@@ -83,16 +83,16 @@ TASK_MODEL_RECOMMENDATIONS: dict[str, tuple[str, str, bool]] = {
         False,
     ),
     "adversarial_flaw_synthesis": (
-        AYA_EXPANSE_32B,
-        "32B recommended: injecting subtle, realistic physical/algebraic flaws and writing paired "
-        "self-contained physical directives without leaking the numerical answer benefits from 32B reasoning "
-        "(falls back to 8B on local_cpu or single 16GB GPU without 4-bit).",
-        True,
+        AYA_EXPANSE_8B,
+        "8B unified teacher: given verified problem + ground-truth step-by-step reference solution, "
+        "injects 1 controlled physical/algebraic error from the 5-category taxonomy.",
+        False,
     ),
     "directive_generation": (
-        AYA_EXPANSE_32B,
-        "32B recommended: synthesizing precise, self-contained Verifier directives for challenged derivations.",
-        True,
+        AYA_EXPANSE_8B,
+        "8B unified teacher: synthesizes concise, self-contained Verifier directives ([[CHALLENGE]] / [[APPROVE]]) "
+        "by comparing the candidate trajectory against the ground-truth reference solution.",
+        False,
     ),
 }
 
@@ -322,6 +322,7 @@ class AyaExpanseCuratorLLM(BaseLLM):
         temperature: float = 0.2,
         max_tokens: int = 1024,
         max_retries: int = 1,
+        endpoint_url: str | None = None,
     ) -> None:
         self.runtime = detect_runtime_backend(backend)
         resolved_model, reason = select_aya_expanse_model(
@@ -337,7 +338,7 @@ class AyaExpanseCuratorLLM(BaseLLM):
         self._tokenizer: Any = None
         self._hf_model: Any = None
         self._hf_client: Any = None
-        self._resolved_endpoint_url: str | None = None
+        self._resolved_endpoint_url: str | None = (endpoint_url or "").strip() or None
         self._resolved_endpoint_model_id: str | None = None
         self.call_count: int = 0
         self.total_latency_seconds: float = 0.0
@@ -366,12 +367,18 @@ class AyaExpanseCuratorLLM(BaseLLM):
         if self._resolved_endpoint_url:
             return self._resolved_endpoint_url
 
-        is_32b = "32b" in self.model.lower()
-        specific_env = "HF_ENDPOINT_URL_32B" if is_32b else "HF_ENDPOINT_URL_8B"
-        env_url = (os.getenv(specific_env) or os.getenv("HF_ENDPOINT_URL") or "").strip()
-        if env_url:
-            self._resolved_endpoint_url = env_url
-            return env_url
+        lower_model = self.model.lower()
+        if "tiny-aya" in lower_model:
+            specific_env = "HF_ENDPOINT_URL_TINY_AYA"
+        elif "32b" in lower_model:
+            specific_env = "HF_ENDPOINT_URL_32B"
+        else:
+            specific_env = "HF_ENDPOINT_URL_8B"
+
+        specific_val = (os.getenv(specific_env) or "").strip()
+        if specific_val:
+            self._resolved_endpoint_url = specific_val
+            return specific_val
 
         # Auto-discover an existing Hugging Face Inference Endpoint matching `self.model`
         from huggingface_hub import HfApi
@@ -380,7 +387,7 @@ class AyaExpanseCuratorLLM(BaseLLM):
         try:
             endpoints = api.list_inference_endpoints()
             for ep in endpoints:
-                if ep.repository.lower() == self.model.lower():
+                if ep.repository.lower() == lower_model:
                     logger.info(
                         "Found existing HF GPU Inference Endpoint %r for %s (status=%s)",
                         ep.name,
@@ -397,6 +404,11 @@ class AyaExpanseCuratorLLM(BaseLLM):
                         return ep.url
         except Exception as exc:
             logger.warning("Could not list existing HF Inference Endpoints: %s", exc)
+
+        generic_url = (os.getenv("HF_ENDPOINT_URL") or "").strip()
+        if generic_url:
+            self._resolved_endpoint_url = generic_url
+            return generic_url
 
         # Optionally auto-create the endpoint if HF_AUTO_CREATE_ENDPOINT=1
         if os.getenv("HF_AUTO_CREATE_ENDPOINT", "").strip() in ("1", "true", "yes"):
@@ -626,6 +638,7 @@ def build_aya_chat_generator(
     backend: BackendName = "auto",
     temperature: float = 0.2,
     max_new_tokens: int = 1024,
+    endpoint_url: str | None = None,
 ) -> Callable[[str, str], str]:
     """Create a callable ``generate(system_prompt, user_prompt) -> response_text`` backed by ``AyaExpanseCuratorLLM``."""
     llm = AyaExpanseCuratorLLM(
@@ -634,6 +647,7 @@ def build_aya_chat_generator(
         backend=backend,
         temperature=temperature,
         max_tokens=max_new_tokens,
+        endpoint_url=endpoint_url,
     )
 
     def _generate(system_prompt: str, user_prompt: str) -> str:

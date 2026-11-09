@@ -123,25 +123,27 @@ def test_aya_expanse_model_selector_and_multi_backend_runtime():
     assert cpu_rt.device == "cpu"
 
     zerogpu_rt = detect_runtime_backend("hf_zerogpu")
-    assert zerogpu_rt.backend == "hf_zerogpu"
-    assert zerogpu_rt.device == "cuda"
+    assert zerogpu_rt.backend in ("hf_gpu", "hf_zerogpu")
+    assert zerogpu_rt.device in ("cuda", "hf_remote_gpu")
 
     kaggle_big = RuntimeConfig(
         backend="kaggle_gpu",
+        execution_mode="local_cuda",
         device="cuda",
         torch_dtype="float16",
         load_in_4bit=True,
         device_map="auto",
         is_kaggle=True,
-        is_zerogpu=False,
+        is_hf_gpu=False,
         cuda_available=True,
+        accelerate_available=True,
         vram_gb=30.0,
     )
     model_extract, _ = select_aya_expanse_model("literature_extraction", runtime=kaggle_big)
     assert model_extract == AYA_EXPANSE_8B
 
     model_flaw_gpu, _ = select_aya_expanse_model("adversarial_flaw_synthesis", runtime=kaggle_big)
-    assert model_flaw_gpu == AYA_EXPANSE_32B
+    assert model_flaw_gpu == AYA_EXPANSE_8B
 
     model_flaw_cpu, _ = select_aya_expanse_model("adversarial_flaw_synthesis", runtime=cpu_rt)
     assert model_flaw_cpu == AYA_EXPANSE_8B

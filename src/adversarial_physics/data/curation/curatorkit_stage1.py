@@ -37,7 +37,7 @@ from curatorkit.gates.hallucination import HallucinationGate
 from curatorkit.gates.reward import RewardGate
 from curatorkit.gates.schema import SchemaGate
 from curatorkit.llm.base import BaseLLM, LLMResponse
-from curatorkit.manifest import DatasetCardGenerator, ProvenanceManifest, build_provenance
+from curatorkit.manifest import ProvenanceManifest, build_provenance
 from curatorkit.normalizers.clean import TextCleaner
 from curatorkit.normalizers.dedup import ExactDeduplicator, MinHashDeduplicator
 from curatorkit.normalizers.embedding_dedup import EmbeddingDeduplicator
@@ -612,19 +612,10 @@ def write_curatorkit_provenance_bundle(
     manifest_dict["summary"] = summary_dict
     manifest_path.write_text(json.dumps(manifest_dict, indent=2, ensure_ascii=False), encoding="utf-8")
 
-    card_generator = DatasetCardGenerator()
-    card_path = card_generator.generate(
-        manifest=manifest_dict,
-        output_dir=output_dir,
-        pipeline_name=f"vital-ar/{stage_id}",
-        write_readme=False,
-    )
-
     provenance_path = output_dir / "lexsi_provenance.json"
     return {
         "manifest": manifest_path,
         "rejected": rejected_path,
-        "dataset_card": card_path,
         "lexsi_provenance": provenance_path,
         "checksums": checksums_path,
     }
