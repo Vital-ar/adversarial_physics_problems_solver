@@ -49,15 +49,16 @@ def test_yaml_configs_exist_and_match_stage4_design() -> None:
     assert cfg["lora_configuration"]["train_embeddings"] is False
 
     expected_datasets = {
-        "solver_e1_manual_det": 1076,
-        "solver_e2_curatorkit_nollm": 728,
-        "solver_e3_canonical_llm": 681,
-        "solver_e4_adversarial": 1444,
-        "verifier_e4_curated": 1511,
+        "solver_e1_manual_det": (1076, "vital-ar/physics-solver-e1-manual-rules"),
+        "solver_e2_curatorkit_nollm": (728, "vital-ar/physics-solver-e2-curatorkit-nollm"),
+        "solver_e3_canonical_llm": (681, "vital-ar/physics-solver-e3-canonical-llm"),
+        "solver_e4_adversarial": (1444, "vital-ar/physics-solver-e4-adversarial"),
+        "verifier_e4_curated": (1511, "vital-ar/physics-verifier-e4-curated"),
     }
-    for ds_name, count in expected_datasets.items():
+    for ds_name, (count, hf_id) in expected_datasets.items():
         assert ds_name in cfg["datasets"]
         assert cfg["datasets"][ds_name]["expected_records"] == count
+        assert cfg["datasets"][ds_name]["hf_repo_id"] == hf_id
 
     curated_cfg = load_yaml_config("configs/training/aligntune_solver_curated.yaml")
     assert curated_cfg["training"]["parameters"]["num_train_epochs"] == 10
@@ -80,12 +81,15 @@ def test_gradient_accumulation_calculation() -> None:
 
 
 def test_resolve_dataset_key_and_aliases() -> None:
-    """Verify both short SFT names and Blueprint experiment IDs resolve cleanly."""
+    """Verify both short SFT names, HF Hub repo names, and Blueprint experiment IDs resolve cleanly."""
     cfg = load_yaml_config("configs/training/aligntune_training.yaml")
     assert resolve_dataset_key("solver_e1_manual_det", cfg) == "solver_e1_manual_det"
     assert resolve_dataset_key("E1_solver_manual_deterministic_only", cfg) == "solver_e1_manual_det"
     assert resolve_dataset_key("E4_solver_adversarial_curated", cfg) == "solver_e4_adversarial"
     assert resolve_dataset_key("E4_verifier_curated", cfg) == "verifier_e4_curated"
+    assert resolve_dataset_key("physics-solver-e1-manual-rules", cfg) == "solver_e1_manual_det"
+    assert resolve_dataset_key("vital-ar/physics-solver-e1-manual-rules", cfg) == "solver_e1_manual_det"
+    assert resolve_dataset_key("vital-ar/physics-verifier-e4-curated", cfg) == "verifier_e4_curated"
 
     with pytest.raises(ValueError, match="not defined in config"):
         resolve_dataset_key("non_existent_dataset", cfg)
@@ -95,14 +99,14 @@ def test_ensure_dataset_hf_hub_fallback(tmp_path: Path) -> None:
     """Verify automatic HF Hub download fallback when local file is absent."""
     existing_file = tmp_path / "train.jsonl"
     existing_file.write_text('{"prompt": "p", "output": "o"}\n', encoding="utf-8")
-    assert Path(ensure_dataset(str(existing_file), "vital-ar/solver_e1_manual_det")) == existing_file
+    assert Path(ensure_dataset(str(existing_file), "vital-ar/physics-solver-e1-manual-rules")) == existing_file
 
     missing_file = tmp_path / "missing_dir" / "train.jsonl"
     fake_downloaded = tmp_path / "missing_dir" / "train.jsonl"
     with patch("huggingface_hub.hf_hub_download", return_value=str(fake_downloaded)) as mock_dl:
         resolved = ensure_dataset(
             str(missing_file),
-            hf_repo_id="vital-ar/solver_e1_manual_det",
+            hf_repo_id="vital-ar/physics-solver-e1-manual-rules",
             split_name="train",
         )
         assert resolved == str(fake_downloaded)

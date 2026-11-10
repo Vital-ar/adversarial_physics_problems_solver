@@ -10,35 +10,35 @@ datasets:
   E1_solver_manual_deterministic_only:
     dataset_key: "solver_e1_manual_det"
     path: "data/sft/solver_e1_manual_det/train.jsonl"
-    hf_repo_id: "vital-ar/solver_e1_manual_det"
+    hf_repo_id: "vital-ar/physics-solver-e1-manual-rules"
     expected_records: 1076        # 12 accepted PhysGym seeds + 1,064 manual-rule-accepted book problems (BEFORE CuratorKIT)
     output_repo_id: "vital-ar/adversarial-physics-solver-e1-manual-det-lora"
     local_dir: "checkpoints/solver_e1_manual_det_lora"
   E2_solver_curatorkit_no_llm:
     dataset_key: "solver_e2_curatorkit_nollm"
     path: "data/sft/solver_e2_curatorkit_nollm/train.jsonl"
-    hf_repo_id: "vital-ar/solver_e2_curatorkit_nollm"
+    hf_repo_id: "vital-ar/physics-solver-e2-curatorkit-nollm"
     expected_records: 728         # 11 PhysGym seeds + 717 book problems (AFTER CuratorKIT TextCleaner, Exact/MinHashDedup, Schema/Reward/DiversityGate without LLM)
     output_repo_id: "vital-ar/adversarial-physics-solver-e2-curatorkit-nollm-lora"
     local_dir: "checkpoints/solver_e2_curatorkit_nollm_lora"
   E3_solver_curatorkit_with_llm:
     dataset_key: "solver_e3_canonical_llm"
     path: "data/sft/solver_e3_canonical_llm/train.jsonl"
-    hf_repo_id: "vital-ar/solver_e3_canonical_llm"
+    hf_repo_id: "vital-ar/physics-solver-e3-canonical-llm"
     expected_records: 681         # 12 PhysGym seeds + 669 book problems (AFTER CuratorKIT + aya-expanse-8b 1-10 step normalization + post-LLM gates)
     output_repo_id: "vital-ar/adversarial-physics-solver-e3-canonical-llm-lora"
     local_dir: "checkpoints/solver_e3_canonical_llm_lora"
   E4_solver_adversarial_curated:
     dataset_key: "solver_e4_adversarial"
     path: "data/sft/solver_e4_adversarial/train.jsonl"
-    hf_repo_id: "vital-ar/solver_e4_adversarial"
+    hf_repo_id: "vital-ar/physics-solver-e4-adversarial"
     expected_records: 1444        # 763 zero-hint (681 Sol1 + 82 Minority Sol2) + 340 1-hint + 341 2-hint
     output_repo_id: "vital-ar/adversarial-physics-solver-e4-adversarial-lora"
     local_dir: "checkpoints/solver_e4_adversarial_lora"
   E4_verifier_curated:
     dataset_key: "verifier_e4_curated"
     path: "data/sft/verifier_e4_curated/train.jsonl"
-    hf_repo_id: "vital-ar/verifier_e4_curated"
+    hf_repo_id: "vital-ar/physics-verifier-e4-curated"
     expected_records: 1511        # 1,331 surviving deduplicated flawed trajectories + hints + 180 domain-balanced approvals (30/domain)
     output_repo_id: "vital-ar/adversarial-physics-verifier-e4-curated-lora"
     local_dir: "checkpoints/verifier_e4_curated_lora"

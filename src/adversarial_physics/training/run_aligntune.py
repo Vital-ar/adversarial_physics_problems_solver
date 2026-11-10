@@ -54,7 +54,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger("run_aligntune")
 
-# Canonical dataset alias map so both SFT directory names and Blueprint experiment IDs work
+# Canonical dataset alias map so both SFT directory names, HF Hub repo names, and Blueprint experiment IDs work
 DATASET_ALIASES: Dict[str, str] = {
     "E1_solver_manual_deterministic_only": "solver_e1_manual_det",
     "E2_solver_curatorkit_no_llm": "solver_e2_curatorkit_nollm",
@@ -66,6 +66,16 @@ DATASET_ALIASES: Dict[str, str] = {
     "e3": "solver_e3_canonical_llm",
     "e4a": "solver_e4_adversarial",
     "e4b": "verifier_e4_curated",
+    "physics-solver-e1-manual-rules": "solver_e1_manual_det",
+    "vital-ar/physics-solver-e1-manual-rules": "solver_e1_manual_det",
+    "physics-solver-e2-curatorkit-nollm": "solver_e2_curatorkit_nollm",
+    "vital-ar/physics-solver-e2-curatorkit-nollm": "solver_e2_curatorkit_nollm",
+    "physics-solver-e3-canonical-llm": "solver_e3_canonical_llm",
+    "vital-ar/physics-solver-e3-canonical-llm": "solver_e3_canonical_llm",
+    "physics-solver-e4-adversarial": "solver_e4_adversarial",
+    "vital-ar/physics-solver-e4-adversarial": "solver_e4_adversarial",
+    "physics-verifier-e4-curated": "verifier_e4_curated",
+    "vital-ar/physics-verifier-e4-curated": "verifier_e4_curated",
 }
 
 
@@ -86,10 +96,16 @@ def resolve_dataset_key(dataset_arg: str, config: Dict[str, Any]) -> str:
     mapped = DATASET_ALIASES.get(dataset_arg)
     if mapped and mapped in datasets_cfg:
         return mapped
-    # Also check `experiment_id` or `dataset_key` fields inside datasets_cfg
+    # Also check `experiment_id`, `dataset_key`, or `hf_repo_id` fields inside datasets_cfg
     for key, info in datasets_cfg.items():
         if isinstance(info, dict):
-            if info.get("experiment_id") == dataset_arg or info.get("dataset_key") == dataset_arg:
+            repo_id = info.get("hf_repo_id", "")
+            if (
+                info.get("experiment_id") == dataset_arg
+                or info.get("dataset_key") == dataset_arg
+                or repo_id == dataset_arg
+                or (repo_id and repo_id.split("/")[-1] == dataset_arg)
+            ):
                 return key
     available = list(datasets_cfg.keys())
     raise ValueError(
