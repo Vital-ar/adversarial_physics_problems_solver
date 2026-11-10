@@ -53,7 +53,7 @@ base_model:
   revision: "main"
   device_map: "balanced"
   max_memory:
-    0: "4.5GiB"
+    0: "2.2GiB"
     1: "13GiB"
 
 training:

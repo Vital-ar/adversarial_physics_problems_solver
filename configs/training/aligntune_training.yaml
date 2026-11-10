@@ -10,8 +10,8 @@ base_model:
   trust_remote_code: true
   device_map: "balanced"         # Balanced model sharding across 2x T4 GPUs (Option A)
   max_memory:
-    0: "4.5GiB"                  # Restricts GPU 0 static weights to ~3.8 GiB, forcing spillover of remaining layers to GPU 1
-    1: "13GiB"                   # Accommodates remaining layers + vocab projection logits (2.15 GB) + cross-entropy loss (2.15 GB)
+    0: "2.2GiB"                  # Limits GPU 0 static weights to ~2.2 GiB (embeddings + ~6 layers), leaving ~12 GiB for tied lm_head + 262k vocab logits (2.15 GB) + CE loss
+    1: "13GiB"                   # Places remaining ~30 layers (~3.8 GiB) on GPU 1 with ample headroom
 
 hardware:
   target_platform: "kaggle_2x_t4"
@@ -21,7 +21,7 @@ hardware:
   gradient_accumulation_steps: 16 # Manual gradient accumulation steps
   dataloader_num_workers: 2
   max_memory:
-    0: "4.5GiB"
+    0: "2.2GiB"
     1: "13GiB"
 
 training_hyperparameters:

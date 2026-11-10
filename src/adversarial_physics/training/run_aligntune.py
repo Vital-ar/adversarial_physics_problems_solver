@@ -453,7 +453,7 @@ def build_aligntune_trainer_kwargs(
             for k, v in raw_max_mem.items()
         }
     elif num_gpus > 1:
-        max_memory = {0: "4.5GiB", 1: "13GiB"}
+        max_memory = {0: "2.2GiB", 1: "13GiB"}
 
     loss_cfg = config.get("loss_and_collator", {})
     early_stop_cfg = config.get("early_stopping", {})
@@ -487,6 +487,8 @@ def build_aligntune_trainer_kwargs(
         "quantization": quantization,
         "use_unsloth": False,
         "use_gradient_checkpointing": bool(base_model_cfg.get("use_gradient_checkpointing", True)),
+        "gradient_checkpointing": bool(base_model_cfg.get("use_gradient_checkpointing", True)),
+        "gradient_checkpointing_kwargs": {"use_reentrant": False},
         "trust_remote_code": bool(base_model_cfg.get("trust_remote_code", True)),
         "use_peft": bool(lora_cfg.get("use_peft", True)),
         "lora_r": int(r_val),
@@ -728,6 +730,17 @@ def create_aligntune_sft_trainer(
         output_dir_override=output_dir_override,
     )
 
+    cuda_count = torch.cuda.device_count() if torch.cuda.is_available() else 0
+    logger.info(f"CUDA Device Detection: {cuda_count} device(s) found.")
+    for i in range(cuda_count):
+        props = torch.cuda.get_device_properties(i)
+        logger.info(f"  CUDA Device {i}: {props.name} | Total Memory: {props.total_memory / (1024**3):.2f} GiB")
+    if cuda_count == 1:
+        logger.warning(
+            "Only 1 CUDA device detected! In Kaggle, ensure 'Notebook options' -> 'Accelerator' "
+            "is set to 'GPU T4 x 2' to enable 2-device model sharding."
+        )
+
     logger.info(
         f"Creating mandatory AlignTune SFT trainer (`aligntune.create_sft_trainer`) "
         f"for dataset '{resolved_key}' (backend='{trainer_kwargs['backend']}', "
@@ -736,6 +749,14 @@ def create_aligntune_sft_trainer(
         f"grad_accum={trainer_kwargs.get('gradient_accumulation_steps')})..."
     )
     trainer = create_sft_trainer(**trainer_kwargs)
+
+    # Inspect and log actual model layer placement across devices
+    model_obj = getattr(trainer, "model", None)
+    hf_map = getattr(model_obj, "hf_device_map", None)
+    if hf_map is None and hasattr(model_obj, "base_model"):
+        hf_map = getattr(getattr(model_obj, "base_model", None), "hf_device_map", None)
+    logger.info(f"Model layer device distribution (hf_device_map): {hf_map}")
+
     attach_early_stopping_and_accuracy_callbacks(
         trainer=trainer,
         config=config,
@@ -822,6 +843,11 @@ def train_adapter(
         gitkeep_path.touch()
 
     # Place a run initialization record so Git tracks this folder immediately
+    model_obj = getattr(trainer, "model", None)
+    hf_map = getattr(model_obj, "hf_device_map", None)
+    if hf_map is None and hasattr(model_obj, "base_model"):
+        hf_map = getattr(getattr(model_obj, "base_model", None), "hf_device_map", None)
+
     init_meta = {
         "status": "training_started",
         "adapter_name": adapter_name,
@@ -829,6 +855,8 @@ def train_adapter(
         "base_model": getattr(cfg_model, "name_or_path", "CohereLabs/tiny-aya-global"),
         "device_map": getattr(cfg_model, "device_map", "balanced"),
         "max_memory": getattr(cfg_model, "max_memory", None),
+        "hf_device_map": hf_map,
+        "cuda_device_count": torch.cuda.device_count() if torch.cuda.is_available() else 0,
         "gradient_accumulation_steps": grad_accum_steps,
     }
     with open(output_dir / "training_started.json", "w", encoding="utf-8") as f:
@@ -954,7 +982,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
         "--max-memory-gpu0",
         type=str,
         default=None,
-        help="Max memory limit override for GPU 0 (e.g. '4.5GiB')",
+        help="Max memory limit override for GPU 0 (e.g. '2.2GiB')",
     )
     parser.add_argument(
         "--max-memory-gpu1",
