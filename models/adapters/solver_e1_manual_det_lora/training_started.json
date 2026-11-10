@@ -1,0 +1,12 @@
+{
+  "status": "training_started",
+  "adapter_name": "solver_e1_manual_det_lora",
+  "dataset_key": "solver_e1_manual_det",
+  "base_model": "CohereLabs/tiny-aya-global",
+  "device_map": "balanced",
+  "max_memory": {
+    "0": "4.5GiB",
+    "1": "13GiB"
+  },
+  "gradient_accumulation_steps": 16
+}
