@@ -8,13 +8,14 @@ base_model:
   load_in_8bit: false            # Pure 16-bit LoRA (fits comfortably at ~9 GB on 16GB T4)
   use_gradient_checkpointing: true
   trust_remote_code: true
+  device_map: "balanced"         # Balanced model sharding across 2x T4 GPUs (Option A)
 
 hardware:
   target_platform: "kaggle_2x_t4"
   effective_batch_size: 16       # Desired global batch size
   per_device_train_batch_size: 1 # Micro-batch per GPU
   per_device_eval_batch_size: 1
-  # gradient_accumulation_steps = effective_batch_size // per_device_train_batch_size = 16
+  gradient_accumulation_steps: 16 # Manual gradient accumulation steps
   dataloader_num_workers: 2
 
 training_hyperparameters:
@@ -23,6 +24,7 @@ training_hyperparameters:
   num_train_epochs: 10           # Max epochs (with validation early stopping)
   learning_rate_solver: 0.0002   # 2.0e-4 for Solvers (Models 1, 2, 3, 4A)
   learning_rate_verifier: 0.00015 # 1.5e-4 for Verifier (Model 4B)
+  gradient_accumulation_steps: 16 # Manual gradient accumulation steps
   optimizer: "paged_adamw_8bit"
   lr_scheduler_type: "cosine_with_restarts"
   warmup_ratio: 0.10             # 10% linear warmup steps
@@ -30,6 +32,7 @@ training_hyperparameters:
   max_grad_norm: 1.0
   max_seq_length: 2048           # Accommodates 10-step derivations + multi-turn hints
   logging_steps: 10
+  logging_dir: "runs/aligntune"
   seed: 42
 
 loss_and_collator:

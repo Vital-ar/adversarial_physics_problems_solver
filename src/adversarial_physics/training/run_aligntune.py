@@ -117,12 +117,19 @@ def resolve_dataset_key(dataset_arg: str, config: Dict[str, Any]) -> str:
 def compute_gradient_accumulation_steps(
     effective_batch_size: int = 16,
     per_device_batch_size: int = 1,
+    gradient_accumulation_steps: Optional[int] = None,
 ) -> int:
-    """Compute gradient accumulation steps from effective and per-device batch sizes.
+    """Determine gradient accumulation steps directly from manual setting or batch config.
 
-    Formula:
-        grad_accum_steps = max(1, effective_batch_size // per_device_batch_size)
+    If `gradient_accumulation_steps` is explicitly supplied, returns it directly.
+    Otherwise computes: max(1, effective_batch_size // per_device_batch_size).
     """
+    if gradient_accumulation_steps is not None:
+        if gradient_accumulation_steps <= 0:
+            raise ValueError(f"gradient_accumulation_steps must be positive, got {gradient_accumulation_steps}")
+        logger.info(f"Using manual gradient_accumulation_steps={gradient_accumulation_steps}")
+        return gradient_accumulation_steps
+
     if effective_batch_size <= 0:
         raise ValueError(f"effective_batch_size must be positive, got {effective_batch_size}")
     if per_device_batch_size <= 0:
@@ -175,6 +182,32 @@ def ensure_dataset(
         f"Dataset file could not be found locally at '{local_path_str}' "
         f"and could not be downloaded from HF Hub ({hf_repo_id})."
     )
+
+
+def _normalize_dataset_jsonl_whitespace(jsonl_path: Path) -> None:
+    """Ensure prompt and instruction end with clean double newlines to avoid BPE boundary token merging."""
+    if not jsonl_path.is_file():
+        return
+    try:
+        modified = False
+        rows: List[Dict[str, Any]] = []
+        with open(jsonl_path, "r", encoding="utf-8") as f:
+            for line in f:
+                if not line.strip():
+                    continue
+                row = json.loads(line)
+                for key in ("prompt", "instruction"):
+                    if key in row and isinstance(row[key], str) and not row[key].endswith("\n\n"):
+                        row[key] = row[key].rstrip() + "\n\n"
+                        modified = True
+                rows.append(row)
+        if modified:
+            with open(jsonl_path, "w", encoding="utf-8") as f:
+                for row in rows:
+                    f.write(json.dumps(row, ensure_ascii=False) + "\n")
+            logger.info(f"Normalized boundary whitespace in {jsonl_path} ({len(rows)} samples)")
+    except Exception as exc:
+        logger.warning(f"Could not normalize whitespace in {jsonl_path}: {exc}")
 
 
 def ensure_aligntune_dataset_directory(
@@ -248,6 +281,12 @@ def ensure_aligntune_dataset_directory(
                 )
                 if Path(downloaded_val).resolve() != local_val_in_dir.resolve():
                     shutil.copy2(downloaded_val, local_val_in_dir)
+
+    # 3. Clean boundary whitespace so BPE token merging does not trigger TRL token mismatch warnings
+    _normalize_dataset_jsonl_whitespace(local_train_path)
+    local_val_path = local_dir / "validation.jsonl"
+    if local_val_path.is_file():
+        _normalize_dataset_jsonl_whitespace(local_val_path)
 
     return str(local_dir)
 
@@ -332,6 +371,7 @@ def build_aligntune_trainer_kwargs(
     dataset_source: Optional[str] = None,
     effective_batch_size: Optional[int] = None,
     per_device_batch_size: Optional[int] = None,
+    gradient_accumulation_steps: Optional[int] = None,
     epochs: Optional[int] = None,
     learning_rate: Optional[float] = None,
     lora_r: Optional[int] = None,
@@ -346,6 +386,13 @@ def build_aligntune_trainer_kwargs(
     adapter_name = ds_info.get("adapter_name", f"{resolved_key}_lora")
 
     hw_cfg = config.get("hardware", {})
+    train_cfg = config.get("training_hyperparameters", {})
+
+    manual_accum = (
+        gradient_accumulation_steps
+        or train_cfg.get("gradient_accumulation_steps")
+        or hw_cfg.get("gradient_accumulation_steps")
+    )
     eff_batch = effective_batch_size if effective_batch_size is not None else hw_cfg.get("effective_batch_size", 16)
     per_device = (
         per_device_batch_size
@@ -357,9 +404,9 @@ def build_aligntune_trainer_kwargs(
     grad_accum_steps = compute_gradient_accumulation_steps(
         effective_batch_size=eff_batch,
         per_device_batch_size=per_device,
+        gradient_accumulation_steps=manual_accum,
     )
 
-    train_cfg = config.get("training_hyperparameters", {})
     num_epochs = epochs if epochs is not None else train_cfg.get("num_train_epochs", 10)
 
     if learning_rate is not None:
@@ -380,6 +427,7 @@ def build_aligntune_trainer_kwargs(
     base_model_cfg = config.get("base_model", {})
     model_id = base_model_cfg.get("repo_id", "CohereLabs/tiny-aya-global")
     cuda_avail = torch.cuda.is_available()
+    num_gpus = torch.cuda.device_count() if cuda_avail else 0
     bf16_ok = cuda_avail and torch.cuda.is_bf16_supported()
     cfg_precision = str(base_model_cfg.get("precision", "auto")).lower()
     if cfg_precision == "bf16" and not bf16_ok:
@@ -393,11 +441,15 @@ def build_aligntune_trainer_kwargs(
     if cuda_avail and base_model_cfg.get("load_in_8bit", False):
         quantization = {"load_in_8bit": True}
 
+    device_map = base_model_cfg.get("device_map")
+    if device_map is None:
+        device_map = "balanced" if num_gpus > 1 else "auto"
+
     loss_cfg = config.get("loss_and_collator", {})
     early_stop_cfg = config.get("early_stopping", {})
     accuracy_metric_cfg = config.get("task_accuracy_metric") or config.get("online_validation_metric", {})
 
-    output_dir = output_dir_override or ds_info.get("checkpoint_dir") or f"checkpoints/{adapter_name}"
+    output_dir = output_dir_override or ds_info.get("checkpoint_dir") or f"models/adapters/{adapter_name}"
     resolved_source = dataset_source or ds_info.get("local_dir") or f"data/sft/{resolved_key}"
     val_split_ratio = ds_info.get("val_split_ratio", 0.10 if is_verifier else None)
 
@@ -406,6 +458,7 @@ def build_aligntune_trainer_kwargs(
         "dataset_name": resolved_source,
         "backend": train_cfg.get("backend", "trl"),
         "output_dir": output_dir,
+        "device_map": device_map,
         "num_epochs": num_epochs,
         "batch_size": per_device,
         "eval_batch_size": eval_per_device,
@@ -458,6 +511,7 @@ def build_aligntune_trainer_kwargs(
         "greater_is_better": bool(early_stop_cfg.get("greater_is_better", False)),
         "loggers": ["tensorboard"],
         "report_to": "tensorboard",
+        "logging_dir": str(train_cfg.get("logging_dir", "runs/aligntune")),
         "run_name": adapter_name,
         # SFTEvaluationConfig: disable heavy multi-metric suites during training; compute task accuracy callback
         "compute_perplexity": False,
@@ -632,6 +686,7 @@ def create_aligntune_sft_trainer(
     config: Dict[str, Any],
     effective_batch_size: Optional[int] = None,
     per_device_batch_size: Optional[int] = None,
+    gradient_accumulation_steps: Optional[int] = None,
     epochs: Optional[int] = None,
     learning_rate: Optional[float] = None,
     lora_r: Optional[int] = None,
@@ -655,6 +710,7 @@ def create_aligntune_sft_trainer(
         dataset_source=dataset_dir,
         effective_batch_size=effective_batch_size,
         per_device_batch_size=per_device_batch_size,
+        gradient_accumulation_steps=gradient_accumulation_steps,
         epochs=epochs,
         learning_rate=learning_rate,
         lora_r=lora_r,
@@ -663,7 +719,9 @@ def create_aligntune_sft_trainer(
 
     logger.info(
         f"Creating mandatory AlignTune SFT trainer (`aligntune.create_sft_trainer`) "
-        f"for dataset '{resolved_key}' (backend='{trainer_kwargs['backend']}')..."
+        f"for dataset '{resolved_key}' (backend='{trainer_kwargs['backend']}', "
+        f"device_map='{trainer_kwargs.get('device_map')}', "
+        f"grad_accum={trainer_kwargs.get('gradient_accumulation_steps')})..."
     )
     trainer = create_sft_trainer(**trainer_kwargs)
     attach_early_stopping_and_accuracy_callbacks(
@@ -679,6 +737,7 @@ def train_adapter(
     config: Dict[str, Any],
     effective_batch_size: Optional[int] = None,
     per_device_batch_size: Optional[int] = None,
+    gradient_accumulation_steps: Optional[int] = None,
     epochs: Optional[int] = None,
     learning_rate: Optional[float] = None,
     lora_r: Optional[int] = None,
@@ -687,11 +746,22 @@ def train_adapter(
     hf_token: Optional[str] = None,
 ) -> Dict[str, Any]:
     """Execute AlignTune LoRA fine-tuning for a specific dataset recipe (`E1`, `E2`, `E3`, `E4A`, or `E4B`)."""
+    # Prevent CUDA memory fragmentation from causing OOM on large vocabulary logits
+    if "PYTORCH_CUDA_ALLOC_CONF" not in os.environ:
+        os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
+
     resolved_key = resolve_dataset_key(dataset_key, config)
     ds_info = config["datasets"][resolved_key]
     adapter_name = ds_info.get("adapter_name", f"{resolved_key}_lora")
 
     hw_cfg = config.get("hardware", {})
+    train_cfg = config.get("training_hyperparameters", {})
+
+    manual_accum = (
+        gradient_accumulation_steps
+        or train_cfg.get("gradient_accumulation_steps")
+        or hw_cfg.get("gradient_accumulation_steps")
+    )
     eff_batch = effective_batch_size if effective_batch_size is not None else hw_cfg.get("effective_batch_size", 16)
     per_device = (
         per_device_batch_size
@@ -701,6 +771,7 @@ def train_adapter(
     grad_accum_steps = compute_gradient_accumulation_steps(
         effective_batch_size=eff_batch,
         per_device_batch_size=per_device,
+        gradient_accumulation_steps=manual_accum,
     )
 
     trainer = create_aligntune_sft_trainer(
@@ -708,6 +779,7 @@ def train_adapter(
         config=config,
         effective_batch_size=eff_batch,
         per_device_batch_size=per_device,
+        gradient_accumulation_steps=grad_accum_steps,
         epochs=epochs,
         learning_rate=learning_rate,
         lora_r=lora_r,
@@ -728,6 +800,17 @@ def train_adapter(
     else:
         output_dir = Path(f"models/adapters/{adapter_name}")
     output_dir.mkdir(parents=True, exist_ok=True)
+
+    # Place a run initialization record so Git tracks this folder immediately
+    init_meta = {
+        "status": "training_started",
+        "adapter_name": adapter_name,
+        "dataset_key": resolved_key,
+        "base_model": getattr(cfg_model, "name_or_path", "CohereLabs/tiny-aya-global"),
+        "gradient_accumulation_steps": grad_accum_steps,
+    }
+    with open(output_dir / "training_started.json", "w", encoding="utf-8") as f:
+        json.dump(init_meta, f, indent=2)
 
     log_epochs = getattr(cfg_train, "epochs", epochs or 10)
     log_per_device = getattr(cfg_train, "per_device_batch_size", per_device)
@@ -763,6 +846,9 @@ def train_adapter(
     }
     summary_path = final_save_dir / "training_summary.json"
     with open(summary_path, "w", encoding="utf-8") as f:
+        json.dump(summary, f, indent=2)
+    # Also write a copy at top level of adapter output dir for easy git tracking
+    with open(output_dir / "training_summary.json", "w", encoding="utf-8") as f:
         json.dump(summary, f, indent=2)
     logger.info(f"AlignTune training completed! Final adapter & provenance saved to {final_save_dir}")
 
@@ -813,6 +899,12 @@ def build_arg_parser() -> argparse.ArgumentParser:
         help="Per-device micro-batch size override (default from YAML: 1)",
     )
     parser.add_argument(
+        "--gradient-accumulation-steps",
+        type=int,
+        default=None,
+        help="Manual gradient accumulation steps override (default from YAML: 16)",
+    )
+    parser.add_argument(
         "--epochs",
         type=int,
         default=None,
@@ -861,6 +953,7 @@ def main(argv: Optional[List[str]] = None) -> Dict[str, Any]:
         config=config,
         effective_batch_size=args.effective_batch_size,
         per_device_batch_size=args.per_device_batch_size,
+        gradient_accumulation_steps=args.gradient_accumulation_steps,
         epochs=args.epochs,
         learning_rate=args.lr,
         lora_r=args.lora_r,

@@ -33,10 +33,14 @@ def test_yaml_configs_exist_and_match_stage4_design() -> None:
     assert cfg["base_model"]["repo_id"] == "CohereLabs/tiny-aya-global"
     assert cfg["base_model"]["load_in_8bit"] is False
     assert cfg["base_model"]["precision"] == "fp16"
+    assert cfg["base_model"]["device_map"] == "balanced"
     assert cfg["hardware"]["effective_batch_size"] == 16
     assert cfg["hardware"]["per_device_train_batch_size"] == 1
+    assert cfg["hardware"]["gradient_accumulation_steps"] == 16
     assert cfg["training_hyperparameters"]["num_train_epochs"] == 10
     assert cfg["training_hyperparameters"]["backend"] == "trl"
+    assert cfg["training_hyperparameters"]["gradient_accumulation_steps"] == 16
+    assert cfg["training_hyperparameters"]["logging_dir"] == "runs/aligntune"
     assert cfg["training_hyperparameters"]["learning_rate_solver"] == 0.0002
     assert cfg["training_hyperparameters"]["learning_rate_verifier"] == 0.00015
     assert cfg["loss_and_collator"]["completion_only_loss"] is True
@@ -68,7 +72,14 @@ def test_yaml_configs_exist_and_match_stage4_design() -> None:
 
 
 def test_gradient_accumulation_calculation() -> None:
-    """Verify clean gradient accumulation calculation without overcomplicated hardware counting."""
+    """Verify clean gradient accumulation calculation and direct manual specification."""
+    # Direct manual setting
+    assert compute_gradient_accumulation_steps(gradient_accumulation_steps=16) == 16
+    assert compute_gradient_accumulation_steps(gradient_accumulation_steps=8) == 8
+    with pytest.raises(ValueError):
+        compute_gradient_accumulation_steps(gradient_accumulation_steps=0)
+
+    # Fallback ratio calculation
     assert compute_gradient_accumulation_steps(effective_batch_size=16, per_device_batch_size=1) == 16
     assert compute_gradient_accumulation_steps(effective_batch_size=16, per_device_batch_size=2) == 8
     assert compute_gradient_accumulation_steps(effective_batch_size=32, per_device_batch_size=4) == 8
@@ -211,6 +222,8 @@ def test_cli_arg_parser_and_helpers() -> None:
             "16",
             "--per-device-batch-size",
             "1",
+            "--gradient-accumulation-steps",
+            "16",
             "--epochs",
             "10",
             "--lr",
@@ -222,6 +235,7 @@ def test_cli_arg_parser_and_helpers() -> None:
     assert args.dataset == "solver_e4_adversarial"
     assert args.effective_batch_size == 16
     assert args.per_device_batch_size == 1
+    assert args.gradient_accumulation_steps == 16
     assert args.epochs == 10
     assert args.lr == 0.0002
     assert args.lora_r == 16
