@@ -113,14 +113,21 @@ def _normalize_math_expr_string(expr: str) -> str:
 
 def _extract_primary_number(ans_str: str) -> float | None:
     """Extract the primary numerical value from a numeric `ANSWER:` string if it is primarily numeric."""
-    cleaned = _normalize_math_expr_string(ans_str)
-    # If the answer has multiple algebraic variables (like q, epsilon_0, omega, etc.), do not treat a coefficient '2' as a pure numeric answer
-    alpha_tokens = re.findall(r"[a-zA-Z]{2,}|[a-df-zA-DF-Z]", re.sub(r"\\?[a-zA-Z]+", "", ans_str))
-    matches = list(_NUM_RE.finditer(ans_str.replace(",", "")))
+    rhs = ans_str.split("=")[-1] if "=" in ans_str else ans_str
+    # Strip SI unit exponent suffixes (e.g. m/s^2, s^{-2}, cm^3) so unit powers are not mistaken for the answer value
+    rhs_no_unit_exp = re.sub(
+        r"\b(?:m\s*/\s*s\^\{?[+-]?\d+\}?|s\^\{?[+-]?\d+\}?|m\^\{?[+-]?\d+\}?|cm\^\{?[+-]?\d+\}?)",
+        "",
+        rhs,
+        flags=re.IGNORECASE,
+    )
+    matches = list(_NUM_RE.finditer(rhs_no_unit_exp.replace(",", "")))
+    if not matches:
+        matches = list(_NUM_RE.finditer(rhs.replace(",", "")))
     if not matches:
         return None
-    # Check if the string is predominantly a number + optional unit
-    m = matches[-1]
+    # Take the leading numerical quantity on the RHS of the ANSWER expression
+    m = matches[0]
     base_str = m.group(1)
     exp_part = m.group(2)
     try:

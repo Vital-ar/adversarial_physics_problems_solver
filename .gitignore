@@ -27,3 +27,6 @@ cache/
 *.tmp
 .DS_Store
 Thumbs.db
+*.safetensors
+*.bin
+models/**/checkpoint-*/

@@ -2,38 +2,50 @@ schema_version: 1
 experiment_id: E1_to_E4_aligntune_recipes
 
 runtime:
-  backend: "auto"                 # "auto" | "kaggle_gpu" | "hf_gpu" | "local_cpu"
+  backend: "trl"                  # Mandatory AlignTune SFT backend (create_sft_trainer)
+  target_platform: "kaggle_2x_t4"
 
 # 4 Progressive Solver Datasets + 1 Verifier Dataset to Isolate Every Lexsi CuratorKIT Capability:
 datasets:
   E1_solver_manual_deterministic_only:
-    path: "data/intermediate/01a_manual_deterministic_only_pool.jsonl"
+    dataset_key: "solver_e1_manual_det"
+    path: "data/sft/solver_e1_manual_det/train.jsonl"
+    hf_repo_id: "vital-ar/solver_e1_manual_det"
     expected_records: 1076        # 12 accepted PhysGym seeds + 1,064 manual-rule-accepted book problems (BEFORE CuratorKIT)
     output_repo_id: "vital-ar/adversarial-physics-solver-e1-manual-det-lora"
     local_dir: "checkpoints/solver_e1_manual_det_lora"
   E2_solver_curatorkit_no_llm:
-    path: "data/intermediate/01b_deterministic_curated_pool.jsonl"
+    dataset_key: "solver_e2_curatorkit_nollm"
+    path: "data/sft/solver_e2_curatorkit_nollm/train.jsonl"
+    hf_repo_id: "vital-ar/solver_e2_curatorkit_nollm"
     expected_records: 728         # 11 PhysGym seeds + 717 book problems (AFTER CuratorKIT TextCleaner, Exact/MinHashDedup, Schema/Reward/DiversityGate without LLM)
     output_repo_id: "vital-ar/adversarial-physics-solver-e2-curatorkit-nollm-lora"
     local_dir: "checkpoints/solver_e2_curatorkit_nollm_lora"
   E3_solver_curatorkit_with_llm:
-    path: "data/processed/canonical_train.jsonl"
+    dataset_key: "solver_e3_canonical_llm"
+    path: "data/sft/solver_e3_canonical_llm/train.jsonl"
+    hf_repo_id: "vital-ar/solver_e3_canonical_llm"
     expected_records: 681         # 12 PhysGym seeds + 669 book problems (AFTER CuratorKIT + aya-expanse-8b 1-10 step normalization + post-LLM gates)
     output_repo_id: "vital-ar/adversarial-physics-solver-e3-canonical-llm-lora"
     local_dir: "checkpoints/solver_e3_canonical_llm_lora"
   E4_solver_adversarial_curated:
-    path: "data/sft/solver_curated_adversarial/train.jsonl"
+    dataset_key: "solver_e4_adversarial"
+    path: "data/sft/solver_e4_adversarial/train.jsonl"
+    hf_repo_id: "vital-ar/solver_e4_adversarial"
     expected_records: 1444        # 763 zero-hint (681 Sol1 + 82 Minority Sol2) + 340 1-hint + 341 2-hint
     output_repo_id: "vital-ar/adversarial-physics-solver-e4-adversarial-lora"
     local_dir: "checkpoints/solver_e4_adversarial_lora"
   E4_verifier_curated:
-    path: "data/sft/verifier_curated/train.jsonl"
-    expected_records: 1180        # All surviving deduplicated flawed trajectories + hints (~1,000) + 180 domain-balanced approvals (30/domain)
+    dataset_key: "verifier_e4_curated"
+    path: "data/sft/verifier_e4_curated/train.jsonl"
+    hf_repo_id: "vital-ar/verifier_e4_curated"
+    expected_records: 1511        # 1,331 surviving deduplicated flawed trajectories + hints + 180 domain-balanced approvals (30/domain)
     output_repo_id: "vital-ar/adversarial-physics-verifier-e4-curated-lora"
     local_dir: "checkpoints/verifier_e4_curated_lora"
 
 validation_dataset:
   path: "data/splits/validation.jsonl"
+  hf_repo_id: "vital-ar/adversarial-physics-validation"
   expected_records: 38
 
 base_model:
@@ -51,10 +63,14 @@ training:
     warmup_ratio: 0.10
     weight_decay: 0.01
     max_grad_norm: 1.0
-    per_device_train_batch_size: 2
-    gradient_accumulation_steps: 4
-    num_train_epochs: 8           # Raised from 3 to 8 epochs with validation early stopping
+    effective_batch_size: 16
+    per_device_train_batch_size: 1
+    # gradient_accumulation_steps = effective_batch_size // per_device_train_batch_size = 16
+    gradient_accumulation_steps: 16
+    num_train_epochs: 10
     max_seq_length: 2048
+    completion_only_loss: true
+    label_smoothing_factor: 0.0
     eval_strategy: "epoch"
     save_strategy: "epoch"
     load_best_model_at_end: true
@@ -74,7 +90,7 @@ training:
       - "up_proj"
       - "down_proj"
     modules_to_save: null
-  notes: "Controlled AlignTune LoRA SFT across E1 -> E2 -> E3 -> E4 with 8 max epochs, cosine-with-restarts scheduler (10% warmup), and validation early stopping (patience=2) on the 38 frozen Validation problems."
+  notes: "Controlled AlignTune LoRA SFT across E1 -> E2 -> E3 -> E4 with 10 max epochs, effective_batch_size=16, per_device_train_batch_size=1, dynamic gradient accumulation across detected GPUs, masked completion-only loss, and validation early stopping (patience=2, threshold=0.005) on the 38 frozen Validation problems."
 
 evaluation:
   config_path: "configs/evaluation/auditkit_benchmark.yaml"

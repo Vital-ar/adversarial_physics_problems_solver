@@ -1,0 +1,144 @@
+schema_version: 1
+experiment_name: "aligntune_physics_post_training"
+
+base_model:
+  repo_id: "CohereLabs/tiny-aya-global"
+  revision: "main"
+  precision: "fp16"              # 16-bit FP16 on Nvidia T4 GPUs (or "bf16" on Ampere/Hopper)
+  load_in_8bit: false            # Pure 16-bit LoRA (fits comfortably at ~9 GB on 16GB T4)
+  use_gradient_checkpointing: true
+  trust_remote_code: true
+
+hardware:
+  target_platform: "kaggle_2x_t4"
+  effective_batch_size: 16       # Desired global batch size
+  per_device_train_batch_size: 1 # Micro-batch per GPU
+  per_device_eval_batch_size: 1
+  # gradient_accumulation_steps = effective_batch_size // per_device_train_batch_size = 16
+  dataloader_num_workers: 2
+
+training_hyperparameters:
+  backend: "trl"                 # Mandatory AlignTune SFT backend (create_sft_trainer)
+  task_type: "instruction_following"
+  num_train_epochs: 10           # Max epochs (with validation early stopping)
+  learning_rate_solver: 0.0002   # 2.0e-4 for Solvers (Models 1, 2, 3, 4A)
+  learning_rate_verifier: 0.00015 # 1.5e-4 for Verifier (Model 4B)
+  optimizer: "paged_adamw_8bit"
+  lr_scheduler_type: "cosine_with_restarts"
+  warmup_ratio: 0.10             # 10% linear warmup steps
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  max_seq_length: 2048           # Accommodates 10-step derivations + multi-turn hints
+  logging_steps: 10
+  seed: 42
+
+loss_and_collator:
+  # Masked response-only cross-entropy loss via AlignTune's SFTTrainingConfig:
+  # Prompt/instruction tokens are masked with label -100 so gradients only update
+  # on the assistant derivation and terminal sentinel (ANSWER: or [[CHALLENGE]]/[[APPROVE]]).
+  loss_type: "nll"
+  completion_only_loss: true
+  assistant_only_loss: false
+  mask_prompt_loss: true
+  response_template: "\n\n### Response:\n"
+  label_smoothing: 0.0           # Strict zero smoothing to preserve exact physical constants & exponents
+
+early_stopping:
+  enabled: true
+  eval_dataset: "validation"     # Evaluated on the 38 held-out PhysGym validation problems (Solvers) or 10% stratified validation split (Verifier)
+  eval_strategy: "epoch"         # Run at the end of every epoch
+  save_strategy: "epoch"
+  metric_for_best_model: "eval_loss"
+  greater_is_better: false
+  early_stopping_patience: 2     # Stop after 2 consecutive epochs without >= 0.005 improvement
+  early_stopping_threshold: 0.005
+  load_best_model_at_end: true   # Automatically restore best validation checkpoint at end of training
+
+task_accuracy_metric:
+  # Evaluates end-to-end task accuracy after each epoch alongside eval_loss.
+  # Full 18-metric AuditKIT evaluation suite runs offline via configs/evaluation/auditkit_benchmark.yaml.
+  solver_metric: "final_answer_accuracy"
+  verifier_metric: "verifier_sentinel_accuracy"
+  max_eval_generation_samples: 38
+  solver_max_new_tokens: 512
+  verifier_max_new_tokens: 192
+  offline_evaluation_config: "configs/evaluation/auditkit_benchmark.yaml"
+
+lora_configuration:
+  use_peft: true
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  bias: "none"
+  target_modules:
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+  train_embeddings: false        # embed_tokens and lm_head strictly frozen for zero-overhead adapter hot-swapping
+  modules_to_save: null
+
+datasets:
+  solver_e1_manual_det:
+    experiment_id: "E1_solver_manual_deterministic_only"
+    local_dir: "data/sft/solver_e1_manual_det"
+    local_path: "data/sft/solver_e1_manual_det/train.jsonl"
+    hf_repo_id: "vital-ar/solver_e1_manual_det"
+    output_repo_id: "vital-ar/adversarial-physics-solver-e1-manual-det-lora"
+    adapter_name: "solver_e1_manual_det_lora"
+    role: "solver"
+    expected_records: 1076
+    val_split_ratio: null
+  solver_e2_curatorkit_nollm:
+    experiment_id: "E2_solver_curatorkit_no_llm"
+    local_dir: "data/sft/solver_e2_curatorkit_nollm"
+    local_path: "data/sft/solver_e2_curatorkit_nollm/train.jsonl"
+    hf_repo_id: "vital-ar/solver_e2_curatorkit_nollm"
+    output_repo_id: "vital-ar/adversarial-physics-solver-e2-curatorkit-nollm-lora"
+    adapter_name: "solver_e2_curatorkit_nollm_lora"
+    role: "solver"
+    expected_records: 728
+    val_split_ratio: null
+  solver_e3_canonical_llm:
+    experiment_id: "E3_solver_curatorkit_with_llm"
+    local_dir: "data/sft/solver_e3_canonical_llm"
+    local_path: "data/sft/solver_e3_canonical_llm/train.jsonl"
+    hf_repo_id: "vital-ar/solver_e3_canonical_llm"
+    output_repo_id: "vital-ar/adversarial-physics-solver-e3-canonical-llm-lora"
+    adapter_name: "solver_e3_canonical_llm_lora"
+    role: "solver"
+    expected_records: 681
+    val_split_ratio: null
+  solver_e4_adversarial:
+    experiment_id: "E4_solver_adversarial_curated"
+    local_dir: "data/sft/solver_e4_adversarial"
+    local_path: "data/sft/solver_e4_adversarial/train.jsonl"
+    hf_repo_id: "vital-ar/solver_e4_adversarial"
+    output_repo_id: "vital-ar/adversarial-physics-solver-e4-adversarial-lora"
+    adapter_name: "solver_e4_adversarial_lora"
+    role: "solver"
+    expected_records: 1444
+    val_split_ratio: null
+  verifier_e4_curated:
+    experiment_id: "E4_verifier_curated"
+    local_dir: "data/sft/verifier_e4_curated"
+    local_path: "data/sft/verifier_e4_curated/train.jsonl"
+    hf_repo_id: "vital-ar/verifier_e4_curated"
+    output_repo_id: "vital-ar/adversarial-physics-verifier-e4-curated-lora"
+    adapter_name: "verifier_e4_curated_lora"
+    role: "verifier"
+    expected_records: 1511
+    val_split_ratio: 0.10        # Deterministic 10% validation split via AlignTune DataManager for Verifier early stopping
+
+validation_dataset:
+  local_path: "data/splits/validation.jsonl"
+  hf_repo_id: "vital-ar/adversarial-physics-validation"
+  expected_records: 38
+
+test_dataset:
+  local_path: "data/splits/test.jsonl"
+  hf_repo_id: "vital-ar/adversarial-physics-test"
+  expected_records: 38
