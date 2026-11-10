@@ -9,6 +9,9 @@ base_model:
   use_gradient_checkpointing: true
   trust_remote_code: true
   device_map: "balanced"         # Balanced model sharding across 2x T4 GPUs (Option A)
+  max_memory:
+    0: "4.5GiB"                  # Restricts GPU 0 static weights to ~3.8 GiB, forcing spillover of remaining layers to GPU 1
+    1: "13GiB"                   # Accommodates remaining layers + vocab projection logits (2.15 GB) + cross-entropy loss (2.15 GB)
 
 hardware:
   target_platform: "kaggle_2x_t4"
@@ -17,6 +20,9 @@ hardware:
   per_device_eval_batch_size: 1
   gradient_accumulation_steps: 16 # Manual gradient accumulation steps
   dataloader_num_workers: 2
+  max_memory:
+    0: "4.5GiB"
+    1: "13GiB"
 
 training_hyperparameters:
   backend: "trl"                 # Mandatory AlignTune SFT backend (create_sft_trainer)

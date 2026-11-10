@@ -445,6 +445,16 @@ def build_aligntune_trainer_kwargs(
     if device_map is None:
         device_map = "balanced" if num_gpus > 1 else "auto"
 
+    raw_max_mem = base_model_cfg.get("max_memory") or hw_cfg.get("max_memory")
+    max_memory: Optional[Dict[Any, str]] = None
+    if raw_max_mem and isinstance(raw_max_mem, dict):
+        max_memory = {
+            int(k) if str(k).isdigit() else k: str(v)
+            for k, v in raw_max_mem.items()
+        }
+    elif num_gpus > 1:
+        max_memory = {0: "4.5GiB", 1: "13GiB"}
+
     loss_cfg = config.get("loss_and_collator", {})
     early_stop_cfg = config.get("early_stopping", {})
     accuracy_metric_cfg = config.get("task_accuracy_metric") or config.get("online_validation_metric", {})
@@ -459,6 +469,7 @@ def build_aligntune_trainer_kwargs(
         "backend": train_cfg.get("backend", "trl"),
         "output_dir": output_dir,
         "device_map": device_map,
+        "max_memory": max_memory,
         "num_epochs": num_epochs,
         "batch_size": per_device,
         "eval_batch_size": eval_per_device,
@@ -721,6 +732,7 @@ def create_aligntune_sft_trainer(
         f"Creating mandatory AlignTune SFT trainer (`aligntune.create_sft_trainer`) "
         f"for dataset '{resolved_key}' (backend='{trainer_kwargs['backend']}', "
         f"device_map='{trainer_kwargs.get('device_map')}', "
+        f"max_memory={trainer_kwargs.get('max_memory')}, "
         f"grad_accum={trainer_kwargs.get('gradient_accumulation_steps')})..."
     )
     trainer = create_sft_trainer(**trainer_kwargs)
@@ -801,12 +813,22 @@ def train_adapter(
         output_dir = Path(f"models/adapters/{adapter_name}")
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    # Ensure runs logging directory exists immediately with a keep file so git tracking never fails
+    logging_dir_str = str(train_cfg.get("logging_dir", "runs/aligntune"))
+    logging_dir = Path(logging_dir_str)
+    logging_dir.mkdir(parents=True, exist_ok=True)
+    gitkeep_path = logging_dir / ".gitkeep"
+    if not gitkeep_path.exists():
+        gitkeep_path.touch()
+
     # Place a run initialization record so Git tracks this folder immediately
     init_meta = {
         "status": "training_started",
         "adapter_name": adapter_name,
         "dataset_key": resolved_key,
         "base_model": getattr(cfg_model, "name_or_path", "CohereLabs/tiny-aya-global"),
+        "device_map": getattr(cfg_model, "device_map", "balanced"),
+        "max_memory": getattr(cfg_model, "max_memory", None),
         "gradient_accumulation_steps": grad_accum_steps,
     }
     with open(output_dir / "training_started.json", "w", encoding="utf-8") as f:
@@ -929,6 +951,18 @@ def build_arg_parser() -> argparse.ArgumentParser:
         help="Output directory override for checkpoints and final LoRA adapter",
     )
     parser.add_argument(
+        "--max-memory-gpu0",
+        type=str,
+        default=None,
+        help="Max memory limit override for GPU 0 (e.g. '4.5GiB')",
+    )
+    parser.add_argument(
+        "--max-memory-gpu1",
+        type=str,
+        default=None,
+        help="Max memory limit override for GPU 1 (e.g. '13GiB')",
+    )
+    parser.add_argument(
         "--push-to-hub",
         action="store_true",
         help="Push the trained LoRA adapter to Hugging Face Hub after training",
@@ -947,6 +981,16 @@ def main(argv: Optional[List[str]] = None) -> Dict[str, Any]:
     parser = build_arg_parser()
     args = parser.parse_args(argv)
     config = load_yaml_config(args.config)
+
+    if args.max_memory_gpu0 or args.max_memory_gpu1:
+        current_max_mem = config.get("base_model", {}).get("max_memory", {})
+        if not isinstance(current_max_mem, dict):
+            current_max_mem = {}
+        if args.max_memory_gpu0:
+            current_max_mem[0] = args.max_memory_gpu0
+        if args.max_memory_gpu1:
+            current_max_mem[1] = args.max_memory_gpu1
+        config.setdefault("base_model", {})["max_memory"] = current_max_mem
 
     return train_adapter(
         dataset_key=args.dataset,

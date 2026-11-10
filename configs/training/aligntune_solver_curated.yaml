@@ -51,6 +51,10 @@ validation_dataset:
 base_model:
   repo_id: "CohereLabs/tiny-aya-global"
   revision: "main"
+  device_map: "balanced"
+  max_memory:
+    0: "4.5GiB"
+    1: "13GiB"
 
 training:
   method: "sft"
