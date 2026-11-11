@@ -512,7 +512,7 @@ def build_aligntune_trainer_kwargs(
         "assistant_only_loss": bool(loss_cfg.get("assistant_only_loss", False)),
         "loss_type": str(loss_cfg.get("loss_type", "nll")),
         "label_smoothing_factor": float(loss_cfg.get("label_smoothing", 0.0)),
-        "dataloader_num_workers": int(hw_cfg.get("dataloader_num_workers", 2)),
+        "dataloader_num_workers": int(hw_cfg.get("dataloader_num_workers", 0)),
         # Early Stopping & Checkpointing
         "eval_strategy": str(early_stop_cfg.get("eval_strategy", "epoch")),
         "save_strategy": str(early_stop_cfg.get("save_strategy", "epoch")),
@@ -522,6 +522,9 @@ def build_aligntune_trainer_kwargs(
         "load_best_model_at_end": bool(early_stop_cfg.get("load_best_model_at_end", True)),
         "metric_for_best_model": str(early_stop_cfg.get("metric_for_best_model", "eval_loss")),
         "greater_is_better": bool(early_stop_cfg.get("greater_is_better", False)),
+        # Evaluation memory optimization: only return scalar loss, never hoard 262k logits across batches
+        "prediction_loss_only": True,
+        "eval_accumulation_steps": 1,
         "loggers": ["tensorboard"],
         "report_to": "tensorboard",
         "logging_dir": str(train_cfg.get("logging_dir", "runs/aligntune")),

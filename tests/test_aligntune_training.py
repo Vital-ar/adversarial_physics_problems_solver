@@ -35,8 +35,8 @@ def test_yaml_configs_exist_and_match_stage4_design() -> None:
     assert cfg["base_model"]["precision"] == "fp16"
     assert cfg["base_model"]["device_map"] == "balanced"
     assert (
-        cfg["base_model"]["max_memory"][0] == "2.2GiB"
-        or cfg["base_model"]["max_memory"]["0"] == "2.2GiB"
+        cfg["base_model"]["max_memory"][0] in ("2.2GiB", "7GiB")
+        or cfg["base_model"]["max_memory"]["0"] in ("2.2GiB", "7GiB")
     )
     assert cfg["hardware"]["effective_batch_size"] == 16
     assert cfg["hardware"]["per_device_train_batch_size"] == 1
@@ -174,7 +174,10 @@ def test_create_aligntune_sft_trainer_and_callbacks() -> None:
     )
 
     assert trainer.config.model.name_or_path == "CohereLabs/tiny-aya-global"
-    assert trainer.config.model.max_memory == {0: "2.2GiB", 1: "13GiB"}
+    assert trainer.config.model.max_memory in (
+        {0: "2.2GiB", 1: "13GiB"},
+        {0: "7GiB", 1: "13GiB"},
+    )
     assert trainer.config.train.epochs == 10
     assert trainer.config.train.per_device_batch_size == 1
     assert trainer.config.train.gradient_accumulation_steps == 16

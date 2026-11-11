@@ -10,8 +10,8 @@ base_model:
   trust_remote_code: true
   device_map: "balanced"         # Balanced model sharding across 2x T4 GPUs (Option A)
   max_memory:
-    0: "2.2GiB"                  # Limits GPU 0 static weights to ~2.2 GiB (embeddings + ~6 layers), leaving ~12 GiB for tied lm_head + 262k vocab logits (2.15 GB) + CE loss
-    1: "13GiB"                   # Places remaining ~30 layers (~3.8 GiB) on GPU 1 with ample headroom
+    0: "7GiB"                    # Balanced sharding: ~3.35 GiB model weights per GPU
+    1: "13GiB"                   # leaves ~11 GiB free on GPU0 and ~11 GiB on GPU1
 
 hardware:
   target_platform: "kaggle_2x_t4"
@@ -19,9 +19,9 @@ hardware:
   per_device_train_batch_size: 1 # Micro-batch per GPU
   per_device_eval_batch_size: 1
   gradient_accumulation_steps: 16 # Manual gradient accumulation steps
-  dataloader_num_workers: 2
+  dataloader_num_workers: 0      # 0 avoids CUDA IPC deadlocks on Kaggle
   max_memory:
-    0: "2.2GiB"
+    0: "7GiB"
     1: "13GiB"
 
 training_hyperparameters:
@@ -62,6 +62,8 @@ early_stopping:
   early_stopping_patience: 2     # Stop after 2 consecutive epochs without >= 0.005 improvement
   early_stopping_threshold: 0.005
   load_best_model_at_end: true   # Automatically restore best validation checkpoint at end of training
+  prediction_loss_only: true     # Prevents hoarding 262k vocab logits during evaluation
+  eval_accumulation_steps: 1
 
 task_accuracy_metric:
   # Evaluates end-to-end task accuracy after each epoch alongside eval_loss.
