@@ -1,0 +1,59 @@
+{
+  "schema": "lexsi.provenance/1",
+  "library": "aligntune",
+  "version": "0.1.35",
+  "git_sha": null,
+  "created_at": "2026-11-11T14:20:54Z",
+  "base_model": "CohereLabs/tiny-aya-global",
+  "method": "instruction_following",
+  "inputs": [
+    {
+      "kind": "model",
+      "ref": "CohereLabs/tiny-aya-global",
+      "config": null,
+      "provenance": null
+    },
+    {
+      "kind": "dataset",
+      "ref": "/kaggle/working/adversarial_physics_problems_solver/data/sft/solver_e4_adversarial",
+      "config": null,
+      "provenance": {
+        "schema": "lexsi.provenance/1",
+        "library": "curatorkit",
+        "version": "0.1.22",
+        "git_sha": null,
+        "created_at": "2026-11-09T18:22:21Z",
+        "base_model": "CohereForAI/aya-expanse-8b",
+        "method": "stage2_curatorkit_adversarial_solver_sft",
+        "inputs": [
+          {
+            "kind": "dataset",
+            "ref": "canonical_train.jsonl"
+          },
+          {
+            "kind": "dataset",
+            "ref": "02d_curated_solution2.jsonl"
+          },
+          {
+            "kind": "dataset",
+            "ref": "02g_generated_directives.jsonl"
+          }
+        ],
+        "params": {
+          "dataset_name": "vital-ar/physics-solver-e4-adversarial",
+          "author": "vital-ar",
+          "train_count": 1444,
+          "validation_count": 38,
+          "test_count": 38,
+          "turn0_sol1_count": 681,
+          "turn0_minority_sol2_count": 82,
+          "turn1_one_hint_count": 340,
+          "turn2_two_hints_count": 341
+        }
+      }
+    }
+  ],
+  "params": {
+    "trainer": "TRLSFTTrainer"
+  }
+}
