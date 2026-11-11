@@ -650,31 +650,10 @@ def attach_early_stopping_and_accuracy_callbacks(
     config: Dict[str, Any],
     is_verifier: bool = False,
 ) -> Any:
-    """Attach `TaskAccuracyCallback` and `EarlyStoppingCallback` to AlignTune's `TRLSFTTrainer`."""
+    """Attach `EarlyStoppingCallback` to AlignTune's `TRLSFTTrainer`."""
     from transformers import EarlyStoppingCallback
 
     early_stop_cfg = config.get("early_stopping", {})
-    accuracy_metric_cfg = config.get("task_accuracy_metric") or config.get("online_validation_metric", {})
-
-    # Ensure AlignTune's SFTEvaluationConfig also holds our custom metric callable
-    if getattr(trainer, "config", None) is not None and getattr(trainer.config, "evaluation", None) is not None:
-        trainer.config.evaluation.custom_metrics = [make_task_accuracy_metric_fn(is_verifier=is_verifier)]
-        if getattr(trainer, "evaluator", None) is not None:
-            trainer.evaluator.eval_config = trainer.config.evaluation
-
-    max_eval_samples = int(accuracy_metric_cfg.get("max_eval_generation_samples", 38))
-    max_new_tokens = int(
-        accuracy_metric_cfg.get("verifier_max_new_tokens", 192)
-        if is_verifier
-        else accuracy_metric_cfg.get("solver_max_new_tokens", 512)
-    )
-
-    accuracy_cb = TaskAccuracyCallback(
-        aligntune_trainer=trainer,
-        is_verifier=is_verifier,
-        max_eval_samples=max_eval_samples,
-        max_new_tokens=max_new_tokens,
-    ).to_hf_callback()
 
     early_stopping_cb: Optional[Any] = None
     if early_stop_cfg.get("enabled", True):
@@ -687,8 +666,7 @@ def attach_early_stopping_and_accuracy_callbacks(
 
     def _enhanced_get_hf_callbacks() -> List[Any]:
         base_callbacks = list(orig_get_hf_callbacks())
-        # Place accuracy_cb first so its metric is populated in `metrics` before HuggingFaceCallbackAdapter logs it
-        combined: List[Any] = [accuracy_cb] + base_callbacks
+        combined: List[Any] = list(base_callbacks)
         if early_stopping_cb is not None:
             combined.append(early_stopping_cb)
         return combined

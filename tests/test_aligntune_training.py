@@ -195,9 +195,9 @@ def test_create_aligntune_sft_trainer_and_callbacks() -> None:
     assert trainer.config.evaluation.compute_bleu is False
     assert len(trainer.config.evaluation.custom_metrics) == 1
 
-    # Verify HF callbacks include TaskAccuracyCallback, HuggingFaceCallbackAdapter, and EarlyStoppingCallback
+    # Verify HF callbacks include EarlyStoppingCallback and HuggingFaceCallbackAdapter
     hf_callbacks = trainer.get_hf_callbacks()
-    assert len(hf_callbacks) == 3
+    assert len(hf_callbacks) == 2
     assert any(isinstance(cb, EarlyStoppingCallback) for cb in hf_callbacks)
 
     # Verify AlignTune's DataManager loads Solver E1 (1076 train, 38 validation)
