@@ -1,0 +1,47 @@
+{
+  "schema": "lexsi.provenance/1",
+  "library": "aligntune",
+  "version": "0.1.35",
+  "git_sha": null,
+  "created_at": "2026-11-11T12:20:11Z",
+  "base_model": "CohereLabs/tiny-aya-global",
+  "method": "instruction_following",
+  "inputs": [
+    {
+      "kind": "model",
+      "ref": "CohereLabs/tiny-aya-global",
+      "config": null,
+      "provenance": null
+    },
+    {
+      "kind": "dataset",
+      "ref": "/kaggle/working/adversarial_physics_problems_solver/data/sft/solver_e3_canonical_llm",
+      "config": null,
+      "provenance": {
+        "schema": "lexsi.provenance/1",
+        "library": "curatorkit",
+        "version": "0.1.22",
+        "git_sha": null,
+        "created_at": "2026-11-09T18:22:20Z",
+        "base_model": "CohereForAI/aya-expanse-8b",
+        "method": "stage1_curatorkit_plus_aya8b_canonical",
+        "inputs": [
+          {
+            "kind": "dataset",
+            "ref": "canonical_train.jsonl"
+          }
+        ],
+        "params": {
+          "dataset_name": "vital-ar/physics-solver-e3-canonical-aya8b",
+          "author": "vital-ar",
+          "train_count": 681,
+          "validation_count": 38,
+          "test_count": 38
+        }
+      }
+    }
+  ],
+  "params": {
+    "trainer": "TRLSFTTrainer"
+  }
+}
