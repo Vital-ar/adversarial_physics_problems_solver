@@ -1,0 +1,34 @@
+{
+  "adapter_name": "solver_e2_curatorkit_nollm_lora",
+  "dataset_key": "solver_e2_curatorkit_nollm",
+  "experiment_id": "E2_solver_curatorkit_no_llm",
+  "base_model": "CohereLabs/tiny-aya-global",
+  "aligntune_backend": "trl",
+  "effective_batch_size": 16,
+  "per_device_batch_size": 1,
+  "gradient_accumulation_steps": 16,
+  "learning_rate": 0.0002,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "max_epochs": 10,
+  "completion_only_loss": true,
+  "early_stopping_patience": 3,
+  "early_stopping_threshold": 0.005,
+  "final_adapter_dir": "models/adapters/solver_e2_curatorkit_nollm_lora/final_adapter",
+  "train_metrics": {
+    "training_time": 2698.5705511569977,
+    "final_loss": 1.4034388459247091,
+    "model_path": "models/adapters/solver_e2_curatorkit_nollm_lora",
+    "steps": 230,
+    "epochs": 0,
+    "metrics": {
+      "train_runtime": 2697.7216,
+      "train_samples_per_second": 1.349,
+      "train_steps_per_second": 0.085,
+      "total_flos": 1.638787256838144e+16,
+      "train_loss": 1.4034388459247091,
+      "epoch": 5.0
+    },
+    "task_type": "instruction_following"
+  }
+}
