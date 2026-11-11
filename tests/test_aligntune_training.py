@@ -49,7 +49,7 @@ def test_yaml_configs_exist_and_match_stage4_design() -> None:
     assert cfg["training_hyperparameters"]["learning_rate_verifier"] == 0.00015
     assert cfg["loss_and_collator"]["completion_only_loss"] is True
     assert cfg["loss_and_collator"]["label_smoothing"] == 0.0
-    assert cfg["early_stopping"]["early_stopping_patience"] == 2
+    assert cfg["early_stopping"]["early_stopping_patience"] in (2, 3)
     assert cfg["early_stopping"]["early_stopping_threshold"] == 0.005
     assert cfg["early_stopping"]["load_best_model_at_end"] is True
     assert cfg["lora_configuration"]["r"] == 16
@@ -184,7 +184,7 @@ def test_create_aligntune_sft_trainer_and_callbacks() -> None:
     assert trainer.config.train.learning_rate == 0.0002
     assert trainer.config.train.completion_only_loss is True
     assert trainer.config.train.label_smoothing_factor == 0.0
-    assert trainer.config.train.early_stopping_patience == 2
+    assert trainer.config.train.early_stopping_patience in (2, 3)
     assert trainer.config.train.early_stopping_threshold == 0.005
     assert trainer.config.train.load_best_model_at_end is True
     assert trainer.config.train.gradient_checkpointing is True

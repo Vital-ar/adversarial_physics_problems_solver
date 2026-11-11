@@ -517,7 +517,7 @@ def build_aligntune_trainer_kwargs(
         "eval_strategy": str(early_stop_cfg.get("eval_strategy", "epoch")),
         "save_strategy": str(early_stop_cfg.get("save_strategy", "epoch")),
         "logging_steps": int(train_cfg.get("logging_steps", 10)),
-        "early_stopping_patience": int(early_stop_cfg.get("early_stopping_patience", 2)),
+        "early_stopping_patience": int(early_stop_cfg.get("early_stopping_patience", 3)),
         "early_stopping_threshold": float(early_stop_cfg.get("early_stopping_threshold", 0.005)),
         "load_best_model_at_end": bool(early_stop_cfg.get("load_best_model_at_end", True)),
         "metric_for_best_model": str(early_stop_cfg.get("metric_for_best_model", "eval_loss")),
@@ -658,7 +658,7 @@ def attach_early_stopping_and_accuracy_callbacks(
     early_stopping_cb: Optional[Any] = None
     if early_stop_cfg.get("enabled", True):
         early_stopping_cb = EarlyStoppingCallback(
-            early_stopping_patience=int(early_stop_cfg.get("early_stopping_patience", 2)),
+            early_stopping_patience=int(early_stop_cfg.get("early_stopping_patience", 3)),
             early_stopping_threshold=float(early_stop_cfg.get("early_stopping_threshold", 0.005)),
         )
 
@@ -855,7 +855,14 @@ def train_adapter(
     )
     train_metrics = trainer.train()
 
-    final_save_dir = Path(trainer.save_model(path=str(output_dir / "final_adapter")))
+    target_final_dir = output_dir / "final_adapter"
+    target_final_dir.mkdir(parents=True, exist_ok=True)
+    try:
+        saved_res = trainer.save_model(output_dir=str(target_final_dir))
+        final_save_dir = Path(saved_res) if saved_res else target_final_dir
+    except TypeError:
+        saved_res = trainer.save_model(str(target_final_dir))
+        final_save_dir = Path(saved_res) if saved_res else target_final_dir
     summary = {
         "adapter_name": adapter_name,
         "dataset_key": resolved_key,

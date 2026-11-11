@@ -59,7 +59,7 @@ early_stopping:
   save_strategy: "epoch"
   metric_for_best_model: "eval_loss"
   greater_is_better: false
-  early_stopping_patience: 2     # Stop after 2 consecutive epochs without >= 0.005 improvement
+  early_stopping_patience: 3     # Stop after 3 consecutive epochs without >= 0.005 improvement
   early_stopping_threshold: 0.005
   load_best_model_at_end: true   # Automatically restore best validation checkpoint at end of training
   prediction_loss_only: true     # Prevents hoarding 262k vocab logits during evaluation
