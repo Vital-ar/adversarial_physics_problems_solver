@@ -1,0 +1,34 @@
+{
+  "adapter_name": "solver_e1_manual_det_lora",
+  "dataset_key": "solver_e1_manual_det",
+  "experiment_id": "E1_solver_manual_deterministic_only",
+  "base_model": "CohereLabs/tiny-aya-global",
+  "aligntune_backend": "trl",
+  "effective_batch_size": 16,
+  "per_device_batch_size": 1,
+  "gradient_accumulation_steps": 16,
+  "learning_rate": 0.0002,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "max_epochs": 10,
+  "completion_only_loss": true,
+  "early_stopping_patience": 3,
+  "early_stopping_threshold": 0.005,
+  "final_adapter_dir": "models/adapters/solver_e1_manual_det_lora/final_adapter",
+  "train_metrics": {
+    "training_time": 3884.4473226070404,
+    "final_loss": 1.1443336613038007,
+    "model_path": "models/adapters/solver_e1_manual_det_lora",
+    "steps": 340,
+    "epochs": 0,
+    "metrics": {
+      "train_runtime": 3883.5679,
+      "train_samples_per_second": 1.385,
+      "train_steps_per_second": 0.088,
+      "total_flos": 2.398993999847424e+16,
+      "train_loss": 1.1443336613038007,
+      "epoch": 5.0
+    },
+    "task_type": "instruction_following"
+  }
+}
