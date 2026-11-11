@@ -10,8 +10,8 @@ base_model:
   trust_remote_code: true
   device_map: "balanced"         # Balanced model sharding across 2x T4 GPUs (Option A)
   max_memory:
-    0: "7GiB"                    # Balanced sharding: ~3.35 GiB model weights per GPU
-    1: "13GiB"                   # leaves ~11 GiB free on GPU0 and ~11 GiB on GPU1
+    0: "2.2GiB"                  # Proven safe: limits GPU 0 static weights to ~2.2 GiB (embeddings + ~6 layers), preventing backward pass OOM on GPU 0
+    1: "13GiB"                   # Places remaining layers (~4.5 GiB) on GPU 1, leaving >10 GiB free headroom on GPU 1
 
 hardware:
   target_platform: "kaggle_2x_t4"
@@ -21,7 +21,7 @@ hardware:
   gradient_accumulation_steps: 16 # Manual gradient accumulation steps
   dataloader_num_workers: 0      # 0 avoids CUDA IPC deadlocks on Kaggle
   max_memory:
-    0: "7GiB"
+    0: "2.2GiB"
     1: "13GiB"
 
 training_hyperparameters:
