@@ -21,13 +21,12 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
-from curatorkit.gates.diversity import DiversityGate
 from curatorkit.gates.schema import SchemaGate
 from curatorkit.manifest import ProvenanceManifest, build_provenance
 from curatorkit.normalizers.clean import TextCleaner
-from curatorkit.normalizers.dedup import ExactDeduplicator, MinHashDeduplicator
+from curatorkit.normalizers.dedup import ExactDeduplicator
 from curatorkit.pipeline import PipelineResult
-from curatorkit.schema import DataSample, RejectedSample
+from curatorkit.schema import DataSample
 
 from adversarial_physics.data.curation.curatorkit_runner import _normalize_step_lines_and_answer
 from adversarial_physics.data.curation.directive_leak_check import (
@@ -134,9 +133,12 @@ def _curate_and_write_dataset_provenance(
     val_rows: list[dict[str, Any]] | None = None,
     test_rows: list[dict[str, Any]] | None = None,
 ) -> tuple[Path, list[dict[str, Any]]]:
-    """Run CuratorKIT `TextCleaner`, `SchemaGate`, `ExactDeduplicator`, and `MinHashDeduplicator`
+    """Run CuratorKIT `TextCleaner`, `SchemaGate`, and `ExactDeduplicator`
     over a dataset's rows, write `train.jsonl` (plus `validation.jsonl`/`test.jsonl` when provided),
     and emit `manifest.json`, `lexsi_provenance.json`, and `checksums.txt` via `ProvenanceManifest`.
+    (Note: MinHashDeduplicator is intentionally applied earlier at the trajectory candidate stage in
+    curatorkit_runner.py, not here, to prevent collapsing legitimate multi-turn prompt variants
+    such as turn0, turn1, and turn2 of the same underlying physics problem).
     """
     t0 = time.monotonic()
     dataset_dir.mkdir(parents=True, exist_ok=True)
@@ -155,14 +157,16 @@ def _curate_and_write_dataset_provenance(
     ]
 
     cleaner = TextCleaner(fields=["instruction", "output"])
-    schema_gate = SchemaGate(required_fields=["instruction", "output"], min_tokens=5, max_tokens=8192)
+    schema_gate = SchemaGate(required_fields=["instruction", "output"], min_tokens=20, max_tokens=8192)
+    exact_dedup = ExactDeduplicator()
 
     cleaned = cleaner.run(samples)
     passed, rejected = schema_gate.run(cleaned)
+    deduped = exact_dedup.run(passed)
 
     # Sync cleaned instruction/output back into row metadata
     curated_rows: list[dict[str, Any]] = []
-    for s in passed:
+    for s in deduped:
         row_dict = dict(s.metadata or {})
         row_dict[prompt_field] = s.instruction.strip()
         row_dict[output_field] = s.output.strip()
@@ -185,10 +189,15 @@ def _curate_and_write_dataset_provenance(
             "output_count": len(passed),
             "rejected_count": len(rejected),
         },
+        "ExactDeduplicator": {
+            "input_count": len(passed),
+            "output_count": len(deduped),
+            "duplicates_removed": len(passed) - len(deduped),
+        },
     }
 
     pipeline_res = PipelineResult(
-        passed=passed,
+        passed=deduped,
         rejected=list(rejected),
         stage_counts=stage_counts,
         wall_clock_seconds=time.monotonic() - t0,
@@ -245,6 +254,9 @@ def export_all_stage2_sft_datasets(
 
     e1_file = resolve_project_path(e1_pool_path)
     e2_file = resolve_project_path(e2_pool_path)
+    synth_e2_file = resolve_project_path("data/intermediate/01b_e2_books_plus_synthetic.jsonl")
+    if e2_pool_path == DEFAULT_E2_CURATORKIT_NOLLM_POOL_PATH and synth_e2_file.is_file():
+        e2_file = synth_e2_file
     e3_file = resolve_project_path(e3_pool_path)
     val_file = resolve_project_path(validation_path)
     test_file = resolve_project_path(test_path)

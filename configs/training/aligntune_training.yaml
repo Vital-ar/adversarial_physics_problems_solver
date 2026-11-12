@@ -59,19 +59,27 @@ early_stopping:
   save_strategy: "epoch"
   metric_for_best_model: "eval_loss"
   greater_is_better: false
-  early_stopping_patience: 3     # Stop after 3 consecutive epochs without >= 0.005 improvement
+  early_stopping_patience: 2     # Stop after 2 consecutive epochs without >= 0.005 improvement
   early_stopping_threshold: 0.005
   load_best_model_at_end: true   # Automatically restore best validation checkpoint at end of training
   prediction_loss_only: true     # Prevents hoarding 262k vocab logits during evaluation
   eval_accumulation_steps: 1
 
+checkpoint_selection:
+  # Fast post-training batched validation over saved epoch checkpoints (`checkpoint-*`):
+  # Minimizes `composite_alpha_loss * eval_loss - composite_k_accuracy * val_accuracy`.
+  enabled: true
+  composite_alpha_loss: 1.0
+  composite_k_accuracy: 1.5
+  eval_batch_size: 8
+  eval_max_new_tokens: 1024
+
 task_accuracy_metric:
-  # Evaluates end-to-end task accuracy after each epoch alongside eval_loss.
-  # Full 18-metric AuditKIT evaluation suite runs offline via configs/evaluation/auditkit_benchmark.yaml.
+  # Post-training checkpoint scorer & AuditKIT bridge; expensive inline per-epoch generation stays off.
   solver_metric: "final_answer_accuracy"
   verifier_metric: "verifier_sentinel_accuracy"
   max_eval_generation_samples: 38
-  solver_max_new_tokens: 512
+  solver_max_new_tokens: 1024
   verifier_max_new_tokens: 192
   offline_evaluation_config: "configs/evaluation/auditkit_benchmark.yaml"
 

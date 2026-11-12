@@ -30,6 +30,8 @@ from adversarial_physics.data.schemas.trajectory import (
     ERROR_TAXONOMY_DESCRIPTIONS,
     MINORITY_SOLUTION2_DOMAINS,
     CandidateSolution,
+    load_candidate_checkpoint_map,
+    normalize_solution_fences_and_answer,
     save_candidates_jsonl,
 )
 from adversarial_physics.utils.config import resolve_project_path
@@ -61,65 +63,28 @@ Write a natural, realistic step-by-step physics derivation (in 1 to 10 numbered 
 3. End on a new final line with `ANSWER: <flawed_final_answer>` (must NOT equal the ground-truth answer)."""
 
 
-def _load_checkpoint_map(ckpt_file: Path) -> dict[str, CandidateSolution]:
-    cached: dict[str, CandidateSolution] = {}
-    if not ckpt_file.is_file():
-        return cached
-    with ckpt_file.open("r", encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
-            if not line:
-                continue
-            try:
-                row = json.loads(line)
-                cand = CandidateSolution.from_dict(row)
-                cached[cand.problem_id] = cand
-            except Exception:
-                continue
-    return cached
+_load_checkpoint_map = load_candidate_checkpoint_map
 
 
-def _normalize_solution2_text(raw_out: str, reference_solution: str) -> str:
-    """Ensure Solution 2 has clean step formatting and preserves the exact verified `ANSWER:` line if equivalent."""
-    text = (raw_out or "").strip()
-    text = re.sub(r"^```[a-zA-Z]*\n?|\n?```$", "", text).strip()
-    text = re.sub(r"\*\*ANSWER\s*:\*\*\s*\n*\s*", "ANSWER: ", text, flags=re.IGNORECASE)
-    text = clean_book_solution_text(text, ensure_answer_sentinel=True)
+def _clean_candidate_solution(raw_out: str) -> str:
+    """Normalize fences and step formatting without overwriting derived answers."""
+    text = normalize_solution_fences_and_answer(raw_out, strip_fences=True)
+    return clean_book_solution_text(text, ensure_answer_sentinel=True)
 
-    _, ref_ans = extract_answer_line(reference_solution)
+
+def _normalize_solution2_text(raw_out: str, reference_solution: str) -> tuple[str, bool]:
+    """Normalize Alternative Solution 2 and check whether its derived answer matches ``reference_solution``."""
+    text = _clean_candidate_solution(raw_out)
     val_res = validate_candidate_answer(text, reference_solution)
-    if ref_ans and not val_res.is_equivalent:
-        # Ensure Solution 2 ends with the exact ground-truth ANSWER: line so zero-hint SFT targets are 100% accurate
-        text = re.sub(
-            r"(?:^|\n)\s*ANSWER\s*:.*$",
-            lambda _m: f"\nANSWER: {ref_ans}",
-            text,
-            flags=re.IGNORECASE | re.DOTALL,
-        ).strip()
-        if "ANSWER:" not in text:
-            text = f"{text}\nANSWER: {ref_ans}"
-    return text
+    return text, bool(val_res.is_equivalent)
 
 
-def _ensure_flawed_answer_differs(raw_out: str, reference_solution: str, error_type: str) -> str:
-    """Clean a synthetic flawed derivation and guarantee its `ANSWER:` line is present and differs from `reference_solution`."""
-    text = (raw_out or "").strip()
-    text = re.sub(r"^```[a-zA-Z]*\n?|\n?```$", "", text).strip()
-    text = re.sub(r"\*\*ANSWER\s*:\*\*\s*\n*\s*", "ANSWER: ", text, flags=re.IGNORECASE)
-    text = clean_book_solution_text(text, ensure_answer_sentinel=True)
-
+def _ensure_flawed_answer_differs(raw_out: str, reference_solution: str, error_type: str) -> tuple[str, bool]:
+    """Normalize a synthetic flawed derivation and return ``(cleaned_text, is_genuinely_flawed)``."""
+    del error_type
+    text = _clean_candidate_solution(raw_out)
     val_res = validate_candidate_answer(text, reference_solution)
-    if val_res.is_equivalent:
-        # The LLM accidentally ended with the right answer despite the mid-step error; deterministically perturb the ANSWER: line
-        _, ref_ans = extract_answer_line(reference_solution)
-        perturbed_ans = f"-({ref_ans})" if error_type == "arithmetic_sign_error" else f"2 * ({ref_ans})"
-        text = re.sub(
-            r"(?:^|\n)\s*ANSWER\s*:.*$",
-            lambda _m: f"\nANSWER: {perturbed_ans}",
-            text,
-            flags=re.IGNORECASE | re.DOTALL,
-        ).strip()
-    return text
+    return text, not bool(val_res.is_equivalent)
 
 
 def generate_minority_alternative_solutions(
@@ -161,7 +126,9 @@ def generate_minority_alternative_solutions(
 
     for idx, prob in enumerate(target_problems, start=1):
         if prob.problem_id in cached:
-            results.append(cached[prob.problem_id])
+            cached_cand = cached[prob.problem_id]
+            if cached_cand.is_correct:
+                results.append(cached_cand)
             continue
 
         if generator is None:
@@ -183,18 +150,26 @@ def generate_minority_alternative_solutions(
         )
         t0 = time.perf_counter()
         raw_out = generator(SOLUTION2_SYSTEM_PROMPT, user_prompt)
+        norm_sol2, is_sol2_valid = _normalize_solution2_text(raw_out, prob.reference_solution)
+        if not is_sol2_valid:
+            retry_prompt = (
+                f"{user_prompt}\n\n"
+                f"CORRECTION: Your previous attempt arrived at a final ANSWER that was NOT equivalent to `{ref_ans}`. "
+                "Rewrite the alternative derivation carefully so every algebraic step is valid and reaches an equivalent final ANSWER."
+            )
+            raw_out = generator(SOLUTION2_SYSTEM_PROMPT, retry_prompt)
+            norm_sol2, is_sol2_valid = _normalize_solution2_text(raw_out, prob.reference_solution)
         call_sec = round(time.perf_counter() - t0, 3)
         live_calls += 1
         live_sec += call_sec
         avg_sec = live_sec / live_calls
         remaining = max(0, len(target_problems) - idx) * avg_sec
 
-        norm_sol2 = _normalize_solution2_text(raw_out, prob.reference_solution)
         cand = CandidateSolution(
             problem_id=prob.problem_id,
             candidate_id=f"{prob.problem_id}_sol2",
             solution_text=norm_sol2,
-            is_correct=True,
+            is_correct=is_sol2_valid,
             domain=prob.domain,
             error_type=None,
             paired_directive=None,
@@ -205,7 +180,8 @@ def generate_minority_alternative_solutions(
         with ckpt_file.open("a", encoding="utf-8") as f:
             f.write(json.dumps(cand.to_dict(), ensure_ascii=False) + "\n")
         cached[prob.problem_id] = cand
-        results.append(cand)
+        if is_sol2_valid:
+            results.append(cand)
         logger.info(
             "[Sol2 %d/%d | %.2fs | avg=%.2fs | ETA~%.1fm] Generated %s (%s)",
             idx,
@@ -258,7 +234,9 @@ def generate_controlled_error_trajectories(
 
     for idx, prob in enumerate(problems):
         if prob.problem_id in cached:
-            results.append(cached[prob.problem_id])
+            cached_cand = cached[prob.problem_id]
+            if not cached_cand.is_correct:
+                results.append(cached_cand)
             continue
 
         if generator is None:
@@ -284,18 +262,26 @@ def generate_controlled_error_trajectories(
         )
         t0 = time.perf_counter()
         raw_out = generator(CONTROLLED_ERROR_SYSTEM_PROMPT, user_prompt)
+        flawed_text, is_genuinely_flawed = _ensure_flawed_answer_differs(raw_out, prob.reference_solution, error_type)
+        if not is_genuinely_flawed:
+            retry_prompt = (
+                f"{user_prompt}\n\n"
+                "CORRECTION: Your previous derivation still ended with the ground-truth final ANSWER. "
+                "Propagate the intentional mistake consistently through every step so the final ANSWER is demonstrably different."
+            )
+            raw_out = generator(CONTROLLED_ERROR_SYSTEM_PROMPT, retry_prompt)
+            flawed_text, is_genuinely_flawed = _ensure_flawed_answer_differs(raw_out, prob.reference_solution, error_type)
         call_sec = round(time.perf_counter() - t0, 3)
         live_calls += 1
         live_sec += call_sec
         avg_sec = live_sec / live_calls
         remaining = max(0, len(problems) - (idx + 1)) * avg_sec
 
-        flawed_text = _ensure_flawed_answer_differs(raw_out, prob.reference_solution, error_type)
         cand = CandidateSolution(
             problem_id=prob.problem_id,
             candidate_id=f"{prob.problem_id}_err_aya8b",
             solution_text=flawed_text,
-            is_correct=False,
+            is_correct=not is_genuinely_flawed,
             domain=prob.domain,
             error_type=error_type,
             paired_directive=None,
@@ -306,7 +292,8 @@ def generate_controlled_error_trajectories(
         with ckpt_file.open("a", encoding="utf-8") as f:
             f.write(json.dumps(cand.to_dict(), ensure_ascii=False) + "\n")
         cached[prob.problem_id] = cand
-        results.append(cand)
+        if is_genuinely_flawed:
+            results.append(cand)
         logger.info(
             "[Err8B %d/%d | %.2fs | avg=%.2fs | ETA~%.1fm] Generated %s (%s | %s)",
             idx + 1,

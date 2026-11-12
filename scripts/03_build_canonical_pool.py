@@ -93,6 +93,13 @@ def build_arg_parser() -> argparse.ArgumentParser:
         default=AYA_EXPANSE_8B,
         help="Model repo ID when --use-llm is enabled (default: CohereForAI/aya-expanse-8b).",
     )
+    parser.add_argument(
+        "--strict-part1",
+        action="store_true",
+        help="Enforce strict CuratorKIT Part 1 hygiene/token gates (and strict Part 2 LLM judges if --use-llm).",
+    )
+    parser.add_argument("--max-problem-tokens", type=int, default=450)
+    parser.add_argument("--max-solution-tokens", type=int, default=1200)
     return parser
 
 
@@ -117,6 +124,9 @@ def main(argv: list[str] | None = None) -> int:
         use_llm_refinement=args.use_llm,
         llm_backend=args.backend,  # type: ignore[arg-type]
         llm_model_name=args.model,
+        strict_part1=args.strict_part1,
+        max_problem_tokens=args.max_problem_tokens,
+        max_solution_tokens=args.max_solution_tokens,
     )
     print(json.dumps(summary.to_dict(), indent=2))
     return 0

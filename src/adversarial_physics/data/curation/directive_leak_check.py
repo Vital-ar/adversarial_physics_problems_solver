@@ -16,10 +16,9 @@ from dataclasses import asdict, dataclass
 from typing import Any
 
 from adversarial_physics.data.curation.answer_validator import (
-    _extract_primary_number,
-    _is_purely_numeric_answer,
+    _detect_directive_leak,
     _normalize_math_expr_string,
-    extract_answer_line,
+    redact_numeric_answer_leaks,
 )
 from adversarial_physics.data.schemas.trajectory import VERDICT_APPROVE, VERDICT_CHALLENGE
 
@@ -121,47 +120,47 @@ def sanitize_directive_text(
 
     # If this is a CHALLENGE directive, ensure the final numeric or symbolic answer is not leaked
     if expected_verdict == VERDICT_CHALLENGE and reference_solution:
-        _, ref_ans = extract_answer_line(reference_solution)
-        if ref_ans and _is_purely_numeric_answer(ref_ans):
-            num_val = _extract_primary_number(ref_ans)
-            if num_val is not None:
-                num_str = f"{num_val:g}"
-                if (
-                    len(num_str) >= 2
-                    and num_str not in _TRIVIAL_ALLOWED_NUMBERS
-                    and num_str not in (problem_statement or "")
-                ):
-                    body = re.sub(rf"(?<![0-9.]){re.escape(num_str)}(?![0-9.])", "the target value", body)
-        elif ref_ans:
-            norm_rhs = _normalize_math_expr_string(ref_ans)
-            if len(norm_rhs) >= 12 and norm_rhs in _normalize_math_expr_string(body) and norm_rhs not in _normalize_math_expr_string(problem_statement):
-                # Strip any trailing sentence or clause that leaks the final symbolic expression
-                sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", body) if s.strip()]
-                kept_sentences = [
-                    s for s in sentences if norm_rhs not in _normalize_math_expr_string(s)
+        leak_kind, num_val, _, norm_rhs = _detect_directive_leak(
+            body,
+            problem_statement,
+            reference_solution,
+            _TRIVIAL_ALLOWED_NUMBERS,
+        )
+        if leak_kind == "numeric" and num_val is not None:
+            body = redact_numeric_answer_leaks(body, num_val)
+        elif leak_kind == "symbolic" and norm_rhs:
+            # Strip any trailing sentence or clause that leaks the final symbolic expression
+            norm_rhs_flat = norm_rhs.replace("*", "")
+            sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", body) if s.strip()]
+            kept_sentences = [
+                s
+                for s in sentences
+                if norm_rhs not in _normalize_math_expr_string(s)
+                and norm_rhs_flat not in _normalize_math_expr_string(s).replace("*", "")
+            ]
+            if kept_sentences:
+                body = " ".join(kept_sentences).strip()
+            else:
+                body = re.split(
+                    r"(?:,?\s*(?:leading\s+to|resulting\s+in|which\s+(?:gives|yields|simplifies\s+to|implies)|implies|you\s+should\s+obtain|the\s+(?:final|correct)\s+(?:expression|formula|relationship|solution|equation)[^.]*))",
+                    body,
+                    maxsplit=1,
+                    flags=re.IGNORECASE,
+                )[0].strip(" ,;:-")
+            body_norm = _normalize_math_expr_string(body)
+            if norm_rhs in body_norm or norm_rhs_flat in body_norm.replace("*", ""):
+                # Fall back to stating the governing physical principle from the first step of reference_solution
+                first_step_lines = [
+                    ln.strip()
+                    for ln in reference_solution.splitlines()
+                    if ln.strip() and not ln.strip().upper().startswith("ANSWER:")
                 ]
-                if kept_sentences:
-                    body = " ".join(kept_sentences).strip()
+                first_step = re.sub(r"^Step\s*\d+\s*:\s*", "", first_step_lines[0] if first_step_lines else "")
+                step_norm = _normalize_math_expr_string(first_step) if first_step else ""
+                if first_step and norm_rhs not in step_norm and norm_rhs_flat not in step_norm.replace("*", ""):
+                    body = f"Apply the governing physical setup and conservation relations ({first_step.rstrip('.')}) and solve for the target quantity without algebraic sign or substitution errors."
                 else:
-                    # Strip clause after "leading to", "resulting in", "implies", "gives", "is given by", "obtain"
-                    body = re.split(
-                        r"(?:,?\s*(?:leading\s+to|resulting\s+in|which\s+(?:gives|yields|simplifies\s+to|implies)|implies|you\s+should\s+obtain|the\s+(?:final|correct)\s+(?:expression|formula|relationship|solution|equation)[^.]*))",
-                        body,
-                        maxsplit=1,
-                        flags=re.IGNORECASE,
-                    )[0].strip(" ,;:-")
-                if norm_rhs in _normalize_math_expr_string(body):
-                    # Fall back to stating the governing physical principle from the first step of reference_solution
-                    first_step_lines = [
-                        ln.strip()
-                        for ln in reference_solution.splitlines()
-                        if ln.strip() and not ln.strip().upper().startswith("ANSWER:")
-                    ]
-                    first_step = re.sub(r"^Step\s*\d+\s*:\s*", "", first_step_lines[0] if first_step_lines else "")
-                    if first_step and norm_rhs not in _normalize_math_expr_string(first_step):
-                        body = f"Apply the governing physical setup and conservation relations ({first_step.rstrip('.')}) and solve for the target quantity without algebraic sign or substitution errors."
-                    else:
-                        body = "Apply the governing physical equations and boundary conditions from first principles, maintaining dimensional consistency before isolating the target variable."
+                    body = "Apply the governing physical equations and boundary conditions from first principles, maintaining dimensional consistency before isolating the target variable."
 
     # Truncate to at most 2 concise sentences if overlong (> 125 words)
     words = body.split()
@@ -269,24 +268,13 @@ def validate_verifier_directive(
     # Check final answer leakage on [[CHALLENGE]] directives
     leaks = False
     if verdict == VERDICT_CHALLENGE and reference_solution:
-        _, ref_ans = extract_answer_line(reference_solution)
-        if ref_ans and _is_purely_numeric_answer(ref_ans):
-            num_val = _extract_primary_number(ref_ans)
-            if num_val is not None:
-                num_str = f"{num_val:g}"
-                if (
-                    len(num_str) >= 2
-                    and num_str not in _TRIVIAL_ALLOWED_NUMBERS
-                    and num_str not in (problem_statement or "")
-                    and re.search(rf"(?<![0-9.]){re.escape(num_str)}(?![0-9.])", body)
-                ):
-                    leaks = True
-        elif ref_ans:
-            norm_rhs = _normalize_math_expr_string(ref_ans)
-            norm_body = _normalize_math_expr_string(body)
-            # Only flag symbolic leakage if a multi-symbol final RHS (>= 12 chars) is copied verbatim into the hint
-            if len(norm_rhs) >= 12 and norm_rhs in norm_body and norm_rhs not in _normalize_math_expr_string(problem_statement):
-                leaks = True
+        leak_kind, _, _, _ = _detect_directive_leak(
+            body,
+            problem_statement,
+            reference_solution,
+            _TRIVIAL_ALLOWED_NUMBERS,
+        )
+        leaks = leak_kind is not None
 
     if leaks:
         return DirectiveValidationResult(

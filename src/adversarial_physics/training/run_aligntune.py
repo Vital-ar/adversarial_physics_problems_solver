@@ -45,6 +45,8 @@ from adversarial_physics.data.curation.answer_validator import (
     extract_answer_line,
     validate_candidate_answer,
 )
+from adversarial_physics.data.schemas.trajectory import format_solver_prompt
+from adversarial_physics.orchestration.loop import format_model_prompt, score_solver_output
 
 # Setup logger
 logging.basicConfig(
@@ -345,7 +347,7 @@ def evaluate_task_accuracy(
         correct = 1.0 if (pred_verdict is not None and pred_verdict == ref_verdict) else 0.0
         return {"verifier_sentinel_accuracy": correct}
 
-    res = validate_candidate_answer(prediction or "", reference or "")
+    res = score_solver_output(prediction or "", reference or "")
     return {"final_answer_accuracy": 1.0 if res.is_equivalent else 0.0}
 
 
@@ -517,7 +519,7 @@ def build_aligntune_trainer_kwargs(
         "eval_strategy": str(early_stop_cfg.get("eval_strategy", "epoch")),
         "save_strategy": str(early_stop_cfg.get("save_strategy", "epoch")),
         "logging_steps": int(train_cfg.get("logging_steps", 10)),
-        "early_stopping_patience": int(early_stop_cfg.get("early_stopping_patience", 3)),
+        "early_stopping_patience": int(early_stop_cfg.get("early_stopping_patience", 2)),
         "early_stopping_threshold": float(early_stop_cfg.get("early_stopping_threshold", 0.005)),
         "load_best_model_at_end": bool(early_stop_cfg.get("load_best_model_at_end", True)),
         "metric_for_best_model": str(early_stop_cfg.get("metric_for_best_model", "eval_loss")),
@@ -658,7 +660,7 @@ def attach_early_stopping_and_accuracy_callbacks(
     early_stopping_cb: Optional[Any] = None
     if early_stop_cfg.get("enabled", True):
         early_stopping_cb = EarlyStoppingCallback(
-            early_stopping_patience=int(early_stop_cfg.get("early_stopping_patience", 3)),
+            early_stopping_patience=int(early_stop_cfg.get("early_stopping_patience", 2)),
             early_stopping_threshold=float(early_stop_cfg.get("early_stopping_threshold", 0.005)),
         )
 
@@ -744,6 +746,326 @@ def create_aligntune_sft_trainer(
         is_verifier=is_verifier,
     )
     return trainer
+
+
+def compute_composite_checkpoint_score(
+    eval_loss: float,
+    val_accuracy: float,
+    *,
+    alpha_loss: float = 1.0,
+    k_accuracy: float = 1.5,
+) -> float:
+    """Compute composite checkpoint selection score (lower is better):
+    ``alpha_loss * eval_loss - k_accuracy * val_accuracy``.
+    """
+    return float(alpha_loss) * float(eval_loss) - float(k_accuracy) * float(val_accuracy)
+
+
+def batched_evaluate_solver_split(
+    model: Any,
+    tokenizer: Any,
+    split_path: str | Path = "data/splits/validation.jsonl",
+    *,
+    batch_size: int = 8,
+    max_new_tokens: int = 1024,
+    max_samples: Optional[int] = None,
+    prompt_mode: str = "raw",
+    use_chat_template: Optional[bool] = None,
+) -> Dict[str, Any]:
+    """Run batched greedy inference on a JSONL split and score via ``score_solver_output``.
+
+    Defaults to ``prompt_mode="raw"`` so prompts match AlignTune ``instruction_following``
+    training (`format_solver_prompt(...) + "\\n\\n"`).
+    """
+    from collections import Counter
+
+    path = Path(split_path)
+    if not path.is_file():
+        raise FileNotFoundError(f"Evaluation split not found: {path}")
+
+    rows: List[Dict[str, Any]] = []
+    with path.open("r", encoding="utf-8") as f:
+        for line in f:
+            if line.strip():
+                rows.append(json.loads(line))
+    if max_samples is not None:
+        rows = rows[:max_samples]
+    if not rows:
+        return {"total": 0, "correct": 0, "accuracy": 0.0, "sentinel_rate": 0.0, "domain_breakdown": {}, "per_sample": []}
+
+    orig_padding_side = getattr(tokenizer, "padding_side", "right")
+    tokenizer.padding_side = "left"
+    if getattr(tokenizer, "pad_token_id", None) is None and getattr(tokenizer, "eos_token", None) is not None:
+        tokenizer.pad_token = tokenizer.eos_token
+
+    if use_chat_template is not None:
+        effective_mode = "chat_template" if use_chat_template else "raw"
+    else:
+        effective_mode = prompt_mode
+    if effective_mode == "chat_template" and not hasattr(tokenizer, "apply_chat_template"):
+        effective_mode = "alpaca"
+
+    prompts: List[str] = []
+    for row in rows:
+        raw_stmt = str(row.get("problem_statement") or "").strip()
+        preformatted = str(row.get("prompt") or row.get("instruction") or "").strip()
+        directives = row.get("accumulated_directives") or []
+        if preformatted.startswith("Solve the following physics problem"):
+            base_prompt = preformatted
+        elif raw_stmt:
+            base_prompt = format_solver_prompt(raw_stmt, directives)
+        else:
+            base_prompt = format_solver_prompt(preformatted, directives)
+        try:
+            prompts.append(
+                format_model_prompt(
+                    base_prompt,
+                    prompt_mode=effective_mode,  # type: ignore[arg-type]
+                    tokenizer=tokenizer,
+                )
+            )
+        except Exception:
+            prompts.append(format_model_prompt(base_prompt, prompt_mode="raw", tokenizer=tokenizer))
+
+    device = getattr(model, "device", None)
+    if device is None:
+        device = next(model.parameters()).device
+    was_training = bool(getattr(model, "training", False))
+    model.eval()
+
+    predictions: List[str] = []
+    try:
+        with torch.no_grad():
+            for start in range(0, len(prompts), max(1, batch_size)):
+                batch_prompts = prompts[start : start + max(1, batch_size)]
+                enc = tokenizer(
+                    batch_prompts,
+                    return_tensors="pt",
+                    padding=True,
+                    truncation=True,
+                    max_length=1536,
+                )
+                enc = {k: v.to(device) for k, v in enc.items()}
+                input_width = int(enc["input_ids"].shape[1])
+                gen_ids = model.generate(
+                    **enc,
+                    max_new_tokens=max_new_tokens,
+                    do_sample=False,
+                    pad_token_id=getattr(tokenizer, "pad_token_id", None),
+                    eos_token_id=getattr(tokenizer, "eos_token_id", None),
+                )
+                for b_idx in range(len(batch_prompts)):
+                    new_tokens = gen_ids[b_idx][input_width:]
+                    predictions.append(tokenizer.decode(new_tokens, skip_special_tokens=True).strip())
+    finally:
+        tokenizer.padding_side = orig_padding_side
+        if was_training:
+            model.train()
+
+    per_sample: List[Dict[str, Any]] = []
+    domain_total: Counter[str] = Counter()
+    domain_correct: Counter[str] = Counter()
+    correct_count = 0
+    sentinel_count = 0
+
+    for row, pred in zip(rows, predictions):
+        ref = row.get("reference_solution") or row.get("target_output") or row.get("output") or ""
+        dom = str(row.get("domain") or "UNKNOWN")
+        res = score_solver_output(pred, ref)
+        if res.has_answer_sentinel:
+            sentinel_count += 1
+        if res.is_equivalent:
+            correct_count += 1
+            domain_correct[dom] += 1
+        domain_total[dom] += 1
+        per_sample.append(
+            {
+                "problem_id": row.get("problem_id"),
+                "domain": dom,
+                "is_equivalent": res.is_equivalent,
+                "match_method": res.match_method,
+                "has_answer_sentinel": res.has_answer_sentinel,
+                "predicted_answer": res.extracted_candidate_answer,
+                "reference_answer": res.extracted_reference_answer,
+                "prediction": pred,
+            }
+        )
+
+    total = len(rows)
+    domain_breakdown = {
+        dom: {
+            "total": domain_total[dom],
+            "correct": domain_correct[dom],
+            "accuracy": round(domain_correct[dom] / max(1, domain_total[dom]), 4),
+        }
+        for dom in sorted(domain_total)
+    }
+    return {
+        "total": total,
+        "correct": correct_count,
+        "accuracy": round(correct_count / max(1, total), 4),
+        "sentinel_rate": round(sentinel_count / max(1, total), 4),
+        "domain_breakdown": domain_breakdown,
+        "per_sample": per_sample,
+    }
+
+
+def _collect_epoch_eval_losses(output_dir: Path) -> Dict[int, float]:
+    """Read logged ``eval_loss`` per checkpoint step from ``trainer_state.json`` if available."""
+    candidates = sorted(output_dir.glob("checkpoint-*/trainer_state.json"), key=lambda p: p.stat().st_mtime)
+    root_state = output_dir / "trainer_state.json"
+    if root_state.is_file():
+        candidates.append(root_state)
+    if not candidates:
+        return {}
+    state = json.loads(candidates[-1].read_text(encoding="utf-8"))
+    step_losses: Dict[int, float] = {}
+    for entry in state.get("log_history", []):
+        if "eval_loss" in entry and "step" in entry:
+            step_losses[int(entry["step"])] = float(entry["eval_loss"])
+    return step_losses
+
+
+def select_best_epoch_checkpoint(
+    output_dir: str | Path,
+    *,
+    base_model: Any = None,
+    tokenizer: Any = None,
+    validation_path: str | Path = "data/splits/validation.jsonl",
+    alpha_loss: float = 1.0,
+    k_accuracy: float = 1.5,
+    batch_size: int = 8,
+    max_new_tokens: int = 1024,
+    precomputed_results: Optional[List[Dict[str, Any]]] = None,
+) -> Optional[Dict[str, Any]]:
+    """Score saved epoch ``checkpoint-*`` adapters once post-training and promote the composite winner."""
+    out_path = Path(output_dir)
+    ckpt_dirs = sorted(
+        [p for p in out_path.glob("checkpoint-*") if p.is_dir()],
+        key=lambda p: int(p.name.split("-")[-1]) if p.name.split("-")[-1].isdigit() else 0,
+    )
+    if not ckpt_dirs:
+        return None
+
+    step_losses = _collect_epoch_eval_losses(out_path)
+    records: List[Dict[str, Any]] = []
+
+    if precomputed_results is not None:
+        records = list(precomputed_results)
+    else:
+        if base_model is None or tokenizer is None:
+            return None
+        from peft import PeftModel
+
+        # Avoid overlapping PeftModel wrapping onto the same base model in-place:
+        # reuse existing PeftModel adapter slots when trainer.model is already wrapped,
+        # or wrap once and swap adapters across checkpoints.
+        base_is_peft = hasattr(base_model, "peft_config") or hasattr(base_model, "get_base_model")
+        orig_active_adapter = getattr(base_model, "active_adapter", "default") if base_is_peft else None
+        peft_wrapped: Any = base_model if base_is_peft else None
+        loaded_eval_adapters: List[str] = []
+        try:
+            for idx, ckpt in enumerate(ckpt_dirs):
+                step_str = ckpt.name.split("-")[-1]
+                step_num = int(step_str) if step_str.isdigit() else -1
+                eval_loss = step_losses.get(step_num, 1.0)
+                adapter_name = f"eval_ckpt_{step_num if step_num >= 0 else idx}"
+
+                if peft_wrapped is None:
+                    try:
+                        peft_wrapped = PeftModel.from_pretrained(
+                            base_model,
+                            str(ckpt),
+                            adapter_name=adapter_name,
+                            is_trainable=False,
+                        )
+                    except TypeError:
+                        # Lightweight test doubles may not accept `adapter_name`
+                        peft_wrapped = PeftModel.from_pretrained(base_model, str(ckpt), is_trainable=False)
+                elif hasattr(peft_wrapped, "load_adapter") and hasattr(peft_wrapped, "set_adapter"):
+                    peft_wrapped.load_adapter(str(ckpt), adapter_name=adapter_name)
+                    peft_wrapped.set_adapter(adapter_name)
+                    loaded_eval_adapters.append(adapter_name)
+                else:
+                    underlying = base_model.get_base_model() if hasattr(base_model, "get_base_model") else base_model
+                    peft_wrapped = PeftModel.from_pretrained(underlying, str(ckpt), is_trainable=False)
+
+                metrics = batched_evaluate_solver_split(
+                    peft_wrapped,
+                    tokenizer,
+                    split_path=validation_path,
+                    batch_size=batch_size,
+                    max_new_tokens=max_new_tokens,
+                    prompt_mode="raw",
+                )
+                acc = float(metrics["accuracy"])
+                records.append(
+                    {
+                        "checkpoint_dir": str(ckpt),
+                        "step": step_num,
+                        "eval_loss": eval_loss,
+                        "val_accuracy": acc,
+                        "correct": metrics["correct"],
+                        "total": metrics["total"],
+                        "composite_score": compute_composite_checkpoint_score(
+                            eval_loss, acc, alpha_loss=alpha_loss, k_accuracy=k_accuracy
+                        ),
+                    }
+                )
+        finally:
+            if peft_wrapped is not None:
+                if base_is_peft:
+                    if orig_active_adapter and hasattr(peft_wrapped, "set_adapter"):
+                        try:
+                            peft_wrapped.set_adapter(orig_active_adapter)
+                        except Exception:
+                            pass
+                    if hasattr(peft_wrapped, "delete_adapter"):
+                        for name in loaded_eval_adapters:
+                            if name != orig_active_adapter:
+                                try:
+                                    peft_wrapped.delete_adapter(name)
+                                except Exception:
+                                    pass
+                elif hasattr(peft_wrapped, "unload"):
+                    try:
+                        peft_wrapped.unload()
+                    except Exception:
+                        pass
+
+    if not records:
+        return None
+
+    for rec in records:
+        if "composite_score" not in rec:
+            rec["composite_score"] = compute_composite_checkpoint_score(
+                float(rec["eval_loss"]),
+                float(rec["val_accuracy"]),
+                alpha_loss=alpha_loss,
+                k_accuracy=k_accuracy,
+            )
+
+    best = min(records, key=lambda r: float(r["composite_score"]))
+    best_dir = Path(best["checkpoint_dir"])
+    final_dir = out_path / "final_adapter"
+    if best_dir.is_dir():
+        if final_dir.exists():
+            for child in final_dir.iterdir():
+                if child.is_file() and child.name != "training_summary.json":
+                    child.unlink()
+        final_dir.mkdir(parents=True, exist_ok=True)
+        for item in best_dir.iterdir():
+            if item.is_file() and item.name not in ("optimizer.pt", "scheduler.pt", "rng_state.pth"):
+                shutil.copy2(item, final_dir / item.name)
+
+    selection_report = {
+        "formula": f"{alpha_loss} * eval_loss - {k_accuracy} * val_accuracy (lower is better)",
+        "winner": best,
+        "all_checkpoints": records,
+    }
+    report_path = out_path / "checkpoint_selection_summary.json"
+    report_path.write_text(json.dumps(selection_report, indent=2), encoding="utf-8")
+    return selection_report
 
 
 def train_adapter(
@@ -888,6 +1210,31 @@ def train_adapter(
     # Also write a copy at top level of adapter output dir for easy git tracking
     with open(output_dir / "training_summary.json", "w", encoding="utf-8") as f:
         json.dump(summary, f, indent=2)
+
+    # Optional post-training composite checkpoint selection (`eval_loss - k * val_accuracy`)
+    ckpt_sel_cfg = config.get("checkpoint_selection", {})
+    if (not is_verifier) and ckpt_sel_cfg.get("enabled", True):
+        configured_val = (config.get("validation_dataset", {}) or {}).get("local_path", "data/splits/validation.jsonl")
+        dir_val = Path(dataset_dir) / "validation.jsonl"
+        val_file_path = configured_val if Path(configured_val).is_file() else str(dir_val)
+        if Path(val_file_path).is_file() and getattr(trainer, "model", None) is not None and getattr(trainer, "tokenizer", None) is not None:
+            sel_report = select_best_epoch_checkpoint(
+                output_dir=output_dir,
+                base_model=trainer.model,
+                tokenizer=trainer.tokenizer,
+                validation_path=val_file_path,
+                alpha_loss=float(ckpt_sel_cfg.get("composite_alpha_loss", 1.0)),
+                k_accuracy=float(ckpt_sel_cfg.get("composite_k_accuracy", 1.5)),
+                batch_size=int(ckpt_sel_cfg.get("eval_batch_size", 8)),
+                max_new_tokens=int(ckpt_sel_cfg.get("eval_max_new_tokens", 1024)),
+            )
+            if sel_report is not None:
+                summary["checkpoint_selection"] = sel_report["winner"]
+                with open(summary_path, "w", encoding="utf-8") as f:
+                    json.dump(summary, f, indent=2)
+                with open(output_dir / "training_summary.json", "w", encoding="utf-8") as f:
+                    json.dump(summary, f, indent=2)
+
     logger.info(f"AlignTune training completed! Final adapter & provenance saved to {final_save_dir}")
 
     if push_to_hub:

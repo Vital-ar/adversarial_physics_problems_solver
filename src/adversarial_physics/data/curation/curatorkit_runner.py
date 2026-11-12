@@ -250,6 +250,7 @@ def curate_and_deduplicate_stage2_trajectories(
     cleaner = TextCleaner(fields=["instruction", "output"])
     schema_gate = SchemaGate(required_fields=["instruction", "output"], min_tokens=8, max_tokens=4096)
     # 2. Curate Minority-Domain Alternative Solution 2 (`82` problems)
+    rejected_logs: list[dict[str, Any]] = []
     curated_sol2: list[CandidateSolution] = []
     if sol2_raw:
         # Normalize step headers and rescue any unescaped backslash control chars BEFORE TextCleaner strips them
@@ -257,9 +258,7 @@ def curate_and_deduplicate_stage2_trajectories(
         for c in sol2_raw:
             if c.problem_id not in prob_map:
                 continue
-            ref_prob = prob_map[c.problem_id]
-            _, ref_ans = extract_answer_line(ref_prob.reference_solution)
-            norm_text = _normalize_step_lines_and_answer(c.solution_text, fallback_answer=ref_ans)
+            norm_text = _normalize_step_lines_and_answer(c.solution_text, fallback_answer=None)
             precleaned_sol2.append(
                 CandidateSolution(
                     problem_id=c.problem_id,
@@ -279,12 +278,31 @@ def curate_and_deduplicate_stage2_trajectories(
             for c in precleaned_sol2
         ]
         sol2_samples = cleaner.run(sol2_samples)
-        sol2_passed, _ = schema_gate.run(sol2_samples)
+        sol2_passed, sol2_rejected = schema_gate.run(sol2_samples)
+        for sf in sol2_rejected:
+            rejected_logs.append(
+                {
+                    "candidate_id": sf.id,
+                    "problem_id": (sf.metadata or {}).get("problem_id"),
+                    "source": (sf.metadata or {}).get("source"),
+                    "reason": f"curatorkit_schema_gate:{sf.rejection_reason}",
+                }
+            )
         for s in sol2_passed:
             cand = _datasample_to_candidate(s)
             ref_prob = prob_map[cand.problem_id]
-            _, ref_ans = extract_answer_line(ref_prob.reference_solution)
-            norm_text = _normalize_step_lines_and_answer(cand.solution_text, fallback_answer=ref_ans)
+            norm_text = _normalize_step_lines_and_answer(cand.solution_text, fallback_answer=None)
+            val = validate_candidate_answer(norm_text, ref_prob.reference_solution)
+            if not val.is_equivalent:
+                rejected_logs.append(
+                    {
+                        "candidate_id": cand.candidate_id,
+                        "problem_id": cand.problem_id,
+                        "source": cand.source,
+                        "reason": f"solution2_answer_mismatch:{val.match_method}",
+                    }
+                )
+                continue
             cand = CandidateSolution(
                 problem_id=cand.problem_id,
                 candidate_id=cand.candidate_id,
@@ -301,7 +319,6 @@ def curate_and_deduplicate_stage2_trajectories(
     save_candidates_jsonl(curated_sol2, resolve_project_path(curated_sol2_output_path))
 
     # 3. Filter & Deduplicate Flawed Candidate Trajectories (`flawed_8b_raw` + `tiny_aya_raw`)
-    rejected_logs: list[dict[str, Any]] = []
     tiny_aya_correct: list[CandidateSolution] = []
     flawed_candidates_pool: list[CandidateSolution] = []
     placeholder_rejected = 0
@@ -338,36 +355,18 @@ def curate_and_deduplicate_stage2_trajectories(
         if val.is_equivalent or cand.is_correct:
             if "tiny_aya" in cand.source:
                 tiny_aya_correct.append(cand)
-                rejected_logs.append(
-                    {
-                        "candidate_id": cand.candidate_id,
-                        "problem_id": cand.problem_id,
-                        "source": cand.source,
-                        "reason": f"tiny_aya_solved_correctly ({val.match_method})",
-                    }
-                )
-                continue
+                reason = f"tiny_aya_solved_correctly ({val.match_method})"
             else:
-                # Guarantee the synthetic 8B error trajectory has a non-equivalent ANSWER:
-                _, ref_ans = extract_answer_line(ref_prob.reference_solution)
-                fixed_wrong = re.sub(
-                    r"(?:^|\n)\s*ANSWER\s*:.*$",
-                    lambda _m: f"\nANSWER: -({ref_ans})",
-                    cand.solution_text,
-                    flags=re.IGNORECASE | re.DOTALL,
-                ).strip()
-                cand = CandidateSolution(
-                    problem_id=cand.problem_id,
-                    candidate_id=cand.candidate_id,
-                    solution_text=fixed_wrong,
-                    is_correct=False,
-                    domain=cand.domain,
-                    error_type=cand.error_type or "arithmetic_sign_error",
-                    paired_directive=None,
-                    source=cand.source,
-                    original_id=cand.original_id,
-                    latency_seconds=cand.latency_seconds,
-                )
+                reason = f"synthetic_error_solved_correctly ({val.match_method})"
+            rejected_logs.append(
+                {
+                    "candidate_id": cand.candidate_id,
+                    "problem_id": cand.problem_id,
+                    "source": cand.source,
+                    "reason": reason,
+                }
+            )
+            continue
         flawed_candidates_pool.append(cand)
 
     save_candidates_jsonl(tiny_aya_correct, resolve_project_path(tiny_aya_correct_output_path))
@@ -383,10 +382,10 @@ def curate_and_deduplicate_stage2_trajectories(
     for sf in schema_failed_samples:
         rejected_logs.append(
             {
-                "candidate_id": sf.sample.id,
-                "problem_id": (sf.sample.metadata or {}).get("problem_id"),
-                "source": (sf.sample.metadata or {}).get("source"),
-                "reason": f"curatorkit_schema_gate:{sf.reason}",
+                "candidate_id": sf.id,
+                "problem_id": (sf.metadata or {}).get("problem_id"),
+                "source": (sf.metadata or {}).get("source"),
+                "reason": f"curatorkit_schema_gate:{sf.rejection_reason}",
             }
         )
 

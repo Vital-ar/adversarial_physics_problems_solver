@@ -184,7 +184,7 @@ def test_create_aligntune_sft_trainer_and_callbacks() -> None:
     assert trainer.config.train.learning_rate == 0.0002
     assert trainer.config.train.completion_only_loss is True
     assert trainer.config.train.label_smoothing_factor == 0.0
-    assert trainer.config.train.early_stopping_patience in (2, 3)
+    assert trainer.config.train.early_stopping_patience == 2
     assert trainer.config.train.early_stopping_threshold == 0.005
     assert trainer.config.train.load_best_model_at_end is True
     assert trainer.config.train.gradient_checkpointing is True
@@ -193,7 +193,7 @@ def test_create_aligntune_sft_trainer_and_callbacks() -> None:
     assert trainer.config.model.train_embeddings is False
     assert trainer.config.evaluation.compute_rouge is False
     assert trainer.config.evaluation.compute_bleu is False
-    assert len(trainer.config.evaluation.custom_metrics) == 1
+    assert cfg["checkpoint_selection"]["enabled"] is True
 
     # Verify HF callbacks include EarlyStoppingCallback and HuggingFaceCallbackAdapter
     hf_callbacks = trainer.get_hf_callbacks()

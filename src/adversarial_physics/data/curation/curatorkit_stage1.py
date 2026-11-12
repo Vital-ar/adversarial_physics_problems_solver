@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import shutil
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
@@ -127,22 +128,186 @@ class CuratorKitGateReport:
         return asdict(self)
 
 
-def problem_to_datasample(prob: CanonicalProblem, *, split_tag: str = "train") -> DataSample:
-    """Convert a 6-field `CanonicalProblem` into a CuratorKIT `DataSample`."""
+@dataclass(frozen=True)
+class CuratorKitStrictConfig:
+    """Rigid gating configuration for CuratorKIT Part 1 (no-LLM) and Part 2 (LLM + SymPy)."""
+
+    name: str
+    min_problem_tokens: int = 12
+    max_problem_tokens: int = 450
+    min_solution_tokens: int = 20
+    max_solution_tokens: int = 1200
+    schema_min_tokens: int = 25
+    schema_max_tokens: int = 2048
+    use_tiktoken: bool = True
+    require_answer_sentinel: bool = True
+    require_quantitative: bool = True
+    reject_multi_answer: bool = True
+    reject_visual_cues: bool = True
+    anti_leakage_cosine_threshold: float = 0.80
+    minhash_threshold: float = 0.75
+    diversity_threshold: float = 0.82
+    enable_llm_gates: bool = False
+    hallucination_threshold: float = 0.85
+    reward_threshold: float = 0.82
+    on_judge_error: str = "reject"
+
+
+PART1_STRICT_CONFIG = CuratorKitStrictConfig(
+    name="curatorkit_part1_strict_nollm",
+    enable_llm_gates=False,
+)
+
+PART2_STRICT_CONFIG = CuratorKitStrictConfig(
+    name="curatorkit_part2_strict_llm",
+    enable_llm_gates=True,
+    hallucination_threshold=0.85,
+    reward_threshold=0.82,
+    on_judge_error="reject",
+)
+
+_QUANT_RE = re.compile(
+    r"=|\\frac|\\sqrt|\^|\d+(?:\.\d+)?\s*(?:m/s|m/s\^2|kg|N|J|W|Pa|Hz|V|A|C|K|s|m|rad|deg|eV)\b"
+)
+_STRICT_VISUAL_RE = re.compile(
+    r"\b(?:see\s+(?:fig|figure|diagram|graph|table)|"
+    r"(?:in|by|from|at|of|on)\s+the\s+(?:fig|figure|diagram|graph|photo)\b|"
+    r"the\s+(?:fig|figure|diagram|graph)\s*(?:,|\s+(?:below|above|for\s+this\s+problem|shows|represents|redrawn|illustrates))|"
+    r"the\s+following\s+is\s+a\s+(?:graph|figure|diagram)|"
+    r"shown\s+(?:in|at|below|above)\s+(?:the\s+)?(?:fig|figure|diagram|graph)|"
+    r"(?:arranged|stacked|connected|placed|drawn|depicted)(?:\s+[a-z0-9,-]+){0,5}\s+as\s+shown|"
+    r",\s*as\s+shown\b|as\s+shown\s*[.,]|as\s+shown\s+on\s+p\.|"
+    r"makes\s+a\s+graph\s*\(figure\)|"
+    r"fig(?:ure)?\.?\s*\d+|(?:problem\s+\d+\s+)?(?:on|from)\s+p(?:age)?\.?\s*\d+|section\s+\d+\.\d+\s+(?:above|below))\b|"
+    r"\bp\.\s*\?\?",
+    flags=re.IGNORECASE,
+)
+_SPLIT_DEP_RE = re.compile(
+    r"\b(?:from\s+parts?\s*[a-d]|based\s+on\s+your\s+answers?\s+in|your\s+result\s+from\s+part)\b",
+    flags=re.IGNORECASE,
+)
+_PLOT_TASK_RE = re.compile(
+    r"(?:^\s*|(?:^|\.\s+))(?:sketch|plot|draw)\s+(?:a|the|its)\s+(?:graph|diagram|picture|plot|trajectory|curve|impedance)\b",
+    flags=re.IGNORECASE,
+)
+_QUANT_ASK_RE = re.compile(
+    r"\b(?:find|calculate|determine|compute|evaluate|derive|prove|show\s+that|express|"
+    r"how\s+(?:many|much|fast|far|high|long|large|strong|often)|what\s+(?:is|are)\s+the\s+"
+    r"(?:magnitude|speed|velocity|force|energy|power|charge|current|voltage|field|mass|time|period|frequency|ratio|fraction|angle|height|distance|acceleration))\b",
+    flags=re.IGNORECASE,
+)
+_QUAL_ASK_RE = re.compile(
+    r"\b(?:explain(?:\s+why)?|why\s+(?:did|do|does|is|are|was|were|would|can|should)|would\s+(?:it|this|they|there))\b",
+    flags=re.IGNORECASE,
+)
+_ANSWER_LINE_RE = re.compile(r"(?:^|\n)\s*(?:\*\*?)?ANSWER(?:\*\*?)?\s*:\s*", flags=re.IGNORECASE)
+
+_TIKTOKEN_ENC: Any | None = None
+
+
+def count_text_tokens(text: str, *, use_tiktoken: bool = True) -> int:
+    """Count tokens using cached ``tiktoken`` (`cl100k_base`) with whitespace fallback."""
+    global _TIKTOKEN_ENC
+    if not text:
+        return 0
+    if use_tiktoken:
+        try:
+            if _TIKTOKEN_ENC is None:
+                import tiktoken
+
+                _TIKTOKEN_ENC = tiktoken.get_encoding("cl100k_base")
+            return len(_TIKTOKEN_ENC.encode(text))
+        except Exception:
+            pass
+    return len(text.split())
+
+
+def check_strict_physics_hygiene(
+    problem: CanonicalProblem,
+    cfg: CuratorKitStrictConfig = PART1_STRICT_CONFIG,
+) -> tuple[bool, str]:
+    """Deterministic rigid quality check on length, quantitative content, and sentinel hygiene."""
+    stmt = (problem.problem_statement or "").strip()
+    sol = (problem.reference_solution or "").strip()
+    prob_toks = count_text_tokens(stmt, use_tiktoken=cfg.use_tiktoken)
+    sol_toks = count_text_tokens(sol, use_tiktoken=cfg.use_tiktoken)
+
+    if prob_toks < cfg.min_problem_tokens:
+        return False, f"problem_too_short ({prob_toks} < {cfg.min_problem_tokens} tokens)"
+    if prob_toks > cfg.max_problem_tokens:
+        return False, f"problem_too_long ({prob_toks} > {cfg.max_problem_tokens} tokens)"
+    if sol_toks < cfg.min_solution_tokens:
+        return False, f"solution_too_short ({sol_toks} < {cfg.min_solution_tokens} tokens)"
+    if sol_toks > cfg.max_solution_tokens:
+        return False, f"solution_too_long ({sol_toks} > {cfg.max_solution_tokens} tokens)"
+
+    if cfg.reject_visual_cues and _STRICT_VISUAL_RE.search(stmt):
+        return False, "visual_or_external_cue_detected"
+    if _SPLIT_DEP_RE.search(stmt):
+        return False, "split_subpart_dependency"
+    if _PLOT_TASK_RE.search(stmt) and not _QUANT_ASK_RE.search(stmt):
+        return False, "plotting_without_quantitative_target"
+
+    if cfg.require_quantitative and not (_QUANT_RE.search(sol) or _QUANT_RE.search(stmt)):
+        return False, "non_quantitative_prose_only"
+
+    ans_matches = list(_ANSWER_LINE_RE.finditer(sol))
+    if cfg.require_answer_sentinel and not ans_matches:
+        return False, "missing_answer_sentinel"
+    if cfg.reject_multi_answer and len(ans_matches) > 1:
+        return False, f"multiple_answer_sentinels ({len(ans_matches)})"
+    if ans_matches:
+        tail = sol[ans_matches[-1].end() :].strip()
+        if not tail or tail in ("$$", "$", "\\[", "\\]"):
+            return False, "empty_or_math_wrapper_only_answer"
+        if tail.endswith(":"):
+            return False, "dangling_colon_in_answer"
+        if not tail.endswith("\\)") and tail.count("(") < tail.count(")"):
+            return False, "truncated_paren_fragment_in_answer"
+        if (
+            cfg.require_quantitative
+            and _QUAL_ASK_RE.search(stmt)
+            and not _QUANT_ASK_RE.search(stmt)
+            and len(tail.split()) >= 4
+            and not re.search(r"[\d=^/*+]|\\frac|\\sqrt", tail)
+        ):
+            return False, "qualitative_prose_question"
+
+    if stmt.count("$$") % 2 != 0 or sol.count("$$") % 2 != 0:
+        return False, "unbalanced_display_latex_delimiters"
+
+    return True, "ok"
+
+
+def problem_to_datasample(
+    prob: CanonicalProblem,
+    *,
+    split_tag: str = "train",
+    source_chunk: str | None = None,
+) -> DataSample:
+    """Convert a 6-field `CanonicalProblem` into a CuratorKIT `DataSample`.
+
+    Note: `input` stores optional grounding `source_chunk` (or empty string if none)
+    rather than duplicating `reference_solution`, so `HallucinationGate` evaluates
+    answers against external textbook/kernel context instead of self-comparison.
+    """
+    meta: dict[str, Any] = {
+        "problem_id": prob.problem_id,
+        "domain": prob.domain,
+        "source": prob.source,
+        "original_id": prob.original_id,
+        "split": split_tag,
+    }
+    if source_chunk:
+        meta["source_chunk"] = source_chunk
     return DataSample(
         id=prob.problem_id,
         source_uri=f"{prob.source}:{prob.original_id}",
         instruction=prob.problem_statement,
-        input=prob.reference_solution,
+        input=source_chunk or "",
         output=prob.reference_solution,
         task_type="instruction_following",
-        metadata={
-            "problem_id": prob.problem_id,
-            "domain": prob.domain,
-            "source": prob.source,
-            "original_id": prob.original_id,
-            "split": split_tag,
-        },
+        metadata=meta,
     )
 
 
@@ -306,7 +471,17 @@ def run_curatorkit_stage1_gates_and_recovery(
     max_solution_chars: int = 4500,
     require_answer_sentinel: bool = True,
     diversity_threshold: float = 0.88,
+    schema_min_tokens: int = 5,
+    schema_max_tokens: int = 2048,
+    use_tiktoken: bool = False,
     enable_llm_gates: bool = False,
+    hallucination_threshold: float = 0.7,
+    reward_threshold: float = 0.7,
+    on_judge_error: str = "pass",
+    enable_strict_hygiene: bool = False,
+    strict_config: CuratorKitStrictConfig | None = None,
+    sympy_verify_fn: Callable[[CanonicalProblem], tuple[bool, str]] | None = None,
+    source_contexts: dict[str, str] | None = None,
     llm: BaseLLM | None = None,
     chat_fn: Callable[[str, str], str] | None = None,
     repair_fn: Callable[[CanonicalProblem, str], CanonicalProblem] | None = None,
@@ -315,6 +490,18 @@ def run_curatorkit_stage1_gates_and_recovery(
     if not problems:
         empty_report = CuratorKitGateReport(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
         return [], [], empty_report
+
+    if strict_config is not None:
+        require_answer_sentinel = strict_config.require_answer_sentinel
+        diversity_threshold = strict_config.diversity_threshold
+        schema_min_tokens = strict_config.schema_min_tokens
+        schema_max_tokens = strict_config.schema_max_tokens
+        use_tiktoken = strict_config.use_tiktoken
+        enable_llm_gates = strict_config.enable_llm_gates
+        hallucination_threshold = strict_config.hallucination_threshold
+        reward_threshold = strict_config.reward_threshold
+        on_judge_error = strict_config.on_judge_error
+        enable_strict_hygiene = True
 
     recovery_attempted = 0
     recovery_succeeded = 0
@@ -341,6 +528,16 @@ def run_curatorkit_stage1_gates_and_recovery(
                 failure_diag = ""
                 recovery_succeeded += 1
 
+        if not failure_diag and enable_strict_hygiene:
+            ok_hyg, hyg_reason = check_strict_physics_hygiene(prob, strict_config or PART1_STRICT_CONFIG)
+            if not ok_hyg:
+                failure_diag = hyg_reason
+
+        if not failure_diag and sympy_verify_fn is not None:
+            ok_sym, sym_reason = sympy_verify_fn(prob)
+            if not ok_sym:
+                failure_diag = f"sympy_oracle_failed: {sym_reason}"
+
         if failure_diag:
             schema_failed_pre += 1
             rejected_records.append(
@@ -350,12 +547,13 @@ def run_curatorkit_stage1_gates_and_recovery(
             pre_checked_problems.append(prob)
 
     # 1. CuratorKIT SchemaGate
-    samples = [problem_to_datasample(p) for p in pre_checked_problems]
+    ctx_map = source_contexts or {}
+    samples = [problem_to_datasample(p, source_chunk=ctx_map.get(p.problem_id)) for p in pre_checked_problems]
     schema_gate = SchemaGate(
         required_fields=["instruction", "output"],
-        min_tokens=5,
-        max_tokens=2048,
-        use_tiktoken=False,
+        min_tokens=schema_min_tokens,
+        max_tokens=schema_max_tokens,
+        use_tiktoken=use_tiktoken,
     )
     schema_passed_samples, schema_rejected_samples = schema_gate.run(samples)
 
@@ -365,7 +563,9 @@ def run_curatorkit_stage1_gates_and_recovery(
         for rej_sample in schema_rejected_samples:
             recovery_attempted += 1
             repaired_prob = repair_fn(datasample_to_problem(rej_sample), rej_sample.rejection_reason)
-            re_passed, re_rej = schema_gate.run([problem_to_datasample(repaired_prob)])
+            re_passed, re_rej = schema_gate.run(
+                [problem_to_datasample(repaired_prob, source_chunk=ctx_map.get(repaired_prob.problem_id))]
+            )
             if re_passed:
                 schema_passed_samples.extend(re_passed)
                 recovery_succeeded += 1
@@ -399,9 +599,10 @@ def run_curatorkit_stage1_gates_and_recovery(
     if enable_llm_gates and resolved_llm is not None and active_samples:
         hallucination_gate = HallucinationGate(
             llm=resolved_llm,
-            threshold=0.7,
+            threshold=hallucination_threshold,
+            skip_if_no_context=True,
             concurrency=1,
-            on_judge_error="pass",
+            on_judge_error=on_judge_error,
         )
         hal_passed, hal_rejected = hallucination_gate.run(active_samples)
         hallucination_passed_count = len(hal_passed)
@@ -416,55 +617,62 @@ def run_curatorkit_stage1_gates_and_recovery(
             )
         active_samples = hal_passed
 
-        reward_gate = RewardGate(
-            llm=resolved_llm,
-            threshold=0.7,
-            dimensions=["helpfulness", "instruction_following", "truthfulness", "coherence"],
-            prompt_template=STAGE1_PHYSICS_RUBRIC_PROMPT,
-            concurrency=1,
-            on_judge_error="pass",
-        )
-        rew_passed, rew_rejected = reward_gate.run(active_samples)
-        if rew_rejected:
-            recovery_attempted += len(rew_rejected)
-            refiner = RewardRefiner(
-                generator_llm=resolved_llm,
-                reward_gate=reward_gate,
+        if active_samples:
+            reward_gate = RewardGate(
+                llm=resolved_llm,
+                threshold=reward_threshold,
+                dimensions=["helpfulness", "instruction_following", "truthfulness", "coherence"],
+                prompt_template=STAGE1_PHYSICS_RUBRIC_PROMPT,
                 concurrency=1,
+                on_judge_error=on_judge_error,
             )
-            recovered_samples, still_rejected = refiner.refine(rew_rejected)
-            recovery_succeeded += len(recovered_samples)
-            rew_passed.extend(recovered_samples)
-            rew_rejected = still_rejected
+            rew_passed, rew_rejected = reward_gate.run(active_samples)
+            if rew_rejected:
+                recovery_attempted += len(rew_rejected)
+                refiner = RewardRefiner(
+                    generator_llm=resolved_llm,
+                    reward_gate=reward_gate,
+                    concurrency=1,
+                )
+                recovered_samples, still_rejected = refiner.refine(rew_rejected)
+                recovery_succeeded += len(recovered_samples)
+                rew_passed.extend(recovered_samples)
+                rew_rejected = still_rejected
 
-        reward_passed_count = len(rew_passed)
-        reward_failed_count = len(rew_rejected)
-        for rej in rew_rejected:
+            reward_passed_count = len(rew_passed)
+            reward_failed_count = len(rew_rejected)
+            for rej in rew_rejected:
+                rejected_records.append(
+                    {
+                        **datasample_to_problem(rej).to_dict(),
+                        "gate": "RewardGate",
+                        "reason": rej.rejection_reason,
+                    }
+                )
+            active_samples = rew_passed
+        else:
+            reward_passed_count = 0
+            reward_failed_count = 0
+
+    # 3. CuratorKIT DiversityGate
+    if active_samples:
+        diversity_gate = DiversityGate(
+            embedding_model="sentence-transformers/all-MiniLM-L6-v2",
+            similarity_threshold=diversity_threshold,
+            text_field="instruction",
+            coverage_field="domain",
+        )
+        div_passed, div_rejected = diversity_gate.run(active_samples)
+        for rej in div_rejected:
             rejected_records.append(
                 {
                     **datasample_to_problem(rej).to_dict(),
-                    "gate": "RewardGate",
+                    "gate": "DiversityGate",
                     "reason": rej.rejection_reason,
                 }
             )
-        active_samples = rew_passed
-
-    # 3. CuratorKIT DiversityGate (embedding similarity threshold = 0.88, coverage_field = "domain")
-    diversity_gate = DiversityGate(
-        embedding_model="sentence-transformers/all-MiniLM-L6-v2",
-        similarity_threshold=diversity_threshold,
-        text_field="instruction",
-        coverage_field="domain",
-    )
-    div_passed, div_rejected = diversity_gate.run(active_samples)
-    for rej in div_rejected:
-        rejected_records.append(
-            {
-                **datasample_to_problem(rej).to_dict(),
-                "gate": "DiversityGate",
-                "reason": rej.rejection_reason,
-            }
-        )
+    else:
+        div_passed, div_rejected = [], []
 
     diversity_passed_count = len(div_passed)
     diversity_failed_count = len(div_rejected)

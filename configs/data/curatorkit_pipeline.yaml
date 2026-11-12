@@ -10,13 +10,21 @@ source:
   kind: local
   path: "data/processed/canonical_train.jsonl"
   raw_pool_e1_path: "data/intermediate/01a_leak_free_raw_pool.jsonl"
-  deterministic_pool_e2_path: "data/intermediate/01b_deterministic_curated_pool.jsonl"
+  deterministic_pool_e2_path: "data/intermediate/01b_e2_books_plus_synthetic.jsonl"
+  subtopic_chunks_path: "data/literature/subtopic_chunks.jsonl"
   canonical_pool_e3_path: "data/processed/canonical_train.jsonl"
 
 processing:
   deduplication: true
-  deduplication_cosine_threshold: 0.85
-  diversity_gate_threshold: 0.88
+  deduplication_cosine_threshold: 0.80
+  minhash_threshold: 0.75
+  diversity_gate_threshold: 0.82
+  schema_min_tokens: 25
+  max_problem_tokens: 450
+  max_solution_tokens: 1200
+  hallucination_threshold: 0.85
+  reward_threshold: 0.82
+  on_judge_error: "reject"
   quality_filtering: true
   synthetic_generation: true
   forbid_answer_leak_in_directives: true
@@ -25,7 +33,7 @@ processing:
     - "your first equation"
     - "above"
     - "in line"
-  notes: "CuratorKIT trajectory deduplication before hint generation, SchemaGate, HallucinationGate, RewardGate, Adaptive Recovery, and deterministic SymPy/SI-unit/leakage checks."
+  notes: "Strict CuratorKIT Part 1 (no-LLM hygiene/dedup + subtopic-grounded E2 generation) & Part 2 (fail-closed HallucinationGate/RewardGate + SymPy oracle -> E3), followed by directive leak checks and SFT export."
 
 target_composition:
   # 4 Progressive Solver Datasets to Isolate Every Lexsi CuratorKIT Capability:

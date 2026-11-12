@@ -8,7 +8,6 @@ Supports `--backend hf_gpu` (Dedicated HF Endpoint for `CohereLabs/tiny-aya-glob
 from __future__ import annotations
 
 import json
-import re
 import time
 from pathlib import Path
 from typing import Callable
@@ -19,6 +18,8 @@ from adversarial_physics.data.schemas.problem import load_problems_jsonl
 from adversarial_physics.data.schemas.trajectory import (
     CandidateSolution,
     format_solver_prompt,
+    load_candidate_checkpoint_map,
+    normalize_solution_fences_and_answer,
     save_candidates_jsonl,
 )
 from adversarial_physics.utils.config import resolve_project_path
@@ -37,22 +38,7 @@ TINY_AYA_SOLVER_SYSTEM_PROMPT = (
 )
 
 
-def _load_checkpoint_map(ckpt_file: Path) -> dict[str, CandidateSolution]:
-    cached: dict[str, CandidateSolution] = {}
-    if not ckpt_file.is_file():
-        return cached
-    with ckpt_file.open("r", encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
-            if not line:
-                continue
-            try:
-                row = json.loads(line)
-                cand = CandidateSolution.from_dict(row)
-                cached[cand.problem_id] = cand
-            except Exception:
-                continue
-    return cached
+_load_checkpoint_map = load_candidate_checkpoint_map
 
 
 def harvest_tiny_aya_trajectories(
@@ -113,7 +99,7 @@ def harvest_tiny_aya_trajectories(
         avg_sec = live_sec / live_calls
         remaining = max(0, len(problems) - idx) * avg_sec
 
-        cleaned = re.sub(r"\*\*ANSWER\s*:\*\*\s*\n*\s*", "ANSWER: ", (raw_out or "").strip(), flags=re.IGNORECASE)
+        cleaned = normalize_solution_fences_and_answer(raw_out, strip_fences=False)
         cleaned = clean_book_solution_text(cleaned, ensure_answer_sentinel=True)
 
         val_res = validate_candidate_answer(cleaned, prob.reference_solution)

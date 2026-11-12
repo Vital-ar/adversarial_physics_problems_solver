@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
@@ -207,3 +208,29 @@ def load_candidates_jsonl(path: str | Path) -> list[CandidateSolution]:
             if line:
                 rows.append(CandidateSolution.from_dict(json.loads(line)))
     return rows
+
+
+def load_candidate_checkpoint_map(ckpt_file: Path) -> dict[str, CandidateSolution]:
+    """Load resumable JSONL checkpoint records keyed by ``problem_id``."""
+    cached: dict[str, CandidateSolution] = {}
+    if not ckpt_file.is_file():
+        return cached
+    with ckpt_file.open("r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                cand = CandidateSolution.from_dict(json.loads(line))
+                cached[cand.problem_id] = cand
+            except Exception:
+                continue
+    return cached
+
+
+def normalize_solution_fences_and_answer(raw_text: str, *, strip_fences: bool = True) -> str:
+    """Strip optional markdown code fences and normalize bold ``**ANSWER:**`` headers."""
+    text = (raw_text or "").strip()
+    if strip_fences:
+        text = re.sub(r"^```[a-zA-Z]*\n?|\n?```$", "", text).strip()
+    return re.sub(r"\*\*ANSWER\s*:\*\*\s*\n*\s*", "ANSWER: ", text, flags=re.IGNORECASE)

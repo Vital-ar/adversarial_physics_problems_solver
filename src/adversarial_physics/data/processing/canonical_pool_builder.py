@@ -44,6 +44,10 @@ from pathlib import Path
 from typing import Any, Callable
 
 from adversarial_physics.data.curation.curatorkit_stage1 import (
+    PART1_STRICT_CONFIG,
+    PART2_STRICT_CONFIG,
+    CuratorKitStrictConfig,
+    count_text_tokens,
     run_curatorkit_stage1_gates_and_recovery,
     write_curatorkit_provenance_bundle,
 )
@@ -57,40 +61,18 @@ from adversarial_physics.data.processing.deduplication import (
     run_anti_leakage_gate,
 )
 from adversarial_physics.data.schemas.problem import (
+    DEFAULT_DIAGRAM_PATTERNS,
     CanonicalProblem,
+    is_diagram_dependent,
     load_problems_jsonl,
     save_problems_jsonl,
 )
+from adversarial_physics.data.schemas.trajectory import normalize_solution_fences_and_answer
 from adversarial_physics.utils.config import resolve_project_path
 from adversarial_physics.utils.logging import get_logger
 from adversarial_physics.utils.runtime import AYA_EXPANSE_8B, BackendName, build_aya_chat_generator
 
 logger = get_logger("stage_1_3_canonical_pool_builder")
-
-DEFAULT_DIAGRAM_PATTERNS: tuple[str, ...] = (
-    r"\bfigure\s+(?:\d+|[a-z]{1,2}\b)",
-    r"\bfig\.\s*(?:\d+|[a-z]{1,2}\b)",
-    r"\bas\s+shown\s+in\s+(?:the\s+)?(?:figure|diagram|graph|picture|sketch|illustration|image|photo)",
-    r"\b(?:the\s+)?(?:figure|diagram|graph|photo|picture|illustration)\s+(?:shows|depicts|illustrates)\b",
-    r"\b(?:in|from|on|below|above)\s+the\s+(?:accompanying\s+|inset\s+)?(?:figure|diagram|graph|photo|table|chart)\b",
-    r"\brefer(?:ring)?\s+to\s+(?:the\s+)?(?:figure|diagram|graph|table|chart)",
-    r"\b(?:draw|sketch|redraw|trace)\s+(?:a\s+|the\s+|all\s+)?(?:graph|plot|plots|ray\s+diagram|diagram|shape|trajectory|diffraction\s+pattern|four\s+panels)",
-    r"\bshown\s+below\b",
-    r"\bsee\s+(?:the\s+)?(?:figure|diagram|graph)\b",
-)
-
-
-def is_diagram_dependent(
-    text: str,
-    *,
-    custom_patterns: list[str] | tuple[str, ...] | None = None,
-) -> bool:
-    """Return True if a problem statement or solution references a visual diagram/figure."""
-    patterns = custom_patterns if custom_patterns is not None else DEFAULT_DIAGRAM_PATTERNS
-    for pattern in patterns:
-        if re.search(pattern, text, flags=re.IGNORECASE):
-            return True
-    return False
 
 DEFAULT_TRAIN_SEEDS_PATH = "data/splits/train_seeds.jsonl"
 DEFAULT_VALIDATION_PATH = "data/splits/validation.jsonl"
@@ -736,7 +718,7 @@ def _strip_llm_meta_tags(solution_text: str, fallback_solution: str) -> str:
     )
     cleaned = cleaned.replace("]]", "").strip()
     # Normalize bold `**ANSWER:**` followed by newline/value into standard `ANSWER: <val>`
-    cleaned = re.sub(r"\*\*ANSWER\s*:\*\*\s*\n*\s*", "ANSWER: ", cleaned, flags=re.IGNORECASE)
+    cleaned = normalize_solution_fences_and_answer(cleaned, strip_fences=False)
     # Remove any trailing empty `ANSWER:` lines
     cleaned = re.sub(r"\n\s*ANSWER\s*:\s*$", "", cleaned, flags=re.IGNORECASE).strip()
 
@@ -995,6 +977,9 @@ def build_stage1_canonical_pool(
     use_llm_refinement: bool = False,
     llm_backend: BackendName = "auto",
     llm_model_name: str = AYA_EXPANSE_8B,
+    strict_part1: bool = False,
+    max_problem_tokens: int = 450,
+    max_solution_tokens: int = 1200,
 ) -> tuple[list[CanonicalProblem], CanonicalPoolSummary]:
     """Execute the complete Stage 1.3 & 1.4 pipeline.
 
@@ -1027,21 +1012,33 @@ def build_stage1_canonical_pool(
     rejection_reasons: Counter[str] = Counter()
     rejected_records: list[Stage1RejectedRecord] = []
 
-    # 1. Filter PhysGym training seeds (keep raw archive untouched, exclude >10 logical-step outliers)
+    # 1. Filter PhysGym training seeds (keep raw archive untouched; enforce tiktoken length + visual checks under strict_part1)
+    effective_min_steps = 0 if strict_part1 else min_logical_steps
+    effective_max_steps = 999 if strict_part1 else max_logical_steps
     t0 = time.perf_counter()
     accepted_seeds: list[CanonicalProblem] = []
     for seed_prob in train_seeds:
         steps = estimate_logical_steps(seed_prob.reference_solution)
-        if steps > max_logical_steps:
-            reason = f"physgym_seed_step_count_exceeds_{max_logical_steps} ({steps} steps)"
-            rejection_reasons[reason.split(" ")[0]] += 1
+        seed_reject_reason = ""
+        if strict_part1:
+            pt = count_text_tokens(seed_prob.problem_statement, use_tiktoken=True)
+            st = count_text_tokens(clean_book_solution_text(seed_prob.reference_solution, ensure_answer_sentinel=True), use_tiktoken=True)
+            if pt > max_problem_tokens:
+                seed_reject_reason = f"physgym_seed_problem_tokens_exceeds_{max_problem_tokens} ({pt} tokens)"
+            elif st > max_solution_tokens:
+                seed_reject_reason = f"physgym_seed_solution_tokens_exceeds_{max_solution_tokens} ({st} tokens)"
+        elif steps > effective_max_steps:
+            seed_reject_reason = f"physgym_seed_step_count_exceeds_{effective_max_steps} ({steps} steps)"
+
+        if seed_reject_reason:
+            rejection_reasons[seed_reject_reason.split(" ")[0]] += 1
             rejected_records.append(
                 Stage1RejectedRecord(
                     problem_id=seed_prob.problem_id,
                     domain=seed_prob.domain,
                     source=seed_prob.source,
                     original_id=seed_prob.original_id,
-                    reason=reason,
+                    reason=seed_reject_reason,
                     logical_steps=steps,
                     problem_statement_preview=seed_prob.problem_statement[:160],
                 )
@@ -1097,14 +1094,14 @@ def build_stage1_canonical_pool(
     save_problems_jsonl(leak_free_raw_pool, raw_pool_file)
     stage_timings["anti_leakage_and_raw_pool_sec"] = round(time.perf_counter() - t0, 3)
 
-    # 4. Evaluate strict acceptance gates (1-10 steps, no diagrams, no external refs, single target)
+    # 4. Evaluate strict acceptance gates (no diagrams, no external refs, single target; step limits bypassed if strict_part1)
     t0 = time.perf_counter()
     gate_passed_candidates: list[CanonicalProblem] = []
     for cand in leak_free_split_candidates:
         ok, reason, steps = evaluate_self_containment_and_acceptance(
             cand,
-            min_logical_steps=min_logical_steps,
-            max_logical_steps=max_logical_steps,
+            min_logical_steps=effective_min_steps,
+            max_logical_steps=effective_max_steps,
         )
         if ok:
             gate_passed_candidates.append(cand)
@@ -1181,9 +1178,19 @@ def build_stage1_canonical_pool(
             problem_id=prob.problem_id,
             domain=prob.domain,
             problem_statement=clean_book_problem_text(prob.problem_statement),
-            reference_solution=clean_book_solution_text(prob.reference_solution, ensure_answer_sentinel=True)[:4500],
+            reference_solution=clean_book_solution_text(prob.reference_solution, ensure_answer_sentinel=True)[:6000],
             source=prob.source,
             original_id=prob.original_id,
+        )
+
+    part1_cfg: CuratorKitStrictConfig | None = None
+    if strict_part1:
+        part1_cfg = CuratorKitStrictConfig(
+            name=PART1_STRICT_CONFIG.name,
+            max_problem_tokens=max_problem_tokens,
+            max_solution_tokens=max_solution_tokens,
+            anti_leakage_cosine_threshold=anti_leakage_cosine_threshold,
+            enable_llm_gates=False,
         )
 
     pre_llm_selected, _ = select_balanced_canonical_pool(
@@ -1194,9 +1201,10 @@ def build_stage1_canonical_pool(
     )
     deterministic_curated_pool, ck_rejected, ck_gate_report = run_curatorkit_stage1_gates_and_recovery(
         pre_llm_selected,
-        max_solution_chars=4500,
+        max_solution_chars=6000 if strict_part1 else 4500,
         require_answer_sentinel=True,
         enable_llm_gates=False,
+        strict_config=part1_cfg,
         repair_fn=_deterministic_repair,
     )
     det_curated_file = resolve_project_path(deterministic_curated_pool_path)
@@ -1221,11 +1229,38 @@ def build_stage1_canonical_pool(
         for rec in llm_rejected_records:
             rejection_reasons[rec.reason.split(":")[0]] += 1
             rejected_records.append(rec)
+        part2_cfg = (
+            CuratorKitStrictConfig(
+                name=PART2_STRICT_CONFIG.name,
+                max_problem_tokens=max_problem_tokens,
+                max_solution_tokens=max_solution_tokens,
+                anti_leakage_cosine_threshold=anti_leakage_cosine_threshold,
+                enable_llm_gates=True,
+                hallucination_threshold=PART2_STRICT_CONFIG.hallucination_threshold,
+                reward_threshold=PART2_STRICT_CONFIG.reward_threshold,
+                on_judge_error=PART2_STRICT_CONFIG.on_judge_error,
+            )
+            if strict_part1
+            else None
+        )
+        part2_chat_fn = (
+            build_aya_chat_generator(
+                task="canonical_normalization",
+                model_name=llm_model_name,
+                backend=llm_backend,
+                temperature=0.1,
+                max_new_tokens=768,
+            )
+            if part2_cfg is not None
+            else None
+        )
         canonical_train, ck_rejected, ck_gate_report = run_curatorkit_stage1_gates_and_recovery(
             canonical_train,
             max_solution_chars=4500,
             require_answer_sentinel=True,
-            enable_llm_gates=False,
+            enable_llm_gates=bool(part2_cfg is not None),
+            strict_config=part2_cfg,
+            chat_fn=part2_chat_fn,
             repair_fn=_deterministic_repair,
         )
     else:
@@ -1251,7 +1286,7 @@ def build_stage1_canonical_pool(
     counts_by_domain = dict(sorted(Counter(p.domain for p in canonical_train).items()))
     counts_by_source = dict(sorted(Counter(p.source for p in canonical_train).items()))
 
-    tracked_files = [
+    base_tracked_files = [
         resolve_project_path(train_seeds_path),
         resolve_project_path(validation_path),
         resolve_project_path(test_path),
@@ -1274,7 +1309,7 @@ def build_stage1_canonical_pool(
             "counts_by_source": counts_by_source,
             "stage_timings_sec": stage_timings,
         },
-        tracked_files=tracked_files,
+        tracked_files=base_tracked_files,
         generation_model=llm_model_name,
         runtime_backend=llm_backend,
         wall_clock_seconds=time.perf_counter() - t_pipeline_start,
@@ -1350,19 +1385,7 @@ def build_stage1_canonical_pool(
     manifest_file.write_text(json.dumps(manifest_payload, indent=2, ensure_ascii=False), encoding="utf-8")
 
     # Write SHA-256 checksums.txt
-    tracked_files = [
-        resolve_project_path(train_seeds_path),
-        resolve_project_path(validation_path),
-        resolve_project_path(test_path),
-        resolve_project_path(initial_book_dataset_path),
-        raw_pool_file,
-        manual_det_file,
-        det_curated_file,
-        cand_file,
-        rej_file,
-        pool_file,
-        manifest_file,
-    ]
+    tracked_files = [*base_tracked_files, manual_det_file, manifest_file]
     checksum_lines = []
     for tf in tracked_files:
         if tf.is_file():
