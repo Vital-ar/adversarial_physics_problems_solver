@@ -412,6 +412,7 @@ class AyaExpanseCuratorLLM(BaseLLM):
 
         # Optionally auto-create the endpoint if HF_AUTO_CREATE_ENDPOINT=1
         if os.getenv("HF_AUTO_CREATE_ENDPOINT", "").strip() in ("1", "true", "yes"):
+            is_32b = "32b" in lower_model
             ep_name = "aya-expanse-32b-gpu" if is_32b else "aya-expanse-8b-gpu"
             instance_size = "x4" if is_32b else "x1"
             logger.info(

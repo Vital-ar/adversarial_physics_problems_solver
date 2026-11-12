@@ -419,6 +419,7 @@ def generate_synthetic_e2_and_e3_pools(
     summary_out: str | Path = DEFAULT_SYNTHETIC_SUMMARY_PATH,
     model_name: str = AYA_EXPANSE_8B,
     backend: BackendName = "auto",
+    endpoint_url: str | None = None,
     max_generations: int | None = None,
     enable_part2_llm_judges: bool = True,
     chat_fn: Callable[[str, str], str] | None = None,
@@ -469,6 +470,7 @@ def generate_synthetic_e2_and_e3_pools(
             backend=backend,
             temperature=0.25,
             max_new_tokens=1024,
+            endpoint_url=endpoint_url,
         )
 
     anchor_by_id: dict[str, CanonicalProblem] = {p.problem_id: p for p in part1_clean_books}
@@ -600,6 +602,7 @@ def generate_synthetic_e2_and_e3_pools(
             backend=backend,
             temperature=0.0,
             max_new_tokens=512,
+            endpoint_url=endpoint_url,
         )
 
     part2_cfg = CuratorKitStrictConfig(

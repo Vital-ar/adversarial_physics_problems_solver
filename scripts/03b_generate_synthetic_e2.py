@@ -63,6 +63,12 @@ def main(argv: list[str] | None = None) -> int:
         choices=["auto", "kaggle_gpu", "hf_gpu", "local_cpu"],
         default="auto",
     )
+    parser.add_argument(
+        "--endpoint-url",
+        type=str,
+        default=None,
+        help="Optional explicit HF GPU Inference Endpoint URL for generator and Part-2 judges.",
+    )
     parser.add_argument("--max-generations", type=int, default=None)
     parser.add_argument(
         "--skip-part2-llm-judges",
@@ -96,6 +102,7 @@ def main(argv: list[str] | None = None) -> int:
         summary_out=args.summary_out,
         model_name=args.model,
         backend=args.backend,  # type: ignore[arg-type]
+        endpoint_url=args.endpoint_url,
         max_generations=args.max_generations,
         enable_part2_llm_judges=not args.skip_part2_llm_judges,
     )

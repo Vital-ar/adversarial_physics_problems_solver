@@ -1088,6 +1088,7 @@ def train_adapter(
 
     resolved_key = resolve_dataset_key(dataset_key, config)
     ds_info = config["datasets"][resolved_key]
+    is_verifier = ds_info.get("role") == "verifier"
     adapter_name = ds_info.get("adapter_name", f"{resolved_key}_lora")
 
     hw_cfg = config.get("hardware", {})
@@ -1128,6 +1129,12 @@ def train_adapter(
     cfg_train = getattr(sft_cfg, "train", None)
     cfg_model = getattr(sft_cfg, "model", None)
     cfg_peft = getattr(cfg_model, "peft", None)
+    cfg_dataset = getattr(sft_cfg, "dataset", None)
+    dataset_dir = str(
+        getattr(cfg_dataset, "dataset_name", None)
+        or ds_info.get("local_dir")
+        or f"data/sft/{resolved_key}"
+    )
 
     if output_dir_override:
         output_dir = Path(output_dir_override)
@@ -1213,15 +1220,16 @@ def train_adapter(
 
     # Optional post-training composite checkpoint selection (`eval_loss - k * val_accuracy`)
     ckpt_sel_cfg = config.get("checkpoint_selection", {})
+    tok_obj = getattr(trainer, "tokenizer", None) or getattr(trainer, "processing_class", None)
     if (not is_verifier) and ckpt_sel_cfg.get("enabled", True):
         configured_val = (config.get("validation_dataset", {}) or {}).get("local_path", "data/splits/validation.jsonl")
         dir_val = Path(dataset_dir) / "validation.jsonl"
         val_file_path = configured_val if Path(configured_val).is_file() else str(dir_val)
-        if Path(val_file_path).is_file() and getattr(trainer, "model", None) is not None and getattr(trainer, "tokenizer", None) is not None:
+        if Path(val_file_path).is_file() and getattr(trainer, "model", None) is not None and tok_obj is not None:
             sel_report = select_best_epoch_checkpoint(
                 output_dir=output_dir,
                 base_model=trainer.model,
-                tokenizer=trainer.tokenizer,
+                tokenizer=tok_obj,
                 validation_path=val_file_path,
                 alpha_loss=float(ckpt_sel_cfg.get("composite_alpha_loss", 1.0)),
                 k_accuracy=float(ckpt_sel_cfg.get("composite_k_accuracy", 1.5)),

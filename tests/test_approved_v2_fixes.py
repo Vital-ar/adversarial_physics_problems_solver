@@ -539,3 +539,92 @@ def test_batched_eval_raw_prompt_checkpoint_swap_and_auditkit_bridge(tmp_path: P
     assert len(fake_peft.loaded) == 2
     assert fake_peft.active_adapter == "default"
     assert sorted(fake_peft.deleted) == sorted(fake_peft.loaded)
+
+
+def test_train_adapter_no_undefined_vars_and_03b_endpoint_url_arg(tmp_path: Path) -> None:
+    import importlib.util
+    from types import SimpleNamespace
+    from adversarial_physics.training.run_aligntune import train_adapter
+
+    # Regression check for `is_verifier` and `dataset_dir` inside `train_adapter` (post-training checkpoint selection)
+    out_dir = tmp_path / "adapter_out"
+    val_dir = tmp_path / "ds_dir"
+    val_dir.mkdir(parents=True)
+    val_p = val_dir / "validation.jsonl"
+    val_p.write_text(
+        json.dumps(
+            {
+                "problem_id": "v1",
+                "domain": "MECHANICS",
+                "problem_statement": "A ball drops from 20 m. Find v.",
+                "reference_solution": "ANSWER: 19.8 m/s",
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    class _MockTrainer:
+        config = SimpleNamespace(
+            logging=SimpleNamespace(output_dir=str(out_dir)),
+            train=SimpleNamespace(
+                epochs=1,
+                per_device_batch_size=1,
+                gradient_accumulation_steps=1,
+                learning_rate=2e-4,
+                completion_only_loss=True,
+                early_stopping_patience=2,
+                early_stopping_threshold=0.005,
+            ),
+            model=SimpleNamespace(name_or_path="CohereLabs/tiny-aya-global", peft=SimpleNamespace(rank=16, alpha=32)),
+            dataset=SimpleNamespace(dataset_name=str(val_dir)),
+        )
+        model = object()
+        tokenizer = object()
+
+        def train(self):
+            return {"train_loss": 0.5}
+
+        def save_model(self, output_dir: str = "") -> str:
+            Path(output_dir).mkdir(parents=True, exist_ok=True)
+            return output_dir
+
+    cfg = {
+        "hardware": {"effective_batch_size": 1, "per_device_train_batch_size": 1, "gradient_accumulation_steps": 1},
+        "training_hyperparameters": {"logging_dir": str(tmp_path / "runs")},
+        "checkpoint_selection": {"enabled": True},
+        "validation_dataset": {"local_path": str(tmp_path / "missing_val.jsonl")},
+        "datasets": {"solver_e2_curatorkit_nollm": {"role": "solver", "local_dir": str(val_dir)}},
+    }
+    seen_val_paths: list[str] = []
+
+    def _fake_select(**kwargs):
+        seen_val_paths.append(str(kwargs["validation_path"]))
+        return {"winner": {"checkpoint_dir": str(out_dir / "checkpoint-1"), "composite_score": 0.1}}
+
+    with (
+        patch("adversarial_physics.training.run_aligntune.create_aligntune_sft_trainer", return_value=_MockTrainer()),
+        patch("adversarial_physics.training.run_aligntune.select_best_epoch_checkpoint", side_effect=_fake_select),
+    ):
+        res = train_adapter("solver_e2_curatorkit_nollm", cfg, output_dir_override=str(out_dir))
+    assert seen_val_paths == [str(val_p)]
+    assert res["checkpoint_selection"]["composite_score"] == 0.1
+
+    # Verify `scripts/03b_generate_synthetic_e2.py` passes `--endpoint-url` cleanly
+    spec = importlib.util.spec_from_file_location(
+        "script_03b_mod",
+        Path(__file__).resolve().parents[1] / "scripts" / "03b_generate_synthetic_e2.py",
+    )
+    assert spec is not None and spec.loader is not None
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    captured: dict[str, object] = {}
+
+    def _fake_gen(**kwargs):
+        captured.update(kwargs)
+        return [], [], SimpleNamespace(to_dict=lambda: {"ok": True})
+
+    with patch.object(mod, "generate_synthetic_e2_and_e3_pools", side_effect=_fake_gen):
+        rc = mod.main(["--backend", "hf_gpu", "--endpoint-url", "https://example.endpoints.huggingface.cloud"])
+    assert rc == 0
+    assert captured["endpoint_url"] == "https://example.endpoints.huggingface.cloud"
