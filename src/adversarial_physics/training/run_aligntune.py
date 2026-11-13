@@ -1050,8 +1050,9 @@ def select_best_epoch_checkpoint(
     final_dir = out_path / "final_adapter"
     if best_dir.is_dir():
         if final_dir.exists():
+            preserved_metadata = {"training_summary.json", "lexsi_provenance.json", "training_config.yaml"}
             for child in final_dir.iterdir():
-                if child.is_file() and child.name != "training_summary.json":
+                if child.is_file() and child.name not in preserved_metadata:
                     child.unlink()
         final_dir.mkdir(parents=True, exist_ok=True)
         for item in best_dir.iterdir():
@@ -1066,6 +1067,36 @@ def select_best_epoch_checkpoint(
     report_path = out_path / "checkpoint_selection_summary.json"
     report_path.write_text(json.dumps(selection_report, indent=2), encoding="utf-8")
     return selection_report
+
+
+def _push_final_adapter_to_hub(
+    upload_dir: Path,
+    target_repo: str,
+    adapter_name: str,
+    *,
+    tokenizer_obj: Any = None,
+    hf_token: Optional[str] = None,
+) -> None:
+    """Push the winning on-disk `final_adapter` directory cleanly to Hugging Face Hub."""
+    from huggingface_hub import HfApi
+
+    if tokenizer_obj is not None and not (upload_dir / "tokenizer_config.json").exists():
+        if hasattr(tokenizer_obj, "save_pretrained"):
+            try:
+                tokenizer_obj.save_pretrained(str(upload_dir))
+            except Exception as exc:
+                logger.warning(f"Could not save tokenizer to '{upload_dir}' before Hub upload: {exc}")
+
+    token = hf_token or os.environ.get("HF_TOKEN") or os.environ.get("HUGGINGFACE_TOKEN")
+    api = HfApi(token=token)
+    api.create_repo(repo_id=target_repo, repo_type="model", exist_ok=True)
+    logger.info(f"Uploading final adapter directory '{upload_dir}' to Hugging Face Hub: {target_repo}...")
+    api.upload_folder(
+        folder_path=str(upload_dir),
+        repo_id=target_repo,
+        repo_type="model",
+        commit_message=f"Upload {adapter_name} final_adapter",
+    )
 
 
 def train_adapter(
@@ -1221,6 +1252,7 @@ def train_adapter(
     # Optional post-training composite checkpoint selection (`eval_loss - k * val_accuracy`)
     ckpt_sel_cfg = config.get("checkpoint_selection", {})
     tok_obj = getattr(trainer, "tokenizer", None) or getattr(trainer, "processing_class", None)
+    upload_dir = final_save_dir if final_save_dir.is_dir() else target_final_dir
     if (not is_verifier) and ckpt_sel_cfg.get("enabled", True):
         configured_val = (config.get("validation_dataset", {}) or {}).get("local_path", "data/splits/validation.jsonl")
         dir_val = Path(dataset_dir) / "validation.jsonl"
@@ -1237,22 +1269,30 @@ def train_adapter(
                 max_new_tokens=int(ckpt_sel_cfg.get("eval_max_new_tokens", 1024)),
             )
             if sel_report is not None:
+                if target_final_dir.is_dir():
+                    upload_dir = target_final_dir
+                summary["final_adapter_dir"] = str(upload_dir)
                 summary["checkpoint_selection"] = sel_report["winner"]
-                with open(summary_path, "w", encoding="utf-8") as f:
+                with open(upload_dir / "training_summary.json", "w", encoding="utf-8") as f:
                     json.dump(summary, f, indent=2)
+                if upload_dir.resolve() != final_save_dir.resolve() and summary_path.parent.is_dir():
+                    with open(summary_path, "w", encoding="utf-8") as f:
+                        json.dump(summary, f, indent=2)
                 with open(output_dir / "training_summary.json", "w", encoding="utf-8") as f:
                     json.dump(summary, f, indent=2)
 
-    logger.info(f"AlignTune training completed! Final adapter & provenance saved to {final_save_dir}")
+    logger.info(f"AlignTune training completed! Final adapter & provenance saved to {upload_dir}")
 
     if push_to_hub:
         target_repo = ds_info.get("output_repo_id") or ds_info.get("hf_repo_id")
-        if target_repo and getattr(trainer, "model", None) is not None:
-            token = hf_token or os.environ.get("HF_TOKEN")
-            logger.info(f"Pushing trained LoRA adapter to Hugging Face Hub: {target_repo}...")
-            trainer.model.push_to_hub(target_repo, token=token)
-            if getattr(trainer, "tokenizer", None) is not None:
-                trainer.tokenizer.push_to_hub(target_repo, token=token)
+        if target_repo and upload_dir.is_dir():
+            _push_final_adapter_to_hub(
+                upload_dir=upload_dir,
+                target_repo=target_repo,
+                adapter_name=adapter_name,
+                tokenizer_obj=tok_obj,
+                hf_token=hf_token,
+            )
 
     return summary
 

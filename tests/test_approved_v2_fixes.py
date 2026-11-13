@@ -877,3 +877,169 @@ def test_dataset_exporter_enforces_answer_sentinel_and_handles_orphans(tmp_path:
     e3_card = (sft_root / "solver_e3_canonical_llm" / "README.md").read_text(encoding="utf-8")
     assert "`train.jsonl` | **1**" in e3_card
     assert '"problem_id": "p_ok"' in e3_card
+
+
+def test_push_to_hub_uploads_winning_final_adapter_and_metadata(tmp_path: Path) -> None:
+    from types import SimpleNamespace
+    from unittest.mock import patch
+    from adversarial_physics.training.run_aligntune import train_adapter
+
+    out_dir = tmp_path / "solver_out"
+    val_file = tmp_path / "validation.jsonl"
+    val_file.write_text(
+        json.dumps(
+            {
+                "problem_id": "v1",
+                "domain": "MECHANICS",
+                "problem_statement": "A 1 kg ball drops from 5 m. Find impact speed.",
+                "reference_solution": "ANSWER: 9.9 m/s",
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    # checkpoint-10 has lower eval_loss (0.8), checkpoint-20 has higher val_accuracy (0.75 vs 0.0 -> wins composite score)
+    for step, ckpt_tag in ((10, "ckpt_10"), (20, "ckpt_20")):
+        ckpt_dir = out_dir / f"checkpoint-{step}"
+        ckpt_dir.mkdir(parents=True)
+        (ckpt_dir / "adapter_config.json").write_text(json.dumps({"tag": ckpt_tag}), encoding="utf-8")
+    (out_dir / "trainer_state.json").write_text(
+        json.dumps(
+            {
+                "log_history": [
+                    {"step": 10, "eval_loss": 0.8},
+                    {"step": 20, "eval_loss": 1.0},
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    class _MockModel:
+        def __init__(self) -> None:
+            self.ram_push_called = False
+
+        def push_to_hub(self, *args: object, **kwargs: object) -> None:
+            self.ram_push_called = True
+            raise AssertionError("trainer.model.push_to_hub should not bypass final_adapter upload")
+
+    class _MockTok:
+        def save_pretrained(self, save_dir: str) -> None:
+            Path(save_dir, "tokenizer_config.json").write_text('{"tok": "ok"}', encoding="utf-8")
+
+    class _MockPeft:
+        def __init__(self, first_ckpt: str) -> None:
+            self.active = first_ckpt
+
+        def load_adapter(self, ckpt_dir: str, adapter_name: str = "") -> None:
+            self._loaded = ckpt_dir
+
+        def set_adapter(self, adapter_name: str) -> None:
+            self.active = getattr(self, "_loaded", adapter_name)
+
+        def unload(self) -> None:
+            pass
+
+    mock_model = _MockModel()
+
+    class _MockTrainer:
+        config = SimpleNamespace(
+            logging=SimpleNamespace(output_dir=str(out_dir)),
+            train=SimpleNamespace(
+                epochs=2,
+                per_device_batch_size=1,
+                gradient_accumulation_steps=1,
+                learning_rate=2e-4,
+                completion_only_loss=True,
+                early_stopping_patience=2,
+                early_stopping_threshold=0.005,
+            ),
+            model=SimpleNamespace(name_or_path="CohereLabs/tiny-aya-global", peft=SimpleNamespace(rank=16, alpha=32)),
+            dataset=SimpleNamespace(dataset_name=str(tmp_path)),
+        )
+        model = mock_model
+        tokenizer = None
+        processing_class = _MockTok()
+
+        def train(self):
+            return {"train_loss": 0.5}
+
+        def save_model(self, output_dir: str = "") -> str:
+            Path(output_dir).mkdir(parents=True, exist_ok=True)
+            # Simulate initial eval_loss-best weights + AlignTune provenance in final_adapter before ckpt selection
+            Path(output_dir, "adapter_config.json").write_text(json.dumps({"tag": "ckpt_10"}), encoding="utf-8")
+            Path(output_dir, "lexsi_provenance.json").write_text('{"schema": "lexsi.provenance/1"}', encoding="utf-8")
+            return output_dir
+
+    eval_calls = iter(
+        [
+            {"total": 38, "correct": 0, "accuracy": 0.0},
+            {"total": 38, "correct": 29, "accuracy": 0.7632},
+        ]
+    )
+    created_repos: list[tuple[str, str]] = []
+    uploaded_folders: list[dict[str, str]] = []
+
+    class _MockHfApi:
+        def __init__(self, token=None) -> None:
+            self.token = token
+
+        def create_repo(self, *, repo_id: str, repo_type: str = "model", exist_ok: bool = False) -> None:
+            created_repos.append((repo_id, repo_type))
+
+        def upload_folder(self, *, folder_path: str, repo_id: str, repo_type: str = "model", commit_message: str = "") -> None:
+            uploaded_folders.append(
+                {
+                    "folder_path": folder_path,
+                    "repo_id": repo_id,
+                    "repo_type": repo_type,
+                    "adapter_tag": json.loads(Path(folder_path, "adapter_config.json").read_text(encoding="utf-8"))["tag"],
+                    "has_tok": str(Path(folder_path, "tokenizer_config.json").is_file()),
+                    "has_prov": str(Path(folder_path, "lexsi_provenance.json").is_file()),
+                    "has_summary": str(Path(folder_path, "training_summary.json").is_file()),
+                }
+            )
+
+    cfg = {
+        "hardware": {"effective_batch_size": 1, "per_device_train_batch_size": 1, "gradient_accumulation_steps": 1},
+        "training_hyperparameters": {"logging_dir": str(tmp_path / "runs")},
+        "checkpoint_selection": {"enabled": True, "composite_alpha_loss": 1.0, "composite_k_accuracy": 1.5},
+        "validation_dataset": {"local_path": str(val_file)},
+        "datasets": {
+            "solver_e3_canonical_llm": {
+                "role": "solver",
+                "adapter_name": "solver_e3_canonical_llm_v2_lora",
+                "output_repo_id": "vital-ar/adversarial-physics-solver-e3-canonical-llm-v2-lora",
+                "local_dir": str(tmp_path),
+            }
+        },
+    }
+
+    with (
+        patch("adversarial_physics.training.run_aligntune.create_aligntune_sft_trainer", return_value=_MockTrainer()),
+        patch("peft.PeftModel.from_pretrained", side_effect=lambda base, ckpt, **kw: _MockPeft(ckpt)),
+        patch("adversarial_physics.training.run_aligntune.batched_evaluate_solver_split", side_effect=lambda *a, **kw: next(eval_calls)),
+        patch("huggingface_hub.HfApi", _MockHfApi),
+    ):
+        res = train_adapter(
+            "solver_e3_canonical_llm",
+            cfg,
+            output_dir_override=str(out_dir),
+            push_to_hub=True,
+            hf_token="hf_test_tok",
+        )
+
+    assert mock_model.ram_push_called is False
+    assert created_repos == [("vital-ar/adversarial-physics-solver-e3-canonical-llm-v2-lora", "model")]
+    assert len(uploaded_folders) == 1
+    up = uploaded_folders[0]
+    assert up["folder_path"] == str(out_dir / "final_adapter")
+    assert up["adapter_tag"] == "ckpt_20"
+    assert up["has_tok"] == "True"
+    assert up["has_prov"] == "True"
+    assert up["has_summary"] == "True"
+    assert res["checkpoint_selection"]["step"] == 20
+    # Final summary saved on disk must match the composite winner
+    disk_summary = json.loads((out_dir / "final_adapter" / "training_summary.json").read_text(encoding="utf-8"))
+    assert disk_summary["checkpoint_selection"]["step"] == 20
