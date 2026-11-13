@@ -44,7 +44,7 @@ Version 1 served as an indispensable **empirical stress test**. It established t
    - Implemented domain-balanced stratified splitting (21 Train Seeds, 38 Validation, 38 Test) across 6 domains: `MECHANICS`, `ELECTROMAGNETISM`, `THERMODYNAMICS`, `OPTICS`, `MODERN_PHYSICS`, and `RELATIVITY` (`configs/data/split_21_38_38.yaml`).
 2. **Textbook Corpus Mining:**
    - Ingested five open-source Benjamin Crowell physics textbooks (`lm.pdf`, `me.pdf`, `fac.pdf`, `mod.pdf`, `cp.pdf`) and the master solution manual (`solutions.pdf`).
-   - Parsed textbook chapters and matched them to target domains, extracting 1,076 candidate problem-solution pairs via manual deterministic rules (`data/intermediate/01a_manual_deterministic_only_pool.jsonl`).
+   - Parsed textbook chapters and matched them to target domains, extracting candidate problem-solution pairs via manual deterministic rules (`data/intermediate/01a_manual_deterministic_only_pool.jsonl`, `1,083` raw records / `951` after CuratorKIT `TextCleaner` + `SchemaGate` + `ExactDeduplicator` in v2).
 3. **Initial LoRA Training Run:**
    - Trained the baseline E1 adapter (`models/adapters/solver_e1_manual_det_lora/final_adapter`).
 4. **Tooling Integration:**
@@ -84,12 +84,12 @@ To eliminate these bottlenecks while strictly meeting the competition deadline, 
 |                                  VERSION 2 CORE PRINCIPLES                                        |
 +------------------------------------+--------------------------------------------------------------+
 | 1. Fast Deterministic Gates        | Replace runtime SymPy execution with CuratorKIT SchemaGate,  |
-|                                    | token bounds (<=450 prob, <=650 sol), & regex hygiene.       |
+|                                    | token bounds (<=450 prob, <=1200 sol), & regex hygiene.      |
 +------------------------------------+--------------------------------------------------------------+
 | 2. Decoupled Training & Eval       | Train via pure NLL loss early stopping (patience=2), then    |
 |                                    | select best checkpoint post-training with composite score.   |
 +------------------------------------+--------------------------------------------------------------+
-| 3. Domain-Grounded Subtopic Chunks | Extract 1,490 chapter-scoped chunks; ground generation with  |
+| 3. Domain-Grounded Subtopic Chunks | Extract 1,491 chapter-scoped chunks; ground generation with  |
 |                                    | exact textbook theory (under 1.5k prompt tokens).            |
 +------------------------------------+--------------------------------------------------------------+
 | 4. Chapter-Scoped Matching         | Strictly match problems to subtopics from the SAME book and  |
@@ -105,15 +105,15 @@ To eliminate these bottlenecks while strictly meeting the competition deadline, 
 ```mermaid
 flowchart TD
     subgraph DataPrep ["Data Grounding & CuratorKIT (Zero-LLM)"]
-        CB["Crowell Textbooks (5 Books)"] --> SE["Subtopic Extractor\n(1,490 Chunks)"]
-        CB --> CF["CuratorKIT Stage 1 Gates\n(Length Caps: <=450 / <=650)"]
+        CB["Crowell Textbooks (5 Books)"] --> SE["Subtopic Extractor\n(1,491 Chunks)"]
+        CB --> CF["CuratorKIT Stage 1 Gates\n(Length Caps: <=450 / <=1200)"]
         CF --> CP["Curated Pool: 466 Problems\n(452 Books + 14 Clean Seeds)"]
         SE & CP --> SM["SubtopicMapper\n(PostHocRetriever)"]
         SM --> E2Ready["01c_e2_ready_for_llm_generation.jsonl\n(452 Prompts, ~1.2k tokens each)"]
     end
 
     subgraph LLMSynth ["LLM Generation & Trajectory Curation (Aya-8B / Tiny-Aya)"]
-        E2Ready --> GenE2["03b: Synthetic Problems & Solutions\n(SymPy Validated)"]
+        E2Ready --> GenE2["03b: Synthetic Problems & Part-2 Curation\n(SymPy + RewardRefiner + PostRefinementGate)"]
         GenE2 --> E2Pool["01b_e2_books_plus_synthetic_v2.jsonl\n(Pool for E2 Training)"]
         GenE2 --> E3Pool["canonical_train_v2.jsonl\n(Pool for E3/E4 Training)"]
         
@@ -122,7 +122,7 @@ flowchart TD
         CKRunner --> CuratedTraj["02d_curated_solution2_v2.jsonl\n02d_surviving_flawed_v2.jsonl"]
         
         CuratedTraj --> GenDir["04d: Aya-8B Directives & Verification\n([[APPROVE]] / [[CHALLENGE]])"]
-        GenDir --> SFTExport["04d: Export SFT Splits via DatasetExporter\n(data/sft_v2/)"]
+        GenDir --> SFTExport["04d: Export SFT Splits + AnswerSentinelGate\n(data/sft_v2/ -> HF Hub -v2)"]
     end
 
     subgraph AlignTuneTrain ["AlignTune SFT Post-Training (paged_adamw_8bit)"]
@@ -150,9 +150,10 @@ flowchart TD
 | Tool / Component | Selected Parameters | Engineering & Scientific Rationale |
 | :--- | :--- | :--- |
 | **`TextCleaner`** | `fields=["instruction", "output"]` | Normalizes non-standard Unicode characters, unescapes malformed LaTeX syntax (`\frac`, exponents), and standardizes whitespace. |
-| **`SchemaGate`** | `min_tokens=20, max_tokens=1536` (SFT) / `8192` (General) | Filters empty, truncated, or runaway outputs. Token length bounds are 10x faster and far more robust than counting newline step markers. |
+| **`SchemaGate`** | `min_tokens=25, max_tokens=2048` (Stage 1) / `20`–`8192` (`DatasetExporter`) | Filters empty, truncated, or runaway outputs. Token length bounds are far faster and more robust than counting newline step markers. |
 | **`ExactDeduplicator`** | `fields=["instruction", "output"]` | Removes verbatim duplicate samples resulting from cross-edition textbook ingestion and prompt synthesis. |
 | **`MinHashDeduplicator`** | `threshold=0.85, num_perm=64` (Trajectories only) | Detects near-duplicate trajectories (e.g., slight rephrasings of the same error). **Intentionally omitted from global multi-turn SFT exports** to avoid collapsing 0-hint, 1-hint, and 2-hint prompt variants of the same problem. |
+| **`RewardRefiner` & Post-Gates** | `STAGE1_PHYSICS_REFINE_PROMPT`, `max_tokens=1536`, `PostRefinementGate`, `AnswerSentinelGate` | Re-validates refined Part-2 outputs (and exported Solver rows) for `ANSWER:` sentinels, closed `\left`/`\right` & `$$` delimiters, and zero `"source passage"` meta-leaks before acceptance. |
 | **`PostHocRetriever`** | `model="sentence-transformers/all-MiniLM-L6-v2"` | Provides lightweight dense embedding retrieval to score and link problem statements with the most relevant textbook theory chunk within the same chapter. |
 | **`ProvenanceManifest`** | `write_checksums=True` | Generates `manifest.json`, `lexsi_provenance.json`, and SHA-256 checksums, fulfilling Lexsi Track 1 requirements for verifiable data lineage. |
 | **Strict Diagram Gate** | `regex filters for figure, diagram, photo` | Discards problems dependent on visual diagrams or non-textual references (e.g., "as shown in the figure above"), guaranteeing self-contained textual solvability. |
@@ -194,7 +195,7 @@ To verify dataset integrity before execution, the table below documents one exac
 | `data/splits/train_seeds.jsonl` | 21 | Normalized PhysGym Train Seeds | `problem_id`, `domain`, `problem_statement`, `reference_solution` |
 | `data/splits/validation.jsonl` | 38 | Held-out PhysGym Validation Split | `problem_id`, `domain`, `problem_statement`, `reference_solution` |
 | `data/splits/test.jsonl` | 38 | Held-out PhysGym Test Split | `problem_id`, `domain`, `problem_statement`, `reference_solution` |
-| `data/literature/subtopic_chunks.jsonl` | 1,490 | Chunked Crowell Textbook Sections | `chunk_id`, `book_id`, `chapter`, `section_id`, `section_title`, `text` |
+| `data/literature/subtopic_chunks.jsonl` | 1,491 | Chunked Crowell Textbook Sections | `chunk_id`, `book_id`, `chapter`, `section_id`, `section_title`, `text` |
 | `data/intermediate/01b_deterministic_curated_pool.jsonl` | 466 | Length-filtered Clean Books + Seeds | `problem_id`, `domain`, `problem_statement`, `reference_solution`, `source` |
 | `data/intermediate/01c_e2_ready_for_llm_generation.jsonl` | 452 | Grounded LLM Generation Prompts | `anchor_problem_id`, `domain`, `matched_subtopic`, `matched_seed_id`, `user_prompt` |
 
@@ -225,33 +226,43 @@ All v2 operations are partitioned into clean, self-contained stages that operate
 ```bash
 # ---------------------------------------------------------
 # Phase A: Score Baselines (E0 Base Model & Legacy E1 Adapter)
+# Note: On Kaggle/fresh clones (`*.safetensors` is gitignored), pass the HF Hub adapter ID for E1.
 # ---------------------------------------------------------
-python scripts/06_eval_solver.py --experiment E0_base_tiny_aya_v2 --base-model CohereLabs/tiny-aya-global --output-dir results/eval_e0_v2
-python scripts/06_eval_solver.py --experiment E1_solver_manual_det_v2 --base-model CohereLabs/tiny-aya-global --adapter-dir models/adapters/solver_e1_manual_det_lora/final_adapter --output-dir results/eval_e1_v2
+python scripts/01_ingest_and_split.py --config configs/data/ingestion.yaml
+python scripts/06_eval_solver.py --experiment E0_base_tiny_aya_v2 --base-model CohereLabs/tiny-aya-global --chat-template --output-dir results/eval_e0_v2
+python scripts/06_eval_solver.py --experiment E1_solver_manual_det_v2 --base-model CohereLabs/tiny-aya-global --adapter-dir vital-ar/adversarial-physics-solver-e1-manual-det-lora --output-dir results/eval_e1_v2
 
 # ---------------------------------------------------------
 # Phase B: Synthetic Data & SFT Dataset Export (v2)
 # ---------------------------------------------------------
-python scripts/03b_generate_synthetic_e2.py --clean-books data/intermediate/01b_deterministic_curated_pool.jsonl --subtopics data/literature/subtopic_chunks.jsonl --checkpoint data/synthetic/03b_e2_synthetic_checkpoint_v2.jsonl --synthetic-out data/synthetic/03b_e2_synthetic_raw_v2.jsonl --e2-out data/intermediate/01b_e2_books_plus_synthetic_v2.jsonl --e3-out data/processed/canonical_train_v2.jsonl --summary-out data/synthetic/03b_e2_synthetic_summary_v2.json
+python scripts/03b_generate_synthetic_e2.py --backend hf_gpu --clean-books data/intermediate/01b_deterministic_curated_pool.jsonl --subtopics data/literature/subtopic_chunks.jsonl --checkpoint data/synthetic/03b_e2_synthetic_checkpoint_v2.jsonl --synthetic-out data/synthetic/03b_e2_synthetic_raw_v2.jsonl --e2-out data/intermediate/01b_e2_books_plus_synthetic_v2.jsonl --e3-out data/processed/canonical_train_v2.jsonl --summary-out data/synthetic/03b_e2_synthetic_summary_v2.json
 python scripts/04a_generate_aya8b_trajectories.py --step both --canonical-train data/processed/canonical_train_v2.jsonl --sol2-checkpoint data/synthetic/02a_aya8b_solution2_checkpoint_v2.jsonl --sol2-output data/synthetic/02a_aya8b_solution2_raw_v2.jsonl --flawed-checkpoint data/synthetic/02b_aya8b_flawed_checkpoint_v2.jsonl --flawed-output data/synthetic/02b_aya8b_flawed_raw_v2.jsonl
 python scripts/04b_harvest_tiny_aya_failures.py --canonical-train data/processed/canonical_train_v2.jsonl --checkpoint data/synthetic/02c_tiny_aya_failures_checkpoint_v2.jsonl --output data/synthetic/02c_tiny_aya_failures_raw_v2.jsonl
 python scripts/04c_curatorkit_dedup_trajectories.py --canonical-train data/processed/canonical_train_v2.jsonl --sol2-input data/synthetic/02a_aya8b_solution2_raw_v2.jsonl --flawed-8b-input data/synthetic/02b_aya8b_flawed_raw_v2.jsonl --tiny-aya-input data/synthetic/02c_tiny_aya_failures_raw_v2.jsonl --raw-synthetic-output data/synthetic/02_raw_synthetic_pool_v2.jsonl --curated-sol2-output data/synthetic/02d_curated_solution2_v2.jsonl --tiny-aya-correct-output data/synthetic/02d_tiny_aya_correct_curated_v2.jsonl --surviving-flawed-output data/synthetic/02d_surviving_flawed_v2.jsonl --rejected-output data/synthetic/02d_rejected_trajectories_v2.jsonl --summary-output data/synthetic/02d_curation_summary_v2.json
 python scripts/04d_generate_aya8b_directives_and_export.py --canonical-train data/processed/canonical_train_v2.jsonl --e2-pool data/intermediate/01b_e2_books_plus_synthetic_v2.jsonl --curated-sol2 data/synthetic/02d_curated_solution2_v2.jsonl --surviving-flawed data/synthetic/02d_surviving_flawed_v2.jsonl --directives-checkpoint data/synthetic/02e_aya8b_directives_checkpoint_v2.jsonl --directives-output data/synthetic/02e_aya8b_directives_curated_v2.jsonl --sft-output-root data/sft_v2
 
+# Publish data/sft_v2/* to Hugging Face Hub before Kaggle Phase C runs (`/data/` is gitignored)
+hf upload vital-ar/physics-solver-e1-manual-rules-v2     data/sft_v2/solver_e1_manual_det     . --repo-type dataset
+hf upload vital-ar/physics-solver-e2-curatorkit-nollm-v2 data/sft_v2/solver_e2_curatorkit_nollm . --repo-type dataset
+hf upload vital-ar/physics-solver-e3-canonical-llm-v2    data/sft_v2/solver_e3_canonical_llm    . --repo-type dataset
+hf upload vital-ar/physics-solver-e4-adversarial-v2      data/sft_v2/solver_e4_adversarial      . --repo-type dataset
+hf upload vital-ar/physics-verifier-e4-curated-v2        data/sft_v2/verifier_e4_curated        . --repo-type dataset
+
 # ---------------------------------------------------------
 # Phase C: Train AlignTune LoRA Models (E2, E3, E4a, E4b)
+# Run distinct `--dataset` recipes across concurrent Kaggle notebooks so `--push-to-hub` targets unique repos.
 # ---------------------------------------------------------
-python scripts/05_train_aligntune.py --dataset solver_e2_curatorkit_nollm --config configs/training/aligntune_training_v2.yaml --output-dir models/adapters/solver_e2_curatorkit_nollm_v2_lora
-python scripts/05_train_aligntune.py --dataset solver_e3_canonical_llm --config configs/training/aligntune_training_v2.yaml --output-dir models/adapters/solver_e3_canonical_llm_v2_lora
-python scripts/05_train_aligntune.py --dataset solver_e4_adversarial --config configs/training/aligntune_training_v2.yaml --output-dir models/adapters/solver_e4_adversarial_v2_lora
-python scripts/05_train_aligntune.py --dataset verifier_e4_curated --config configs/training/aligntune_training_v2.yaml --output-dir models/adapters/verifier_e4_curated_v2_lora
+python scripts/05_train_aligntune.py --dataset solver_e2_curatorkit_nollm --config configs/training/aligntune_training_v2.yaml --output-dir models/adapters/solver_e2_curatorkit_nollm_v2_lora --push-to-hub
+python scripts/05_train_aligntune.py --dataset solver_e3_canonical_llm --config configs/training/aligntune_training_v2.yaml --output-dir models/adapters/solver_e3_canonical_llm_v2_lora --push-to-hub
+python scripts/05_train_aligntune.py --dataset solver_e4_adversarial --config configs/training/aligntune_training_v2.yaml --output-dir models/adapters/solver_e4_adversarial_v2_lora --push-to-hub
+python scripts/05_train_aligntune.py --dataset verifier_e4_curated --config configs/training/aligntune_training_v2.yaml --output-dir models/adapters/verifier_e4_curated_v2_lora --push-to-hub
 
 # ---------------------------------------------------------
 # Phase D: Evaluate Adapters & Run Iterative Validation Loop
 # ---------------------------------------------------------
-python scripts/06_eval_solver.py --experiment E2_solver_curatorkit_nollm_v2 --base-model CohereLabs/tiny-aya-global --adapter-dir models/adapters/solver_e2_curatorkit_nollm_v2_lora/final_adapter --output-dir results/eval_e2_v2
-python scripts/06_eval_solver.py --experiment E3_solver_canonical_llm_v2 --base-model CohereLabs/tiny-aya-global --adapter-dir models/adapters/solver_e3_canonical_llm_v2_lora/final_adapter --output-dir results/eval_e3_v2
-python scripts/06_eval_solver.py --experiment E4a_solver_adversarial_v2 --base-model CohereLabs/tiny-aya-global --adapter-dir models/adapters/solver_e4_adversarial_v2_lora/final_adapter --output-dir results/eval_e4a_v2
-python scripts/validate_e4_loop.py --base-model CohereLabs/tiny-aya-global --solver-adapter models/adapters/solver_e4_adversarial_v2_lora/final_adapter --verifier-adapter models/adapters/verifier_e4_curated_v2_lora/final_adapter --validation-path data/splits/validation.jsonl --output-dir outputs/validation/e4_loop_val_v2
-python scripts/validate_e4_loop.py --base-model CohereLabs/tiny-aya-global --solver-adapter models/adapters/solver_e4_adversarial_v2_lora/final_adapter --verifier-adapter models/adapters/verifier_e4_curated_v2_lora/final_adapter --validation-path data/splits/test.jsonl --output-dir outputs/validation/e4_loop_test_v2
+python scripts/06_eval_solver.py --experiment E2_solver_curatorkit_nollm_v2 --base-model CohereLabs/tiny-aya-global --adapter-dir vital-ar/adversarial-physics-solver-e2-curatorkit-nollm-v2-lora --output-dir results/eval_e2_v2
+python scripts/06_eval_solver.py --experiment E3_solver_canonical_llm_v2 --base-model CohereLabs/tiny-aya-global --adapter-dir vital-ar/adversarial-physics-solver-e3-canonical-llm-v2-lora --output-dir results/eval_e3_v2
+python scripts/06_eval_solver.py --experiment E4a_solver_adversarial_v2 --base-model CohereLabs/tiny-aya-global --adapter-dir vital-ar/adversarial-physics-solver-e4-adversarial-v2-lora --output-dir results/eval_e4a_v2
+python scripts/validate_e4_loop.py --base-model CohereLabs/tiny-aya-global --solver-adapter vital-ar/adversarial-physics-solver-e4-adversarial-v2-lora --verifier-adapter vital-ar/adversarial-physics-verifier-e4-curated-v2-lora --validation-path data/splits/validation.jsonl --output-dir outputs/validation/e4_loop_val_v2
+python scripts/validate_e4_loop.py --base-model CohereLabs/tiny-aya-global --solver-adapter vital-ar/adversarial-physics-solver-e4-adversarial-v2-lora --verifier-adapter vital-ar/adversarial-physics-verifier-e4-curated-v2-lora --validation-path data/splits/test.jsonl --output-dir outputs/validation/e4_loop_test_v2
 ```

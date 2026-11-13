@@ -19,9 +19,11 @@ from adversarial_physics.data.curation.curatorkit_runner import (
 )
 from adversarial_physics.data.curation.curatorkit_stage1 import (
     PART2_STRICT_CONFIG,
+    STAGE1_PHYSICS_REFINE_PROMPT,
     problem_to_datasample,
     run_curatorkit_stage1_gates_and_recovery,
 )
+from adversarial_physics.data.curation.dataset_exporter import export_all_stage2_sft_datasets
 from adversarial_physics.data.curation.directive_leak_check import (
     sanitize_directive_text,
     validate_verifier_directive,
@@ -653,3 +655,225 @@ def test_sanitize_flawed_trajectory_strips_meta_giveaways_and_answer_notes() -> 
     assert sol2_norm.endswith("ANSWER: 1.5e-19 C (Verified)")
     sol2_num = _normalize_step_lines_and_answer("1. Solve.\nANSWER: 32 cm")
     assert sol2_num.endswith("ANSWER: 32 cm")
+
+
+def test_post_refinement_contract_gate_and_llm_max_token_override() -> None:
+    from curatorkit.llm.base import BaseLLM, LLMResponse
+
+    base_prob = CanonicalProblem(
+        problem_id="lit_mech_refine_01",
+        domain="MECHANICS",
+        problem_statement=(
+            "A block of mass $m = 3.0\\,\\text{kg}$ accelerates uniformly from rest under a constant "
+            "horizontal net force $F = 18.0\\,\\text{N}$ over $t = 2.5\\,\\text{s}$. Calculate its final speed $v$."
+        ),
+        reference_solution=(
+            "By Newton's second law $a = F / m = 18.0 / 3.0 = 6.0\\,\\text{m/s}^2$, so $v = a t = 15.0\\,\\text{m/s}$.\n"
+            "ANSWER: 15.0 m/s"
+        ),
+        source="literature_curated",
+        original_id="crowell:04:p01",
+    )
+
+    class _MockStage1LLM(BaseLLM):
+        def __init__(self, refine_text: str) -> None:
+            super().__init__(model="mock-aya-8b", temperature=0.0, max_tokens=512, max_retries=0)
+            self.refine_text = refine_text
+            self.calls: list[tuple[int, str]] = []
+
+        def _call(self, messages: list[dict[str, str]], **kwargs: object) -> LLMResponse:
+            max_toks = int(kwargs.get("max_tokens", self.max_tokens))
+            user_txt = "\n".join(m["content"] for m in messages)
+            self.calls.append((max_toks, user_txt))
+            if "Rewrite the solution to specifically improve" in user_txt:
+                return LLMResponse(text=self.refine_text, model=self.model)
+            if "grounding_score" in user_txt:
+                return LLMResponse(text='{"grounding_score": 0.95, "verdict": "grounded"}', model=self.model)
+            # Fail initial concise draft on RewardGate, pass refined draft on re-eval
+            if "18.0 / 3.0 = 6.0" in user_txt and "Step 2:" not in user_txt and "grounding" not in user_txt:
+                return LLMResponse(
+                    text='{"overall_score": 0.50, "dimension_scores": {"helpfulness": 0.5, "coherence": 0.5}, "weaknesses": "too brief"}',
+                    model=self.model,
+                )
+            return LLMResponse(
+                text='{"overall_score": 0.94, "dimension_scores": {"helpfulness": 0.94, "coherence": 0.94}, "weaknesses": ""}',
+                model=self.model,
+            )
+
+    # 1. Broken rewrite missing ANSWER: must be rejected by PostRefinementGate even if RewardGate scores 0.94
+    broken_llm = _MockStage1LLM(
+        "Step 1: Compute acceleration $a = F / m = 6.0\\,\\text{m/s}^2$. "
+        "Step 2: Multiply by time to get $v = 15.0\\,\\text{m/s}$ without an answer sentinel line."
+    )
+    passed_bad, rejected_bad, rep_bad = run_curatorkit_stage1_gates_and_recovery(
+        [base_prob],
+        strict_config=PART2_STRICT_CONFIG,
+        llm=broken_llm,
+    )
+    assert passed_bad == []
+    assert rep_bad.adaptive_recovery_attempted == 1
+    assert rep_bad.adaptive_recovery_succeeded == 0
+    assert any(r["gate"] == "PostRefinementGate" and "missing ANSWER:" in r["reason"] for r in rejected_bad)
+    # Verify refiner got max_tokens >= 1536 while sharing the same LLM instance
+    refine_calls = [(mt, txt) for mt, txt in broken_llm.calls if "Reference Context:" in txt]
+    assert len(refine_calls) == 1
+    assert refine_calls[0][0] == 1536
+    assert "Reference Context:" in refine_calls[0][1]
+    assert STAGE1_PHYSICS_REFINE_PROMPT.splitlines()[0].split("{axis}")[0] in refine_calls[0][1]
+
+    # 2. Truncated \left without \right or meta "source passage" cue must also be rejected
+    meta_llm = _MockStage1LLM(
+        "Step 1: Grounded in the source passage, acceleration is $a = \\left(\\frac{18}{3} = 6\\,\\text{m/s}^2$ "
+        "and speed is $15.0\\,\\text{m/s}$.\nANSWER: 15.0 m/s"
+    )
+    passed_meta, rejected_meta, _ = run_curatorkit_stage1_gates_and_recovery(
+        [base_prob],
+        strict_config=PART2_STRICT_CONFIG,
+        llm=meta_llm,
+    )
+    assert passed_meta == []
+    assert any(r["gate"] == "PostRefinementGate" for r in rejected_meta)
+
+    # 3. Clean refined solution with `**Answer:**` gets canonicalized to `ANSWER:` and accepted
+    good_llm = _MockStage1LLM(
+        "Step 1: Using Newton's second law, $a = F / m = 18.0\\,\\text{N} / 3.0\\,\\text{kg} = 6.0\\,\\text{m/s}^2$.\n"
+        "Step 2: Using constant-acceleration kinematics from rest, $v = a t = 6.0 \\times 2.5 = 15.0\\,\\text{m/s}$.\n"
+        "**Answer: 15.0 m/s**"
+    )
+    passed_good, rejected_good, rep_good = run_curatorkit_stage1_gates_and_recovery(
+        [base_prob],
+        strict_config=PART2_STRICT_CONFIG,
+        llm=good_llm,
+    )
+    assert len(passed_good) == 1
+    assert rejected_good == []
+    assert rep_good.adaptive_recovery_succeeded == 1
+    assert passed_good[0].reference_solution.endswith("\nANSWER: 15.0 m/s")
+
+
+def test_dataset_exporter_enforces_answer_sentinel_and_handles_orphans(tmp_path: Path) -> None:
+    from adversarial_physics.data.schemas.trajectory import save_candidates_jsonl
+
+    valid_p = CanonicalProblem(
+        problem_id="p_ok",
+        domain="MECHANICS",
+        problem_statement="A 2 kg block slides with constant force 10 N for 3 s starting from rest. Find final speed.",
+        reference_solution=(
+            "Using Newton's second law $a = F/m = 10/2 = 5\\,\\text{m/s}^2$, final speed $v = a t = 15\\,\\text{m/s}$.\n"
+            "ANSWER: 15 m/s"
+        ),
+        source="literature_curated",
+        original_id="c:1",
+    )
+    missing_ans_p = CanonicalProblem(
+        problem_id="p_no_ans",
+        domain="MECHANICS",
+        problem_statement="A 4 kg mass moves at 3 m/s on a horizontal smooth floor. Determine its kinetic energy.",
+        reference_solution=(
+            "Using the kinetic energy definition $K = \\frac{1}{2} m v^2 = 0.5 \\times 4 \\times 9 = 18\\,\\text{J}$ "
+            "without writing any answer marker line."
+        ),
+        source="literature_curated",
+        original_id="c:2",
+    )
+    val_p = CanonicalProblem(
+        problem_id="val_1",
+        domain="MECHANICS",
+        problem_statement="A 1 kg ball drops freely from 5 m height. Find impact speed.",
+        reference_solution="Using energy conservation $v = \\sqrt{2 g h} = 9.9\\,\\text{m/s}$.\nANSWER: 9.9 m/s",
+        source="physgym",
+        original_id="v:1",
+    )
+
+    e1_p = tmp_path / "e1.jsonl"
+    e2_p = tmp_path / "e2.jsonl"
+    e3_p = tmp_path / "e3.jsonl"
+    val_file = tmp_path / "val.jsonl"
+    test_file = tmp_path / "test.jsonl"
+    sol2_file = tmp_path / "sol2.jsonl"
+    surv_file = tmp_path / "surv.jsonl"
+    dir_file = tmp_path / "dirs.jsonl"
+
+    save_problems_jsonl([valid_p], e1_p)
+    save_problems_jsonl([valid_p], e2_p)
+    save_problems_jsonl([valid_p, missing_ans_p], e3_p)
+    save_problems_jsonl([val_p], val_file)
+    save_problems_jsonl([val_p], test_file)
+
+    # Orphan Sol2 pointing to an upstream-dropped ID `p_dropped` must NOT cause KeyError
+    save_candidates_jsonl(
+        [
+            CandidateSolution(
+                problem_id="p_dropped",
+                candidate_id="p_dropped_sol2",
+                solution_text="Alternative valid path giving exact velocity result cleanly step by step.\nANSWER: 12 m/s",
+                is_correct=True,
+                domain="MECHANICS",
+                error_type=None,
+                paired_directive=None,
+                source="aya_8b_alt",
+            )
+        ],
+        sol2_file,
+    )
+    save_candidates_jsonl([], surv_file)
+    dir_file.write_text("", encoding="utf-8")
+
+    summary = export_all_stage2_sft_datasets(
+        e1_pool_path=e1_p,
+        e2_pool_path=e2_p,
+        e3_pool_path=e3_p,
+        validation_path=val_file,
+        test_path=test_file,
+        curated_sol2_path=sol2_file,
+        surviving_flawed_path=surv_file,
+        directives_input_path=dir_file,
+        sft_output_root=tmp_path / "sft",
+    )
+    assert summary.solver_e3_canonical_llm_count == 1
+    assert summary.solver_e4_adversarial_total_count == 1
+    assert summary.solver_e4_turn0_minority_sol2_count == 0
+    e3_rows = [json.loads(line) for line in (tmp_path / "sft" / "solver_e3_canonical_llm" / "train.jsonl").open(encoding="utf-8")]
+    assert len(e3_rows) == 1
+    assert e3_rows[0]["problem_id"] == "p_ok"
+
+    import hashlib
+
+    sft_root = tmp_path / "sft"
+    expected_dirs = [
+        "solver_e1_manual_det",
+        "solver_e2_curatorkit_nollm",
+        "solver_e3_canonical_llm",
+        "solver_e4_adversarial",
+        "verifier_e4_curated",
+    ]
+    for ds_name in expected_dirs:
+        ds_dir = sft_root / ds_name
+        readme_path = ds_dir / "README.md"
+        assert readme_path.is_file(), f"Missing README.md for {ds_name}"
+        card = readme_path.read_text(encoding="utf-8")
+        assert card.startswith("---\nlicense: cc-by-sa-4.0\n")
+        assert "configs:\n  - config_name: default" in card
+        assert "path: train.jsonl" in card
+        if ds_name == "verifier_e4_curated":
+            assert "path: validation.jsonl" not in card
+        else:
+            assert "path: validation.jsonl" in card
+            assert "path: test.jsonl" in card
+
+        checksum_lines = [
+            ln.strip()
+            for ln in (ds_dir / "checksums.txt").read_text(encoding="utf-8").splitlines()
+            if ln.strip()
+        ]
+        tracked_names = set()
+        for ln in checksum_lines:
+            digest, fname = ln.split(None, 1)
+            tracked_names.add(fname)
+            actual = hashlib.sha256((ds_dir / fname).read_bytes()).hexdigest()
+            assert actual == digest, f"Checksum mismatch for {ds_name}/{fname}"
+        assert "README.md" in tracked_names
+
+    e3_card = (sft_root / "solver_e3_canonical_llm" / "README.md").read_text(encoding="utf-8")
+    assert "`train.jsonl` | **1**" in e3_card
+    assert '"problem_id": "p_ok"' in e3_card

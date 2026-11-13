@@ -109,6 +109,55 @@ class _CallableCuratorLLM(BaseLLM):
         return LLMResponse(text=str(text), model=self.model)
 
 
+class _LLMParameterOverrideAdapter(BaseLLM):
+    """Lightweight BaseLLM wrapper overriding default generation params while sharing `base_llm`."""
+
+    def __init__(
+        self,
+        base_llm: BaseLLM,
+        *,
+        temperature: float = 0.2,
+        max_tokens: int = 1536,
+    ) -> None:
+        super().__init__(
+            model=base_llm.model,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            api_key=base_llm.api_key,
+            timeout=base_llm.timeout,
+            max_retries=base_llm.max_retries,
+        )
+        self._base_llm = base_llm
+
+    def _call(self, messages: list[dict[str, str]], **kwargs: Any) -> LLMResponse:
+        return self._base_llm._call(messages, **kwargs)
+
+
+STAGE1_PHYSICS_REFINE_PROMPT = """The following university physics solution scored low on {axis}.
+
+Judge feedback: "{weakness}"
+
+Rewrite the solution to specifically improve {axis}, solving the problem cleanly in 1 to 10 logical steps.
+STRICT RULES:
+1. Keep all physical quantities and equations consistent with the Problem and Reference Context below.
+2. NEVER mention meta-phrases like "the source passage", "grounded in the source", or "the reference text".
+3. Ensure all equations, substitutions, parentheses, and LaTeX delimiters (`$$...$$`, `\\left...\\right`) are completely closed and not truncated.
+4. End the solution on its own final line with `ANSWER: <exact final symbolic or numeric expression>`.
+
+Problem:
+{instruction}
+
+Reference Context:
+---
+{source}
+---
+
+Original Solution:
+{answer}
+
+Improved Solution (ending with `ANSWER: <value>`):"""
+
+
 @dataclass(frozen=True)
 class CuratorKitGateReport:
     """Report returned after running CuratorKIT Stage 1 gates and Adaptive Recovery."""
@@ -201,6 +250,12 @@ _QUAL_ASK_RE = re.compile(
     flags=re.IGNORECASE,
 )
 _ANSWER_LINE_RE = re.compile(r"(?:^|\n)\s*(?:\*\*?)?ANSWER(?:\*\*?)?\s*:\s*", flags=re.IGNORECASE)
+_META_REWRITE_CUE_RE = re.compile(
+    r"\b(?:the\s+source\s+passage|grounded\s+in\s+the\s+source|the\s+reference\s+text)\b",
+    flags=re.IGNORECASE,
+)
+_LEFT_DELIM_RE = re.compile(r"\\left(?![a-zA-Z])")
+_RIGHT_DELIM_RE = re.compile(r"\\right(?![a-zA-Z])")
 
 _TIKTOKEN_ENC: Any | None = None
 
@@ -275,8 +330,51 @@ def check_strict_physics_hygiene(
 
     if stmt.count("$$") % 2 != 0 or sol.count("$$") % 2 != 0:
         return False, "unbalanced_display_latex_delimiters"
+    if len(_LEFT_DELIM_RE.findall(sol)) != len(_RIGHT_DELIM_RE.findall(sol)):
+        return False, "unbalanced_latex_left_right_delimiters"
+    if _META_REWRITE_CUE_RE.search(sol):
+        return False, "meta_source_passage_reference"
 
     return True, "ok"
+
+
+def _normalize_refined_answer_sentinel(text: str) -> str:
+    """Canonicalize markdown/case variants of the trailing `ANSWER:` sentinel line."""
+    cleaned = text.strip()
+    matches = list(_ANSWER_LINE_RE.finditer(cleaned))
+    if not matches:
+        return cleaned
+    last = matches[-1]
+    body = cleaned[: last.start()].rstrip()
+    tail = cleaned[last.end() :].strip()
+    if tail.endswith("**") and "**" not in tail[:-2]:
+        tail = tail[:-2].strip()
+    return f"{body}\nANSWER: {tail}" if body else f"ANSWER: {tail}"
+
+
+def _check_problem_contract(
+    prob: CanonicalProblem,
+    *,
+    max_solution_chars: int,
+    require_answer_sentinel: bool,
+    enable_strict_hygiene: bool,
+    strict_cfg: CuratorKitStrictConfig,
+    sympy_verify_fn: Callable[[CanonicalProblem], tuple[bool, str]] | None,
+) -> str:
+    """Validate deterministic physics/schema invariants on a `CanonicalProblem`. Return failure reason or empty string."""
+    if len(prob.reference_solution) > max_solution_chars:
+        return f"reference_solution exceeds {max_solution_chars} chars"
+    if require_answer_sentinel and "ANSWER:" not in prob.reference_solution:
+        return "missing ANSWER: sentinel line"
+    if enable_strict_hygiene:
+        ok_hyg, hyg_reason = check_strict_physics_hygiene(prob, strict_cfg)
+        if not ok_hyg:
+            return hyg_reason
+    if sympy_verify_fn is not None:
+        ok_sym, sym_reason = sympy_verify_fn(prob)
+        if not ok_sym:
+            return f"sympy_oracle_failed: {sym_reason}"
+    return ""
 
 
 def problem_to_datasample(
@@ -484,6 +582,8 @@ def run_curatorkit_stage1_gates_and_recovery(
     source_contexts: dict[str, str] | None = None,
     llm: BaseLLM | None = None,
     chat_fn: Callable[[str, str], str] | None = None,
+    refiner_llm: BaseLLM | None = None,
+    refiner_chat_fn: Callable[[str, str], str] | None = None,
     repair_fn: Callable[[CanonicalProblem, str], CanonicalProblem] | None = None,
 ) -> tuple[list[CanonicalProblem], list[dict[str, Any]], CuratorKitGateReport]:
     """Run CuratorKIT `SchemaGate`, `HallucinationGate`, `RewardGate`, `RewardRefiner`, and `DiversityGate`."""
@@ -503,6 +603,7 @@ def run_curatorkit_stage1_gates_and_recovery(
         on_judge_error = strict_config.on_judge_error
         enable_strict_hygiene = True
 
+    strict_cfg = strict_config or PART1_STRICT_CONFIG
     recovery_attempted = 0
     recovery_succeeded = 0
 
@@ -528,15 +629,15 @@ def run_curatorkit_stage1_gates_and_recovery(
                 failure_diag = ""
                 recovery_succeeded += 1
 
-        if not failure_diag and enable_strict_hygiene:
-            ok_hyg, hyg_reason = check_strict_physics_hygiene(prob, strict_config or PART1_STRICT_CONFIG)
-            if not ok_hyg:
-                failure_diag = hyg_reason
-
-        if not failure_diag and sympy_verify_fn is not None:
-            ok_sym, sym_reason = sympy_verify_fn(prob)
-            if not ok_sym:
-                failure_diag = f"sympy_oracle_failed: {sym_reason}"
+        if not failure_diag:
+            failure_diag = _check_problem_contract(
+                prob,
+                max_solution_chars=max_solution_chars,
+                require_answer_sentinel=require_answer_sentinel,
+                enable_strict_hygiene=enable_strict_hygiene,
+                strict_cfg=strict_cfg,
+                sympy_verify_fn=sympy_verify_fn,
+            )
 
         if failure_diag:
             schema_failed_pre += 1
@@ -596,6 +697,19 @@ def run_curatorkit_stage1_gates_and_recovery(
     if resolved_llm is None and chat_fn is not None:
         resolved_llm = _CallableCuratorLLM(chat_fn)
 
+    resolved_refiner_llm: BaseLLM | None = refiner_llm
+    if resolved_refiner_llm is None and refiner_chat_fn is not None:
+        resolved_refiner_llm = _CallableCuratorLLM(refiner_chat_fn, temperature=0.2, max_tokens=1536)
+    elif resolved_refiner_llm is None and resolved_llm is not None:
+        if not isinstance(resolved_llm, _CallableCuratorLLM) and getattr(resolved_llm, "max_tokens", 1536) < 1536:
+            resolved_refiner_llm = _LLMParameterOverrideAdapter(
+                resolved_llm,
+                temperature=0.2 if resolved_llm.temperature == 0.0 else resolved_llm.temperature,
+                max_tokens=1536,
+            )
+        else:
+            resolved_refiner_llm = resolved_llm
+
     if enable_llm_gates and resolved_llm is not None and active_samples:
         hallucination_gate = HallucinationGate(
             llm=resolved_llm,
@@ -630,13 +744,53 @@ def run_curatorkit_stage1_gates_and_recovery(
             if rew_rejected:
                 recovery_attempted += len(rew_rejected)
                 refiner = RewardRefiner(
-                    generator_llm=resolved_llm,
+                    generator_llm=resolved_refiner_llm or resolved_llm,
                     reward_gate=reward_gate,
                     concurrency=1,
+                    refine_prompt_template=STAGE1_PHYSICS_REFINE_PROMPT,
                 )
                 recovered_samples, still_rejected = refiner.refine(rew_rejected)
-                recovery_succeeded += len(recovered_samples)
-                rew_passed.extend(recovered_samples)
+
+                # Enforce deterministic physics & schema invariants after RewardRefiner rewrites
+                valid_recovered: list[DataSample] = []
+                for cand_sample in recovered_samples:
+                    norm_out = _normalize_refined_answer_sentinel(cand_sample.output)
+                    cand_sample.output = norm_out
+                    if cand_sample.chosen:
+                        cand_sample.chosen = norm_out
+
+                    cand_prob = datasample_to_problem(cand_sample)
+                    cand_diag = _check_problem_contract(
+                        cand_prob,
+                        max_solution_chars=max_solution_chars,
+                        require_answer_sentinel=require_answer_sentinel,
+                        enable_strict_hygiene=enable_strict_hygiene,
+                        strict_cfg=strict_cfg,
+                        sympy_verify_fn=sympy_verify_fn,
+                    )
+                    if not cand_diag:
+                        sg_passed, sg_failed = schema_gate.run([cand_sample])
+                        if sg_passed:
+                            valid_recovered.append(sg_passed[0])
+                            continue
+                        cand_diag = sg_failed[0].rejection_reason if sg_failed else "SchemaGate_failed"
+
+                    still_rejected.append(
+                        RejectedSample(
+                            id=cand_prob.problem_id,
+                            source_uri=cand_sample.source_uri,
+                            instruction=cand_sample.instruction,
+                            input=cand_sample.input,
+                            output=cand_sample.output,
+                            task_type=cand_sample.task_type,
+                            metadata=dict(cand_sample.metadata or {}),
+                            rejection_reason=f"post_refinement_contract_failed: {cand_diag}",
+                            rejecting_step="PostRefinementGate",
+                        )
+                    )
+
+                recovery_succeeded += len(valid_recovered)
+                rew_passed.extend(valid_recovered)
                 rew_rejected = still_rejected
 
             reward_passed_count = len(rew_passed)
@@ -645,7 +799,7 @@ def run_curatorkit_stage1_gates_and_recovery(
                 rejected_records.append(
                     {
                         **datasample_to_problem(rej).to_dict(),
-                        "gate": "RewardGate",
+                        "gate": rej.rejecting_step or "RewardGate",
                         "reason": rej.rejection_reason,
                     }
                 )
@@ -833,6 +987,7 @@ __all__ = [
     "AYA_EXPANSE_8B",
     "AyaExpanseCuratorLLM",
     "CuratorKitGateReport",
+    "STAGE1_PHYSICS_REFINE_PROMPT",
     "STAGE1_PHYSICS_RUBRIC_PROMPT",
     "apply_curatorkit_text_cleaner",
     "datasample_to_problem",

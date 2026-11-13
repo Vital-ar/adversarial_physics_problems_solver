@@ -3,7 +3,7 @@
 **Competition:** Lexsi AI Safety & Alignment Hackathon — Track 1, Problem Statement 8 (Data-Scarce Domains)  
 **Author:** [`vital-ar`](https://github.com/vital-ar) · **Hugging Face:** [`vital-ar`](https://huggingface.co/vital-ar)  
 **Base Model:** `CohereLabs/tiny-aya-global` (Shared Base with Dual LoRA Adapters)  
-**Teacher / Curation Models:** `CohereForAI/aya-expanse-8b` & `CohereForAI/aya-expanse-32b`  
+**Teacher / Curation Model:** `CohereForAI/aya-expanse-8b` (Unified Teacher; optional `CohereForAI/aya-expanse-32b` override)  
 **Core Stack:** `CuratorKIT` (Data Generation & Curation) · `AlignTune` (LoRA Post-Training) · `AuditKIT` (Evaluation & Benchmarking)
 
 ---
@@ -15,15 +15,12 @@ The **Adversarial Physics Solver-Verifier** is a two-agent collaborative reasoni
 * **Model A — Solver LoRA:** Generates a step-by-step physical derivation (`ANSWER: <value>`). When challenged, it re-solves the problem from a clean slate guided by compact, self-contained physical directives accumulated from the Verifier.
 * **Model B — Verifier LoRA:** Independently inspects the original problem and Model A's proposed derivation, outputting a concise self-contained directive or confirmation followed by a deterministic text sentinel (`[[APPROVE]]` or `[[CHALLENGE]]`).
 
-### Aya-Expanse 8B vs 32B Selection Policy (`src/adversarial_physics/utils/runtime.py`)
-* **`CohereForAI/aya-expanse-8b`** is used for **Stage 1.2 literature extraction, multi-part splitting, domain classification, rephrasing, and Stage 2.4 CuratorKIT quality gating**. Because problem statements and official solutions are already deterministically paired by chapter and problem number, the 8B model is fast, accurate, and fits on a single 16 GB Kaggle T4 GPU or local CPU.
-* **`CohereForAI/aya-expanse-32b`** is used for **Stage 2 adversarial flaw synthesis and self-contained physical directive generation**, where injecting subtle physical/algebraic errors without leaking the answer benefits from 32B reasoning (with automatic fallback to `CohereForAI/aya-expanse-8b` on `local_cpu` or single-GPU `<15 GB` VRAM).
-
-### Multi-Backend Execution (`kaggle_gpu` · `hf_zerogpu` · `local_cpu`)
-Every inference, synthesis, curation, and training pipeline supports `--backend auto|kaggle_gpu|hf_zerogpu|local_cpu`:
-* **`kaggle_gpu`**: CUDA execution with `bfloat16`/`float16` and 4-bit NF4 `bitsandbytes` quantization.
-* **`hf_zerogpu`**: Hugging Face Spaces ZeroGPU (`@spaces.GPU` decorator).
-* **`local_cpu`**: Local CPU execution (`torch.float32`, `low_cpu_mem_usage=True`).
+### Teacher Model & Multi-Backend Execution (`src/adversarial_physics/utils/runtime.py`)
+* **Unified Teacher (`CohereForAI/aya-expanse-8b`):** `TASK_MODEL_RECOMMENDATIONS` configures `CohereForAI/aya-expanse-8b` across extraction, curation/refinement, adversarial flaw synthesis, and directive generation (with `CohereForAI/aya-expanse-32b` supported as an explicit high-VRAM override).
+* **Backends (`--backend auto|kaggle_gpu|hf_gpu|local_cpu`, with `hf_zerogpu` accepted as an alias for `hf_gpu`):**
+  * **`kaggle_gpu`**: Local CUDA execution (`bfloat16`/`float16`, plus 4-bit NF4 `bitsandbytes` quantization when VRAM `< 24 GB`).
+  * **`hf_gpu`**: Remote execution via `huggingface_hub.InferenceClient` (Inference Providers or `HF_ENDPOINT_URL` on `l4x1`/`t4-small`), or local CUDA inside an HF Space/Job.
+  * **`local_cpu`**: Local CPU fallback (`torch.float32`, `low_cpu_mem_usage=True`).
 
 ---
 
@@ -86,30 +83,53 @@ Stage 1.2 ingests Benjamin Crowell's open-source physics textbooks (`lightandmat
    python scripts/02_extract_literature.py --build-initial-dataset
    ```
 
-4. **Build the 250-Problem Canonical Training Pool (`data/processed/canonical_train_250.jsonl`) — Stage 1.3 & 1.4:**
+4. **Extract Chapter Subtopic Chunks (`data/literature/subtopic_chunks.jsonl` — `1,491` chunks):**
    ```powershell
-   # Fast deterministic filtering + 0.85 anti-leakage gate + domain-balanced selection (< 5 seconds):
-   python scripts/03_build_canonical_pool.py
-
-   # Optional resumable CohereForAI/aya-expanse-8b normalization pass (with per-problem checkpointing):
-   python scripts/03_build_canonical_pool.py --use-llm --backend local_cpu
+   python scripts/02b_extract_subtopics.py
    ```
 
-5. **Segment & Link Problems to Official Solutions (No LLM Calls):**
+5. **Build Deterministic Stage 1 Pools (`01a_manual_deterministic_only_pool.jsonl` & `01b_deterministic_curated_pool.jsonl`):**
+   ```powershell
+   python scripts/03_build_canonical_pool.py
+   ```
+
+6. **Segment & Link Problems / Full Extraction (`configs/data/book_ingestion.yaml`):**
    ```powershell
    python scripts/02_extract_literature.py --link-only
-   ```
-
-6. **Run Extraction with `CohereForAI/aya-expanse-8b` (`kaggle_gpu`, `hf_zerogpu`, or `local_cpu`):**
-   ```powershell
    python scripts/02_extract_literature.py --config configs/data/book_ingestion.yaml --backend auto
    ```
 
 ---
 
-## 5. Inspecting Datasets & Preparing Experiment Manifests
+## 5. Stage 2–4: v2 Synthetic Curation, AlignTune Training & AuditKIT Evaluation
 
-```powershell
-python scripts/inspect_dataset.py --config configs/data/ingestion.yaml --show-rows 2
-python scripts/prepare_experiment.py --config configs/training/aligntune_solver_curated.yaml
-```
+1. **Generate Grounded Synthetic E2/E3 Pools & Adversarial Solver/Verifier Trajectories (`03b` → `04d`):**
+   Run the full `*_v2*` Phase B commands documented in [`docs/PROJECT_BLUEPRINT.md`](docs/PROJECT_BLUEPRINT.md#6-execution-roadmap--verification-commands), then upload `data/sft_v2/*` to the Hugging Face Hub `-v2` dataset repos configured in `configs/training/aligntune_training_v2.yaml` (since `/data/` is gitignored):
+   ```powershell
+   hf upload vital-ar/physics-solver-e1-manual-rules-v2     data/sft_v2/solver_e1_manual_det     . --repo-type dataset
+   hf upload vital-ar/physics-solver-e2-curatorkit-nollm-v2 data/sft_v2/solver_e2_curatorkit_nollm . --repo-type dataset
+   hf upload vital-ar/physics-solver-e3-canonical-llm-v2    data/sft_v2/solver_e3_canonical_llm    . --repo-type dataset
+   hf upload vital-ar/physics-solver-e4-adversarial-v2      data/sft_v2/solver_e4_adversarial      . --repo-type dataset
+   hf upload vital-ar/physics-verifier-e4-curated-v2        data/sft_v2/verifier_e4_curated        . --repo-type dataset
+   ```
+
+2. **Train LoRA Adapters (`05_train_aligntune.py`, pull datasets automatically from HF Hub on Kaggle):**
+   ```powershell
+   python scripts/05_train_aligntune.py --dataset solver_e2_curatorkit_nollm --config configs/training/aligntune_training_v2.yaml --output-dir models/adapters/solver_e2_curatorkit_nollm_v2_lora --push-to-hub
+   python scripts/05_train_aligntune.py --dataset solver_e3_canonical_llm --config configs/training/aligntune_training_v2.yaml --output-dir models/adapters/solver_e3_canonical_llm_v2_lora --push-to-hub
+   python scripts/05_train_aligntune.py --dataset solver_e4_adversarial --config configs/training/aligntune_training_v2.yaml --output-dir models/adapters/solver_e4_adversarial_v2_lora --push-to-hub
+   python scripts/05_train_aligntune.py --dataset verifier_e4_curated --config configs/training/aligntune_training_v2.yaml --output-dir models/adapters/verifier_e4_curated_v2_lora --push-to-hub
+   ```
+
+3. **Evaluate & Validate Iterative Solver–Verifier Loop (`06_eval_solver.py` & `validate_e4_loop.py`):**
+   ```powershell
+   python scripts/06_eval_solver.py --experiment E0_base_tiny_aya_v2 --base-model CohereLabs/tiny-aya-global --chat-template --output-dir results/eval_e0_v2
+   python scripts/06_eval_solver.py --experiment E4a_solver_adversarial_v2 --base-model CohereLabs/tiny-aya-global --adapter-dir vital-ar/adversarial-physics-solver-e4-adversarial-v2-lora --output-dir results/eval_e4a_v2
+   python scripts/validate_e4_loop.py --base-model CohereLabs/tiny-aya-global --solver-adapter vital-ar/adversarial-physics-solver-e4-adversarial-v2-lora --verifier-adapter vital-ar/adversarial-physics-verifier-e4-curated-v2-lora --validation-path data/splits/test.jsonl --output-dir outputs/validation/e4_loop_test_v2
+   ```
+
+4. **Inspect Datasets & Manifests:**
+   ```powershell
+   python scripts/inspect_dataset.py --config configs/data/ingestion.yaml --show-rows 2
+   python scripts/prepare_experiment.py --config configs/training/aligntune_training_v2.yaml
+   ```

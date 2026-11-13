@@ -47,7 +47,12 @@ from adversarial_physics.data.schemas.problem import (
 )
 from adversarial_physics.utils.config import resolve_project_path
 from adversarial_physics.utils.logging import get_logger
-from adversarial_physics.utils.runtime import AYA_EXPANSE_8B, BackendName, build_aya_chat_generator
+from adversarial_physics.utils.runtime import (
+    AYA_EXPANSE_8B,
+    AyaExpanseCuratorLLM,
+    BackendName,
+    build_aya_chat_generator,
+)
 
 logger = get_logger("synthetic_problem_generator")
 
@@ -469,7 +474,7 @@ def generate_synthetic_e2_and_e3_pools(
             model_name=model_name,
             backend=backend,
             temperature=0.25,
-            max_new_tokens=1024,
+            max_new_tokens=1536,
             endpoint_url=endpoint_url,
         )
 
@@ -594,20 +599,23 @@ def generate_synthetic_e2_and_e3_pools(
         )
         return verify_sympy_consistency(parsed_obj, anchor_by_id.get(prob.problem_id))
 
+    resolved_judge_llm: AyaExpanseCuratorLLM | None = None
     resolved_judge_fn = judge_chat_fn
     if enable_part2_llm_judges and resolved_judge_fn is None:
-        resolved_judge_fn = build_aya_chat_generator(
+        resolved_judge_llm = AyaExpanseCuratorLLM(
             task="curatorkit_judge",
             model_name=model_name,
             backend=backend,
             temperature=0.0,
-            max_new_tokens=512,
+            max_tokens=512,
             endpoint_url=endpoint_url,
         )
 
     part2_cfg = CuratorKitStrictConfig(
         name=PART2_STRICT_CONFIG.name,
-        enable_llm_gates=bool(enable_part2_llm_judges and resolved_judge_fn is not None),
+        enable_llm_gates=bool(
+            enable_part2_llm_judges and (resolved_judge_llm is not None or resolved_judge_fn is not None)
+        ),
         hallucination_threshold=PART2_STRICT_CONFIG.hallucination_threshold,
         reward_threshold=PART2_STRICT_CONFIG.reward_threshold,
         on_judge_error=PART2_STRICT_CONFIG.on_judge_error,
@@ -618,6 +626,7 @@ def generate_synthetic_e2_and_e3_pools(
         strict_config=part2_cfg,
         sympy_verify_fn=_sympy_gate_fn,
         source_contexts=source_contexts,
+        llm=resolved_judge_llm,
         chat_fn=resolved_judge_fn,
     )
     save_problems_jsonl(e3_pool, resolve_project_path(e3_pool_out))

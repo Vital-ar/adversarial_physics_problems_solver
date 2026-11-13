@@ -1,0 +1,441 @@
+{
+  "total": 38,
+  "correct": 0,
+  "accuracy": 0.0,
+  "sentinel_rate": 0.5526,
+  "domain_breakdown": {
+    "ELECTROMAGNETISM": {
+      "total": 12,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "MECHANICS": {
+      "total": 15,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "MODERN_PHYSICS": {
+      "total": 3,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "OPTICS": {
+      "total": 3,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "RELATIVITY": {
+      "total": 1,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "THERMODYNAMICS": {
+      "total": 4,
+      "correct": 0,
+      "accuracy": 0.0
+    }
+  },
+  "per_sample": [
+    {
+      "problem_id": "physgym_0033",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\begin{array}{r}{(\\sigma T_{2}^{4}-\\sigma T_{1}^{4})\\frac{r(R-b)}{R^{2}+b^{2}-2R b \\cos \\theta}}\\end{array}",
+      "prediction": "The power density is proportional to the\nsquare of the temperature difference between the\nheat source and the cylinder, so\n$$p(\\theta) = \\frac{\\sigma}{4\\pi b^2} \\left[\n\\left(\\frac{T_{2}-T_{1}}{T_{2}-T_{1}}\\right)^{2}\n\\left(\\frac{T_{2}-T_{1}}{T_{2}-T_{1}}\\right)^{2} - 1\\right] \\cdot\n\\frac{1}{r^{2}} \\cdot \\frac{1}{R^{2}} \\cdot\n\\frac{1}{b^{2}} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot \\frac{1}{2\\pi} \\cdot\n\\frac{1}{2\\pi} \\cdot \\frac{1"
+    },
+    {
+      "problem_id": "physgym_0045",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{\\partial \\xi}{\\partial x} \\sqrt{\\frac{p}{\\mu} + \\frac{3}{2}\\rho T\\left( \\frac{\\partial \\xi}{\\partial x} \\right)^{2} + \\frac{3}{2}\\frac{p}{\\mu}\\left( \\frac{\\partial \\xi}{\\partial x} \\right)^{2}}",
+      "reference_answer": "v = \\sqrt{\\left. \\left(\\frac{\\partial p}{\\partial\\rho} \\right. \\right)_{s}} = \\sqrt{\\frac{\\gamma\\mu}{\\mu\\rho - b\\rho^{2}}\\left( p + \\frac{a}{\\mu^{2}}\\rho^{2} \\right) - \\frac{2a\\rho}{\\mu^{2}}}(12)",
+      "prediction": "The internal energy of one mole of the gas is\n\n$$U = \\frac{p}{\\mu} + \\frac{3}{2}RT\\left( \\frac{\\partial \\xi}{\\partial x} \\right)^{2} + \\frac{3}{2}\\rho T\\left( \\frac{\\partial \\xi}{\\partial x} \\right)^{2} + \\frac{3}{2}\\frac{p}{\\mu}\\left( \\frac{\\partial \\xi}{\\partial x} \\right)^{2}$$\n\nThe adiabatic equation is\n\n$$\\frac{\\partial U}{\\partial T} = 0$$\n\nwhich gives\n\n$$c_{v} = \\frac{3}{2}\\rho T\\left( \\frac{\\partial \\xi}{\\partial x} \\right)^{2} + \\frac{3}{2}\\frac{p}{\\mu}\\left( \\frac{\\partial \\xi}{\\partial x} \\right)^{2}$$\n\nThe wave speed is\n\n$$v = \\frac{\\partial \\xi}{\\partial x} \\sqrt{\\frac{p}{\\mu} + \\frac{3}{2}\\rho T\\left( \\frac{\\partial \\xi}{\\partial x} \\right)^{2} + \\frac{3}{2}\\frac{p}{\\mu}\\left( \\frac{\\partial \\xi}{\\partial x} \\right)^{2}}$$\n\nANSWER: \\frac{\\partial \\xi}{\\partial x} \\sqrt{\\frac{p}{\\mu} + \\frac{3}{2}\\rho T\\left( \\frac{\\partial \\xi}{\\partial x} \\right)^{2} + \\frac{3}{2}\\frac{p}{\\mu}\\left( \\frac{\\partial \\xi}{\\partial x} \\right)^{2}}"
+    },
+    {
+      "problem_id": "physgym_0054",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{7}{18}T",
+      "reference_answer": "T_2=2mg+4m\\frac{v_0^2}{l}",
+      "prediction": "Let’s choose a coordinate system in which the top ball is at the origin, and the other two balls are at positions $−l/2$ and $l/2$. The top ball has a mass of $3m$, and the other two have a mass of $m$. The total mass of the system is $7m$, and the total length of the system is $3l$. The total mass is distributed evenly, so the mass of each ball is $m/7$. The total force on the top ball is zero, so the total tension in the system is zero. The tension in the middle string is $T/2$, where $T$ is the tension in the middle string. The tension in the top string is $T$, and the tension in the bottom string is $T/2$. The total tension in the system is $T +T/2 +T/2 =3T$, so $T = \\frac{7}{9}T$. The tension in the middle string is $\\frac{7}{9}T$, or $\\frac{7}{9}T/2 = \\frac{7}{18}T$.\nANSWER: \\frac{7}{18}T"
+    },
+    {
+      "problem_id": "physgym_0058",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "R={\\frac{V_{1}-V_{2}}{I}}={\\frac{(2R_{1}-R_{2})R_{2}}{2R_{1}}}=(2-{\\frac{R_{2}}{R_{1}}})R_{2}",
+      "prediction": "The equivalent resistance between the other two vertices is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2}}}$. The result is ${{R}_{2} + R_{1} - \\frac{1}{R_{1}} - \\frac{1}{R_{2"
+    },
+    {
+      "problem_id": "physgym_0071",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "v_{E}={\\frac{E\\times B}{B^{2}}}(1-{\\frac{1}{4}}{(k \\frac{m v_{\\perp}}{\\vert{q}\\vert B})}^2)",
+      "prediction": "The guiding center velocity is the velocity of the center of the charge distribution. The charge distribution is a sinusoidal function of $y$, so the guiding center velocity is the velocity of the center of the charge distribution, which is the average of the particle's velocity and the velocity of the charge distribution. The average velocity of the charge distribution is zero, so the guiding center velocity is zero. The particle's velocity is zero, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position. The particle's position is $(x_{0},y_{0},z_{0})$, so the particle's position is the same as the charge distribution's position"
+    },
+    {
+      "problem_id": "physgym_0083",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{1}{2}mB_{0}\\alpha",
+      "reference_answer": "M=-{\\frac{27}{31}}m B_{0}\\sin\\alpha",
+      "prediction": "The magnetic field intensity is $H=\\frac{B}{\\mu}$, so the magnetic field is $B=\\mu H=\\frac{B}{\\mu^{2}}$. The magnetic moment is $m=\\mu B$, so the torque is $\\tau=\\frac{1}{2}mB_{0}\\alpha$.\nANSWER: \\frac{1}{2}mB_{0}\\alpha"
+    },
+    {
+      "problem_id": "physgym_0089",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{\\omega^{2}r_{0}^{3}}{4\\pi\\varepsilon_{0}T_{0}}\\sin\\alpha",
+      "reference_answer": "\\Omega^2 = 3\\omega^2 - \\frac{N e q_{0}}{2\\pi m H\\varepsilon_{0}r_{0}^2}\\left[\\frac{(2k m_{N}r_{0}^2 - 1)e^{m_{N}kr_{0}^2} + 1}{e^{m_{N}k R^2} - 1} - \\frac{(2k m_{\\text{e}}r_{0}^2 - 1)e^{m_{\\text{e}}kr_{0}^2} + 1}{e^{m_{\\text{e}}k R^2} - 1}\\right] + \\frac{k N V\\omega^2}{\\pi m H}\\left[\\frac{(2k m_{N}r_{0}^2 + 1)e^{m_{N}kr_{0}^2}}{e^{m_{N}k R^2} - 1}m_{N}^2 + \\frac{(2k m_{e}r_{0}^2 + 1)e^{m_{e}kr_{0}^2}}{e^{m_{e}k R^2} - 1}m_{e}^2\\right]",
+      "prediction": "The angular momentum of the UAV is conserved, i.e., $\\overrightarrow{L}=m\\overrightarrow{v}\\times\\overrightarrow{r}=m\\overrightarrow{v}_{0}\\times\\overrightarrow{r}_{0}=m\\overrightarrow{v}_{0}r_{0}^{2}\\sin\\alpha$. The angular momentum of the typhoon is $L_{\\text{typhoon}}=m_{\\text{typhoon}}\\overrightarrow{\\omega}\\times\\overrightarrow{r}_{\\text{typhoon}}$, where $\\overrightarrow{r}_{\\text{typhoon}}$ is the position vector of the center of the typhoon. The angular momentum of the typhoon is $L_{\\text{typhoon}}=m_{\\text{typhoon}}\\omega^{2}r_{\\text{typhoon}}^{3}/(4\\pi\\varepsilon_{0}T_{0})$. Setting the angular momentum of the typhoon equal to the angular momentum of the UAV, we have\n$\\overrightarrow{v}_{0}r_{0}^{2}\\sin\\alpha=\\frac{m_{\\text{typhoon}}\\omega^{2}r_{\\text{typhoon}}^{3}}{4\\pi\\varepsilon_{0}T_{0}}$,\nwhich gives\n$\\Omega=\\frac{\\omega^{2}r_{0}^{3}}{4\\pi\\varepsilon_{0}T_{0}}\\sin\\alpha$.\nANSWER: \\frac{\\omega^{2}r_{0}^{3}}{4\\pi\\varepsilon_{0}T_{0}}\\sin\\alpha"
+    },
+    {
+      "problem_id": "physgym_0103",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "R04",
+      "reference_answer": "R_{04}=\\left(3-\\sqrt{3}\\right)R",
+      "prediction": "There are 4 resistances in a row: $R_{01}, R_{02}, R_{03}, R_{04}$. The resistances $R_{01}$ and $R_{02}$ are connected to nodes 1 and 2, which are not connected to each other. The resistance $R_{03}$ is connected to node 3, which is not connected to any other node. The resistance $R_{04}$ is connected to node 4, which is connected to node 3. Therefore, the equivalent resistance is $R_{04}$.\n\nANSWER: R04"
+    },
+    {
+      "problem_id": "physgym_0117",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\begin{array}{l} {{\\delta y_{f} = \\frac{32}{3}\\frac{\\sigma R^{2}r}{M}}}{{}}\\\\ {{\\delta y_{g} = \\frac{32}{3}\\frac{\\sigma R^{2}r}{M}}}{{}}\\\\ {{\\delta y = \\frac{64}{3}\\frac{\\sigma R^{2}r}{M}}} \\end{array}",
+      "prediction": "The cube is released from rest, so its velocity at the end of the valley is zero. The velocity of the cube is the same as the velocity of the point on the cycloid where it is located. The velocity of the point on the cycloid is the derivative of its position with respect to the angle, so\n$$\n\\vec{v} = \\frac{d\\vec{r}}{d\\theta} = \\left(\\frac{dx}{d\\theta}, \\frac{dy}{d\\theta}\\right) = \\left(\\frac{dR}{d\\theta}\\sin\\theta, \\frac{dR}{d\\theta}(1-\\cos\\theta)\\right)\n$$\nThe velocity of the cube is\n$$\n\\vec{v} = \\frac{d\\vec{r}}{d\\theta} = \\left(\\frac{dR}{d\\theta}\\sin\\theta, \\frac{dR}{d\\theta}(1-\\cos\\theta)\\right)\n$$\nThe acceleration of the cube is\n$$\n\\vec{a} = \\frac{d\\vec{v}}{d\\theta} = \\left(\\frac{d^2R}{d\\theta^2}\\sin\\theta, \\frac{d^2R}{d\\theta^2}(1-\\cos\\theta)\\right)\n$$\nThe acceleration of the cube is\n$$\n\\vec{a} = \\frac{d^2\\vec{r}}{d\\theta^2} = \\left(\\frac{d^2R}{d\\theta^2}\\sin\\theta, \\frac{d^2R}{d\\theta^2}(1-\\cos\\theta)\\right)\n$$\nThe acceleration of the cube is\n$$\n\\vec{a} = \\frac{d^2\\vec{r}}{d\\theta^2} = \\left(\\frac{d^2R}{d\\theta^2}\\sin\\theta, \\frac{d^2R}{d\\theta^2}(1-\\cos\\theta)\\right)\n$$\nThe acceleration of the cube is\n$$\n\\vec{a} = \\frac{d^2\\vec{r}}{d\\theta^2} = \\left(\\frac{d^2R}{d\\theta^2}\\sin\\theta, \\frac{d^2R}{d\\theta^2}(1-\\cos\\theta)\\right)\n$$\nThe acceleration of the cube is\n$$\n\\vec{a} = \\frac{d^2\\vec{r}}{d\\theta^2} = \\left(\\frac{d^2R}{d\\theta^2}\\sin\\theta, \\frac{d^2R}{d\\theta^2}(1-\\cos\\theta)\\right)\n$$\nThe acceleration of the cube is\n$$\n\\vec{a} = \\frac{d^2\\vec{r}}{d\\theta^2} = \\left(\\frac{d^2R}{d\\theta^2}\\sin\\theta, \\frac{d^2R}{d\\theta^2}(1-\\cos\\theta)\\right)\n$$\nThe acceleration of the cube is\n$$\n\\vec{a} = \\frac{d^2\\vec{r}}{d\\theta^2} = \\left(\\frac{d^2R}{d\\theta^2}\\sin\\theta, \\frac{d^2R}{d\\theta^2}(1-\\cos\\theta)\\right)\n$$\nThe acceleration of the cube is\n$$\n\\vec{a} = \\frac{d^2\\vec{r}}{d\\theta^2} = \\left(\\frac{d^2R}{d\\theta^2}\\sin\\theta, \\frac{d^2R}{d\\theta^2}(1-\\cos\\theta)\\right)\n$$\nThe acceleration of the cube is\n$$\n\\vec{a} = \\frac{d^2\\vec{r}}{d\\theta^2} = \\left(\\frac{d^2R}{d\\theta^2}\\sin\\theta, \\frac{d^2R}{d\\theta^2}(1-\\cos\\theta)\\right)\n$$\nThe acceleration of the cube is\n$$\n\\vec{a} = \\frac{d^2\\vec{r}}{d\\theta^2} = \\left(\\frac{d^2R}{d\\theta^2}\\sin\\theta, \\frac{d^2R}{d\\theta^2}(1-\\cos\\theta)\\right)\n$$\nThe acceleration of the cube is\n$$\n\\vec{a} = \\frac{d^2\\vec{r}}{d\\theta^2} = \\left(\\frac{d^2R}{d\\theta^2}\\sin\\theta, \\frac{d^2R}{d\\theta^2}(1-\\cos\\theta)\\right)\n$$\nThe acceleration of the cube is\n$$\n\\vec{a} = \\frac{d^2\\vec{r}}{d\\theta^2} = \\left(\\frac{d^2R}{d\\theta^2}\\sin\\theta, \\frac{d^2R}{d\\theta^2}(1-\\cos\\theta)\\right)\n$$\nThe acceleration of the cube is\n$$\n\\vec{a} = \\frac{d^2\\vec{r}}{d\\theta^2} = \\left(\\frac{d^2R}{d\\theta^2}\\sin\\theta, \\frac{d^2R}{d\\theta^2}(1-\\cos\\theta)\\right)\n$$\nThe"
+    },
+    {
+      "problem_id": "physgym_0131",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{3}{2}m_{0}",
+      "reference_answer": "\\begin{array}{c} \\ {{m^{ \\prime}= \\frac{R^{3}}{a^{3}}m}} \\end{array}",
+      "prediction": "The magnetic field of the superconducting sphere is the same as the field of a sphere of radius \\( R \\) with a magnetic moment \\( m_{s} = \\frac{4\\pi R^{3}}{3m_{0}} \\). The field of the needle is\n\\( \\mathbf{B}_{m} = \\frac{\\mu_{0}m}{4\\pi a^{3}}\\left(2\\cos \\theta \\mathbf{e}_{r}+\\sin \\theta \\mathbf{e}_{\\theta}\\right) \\).\nThe field of the needle and the field of the sphere are\nthen superposed, and the field of the sphere is\n\\( \\mathbf{B}_{s} = \\frac{\\mu_{0}m_{s}}{4\\pi a^{3}}\\left(2\\cos \\theta \\mathbf{e}_{r}+\\sin \\theta \\mathbf{e}_{\\theta}\\right) \\).\nThe field of the sphere is the same as the field of a sphere of radius \\( R \\) with a magnetic moment \\( m_{s} \\), so\n\\( \\frac{\\mu_{0}m_{s}}{4\\pi a^{3}} = \\frac{\\mu_{0}m_{0}}{4\\pi a^{3}} \\).\nThe magnitude of \\( m' \\) is\n\\( m' = \\frac{3}{2}m_{0} \\).\nANSWER: \\frac{3}{2}m_{0}"
+    },
+    {
+      "problem_id": "physgym_0133",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "0",
+      "reference_answer": "a = \\sqrt{a_{n}^{2} + a_{\\tau}^{2}} = \\frac{v^{2}}{R} \\frac{1}{\\cos\\theta} = \\frac{v^{3}}{R v_{x}}",
+      "prediction": "The acceleration is the derivative of the velocity with respect to time, so\na = dv/ dt = dv/ dx dv/ dy = 0.\nANSWER: 0"
+    },
+    {
+      "problem_id": "physgym_0140",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "P",
+      "reference_answer": "T = {\\frac{\\sqrt{6}}{18}}P",
+      "prediction": "Let’s use a coordinate system in which the top sphere is at the origin, and the other three spheres are at the points $(0, 0, 0)$, $(0, 0, h)$, and $(0, h, 0)$. The distance between the top sphere and the sphere at the origin is $h$, and the distance between the top sphere and the sphere at the point $(0, 0, h)$ is $h/2$. Let’s use the following notations:\n$$\n\\begin{aligned}\n&m = \\frac{P}{h/2}, \\\\\n&r = \\frac{h}{2}, \\\\\n&R = \\frac{h}{2}, \\quad \\text{(the distance between the top sphere and the sphere at the origin)}, \\\\\n&R' = \\frac{h}{2}, \\quad \\text{(the distance between the top sphere and the sphere at the point } (0, 0, h)\\text{)}, \\\\\n&R'' = \\frac{h}{2}, \\quad \\text{(the distance between the top sphere and the sphere at the point } (0, h, 0)\\text{)}.\n\\end{aligned}\n$$\nThe total mass of the three spheres is $3m$, and the total mass of the four spheres is $4m$. The total weight of the four spheres is $4P$, and the total weight of the three spheres is $3P$. The tension in the rope is the difference between the total weight of the four spheres and the total weight of the three spheres:\n$$\nT = 4P - 3P = P.\n$$\nANSWER: P"
+    },
+    {
+      "problem_id": "physgym_0143",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{2\\pi}{\\sqrt{g/m}}",
+      "reference_answer": "t = t_{1} + t_{2} = 2\\left(\\pi + \\frac{2a}{b}\\right)\\sqrt{\\frac{m}{k}}",
+      "prediction": "The particle’s motion is a simple harmonic motion, and the time required for one period is\n$$\n\\frac{2\\pi}{\\sqrt{g/m}}\n$$\nANSWER: $\\frac{2\\pi}{\\sqrt{g/m}}$"
+    },
+    {
+      "problem_id": "physgym_0204",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\omega_{z}=\\sqrt{\\frac{Q q}{2\\pi\\varepsilon_{0}m}\\frac{(R^{2}-2l^{2})}{(R^{2}+l^{2})^{\\frac{5}{2}}}}",
+      "prediction": "The particle experiences a force\n$$ F_{z} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q}{R^{2}}\\hat{z},$$\nwhich is proportional to the inverse square of the distance between the particle and the ring. The particle experiences a\n$$ V_{z} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q}{2R}\\hat{z},$$\nwhich is proportional to the inverse square of the distance between the particle and the ring. The particle experiences a\n$$ V_{z} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{-q}{2l}\\hat{z},$$\nwhich is proportional to the inverse square of the distance between the particle and the ring. The particle experiences a\n$$ V_{z} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{-q}{2R}\\hat{z},$$\nwhich is proportional to the inverse square of the distance between the particle and the ring. The particle experiences a\n$$ V_{z} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{-q}{2l}\\hat{z},$$\nwhich is proportional to the inverse square of the distance between the particle and the ring. The particle experiences a\n$$ V_{z} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{-q}{2R}\\hat{z},$$\nwhich is proportional to the inverse square of the distance between the particle and the ring. The particle experiences a\n$$ V_{z} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{-q}{2l}\\hat{z},$$\nwhich is proportional to the inverse square of the distance between the particle and the ring. The particle experiences a\n$$ V_{z} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{-q}{2R}\\hat{z},$$\nwhich is proportional to the inverse square of the distance between the particle and the ring. The particle experiences a\n$$ V_{z} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{-q}{2l}\\hat{z},$$\nwhich is proportional to the inverse square of the distance between the particle and the ring. The particle experiences a\n$$ V_{z} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{-q}{2R}\\hat{z},$$\nwhich is proportional to the inverse square of the distance between the particle and the ring. The particle experiences a\n$$ V_{z} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{-q}{2l}\\hat{z},$$\nwhich is proportional to the inverse square of the distance between the particle and the ring. The particle experiences a\n$$ V_{z} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{-q}{2R}\\hat{z},$$\nwhich is proportional to the inverse square of the distance between the particle and the ring. The particle experiences a\n$$ V_{z} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{-q}{2l}\\hat{z},$$\nwhich is proportional to the inverse square of the distance between the particle and the ring. The particle experiences a\n$$ V_{z} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{-q}{2R}\\hat{z},$$\nwhich is proportional to the inverse square of the distance between the particle and the ring. The particle experiences a\n$$ V_{z} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{-q}{2l}\\hat{z},$$\nwhich is proportional to the inverse square of the distance between the particle and the ring. The particle experiences a\n$$ V_{z} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{-q}{2R}\\hat{z},$$\nwhich is proportional to the inverse square of the distance between the particle and the ring. The particle experiences a\n$$ V_{z} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{-q}{2l}\\hat{z},$$\nwhich is proportional to the inverse square of the distance between the particle and the ring. The particle experiences a\n$$ V_{z} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{-q}{2R}\\hat{z},$$\nwhich is proportional to the inverse square of the distance between the particle and the ring. The particle experiences a\n$$ V_{z} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{-q}{2l}\\hat{z},$$\nwhich is proportional to the inverse square of the distance between the particle and the ring. The particle experiences a\n$$ V_{z} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{-q}{2R}\\hat{z},$$\nwhich is proportional to the inverse square of the distance between the particle and the ring. The particle experiences a"
+    },
+    {
+      "problem_id": "physgym_0206",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "V=\\frac{V_{0}}{\\ln\\frac{\\tan\\frac{\\alpha_{2}}{2}}{\\tan\\frac{\\alpha_{1}}{2}}}\\mathrm{ln}\\frac{\\tan\\frac{\\alpha}{2}}{\\tan\\frac{\\alpha_{1}}{2}}",
+      "prediction": "Let’s use the method of images. Let’s assume that the cone surfaces are located at a distance $d$ from the origin, and that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a distance $d$ from the origin. Let’s assume that the cone surfaces are located at a"
+    },
+    {
+      "problem_id": "physgym_0228",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{g}{l_{1}}\\sin\\theta_{1}",
+      "reference_answer": "\\begin{array}{r l}&{\\alpha_{2}=\\cfrac{3\\sin(\\theta_{1}-\\theta_{2})\\left[2g\\cos\\theta_{1}+2l_{1}\\omega_{1}^{2}+l_{2}\\omega_{2}^{2}\\cos(\\theta_{1}-\\theta_{2})\\right]}{l_{2}\\left[1+3\\sin^{2}(\\theta_{1}-\\theta_{2})\\right]}}\\end{array}",
+      "prediction": "The angular acceleration of the rod is the same as the angular acceleration of the string, i.e., $\\alpha_{2}=\\alpha_{1}$. The angular acceleration of the string is $\\alpha_{1}=\\frac{g}{l_{1}}\\sin\\theta_{1}$. Therefore, the angular acceleration of the rod is\n$\\alpha_{2}=\\frac{g}{l_{1}}\\sin\\theta_{1}$.\nANSWER: \\frac{g}{l_{1}}\\sin\\theta_{1}"
+    },
+    {
+      "problem_id": "physgym_0256",
+      "domain": "MODERN_PHYSICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "E_{1}={\\frac{15/4-3}{2{\\sqrt{3}}}}M c^{2}={\\frac{\\sqrt{3}}{8}}M c^{2}",
+      "prediction": "The energy of the emitted photon is\n$E_{1} = \\frac{1}{8\\pi\\alpha_{c}} \\cdot 2\\pi\\alpha_{c}r^{2} = \\frac{1}{4}M r^{2} = \\frac{1}{4}M \\cdot \\frac{1}{8\\pi\\alpha_{c}} \\cdot 8\\pi\\alpha_{c}r^{2} = \\frac{1}{4}M r^{2} = \\frac{1}{4}M \\cdot \\frac{1}{8\\pi\\alpha_{c}} \\cdot 8\\pi\\alpha_{c}r^{2} = \\frac{1}{4}M r^{2} = \\frac{1}{4}M \\cdot \\frac{1}{8\\pi\\alpha_{c}} \\cdot 8\\pi\\alpha_{c}r^{2} = \\frac{1}{4}M r^{2} = \\frac{1}{4}M \\cdot \\frac{1}{8\\pi\\alpha_{c}} \\cdot 8\\pi\\alpha_{c}r^{2} = \\frac{1}{4}M r^{2} = \\frac{1}{4}M \\cdot \\frac{1}{8\\pi\\alpha_{c}} \\cdot 8\\pi\\alpha_{c}r^{2} = \\frac{1}{4}M r^{2} = \\frac{1}{4}M \\cdot \\frac{1}{8\\pi\\alpha_{c}} \\cdot 8\\pi\\alpha_{c}r^{2} = \\frac{1}{4}M r^{2} = \\frac{1}{4}M \\cdot \\frac{1}{8\\pi\\alpha_{c}} \\cdot 8\\pi\\alpha_{c}r^{2} = \\frac{1}{4}M r^{2} = \\frac{1}{4}M \\cdot \\frac{1}{8\\pi\\alpha_{c}} \\cdot 8\\pi\\alpha_{c}r^{2} = \\frac{1}{4}M r^{2} = \\frac{1}{4}M \\cdot \\frac{1}{8\\pi\\alpha_{c}} \\cdot 8\\pi\\alpha_{c}r^{2} = \\frac{1}{4}M r^{2} = \\frac{1}{4}M \\cdot \\frac{1}{8\\pi\\alpha_{c}} \\cdot 8\\pi\\alpha_{c}r^{2} = \\frac{1}{4}M r^{2} = \\frac{1}{4}M \\cdot \\frac{1}{8\\pi\\alpha_{c}} \\cdot 8\\pi\\alpha_{c}r^{2} = \\frac{1}{4}M r^{2} = \\frac{1}{4}M \\cdot \\frac{1}{8\\pi\\alpha_{c}} \\cdot 8\\pi\\alpha_{c}r^{2} = \\frac{1}{4}M r^{2} = \\frac{1}{4}M \\cdot \\frac{1}{8\\pi\\alpha_{c}} \\cdot 8\\pi\\alpha_{c}r^{2} = \\frac{1}{4}M r^{2} = \\frac{1}{4}M \\cdot \\frac{1}{8\\pi\\alpha_{c}} \\cdot 8\\pi\\alpha_{c}r^{2} = \\frac{1}{4}M r^{2} = \\frac{1}{4}M \\cdot \\frac{1}{8\\pi\\alpha_{c}} \\cdot 8\\pi\\alpha_{c}r^{2} = \\frac{1}{4}M r^{2} = \\frac{1}{4}M \\cdot \\frac{1}{8\\pi\\alpha_{c}} \\cdot 8\\pi\\alpha_{c}r^{2} = \\frac{1}{4}M r^{2} = \\frac{1}{4}M \\cdot \\frac{1}{8\\pi\\alpha_{c}} \\cdot 8\\pi\\alpha_{c}r^{2} = \\frac{1}{4}M r^{2} = \\frac{1}{4}M \\cdot \\frac{1}{8\\pi\\alpha_{c}} \\cdot 8\\pi\\alpha_{c}r^{2} = \\frac{1}{4}M r^{2} = \\frac{1}{4}M \\cdot \\frac{1}{8\\pi\\alpha_{c}} \\cdot 8\\pi\\alpha_{c}r^{2} = \\frac{1}{4}M r^{2} = \\frac{1}{4}M \\cdot \\frac{1}{8\\pi\\alpha_{"
+    },
+    {
+      "problem_id": "physgym_0259",
+      "domain": "MODERN_PHYSICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "c^2(t - t')",
+      "reference_answer": "\\text{Area} = \\frac{2v^2 t'^2 (1 - u^2/c^2)^{3/2}}{1 - (uv/c)^2}",
+      "prediction": "The area of a square is \\(a^2\\), so the area of the quadrilateral is \\(2a^2\\). The area of a square is also proportional to the square of the distance between its vertices, so the area of the quadrilateral is proportional to \\(c^2\\). The area of the quadrilateral is also proportional to the square of the time interval between the two reference frames, so the area is proportional to \\(c^2(t - t')\\). The area of the quadrilateral is therefore proportional to \\(c^2(t - t')\\).\nANSWER: c^2(t - t')"
+    },
+    {
+      "problem_id": "physgym_0281",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "h={\\sqrt{\\frac{2\\sigma}{\\rho g}(1-\\sin\\theta)}}",
+      "prediction": "Let the height of the liquid surface be $h$, and let the height of the container wall be $h_{0}$. Then the height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid surface is $h_{0}-h-h_{0} \\sin \\theta$. The height of the liquid surface at the junction between the container wall and the liquid"
+    },
+    {
+      "problem_id": "physgym_0285",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "mg, where $g$ is the acceleration due to gravity",
+      "reference_answer": "F_{m a x}=5m\\omega^{2}R",
+      "prediction": "The maximum force occurs when the bug’s\ncrawling velocity is zero, i.e., when it’s at rest relative to the disk. The maximum force is then the\nmaximum normal force exerted by the disk on the\nbug. The normal force is $F_{max} = mg$, where\n$g$ is the acceleration due to gravity.\nANSWER: mg, where $g$ is the acceleration due to gravity."
+    },
+    {
+      "problem_id": "physgym_0310",
+      "domain": "MODERN_PHYSICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\beta_{1}=\\frac{\\left(\\sqrt{\\frac{1+\\beta_{0}}{1-\\beta_{0}}}+\\frac{2E}{m c^{2}}\\right)^{2}-1}{\\left(\\sqrt{\\frac{1+\\beta_{0}}{1-\\beta_{0}}}+\\frac{2E}{m c^{2}}\\right)^{2}+1}",
+      "prediction": "The mirror's mass is $m_{\\circ} = \\frac{S_{\\circ}}{c^{2}}$, and its velocity is $\\beta_{1}\\mathfrak{c}$. The change in momentum of the mirror is\n$$\\Delta p_{\\circ} = m_{\\circ}\\beta_{1}\\mathfrak{c}\\left(\\beta_{0} - \\beta_{1}\\right).$$\nThe change in momentum of the mirror is\n$$\\Delta p_{\\circ} = \\frac{S_{\\circ}}{c^{2}}\\beta_{1}\\left(\\beta_{0} - \\beta_{1}\\right).$$\nThe change in momentum of the mirror is\n$$\\Delta p_{\\circ} = \\frac{S_{\\circ}\\beta_{1}}{c^{2}}\\left(\\beta_{0} - \\beta_{1}\\right).$$\nThe change in momentum of the mirror is\n$$\\Delta p_{\\circ} = \\frac{S_{\\circ}\\beta_{1}}{c^{2}}\\left(\\beta_{0} - \\beta_{1}\\right).$$\nThe change in momentum of the mirror is\n$$\\Delta p_{\\circ} = \\frac{S_{\\circ}\\beta_{1}}{c^{2}}\\left(\\beta_{0} - \\beta_{1}\\right).$$\nThe change in momentum of the mirror is\n$$\\Delta p_{\\circ} = \\frac{S_{\\circ}\\beta_{1}}{c^{2}}\\left(\\beta_{0} - \\beta_{1}\\right).$$\nThe change in momentum of the mirror is\n$$\\Delta p_{\\circ} = \\frac{S_{\\circ}\\beta_{1}}{c^{2}}\\left(\\beta_{0} - \\beta_{1}\\right).$$\nThe change in momentum of the mirror is\n$$\\Delta p_{\\circ} = \\frac{S_{\\circ}\\beta_{1}}{c^{2}}\\left(\\beta_{0} - \\beta_{1}\\right).$$\nThe change in momentum of the mirror is\n$$\\Delta p_{\\circ} = \\frac{S_{\\circ}\\beta_{1}}{c^{2}}\\left(\\beta_{0} - \\beta_{1}\\right).$$\nThe change in momentum of the mirror is\n$$\\Delta p_{\\circ} = \\frac{S_{\\circ}\\beta_{1}}{c^{2}}\\left(\\beta_{0} - \\beta_{1}\\right).$$\nThe change in momentum of the mirror is\n$$\\Delta p_{\\circ} = \\frac{S_{\\circ}\\beta_{1}}{c^{2}}\\left(\\beta_{0} - \\beta_{1}\\right).$$\nThe change in momentum of the mirror is\n$$\\Delta p_{\\circ} = \\frac{S_{\\circ}\\beta_{1}}{c^{2}}\\left(\\beta_{0} - \\beta_{1}\\right).$$\nThe change in momentum of the mirror is\n$$\\Delta p_{\\circ} = \\frac{S_{\\circ}\\beta_{1}}{c^{2}}\\left(\\beta_{0} - \\beta_{1}\\right).$$\nThe change in momentum of the mirror is\n$$\\Delta p_{\\circ} = \\frac{S_{\\circ}\\beta_{1}}{c^{2}}\\left(\\beta_{0} - \\beta_{1}\\right).$$\nThe change in momentum of the mirror is\n$$\\Delta p_{\\circ} = \\frac{S_{\\circ}\\beta_{1}}{c^{2}}\\left(\\beta_{0} - \\beta_{1}\\right).$$\nThe change in momentum of the mirror is\n$$\\Delta p_{\\circ} = \\frac{S_{\\circ}\\beta_{1}}{c^{2}}\\left(\\beta_{0} - \\beta_{1}\\right).$$\nThe change in momentum of the mirror is\n$$\\Delta p_{\\circ} = \\frac{S_{\\circ}\\beta_{1}}{c^{2}}\\left(\\beta_{0} - \\beta_{1}\\right).$$\nThe change in momentum of the mirror is\n$$\\Delta p_{\\circ} = \\frac{S_{\\circ}\\beta_{1}}{c^{2}}\\left(\\beta_{0} - \\beta_{1}\\right).$$\nThe change in momentum of the mirror is\n$$\\Delta p_{\\circ} = \\frac{S_{\\circ}\\beta_{1}}{c^{2}}\\left(\\beta_{0} - \\beta_{1}\\right).$$\nThe change in momentum of the mirror is\n$$\\Delta p_{\\circ} = \\frac{S_{\\circ}\\beta_{1}}{c^{2}}\\left(\\beta_{0} - \\beta_{1}\\right).$$\nThe change in momentum of the mirror is\n$$\\Delta p_{\\circ} = \\frac{S_{\\circ}\\beta_{1}}{c^{2}}\\left(\\beta_{0} - \\beta_{1}\\right).$$\nThe change in momentum of the mirror is\n$$\\Delta p_{\\circ} = \\frac{S_{\\circ}\\beta_{1}}{c^{2}}\\left(\\beta_{0} - \\beta_{1}\\right).$$\nThe change in momentum"
+    },
+    {
+      "problem_id": "physgym_0331",
+      "domain": "OPTICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{2d\\sin\\phi\\sin\\xi}{\\lambda}m",
+      "reference_answer": "\\Delta y=\\frac{1+\\tan2\\phi^{2}}{\\sin\\phi}\\frac{\\lambda L}{d}",
+      "prediction": "The condition for constructive interference is $2d\\sin\\phi\\sin\\xi = m\\lambda$, which gives\n$\\Delta y = \\frac{2d\\sin\\phi\\sin\\xi}{\\lambda}m$.\nANSWER: \\frac{2d\\sin\\phi\\sin\\xi}{\\lambda}m"
+    },
+    {
+      "problem_id": "physgym_0332",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\mu={\\frac{M R^{2}\\sin\\varphi\\sin(\\beta+\\gamma)}{\\sqrt{\\cos\\beta^{2}\\left[M R^{2}\\cos\\varphi+m L^{2}\\sin\\beta^{2}({\\frac{3}{2}}\\cos\\varphi-1)\\right]^{2}+[M R^{2}\\sin\\varphi\\cos(\\beta+\\gamma)]^{2}}}}",
+      "prediction": "Let the spherical shell be the reference frame, and let the rod be the frame rotating with the spherical shell. The spherical shell is initially at rest, so its velocity is zero. The rod is initially at rest relative to the spherical shell, but not at rest relative to the frame rotating with the spherical shell. The total angular momentum of the system is conserved, so\n$$\n0 = \\frac{1}{2}M R^{2}\\dot{\\varphi}^{2} + \\frac{1}{2}m L^{2}\\dot{\\varphi}^{2}\n$$\nThe static friction force is $F_{s} = \\mu mg$. The total torque on the spherical shell is\n$$\n\\tau_{s} = \\frac{1}{2}m L^{2}\\dot{\\varphi}^{2}(d-R)\n$$\nThe total torque on the rod is\n$$\n\\tau_{r} = \\frac{1}{2}m L^{2}\\dot{\\varphi}^{2}(R +d)\n$$\nThe total torque on the system is\n$$\n\\tau_{total} = \\tau_{s} + \\tau_{r}\n$$\nThe total torque on the spherical shell is\n$$\n\\tau_{s} = \\frac{1}{2}m L^{2}\\dot{\\varphi}^{2}(d-R)\n$$\nThe total torque on the rod is\n$$\n\\tau_{r} = \\frac{1}{2}m L^{2}\\dot{\\varphi}^{2}(R +d)\n$$\nThe total torque on the system is\n$$\n\\tau_{total} = \\frac{1}{2}m L^{2}\\dot{\\varphi}^{2}(d-R +R +d)\n$$\n$$\n\\tau_{total} = \\frac{1}{2}m L^{2}\\dot{\\varphi}^{2}(2d)\n$$\nThe total angular momentum is\n$$\n0 = \\frac{1}{2}M R^{2}\\dot{\\varphi}^{2} + \\frac{1}{2}m L^{2}\\dot{\\varphi}^{2}(2d)\n$$\n$$\n0 = \\left(\\frac{M}{m} + 2\\right)R^{2}\\dot{\\varphi}^{2}\n$$\n$$\n\\dot{\\varphi}^{2} = \\frac{2}{M +2m}R^{2}\n$$\n$$\n\\varphi = \\sqrt{\\frac{2M}{M +2m}}R\n$$\nThe static friction force is\n$$\nF_{s} = \\mu mg\n$$\nThe normal force is\n$$\nN = mg - \\mu mg = (1-\\mu)g\n$$\nThe total torque on the spherical shell is\n$$\n\\tau_{s} = \\frac{1}{2}m L^{2}\\dot{\\varphi}^{2}(d-R)\n$$\nThe total torque on the rod is\n$$\n\\tau_{r} = \\frac{1}{2}m L^{2}\\dot{\\varphi}^{2}(R +d)\n$$\nThe total torque on the system is\n$$\n\\tau_{total} = \\tau_{s} + \\tau_{r}\n$$\nThe total torque on the spherical shell is\n$$\n\\tau_{s} = \\frac{1}{2}m L^{2}\\dot{\\varphi}^{2}(d-R)\n$$\nThe total torque on the rod is\n$$\n\\tau_{r} = \\frac{1}{2}m L^{2}\\dot{\\varphi}^{2}(R +d)\n$$\nThe total torque on the system is\n$$\n\\tau_{total} = \\frac{1}{2}m L^{2}\\dot{\\varphi}^{2}(d-R +R +d)\n$$\n$$\n\\tau_{total} = \\frac{1}{2}m L^{2}\\dot{\\varphi}^{2}(2d)\n$$\n$$\n\\tau_{total} = \\frac{1}{2}m L^{2}\\dot{\\varphi}^{2}(2d)\n$$\n$$\n\\tau_{total} = \\frac{1}{2}m L^{2}\\dot{\\varphi}^{2}(2d)\n$$\n$$\n\\tau_{total} = \\frac{1}{2}m L^{2}\\dot{\\varphi}^{2}(2d)\n$$\n$$\n\\tau_{total} = \\frac{1}{2}m L^{2}\\dot{\\varphi}^{2}(2d)\n$$\n$$\n\\tau_{total} = \\frac{1}{2}m L^{2}\\dot{\\varphi}^{2}(2d)\n$$\n$$\n\\tau_{total} = \\frac{1}{2}m L^{2}\\dot{\\varphi}^{2}(2d)\n$$\n$$\n\\tau_{total} = \\frac{1}{2}m L^{2}\\dot{\\varphi}^{2}(2d)\n$$\n$$\n\\tau_{total} = \\frac{1}{2}m L^{2}\\dot{\\varphi}^{2}(2d)\n$$\n$$\n\\tau_{total}"
+    },
+    {
+      "problem_id": "physgym_0336",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "f={\\frac{1}{2\\pi}}{\\sqrt{\\frac{4g(b+R-{\\frac{b^{2}R}{a^{2}}})}{(a^{2}+5b^{2})({\\frac{b R}{a^{2}}}-1)}}}",
+      "prediction": "The gravitational force on the elliptical cylinder is $F = mgb^2$, and the normal force is $N = mg(a +b)/2$. The total force on the elliptical cylinder is $F_{\\rm net} = mg(a +b)/2 - mgb^2 = mg(a−b)/2$. The mass of the elliptical cylinder is $m = \\frac{2}{a +b}$, so the total force on the elliptical cylinder is $F_{\\rm net} = \\frac{2mg(a−b)}{a +b}$. The mass of the circular cylinder is $M = \\frac{2\\pi R^2}{a +b}$, so the gravitational force on the circular cylinder is $F_{\\rm grav} = \\frac{2\\pi R^2g}{a +b}$. The total force on the circular cylinder is $F_{\\rm net} = \\frac{2\\pi R^2g}{a +b} - \\frac{2\\pi R^2g}{a +b} = 0$. The circular cylinder is in equilibrium, so the gravitational force on the elliptical cylinder is $F_{\\rm grav} = \\frac{2\\pi R^2g}{a +b} - \\frac{2\\pi R^2g}{a +b} = 0$. The normal force on the elliptical cylinder is $N = mg(a +b)/2$, so the gravitational force on the elliptical cylinder is $F_{\\rm grav} = mg(a +b)/2$. The mass of the elliptical cylinder is $m = \\frac{2}{a +b}$, so the gravitational force on the elliptical cylinder is $F_{\\rm grav} = \\frac{2mg(a +b)}{a +b} = 2mg$. The mass of the circular cylinder is $M = \\frac{2\\pi R^2}{a +b}$, so the gravitational force on the circular cylinder is $F_{\\rm grav} = \\frac{2\\pi R^2g}{a +b}$. The normal force on the circular cylinder is $N = mg(a +b)/2$, so the gravitational force on the circular cylinder is $F_{\\rm grav} = mg(a +b)/2$. The total force on the circular cylinder is $F_{\\rm net} = \\frac{2\\pi R^2g}{a +b} - \\frac{2\\pi R^2g}{a +b} = 0$. The circular cylinder is in equilibrium, so the gravitational force on the elliptical cylinder is $F_{\\rm grav} = \\frac{2\\pi R^2g}{a +b} - \\frac{2\\pi R^2g}{a +b} = 0$. The normal force on the elliptical cylinder is $N = mg(a +b)/2$, so the gravitational force on the elliptical cylinder is $F_{\\rm grav} = mg(a +b)/2$. The mass of the elliptical cylinder is $m = \\frac{2}{a +b}$, so the gravitational force on the elliptical cylinder is $F_{\\rm grav} = \\frac{2mg(a +b)}{a +b} = 2mg$. The mass of the circular cylinder is $M = \\frac{2\\pi R^2}{a +b}$, so the gravitational force on the circular cylinder is $F_{\\rm grav} = \\frac{2\\pi R^2g}{a +b}$. The normal force on the circular cylinder is $N = mg(a +b)/2$, so the gravitational force on the circular cylinder is $F_{\\rm grav} = mg(a +b)/2$. The total force on the circular cylinder is $F_{\\rm net} = \\frac{2\\pi R^2g}{a +b} - \\frac{2\\pi R^2g}{a +b} = 0$. The circular cylinder is in equilibrium, so the gravitational force on the elliptical cylinder is $F_{\\rm grav} = \\frac{2\\pi R^2g}{a +b} - \\frac{2\\pi R^2g}{a +b} = 0$. The normal force on the elliptical cylinder is $N = mg(a +b)/2$, so the gravitational force on the elliptical cylinder is $F_{\\rm grav} = mg(a +b)/2$. The mass of the elliptical cylinder is $m = \\frac{2}{a +b}$, so the gravitational force on the elliptical cylinder is $F_{\\rm grav} = \\frac{2mg(a +b)}{a +b} = 2mg$. The mass of the circular cylinder is $M = \\frac{2\\pi R^2}{a +b}$, so the gravitational force on the circular cylinder is $F_{\\rm grav} = \\frac{2\\pi R^2g}{a +b}$. The normal force on the circular cylinder is $N = mg(a +b)/2$, so the gravitational force on"
+    },
+    {
+      "problem_id": "physgym_0409",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\sigma=\\frac{2\\varepsilon_{0}E_{0}a}{\\sqrt{a^{2}-r^{2}}}",
+      "prediction": "The field lines of an electric field are perpendicular to the field strength, so the direction of the field lines is the same as the direction of the field strength. The field lines of a magnetic field are parallel to the field strength, so the direction of the field lines is the same as the direction of the field strength. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field lines is the same as the direction of the field lines. The field lines of an electric field are parallel to the field lines of a magnetic field, so the direction of the field"
+    },
+    {
+      "problem_id": "physgym_0419",
+      "domain": "OPTICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{1}{1 + \\frac{d}{\\lambda n_1 n_2}}",
+      "reference_answer": "R_{s}=\\left(1+\\left(\\frac{2\\mathrm{e}^{-\\frac{2\\pi d}{\\lambda}\\sqrt{\\mathrm{sin}i_2^2-n^2}}}{1 - \\mathrm{e}^{-\\frac{4\\pi d}{\\lambda}\\sqrt{\\mathrm{sin}i_2^2-n^2}}}\\frac{2\\sqrt{(1 - \\sin^{2}i_{2})(\\sin^{2}i_{2}-n^{2})}}{1 - n^{2}}\\right)^{2}\\right)^{-1}",
+      "prediction": "The result is $ R_s = \\frac{1}{1 + \\frac{d}{\\lambda n_1 n_2}} $.\nANSWER: \\frac{1}{1 + \\frac{d}{\\lambda n_1 n_2}}"
+    },
+    {
+      "problem_id": "physgym_0420",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\theta=\\theta_{0}\\frac{x_{0}}{x}",
+      "prediction": "Let’s use the following notations:\n- The distance between A and B is $x_{0}$, and the distance between C and D is $L$.\n- The gravitational acceleration is $\\pmb{g}$.\n- The mass of each ball is $m$.\n- The amplitude of the oscillation angle of A is $\\theta$.\n- The gravitational force on A is $mg$.\n- The tension in the rope is $T$.\n- The mass of the rope is $m_{r}$.\n- The acceleration of A is $\\pmb{a_{A}}$.\n- The acceleration of B is $\\pmb{a_{B}}$.\n- The acceleration of C is $\\pmb{a_{C}}$.\n- The acceleration of D is $\\pmb{a_{D}}$.\n- The acceleration of the center of mass of the system is $\\pmb{a_{cm}}$.\n- The acceleration of the center of mass of the rope is $\\pmb{a_{r}}$.\n- The acceleration of the center of mass of the ball is $\\pmb{a_{m}}$.\n- The acceleration of the center of mass of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a_{p}}$.\n- The acceleration of the pulley is $\\pmb{a"
+    },
+    {
+      "problem_id": "physgym_0432",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "h={\\sqrt{\\frac{-Q^{2}+{\\sqrt{Q^{4}+{\\frac{96\\pi\\varepsilon_{0}^{2}m g\\mu_{0}Q^{2}R^{4}\\omega^{2}}{25}}}}}{32\\pi\\varepsilon_{0}m g}}}",
+      "prediction": "The magnetic field at the surface of the sphere is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\frac{\\mu_0 Q}{8\\pi R}$.\nThe magnetic field at the surface of the plate is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\frac{\\mu_0 Q}{8\\pi R}$.\nThe magnetic field at the surface of the sphere is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\frac{\\mu_0 Q}{8\\pi R}$.\nThe magnetic field at the surface of the plate is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\frac{\\mu_0 Q}{8\\pi R}$.\nThe magnetic field at the surface of the sphere is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\frac{\\mu_0 Q}{8\\pi R}$.\nThe magnetic field at the surface of the plate is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\frac{\\mu_0 Q}{8\\pi R}$.\nThe magnetic field at the surface of the sphere is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\frac{\\mu_0 Q}{8\\pi R}$.\nThe magnetic field at the surface of the plate is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\frac{\\mu_0 Q}{8\\pi R}$.\nThe magnetic field at the surface of the sphere is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\frac{\\mu_0 Q}{8\\pi R}$.\nThe magnetic field at the surface of the plate is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\frac{\\mu_0 Q}{8\\pi R}$.\nThe magnetic field at the surface of the sphere is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\frac{\\mu_0 Q}{8\\pi R}$.\nThe magnetic field at the surface of the plate is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\frac{\\mu_0 Q}{8\\pi R}$.\nThe magnetic field at the surface of the sphere is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\frac{\\mu_0 Q}{8\\pi R}$.\nThe magnetic field at the surface of the plate is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\frac{\\mu_0 Q}{8\\pi R}$.\nThe magnetic field at the surface of the sphere is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\frac{\\mu_0 Q}{8\\pi R}$.\nThe magnetic field at the surface of the plate is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\frac{\\mu_0 Q}{8\\pi R}$.\nThe magnetic field at the surface of the sphere is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\frac{\\mu_0 Q}{8\\pi R}$.\nThe magnetic field at the surface of the plate is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\frac{\\mu_0 Q}{8\\pi R}$.\nThe magnetic field at the surface of the sphere is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\frac{\\mu_0 Q}{8\\pi R}$.\nThe magnetic field at the surface of the plate is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\frac{\\mu_0 Q}{8\\pi R}$.\nThe magnetic field at the surface of the sphere is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\frac{\\mu_0 Q}{8\\pi R}$.\nThe magnetic field at the surface of the plate is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\frac{\\mu_0 Q}{8\\pi R}$.\nThe magnetic field at the surface of the sphere is\n$B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{2\\pi R} = \\"
+    },
+    {
+      "problem_id": "physgym_0450",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{1}{2}\\frac{\\sigma_{0}(1 + e\\cos\\varphi)^{3}}{mR^{2}}",
+      "reference_answer": "\\beta = 4A \\sqrt{A^2 - B^2} g \\frac{2A^{4} + 2A^{3} \\sqrt{A^2 - B^2} - A^{3}B + B^{4}}{(2A^{3} + B^{3})^{2}B}",
+      "prediction": "The angular acceleration is the derivative of the angular velocity with respect to time, i.e., \\(\\beta = \\frac{d\\omega}{dt}\\). The angular velocity is the derivative of the angle with respect to time, i.e., \\(\\omega = \\frac{d\\varphi}{dt}\\). The equation of motion is \\(\\tau = I\\alpha\\), where \\(\\tau\\) is the torque, \\(I\\) is the moment of inertia, and \\(\\alpha\\) is the angular acceleration. The moment of inertia of a circular ring is \\(I = \\frac{1}{2}mR^{2}\\), where \\(R\\) is the radius of the ring. The angular acceleration is \\(\\alpha = \\frac{\\tau}{I} = \\frac{1}{2}\\frac{\\sigma_{0}(1 + e\\cos\\varphi)^{3}}{mR^{2}}\\). The torque is \\(\\tau = \\int_{0}^{2\\pi} \\sigma_{0}(1 + e\\cos\\varphi)^{3}R^{2} d\\varphi\\). The result is \\(\\beta = \\frac{1}{2}\\frac{\\sigma_{0}(1 + e\\cos\\varphi)^{3}}{mR^{2}}\\).\nANSWER: \\frac{1}{2}\\frac{\\sigma_{0}(1 + e\\cos\\varphi)^{3}}{mR^{2}}"
+    },
+    {
+      "problem_id": "physgym_0453",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "1 /mω0 2 /N",
+      "reference_answer": "\\alpha=\\frac{N}{6\\pi n\\epsilon_0^2c^4}\\frac{(\\frac{\\omega^2 e^2}{m})^2}{(\\omega_0^2-\\omega^2)^2+\\gamma^2 \\omega^2}",
+      "prediction": "The expression for the absorption coefficient is:\n\n$$\n\\alpha = \\frac{e^{2}}{6\\pi\\varepsilon_{0}c^{3}}\\frac{1}{m\\omega_{0}^{2}}\\frac{1}{N}\n$$  \n\nANSWER: 1 /mω0 2 /N"
+    },
+    {
+      "problem_id": "physgym_0457",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{1}{8}m",
+      "reference_answer": "{\\omega}=\\sqrt{\\frac{8F\\sin\\frac{\\pi}{N}(9-5\\tan^{2}\\frac{\\pi}{N})^{2}}{m l(2+\\frac{1}{3}\\sin^{2}\\frac{\\pi}{N}+\\cos^{2}\\frac{\\pi}{N})((9+7\\tan^{2}\\frac{\\pi}{N})^{2}-(9-5\\tan^{2}\\frac{\\pi}{N})^{2})}}",
+      "prediction": "Let the prism be a square, then its moment of inertia is $I = \\frac{1}{8}m l^2$. The prism’s angular momentum is $L = I\\omega = \\frac{1}{8}m l^2\\omega$. The maximum static friction force is $\\mu_smg$. The maximum torque is $\\tau = \\mu_smg l$. The maximum angular acceleration is $\\alpha = \\frac{\\tau}{I} = \\frac{1}{8}ml$. The maximum angular velocity is $\\omega = \\frac{\\alpha}{l} = \\frac{1}{8}m$. The angular velocity after each collision is $\\frac{1}{8}m$.\nANSWER: \\frac{1}{8}m"
+    },
+    {
+      "problem_id": "physgym_0458",
+      "domain": "RELATIVITY",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\frac{\\sqrt{3} a^4 \\Delta p}{320 l}",
+      "prediction": "The velocity field is $\\vec{v} = (u, v, 0)$, where $u$ is the velocity in the direction perpendicular to the triangular pipe, and $v$ is the velocity in the direction parallel to the triangular pipe. The velocity field is obtained by integrating the velocity components of the Navier-Stokes equations:\n\n$$\n\\begin{aligned}\nu &= \\frac{\\Delta p}{\\rho\\eta} \\frac{a}{l} \\left[ \\frac{1}{\\sqrt{3}}\\left( \\frac{1}{\\sqrt{3}} - 1 \\right) \\right], \\\\\nv &= \\frac{\\Delta p}{\\rho\\eta} \\frac{a}{l} \\left[ \\frac{1}{\\sqrt{3}}\\left( \\frac{1}{\\sqrt{3}} + 1 \\right) \\right].\n\\end{aligned}\n$$\n\nThe volumetric flow rate is $Q = \\rho \\cdot \\vec{v} \\cdot \\vec{a} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\sqrt{3} \\cdot \\frac{1}{\\sqrt{3}} = \\frac{\\Delta p}{\\rho\\eta} \\frac{a^2}{l} \\"
+    },
+    {
+      "problem_id": "physgym_0478",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "F=\\frac{1}{\\varepsilon_{r}}QE_{0}",
+      "prediction": "The electric field of the conducting sphere is zero, and the electric field of the dielectric medium is $\\vec{E}_{0}(\\vec{r}-\\vec{r}_{s})$, where $\\vec{r}_{s}$ is the position of the conducting sphere. The electric field of the dielectric medium is $\\vec{E}_{0}(\\vec{r}-\\vec{r}_{s}) \\frac{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s})}{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s}) + \\varepsilon_{r}(\\vec{r}-\\vec{r}_{s})}$, where $\\vec{r}$ is the position of the point in space where the force is being calculated. The magnitude of the force is\n$$\nF = \\frac{1}{2} \\varepsilon_{0} \\left| \\vec{E}_{0}(\\vec{r}-\\vec{r}_{s}) \\frac{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s})}{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s}) + \\varepsilon_{r}(\\vec{r}-\\vec{r}_{s})} \\right| \\cdot \\left| \\vec{E}_{0}(\\vec{r}-\\vec{r}_{s}) \\frac{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s})}{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s}) + \\varepsilon_{r}(\\vec{r}-\\vec{r}_{s})} \\right| \\cdot \\left| \\vec{E}_{0}(\\vec{r}-\\vec{r}_{s}) \\frac{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s})}{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s}) + \\varepsilon_{r}(\\vec{r}-\\vec{r}_{s})} \\right| \\cdot \\left| \\vec{E}_{0}(\\vec{r}-\\vec{r}_{s}) \\frac{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s})}{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s}) + \\varepsilon_{r}(\\vec{r}-\\vec{r}_{s})} \\right| \\cdot \\left| \\vec{E}_{0}(\\vec{r}-\\vec{r}_{s}) \\frac{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s})}{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s}) + \\varepsilon_{r}(\\vec{r}-\\vec{r}_{s})} \\right| \\cdot \\left| \\vec{E}_{0}(\\vec{r}-\\vec{r}_{s}) \\frac{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s})}{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s}) + \\varepsilon_{r}(\\vec{r}-\\vec{r}_{s})} \\right| \\cdot \\left| \\vec{E}_{0}(\\vec{r}-\\vec{r}_{s}) \\frac{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s})}{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s}) + \\varepsilon_{r}(\\vec{r}-\\vec{r}_{s})} \\right| \\cdot \\left| \\vec{E}_{0}(\\vec{r}-\\vec{r}_{s}) \\frac{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s})}{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s}) + \\varepsilon_{r}(\\vec{r}-\\vec{r}_{s})} \\right| \\cdot \\left| \\vec{E}_{0}(\\vec{r}-\\vec{r}_{s}) \\frac{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s})}{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s}) + \\varepsilon_{r}(\\vec{r}-\\vec{r}_{s})} \\right| \\cdot \\left| \\vec{E}_{0}(\\vec{r}-\\vec{r}_{s}) \\frac{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s})}{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s}) + \\varepsilon_{r}(\\vec{r}-\\vec{r}_{s})} \\right| \\cdot \\left| \\vec{E}_{0}(\\vec{r}-\\vec{r}_{s}) \\frac{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s})}{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s}) + \\varepsilon_{r}(\\vec{r}-\\vec{r}_{s})} \\right| \\cdot \\left| \\vec{E}_{0}(\\vec{r}-\\vec{r}_{s}) \\frac{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s})}{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s}) + \\varepsilon_{r}(\\vec{r}-\\vec{r}_{s})} \\right| \\cdot \\left| \\vec{E}_{0}(\\vec{r}-\\vec{r}_{s}) \\frac{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s})}{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s}) + \\varepsilon_{r}(\\vec{r}-\\vec{r}_{s})} \\right| \\cdot \\left| \\vec{E}_{0}(\\vec{r}-\\vec{r}_{s}) \\frac{\\varepsilon_{0}(\\vec{r}-\\vec{r}_{s})}{\\varepsilon_{0}(\\"
+    },
+    {
+      "problem_id": "physgym_0497",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "0",
+      "reference_answer": "\\Delta A = \\frac{m A_0}{4M}\\left[\\frac{1}{3}(\\gamma_1 - 1) + \\gamma_2\\right]",
+      "prediction": "The velocity of the added mass is the same as the velocity of the spring, so the velocity of the added mass is \\(v = \\frac{\\Delta x}{\\Delta t}\\). The velocity of the spring is \\(v = \\frac{\\Delta x}{\\Delta t}\\), so the velocity of the added mass is \\(\\frac{\\Delta x}{\\Delta t} = \\frac{\\Delta x}{\\Delta t} + \\frac{\\Delta x}{\\Delta t} = \\frac{2\\Delta x}{\\Delta t}\\). The velocity of the added mass is \\(v = \\frac{2\\Delta x}{\\Delta t}\\), so the change in velocity is \\(\\frac{2\\Delta x}{\\Delta t} - \\frac{2\\Delta x}{\\Delta t} = 0\\). The change in velocity is zero, so the change in amplitude is zero.\nANSWER: 0"
+    },
+    {
+      "problem_id": "physgym_0650",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{2\\pi R}{2\\pi R - 2gL}",
+      "reference_answer": "d_{\\operatorname*{max}}=\\frac{2}{\\pi}\\sqrt{\\frac{E_{0}R}{m g}}\\sqrt{(\\pi-2)^{2}\\frac{R}{L}+2}",
+      "prediction": "The total energy of the system is the sum of the potential energy of the ball and the potential energy of the two strings. The potential energy of the ball is $mgh$, where $h$ is the height of the ball above the horizontal plane. The height of the ball is $L + \\frac{d}{2}$, so the potential energy of the ball is $mg\\left(L + \\frac{d}{2}\\right)$. The potential energy of the two strings is $k\\left(\\frac{L}{2} - \\frac{d}{2}\\right)^{2}$, where $k$ is the spring constant of the string. The spring constant is $k = \\frac{mg}{2\\pi R}$, so the potential energy of the two strings is $\\frac{mg}{2\\pi R}\\left(\\frac{L}{2} - \\frac{d}{2}\\right)^{2}$. The total energy of the system is $mg\\left(L + \\frac{d}{2}\\right) + \\frac{mg}{2\\pi R}\\left(\\frac{L}{2} - \\frac{d}{2}\\right)^{2}$. The maximum $d$ occurs when the total energy is zero, so we have $mg\\left(L + \\frac{d}{2}\\right) = \\frac{mg}{2\\pi R}\\left(\\frac{L}{2} - \\frac{d}{2}\\right)^{2}$. Solving for $d$, we have $d = \\frac{2\\pi R L}{2\\pi R L - 2gL}$, which is the same as $d = \\frac{2\\pi R}{2\\pi R - 2gL}$.\nANSWER: \\frac{2\\pi R}{2\\pi R - 2gL}"
+    },
+    {
+      "problem_id": "physgym_0688",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "zero",
+      "reference_answer": "T = \\frac{2 \\pi m}{q B_{0} \\sqrt{n+1}}",
+      "prediction": "The magnetic force on the charged particle is\n$F = qB_{0} \\left(\\frac{r}{r_{0}}\\right)^{n}r_{0}^{2} = 0$.\nThe particle is in a state of equilibrium, so the\nforce must be zero. The particle is moving in a\ncircular motion, so the magnetic field must be\nperpendicular to the velocity. The velocity is\nconstant, so the magnetic field must be constant.\nTherefore, the only way to satisfy both conditions is if the magnetic field is zero. This is a\ncontradiction, so the only way to satisfy both\nconditions is if the magnetic field is zero. The\nparticle is in a state of equilibrium, so the force\nmust be zero. The particle is moving in a circular motion, so the magnetic field must be perpendicular to the velocity. The velocity is constant, so the magnetic field must be constant. Therefore, the only way to satisfy both conditions is if the magnetic field is zero.\nANSWER: zero"
+    },
+    {
+      "problem_id": "physgym_0708",
+      "domain": "OPTICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{d}{\\lambda_{1}}",
+      "reference_answer": "x = \\sqrt{\\frac{2m}{k T}} \\cdot \\frac{L c \\lambda_2}{2\\pi d}",
+      "prediction": "The position of the fringes is determined by the equation $\\lambda d = m\\lambda_{1}$, which gives $m = \\frac{d}{\\lambda_{1}}$.\nANSWER: \\frac{d}{\\lambda_{1}}"
+    },
+    {
+      "problem_id": "physgym_0709",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\delta\\omega = - \\frac{2}{m^2+1}\\Omega",
+      "prediction": "The precession angular velocity is the derivative of the phase velocity with respect to the angle $\\theta$. The phase velocity is the velocity of a point on the ring, which is the same as the speed of a point on the ring. The speed of a point on the ring is the derivative of its position with respect to time, which is the derivative of its position with respect to the angle $\\theta$. The position of a point on the ring is $\\vec{r} = (R +r)\\vec{\\hat{r}} + r\\vec{\\hat{y}}$, where $\\vec{\\hat{r}}$ is the unit vector in the radial direction, and $\\vec{\\hat{y}}$ is the unit vector in the direction perpendicular to the ring. The position of a point on the ring is $\\vec{r} = (R +r)\\vec{\\hat{r}} + r\\vec{\\hat{y}}$, where $\\vec{\\hat{r}}$ is the unit vector in the radial direction, and $\\vec{\\hat{y}}$ is the unit vector in the direction perpendicular to the ring. The position of a point on the ring is $\\vec{r} = (R +r)\\vec{\\hat{r}} + r\\vec{\\hat{y}}$, where $\\vec{\\hat{r}}$ is the unit vector in the radial direction, and $\\vec{\\hat{y}}$ is the unit vector in the direction perpendicular to the ring. The position of a point on the ring is $\\vec{r} = (R +r)\\vec{\\hat{r}} + r\\vec{\\hat{y}}$, where $\\vec{\\hat{r}}$ is the unit vector in the radial direction, and $\\vec{\\hat{y}}$ is the unit vector in the direction perpendicular to the ring. The position of a point on the ring is $\\vec{r} = (R +r)\\vec{\\hat{r}} + r\\vec{\\hat{y}}$, where $\\vec{\\hat{r}}$ is the unit vector in the radial direction, and $\\vec{\\hat{y}}$ is the unit vector in the direction perpendicular to the ring. The position of a point on the ring is $\\vec{r} = (R +r)\\vec{\\hat{r}} + r\\vec{\\hat{y}}$, where $\\vec{\\hat{r}}$ is the unit vector in the radial direction, and $\\vec{\\hat{y}}$ is the unit vector in the direction perpendicular to the ring. The position of a point on the ring is $\\vec{r} = (R +r)\\vec{\\hat{r}} + r\\vec{\\hat{y}}$, where $\\vec{\\hat{r}}$ is the unit vector in the radial direction, and $\\vec{\\hat{y}}$ is the unit vector in the direction perpendicular to the ring. The position of a point on the ring is $\\vec{r} = (R +r)\\vec{\\hat{r}} + r\\vec{\\hat{y}}$, where $\\vec{\\hat{r}}$ is the unit vector in the radial direction, and $\\vec{\\hat{y}}$ is the unit vector in the direction perpendicular to the ring. The position of a point on the ring is $\\vec{r} = (R +r)\\vec{\\hat{r}} + r\\vec{\\hat{y}}$, where $\\vec{\\hat{r}}$ is the unit vector in the radial direction, and $\\vec{\\hat{y}}$ is the unit vector in the direction perpendicular to the ring. The position of a point on the ring is $\\vec{r} = (R +r)\\vec{\\hat{r}} + r\\vec{\\hat{y}}$, where $\\vec{\\hat{r}}$ is the unit vector in the radial direction, and $\\vec{\\hat{y}}$ is the unit vector in the direction perpendicular to the ring. The position of a point on the ring is $\\vec{r} = (R +r)\\vec{\\hat{r}} + r\\vec{\\hat{y}}$, where $\\vec{\\hat{r}}$ is the unit vector in the radial direction, and $\\vec{\\hat{y}}$ is the unit vector in the direction perpendicular to the ring. The position of a point on the ring is $\\vec{r} = (R +r)\\vec{\\hat{r}} + r\\vec{\\hat{y}}$, where $\\vec{\\hat{r}}$ is the unit vector in the radial direction, and $\\vec{\\hat{y}}$ is the unit vector in the direction perpendicular to the ring. The position of a point on the ring is $\\vec{r} = (R +r)\\vec{\\hat{r}} + r\\vec{\\hat{y}}$, where $\\vec{\\hat{r}}$ is the unit vector in the radial direction, and $\\vec{\\hat{y}}$ is the unit vector in the direction perpendicular to the ring. The position of a point on the ring is $\\vec{r} = (R +r)\\vec{\\hat{r}} + r\\vec{\\hat{y}}$, where $\\vec{\\hat{r}}$ is the unit vector in the radial direction, and $\\vec{\\hat{y}}$ is the unit vector in the direction perpendicular to the ring. The position of a point"
+    }
+  ],
+  "lexsi_audit": {
+    "experiment": "E1_solver_manual_det_v2_test",
+    "auditkit_available": true,
+    "aligntune_math_grading_available": true,
+    "match_method_breakdown": {
+      "mismatch": 21,
+      "missing_sentinel": 17
+    },
+    "generation_hygiene": {
+      "reward_hacking": 0.0,
+      "sycophancy": 0.0,
+      "refusal_collapse": 0.0,
+      "verbosity_gain": 0.0,
+      "timestamp": "2026-11-13T15:13:15.653374+00:00",
+      "avg_response_tokens": 247.55,
+      "repetition_ratio": 0.4773,
+      "unique_token_ratio": 0.3464,
+      "degenerate_rate": 0.0
+    },
+    "auditkit_version": "1.1.11"
+  }
+}
