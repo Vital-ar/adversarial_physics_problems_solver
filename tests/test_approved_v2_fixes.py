@@ -13,6 +13,8 @@ from adversarial_physics.data.curation.answer_validator import (
     validate_candidate_answer,
 )
 from adversarial_physics.data.curation.curatorkit_runner import (
+    _normalize_step_lines_and_answer,
+    _sanitize_flawed_trajectory_text,
     curate_and_deduplicate_stage2_trajectories,
 )
 from adversarial_physics.data.curation.curatorkit_stage1 import (
@@ -628,3 +630,26 @@ def test_train_adapter_no_undefined_vars_and_03b_endpoint_url_arg(tmp_path: Path
         rc = mod.main(["--backend", "hf_gpu", "--endpoint-url", "https://example.endpoints.huggingface.cloud"])
     assert rc == 0
     assert captured["endpoint_url"] == "https://example.endpoints.huggingface.cloud"
+
+
+def test_sanitize_flawed_trajectory_strips_meta_giveaways_and_answer_notes() -> None:
+    raw_flawed = (
+        "1. **Following the reference solution:** Set $F = ma$.\n"
+        "2. **Incorrect Time Dependency:** **Flaw:** We incorrectly drop the cosine factor.\n"
+        "3. **Step 3: Final Calculation:** Simplifying, we arrive at a **flawed final answer**: $v = 12$.\n"
+        "**ANSWER: 12** (Note: This answer is flawed due to the injected error (cos skipped) in step 2.)\n"
+        "<|im_end|>\n"
+        "ANSWER: **Note:** This derivation intentionally omits a term."
+    )
+    cleaned, is_usable = _sanitize_flawed_trajectory_text(raw_flawed)
+    assert is_usable is True
+    assert "<|im_end|>" not in cleaned
+    for cue in ("flaw", "flawed", "incorrect", "injected", "reference solution", "intentionally"):
+        assert cue not in cleaned.lower(), f"Meta cue {cue!r} leaked in: {cleaned!r}"
+    assert cleaned.endswith("\nANSWER: 12")
+
+    # Preserve clean numeric/scientific answers on Sol2 normalization
+    sol2_norm = _normalize_step_lines_and_answer("1. Solve.\n10. **ANSWER: 1.5e-19 C** (Verified)")
+    assert sol2_norm.endswith("ANSWER: 1.5e-19 C (Verified)")
+    sol2_num = _normalize_step_lines_and_answer("1. Solve.\nANSWER: 32 cm")
+    assert sol2_num.endswith("ANSWER: 32 cm")

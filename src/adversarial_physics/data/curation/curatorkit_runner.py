@@ -119,14 +119,106 @@ def _token_cosine_similarity(text_a: str, text_b: str) -> float:
     return dot / (norm_a * norm_b)
 
 
+_META_GIVEAWAY_RE = re.compile(
+    r"\b(?:flaw(?:ed|s)?|inject(?:ed|ing|ion)?|mistake(?:s|nly)?|misstep(?:s)?|incorrect(?:ly)?|"
+    r"erroneous(?:ly)?|deliberate(?:ly)?|intentional(?:ly)?|subtle\s+error|target\s+error|"
+    r"error\s+category|injected\s+error|corrupt(?:ed)?|broken\s+solution|reference\s+solution|"
+    r"ground[- ]truth(?:\s+(?:solution|answer))?|on\s+purpose|spurious|nonsensical|"
+    r"wrong\s+(?:assumption|units?|sign|formula|direction|term|value|result|answer)|"
+    r"should\s+(?:be|not\s+be|have\s+been)|(?:differs?|deviates?)\s+from\s+the\s+(?:reference|ground[- ]truth)|"
+    r"note\s*:)\b",
+    re.IGNORECASE,
+)
+
+_BALANCED_PAREN_RE = re.compile(r"\s*\(((?:[^()\n]|\([^()\n]*\)){2,350})\)")
+
+_PURE_META_SENTENCE_RE = re.compile(
+    r"\b(?:reference\s+solution|ground[- ]truth|target\s+error\s+category|"
+    r"error\s+category\s+requested|injected\s+error|common\s+(?:algebraic\s+)?mistake|"
+    r"must\s+have\s+made\s+a\s+mistake|made\s+a\s+(?:slight\s+|critical\s+)?mistake\s+(?:here|in\s+(?:our\s+)?(?:step|derivation))|"
+    r"(?:might\s+have|could\s+have)\s+made\s+a\s+mistake|double-check\s+my\s+work|"
+    r"(?:here'?s|this\s+is)\s+where\s+(?:the|our)\s+mistake\s+(?:occurs|becomes|comes)|"
+    r"our\s+mistake\s+(?:lies\s+in|becomes\s+apparent|persists|was\s+applying|comes\s+in|has\s+led)|"
+    r"(?:to\s+correct|correcting)\s+(?:for\s+)?(?:our|this|the)\s+mistake|realize\s+(?:my|the)\s+mistake|"
+    r"a\s+(?:critical\s+|subtle\s+|small\s+|key\s+|similar\s+|final\s+|crucial\s+)?mistake\s+(?:was|is)\s+made\s*(?:here)?\.?$|"
+    r"my\s+calculations,?\s+I\s+made\s+a\s+mistake|our\s+(?:final\s+)?answer\s+will\s+be\s+incorrect|"
+    r"solution\s+will\s+be\s+incorrect|crucial\s+for\s+the\s+incorrect\s+derivation|"
+    r"correct\s+(?:equation|formula|expression|answer|relationship|step|calculation)\s+should\s+(?:be|have\s+been)|"
+    r"we\s+should\s+(?:remember\s+that|have\s+(?:divided|considered|converted))|"
+    r"upon\s+reviewing,?\s+we\s+see\s+that|this\s+suggests\s+our\s+assumption|"
+    r"as\s+requested,?\s+the\s+final\s+answer\s+differs|"
+    r"the\s+sign\s+of\s+the\s+integral\s+for\s+the\s+circular\s+loop\s+is\s+incorrect|"
+    r"note\s+to\s+revisit\s+this\s+part)\b",
+    re.IGNORECASE,
+)
+
+
+def _strip_balanced_meta_parens(text: str) -> str:
+    """Remove parenthetical meta-comments (including nested parens) without stripping math groups."""
+
+    def _replace(match: re.Match[str]) -> str:
+        return "" if _META_GIVEAWAY_RE.search(match.group(1)) else match.group(0)
+
+    return _BALANCED_PAREN_RE.sub(_replace, text)
+
+
+def _clean_extracted_answer_suffix(raw_ans: str) -> str:
+    """Strip step prefixes, bold markers, and giveaway meta-notes trailing an ANSWER value."""
+    val = raw_ans.strip()
+    val = re.sub(
+        r"^(?:(?:Step\s+\d+|\d+\.)\s*(?=(?:\*{0,2}(?:ANSWER|Final\s+Answer)\b|Therefore))|(?:Step\s+\d+\s*:)\s*)",
+        "",
+        val,
+        flags=re.IGNORECASE,
+    ).strip()
+    val = re.sub(
+        r"^(?:Therefore,?\s+(?:our\s+)?final\s+answer\s+is\s*:\s*|\*{0,2}Final\s+Answer\*{0,2}\s*:\s*)",
+        "",
+        val,
+        flags=re.IGNORECASE,
+    ).strip()
+    val = re.sub(r"^(?:\*\*\s*)?ANSWER\s*:\s*", "", val, flags=re.IGNORECASE).strip()
+    val = re.sub(r"\*\*\s*$", "", val).strip()
+    val = re.sub(
+        r",?\s*\*{0,2}(?:which\s+is\s+(?:an?\s+)?(?:incorrect|flawed|wrong)\b.*|"
+        r"but\s+our\s+derivation\s+has\s+led\s+to\s+a\s+flawed.*|"
+        r"(?:leading|where\s+the\s+extra|which,?\s+while\s+(?:incorrect|flawed))\b[^.]*\b(?:incorrect|flawed|wrong|mistake)\b.*|"
+        r"contradicting\s+our\s+flawed\s+analysis.*)\s*$",
+        "",
+        val,
+        flags=re.IGNORECASE,
+    ).strip()
+    while True:
+        match = re.search(r"\s*\(((?:[^()]|\([^()]*\)){3,350})\)\.?\s*$", val)
+        if match and _META_GIVEAWAY_RE.search(match.group(1)):
+            val = val[: match.start()].strip()
+        else:
+            break
+    val = re.sub(r"\*{0,2}\s*\((?:This\s+(?:is\s+a\s+(?:flawed|incorrect)|answer)|Flawed|Incorrect|Omitted)[^)]*\)?\.?\s*$", "", val, flags=re.IGNORECASE).strip()
+    val = re.sub(r"\*{1,2}\s*$", "", val).strip()
+    if val.count("**") % 2 == 1:
+        val = val.replace("**", "").strip()
+    val = re.sub(
+        r"^(?:\*\*\s*)?(?:Note\s*:|This\s+(?:answer|derivation)\b|As\s+you\s+can\s+see,?\s+the\s+final\s+answer\s+is\s+flawed\b|"
+        r"Therefore,?\s+the\s+physics\s+remains\s+unchanged\b).*$",
+        "",
+        val,
+        flags=re.IGNORECASE,
+    ).strip()
+    return val
+
+
 def _normalize_step_lines_and_answer(raw_text: str, *, fallback_answer: str | None = None) -> str:
     """Normalize numbered steps (`1. ...`, `### **Step 1: ...**`) to `Step 1: ...` and collapse duplicate `ANSWER:` lines."""
     # Restore control chars accidentally produced by unescaped re.sub backslashes (\f -> \frac, \b -> \beta, \t -> \theta/\tau)
     text = raw_text.replace("\x0c", "\\f").replace("\x08", "\\b").replace("\t", "\\t")
+    text = re.sub(r"<\|im_end\|>|<\|endoftext\|>|<\|eot_id\|>", "", text)
     text = re.sub(r"(?<![a-zA-Z\\])rac\{", r"\\frac{", text)
     text = re.sub(r"^```[a-zA-Z]*\n?|\n?```$", "", text.strip()).strip()
 
     _, extracted_ans = extract_answer_line(text)
+    cleaned_extracted = _clean_extracted_answer_suffix(extracted_ans)
+
     lines = text.splitlines()
     cleaned_lines: list[str] = []
     inline_answers: list[str] = []
@@ -143,13 +235,16 @@ def _normalize_step_lines_and_answer(raw_text: str, *, fallback_answer: str | No
         ):
             continue
 
-        # Capture any remaining inline **ANSWER: ...** lines
-        ans_m = re.match(r"^(?:\*\*\s*)?ANSWER\s*:\s*(.*?)(?:\*\*)?\s*$", s, flags=re.IGNORECASE)
+        # Capture inline ANSWER: lines, including numbered forms like `10. **ANSWER: ...**`
+        ans_m = re.match(
+            r"^(?:(?:#+\s*)?(?:\*\*\s*)?(?:Step\s+\d+|\d+\.)\s*[:.\-]?\s*(?:\*\*\s*)?)?"
+            r"(?:(?:\*{0,2}Final\s+Answer\*{0,2}\s*:|Therefore,?\s+(?:our\s+)?final\s+answer\s+is\s*:)\s*)?"
+            r"(?:\*\*\s*)?ANSWER\s*:\s*(.+)$",
+            s,
+            flags=re.IGNORECASE,
+        )
         if ans_m:
-            val = ans_m.group(1).strip()
-            val = re.sub(r"^(?:\*\*\s*)?ANSWER\s*:\s*", "", val, flags=re.IGNORECASE).strip()
-            val = re.sub(r"\*\*\s*$", "", val).strip()
-            val = re.sub(r"\s*\((?:This\s+answer|Flawed|Incorrect|Omitted)[^)]*\)\s*$", "", val, flags=re.IGNORECASE).strip()
+            val = _clean_extracted_answer_suffix(ans_m.group(1))
             if val:
                 inline_answers.append(val)
             continue
@@ -157,9 +252,9 @@ def _normalize_step_lines_and_answer(raw_text: str, *, fallback_answer: str | No
         if re.match(r"^(?:#+\s*)?\*{0,2}\s*Final\s+Answer\s*:?\s*\*{0,2}\s*:?\s*$", s, flags=re.IGNORECASE):
             continue
 
-        # Normalize step headers: `### **Step 1: Setup**` or `**1. Setup:**` or `1. **Setup:**` -> `Step 1: **Setup:**`
+        # Normalize step headers: `### **Step 1: Setup**` or `**Step 1:** text` or `1. **Setup:**` -> `Step 1: ...`
         step_m = re.match(
-            r"^(?:#+\s*)?(?:\*\*\s*)?(?:Step\s+(\d+)|(\d+)\.)\s*[:.\-]?\s*(.*?)(?:\*\*)?$",
+            r"^(?:#+\s*)?(?:\*\*\s*)?(?:Step\s+(\d+)|(\d+)\.)\s*[:.\-]?\s*(?:\*\*\s*)?(.*?)(?:\*\*)?$",
             s,
             flags=re.IGNORECASE,
         )
@@ -167,7 +262,7 @@ def _normalize_step_lines_and_answer(raw_text: str, *, fallback_answer: str | No
             num = step_m.group(1) or step_m.group(2)
             rest = step_m.group(3).strip()
             rest = re.sub(
-                r"\s*\(\s*(?:Flawed(?:\s+Step)?|Incorrect(?:\s+Step)?|Omitted(?:\s+Term)?|Simplified|Error)\s*\)",
+                r"\s*\(\s*(?:Flawed(?:\s+Step)?|Incorrect(?:\s+Step)?|Omitted(?:\s+Term)?|Simplified|Error|Mistake)\s*\)",
                 "",
                 rest,
                 flags=re.IGNORECASE,
@@ -179,10 +274,10 @@ def _normalize_step_lines_and_answer(raw_text: str, *, fallback_answer: str | No
         cleaned_lines.append(s)
 
     body = "\n".join(cleaned_lines).strip()
-    final_ans = fallback_answer if fallback_answer is not None else (extracted_ans or (inline_answers[-1] if inline_answers else ""))
-    final_ans = re.sub(r"^(?:\*\*\s*)?ANSWER\s*:\s*", "", final_ans, flags=re.IGNORECASE).strip()
-    final_ans = re.sub(r"\*\*\s*$", "", final_ans).strip()
-    final_ans = re.sub(r"\s*\((?:This\s+answer|Flawed|Incorrect|Omitted)[^)]*\)\s*$", "", final_ans, flags=re.IGNORECASE).strip()
+    if fallback_answer is not None:
+        final_ans = _clean_extracted_answer_suffix(fallback_answer)
+    else:
+        final_ans = cleaned_extracted or (inline_answers[-1] if inline_answers else "")
     final_ans = final_ans.replace("\x0c", "\\f").replace("\x08", "\\b").replace("\t", "\\t")
     final_ans = re.sub(r"(?<![a-zA-Z\\])rac\{", r"\\frac{", final_ans).strip()
     if final_ans:
@@ -190,11 +285,122 @@ def _normalize_step_lines_and_answer(raw_text: str, *, fallback_answer: str | No
     return body
 
 
+def _neutralize_sentence_meta_cues(sent: str) -> str:
+    """Rewrite self-incriminating flaw admissions inside a step sentence without removing its physics math."""
+    sent = re.sub(r",?\s*\bwhich\s+is\s+(?:physically\s+|clearly\s+)?(?:incorrect|flawed|wrong)(?:\s+(?:based\s+on|as|since|because)[^.,;]*)?", "", sent, flags=re.IGNORECASE)
+    sent = re.sub(
+        r",?\s*\b(?:consistent\s+with|different\s+from|according\s+to|per)\s+the\s+(?:reference\s+solution|ground[- ]truth(?:\s+(?:solution|answer))?)\b[^.,;]*",
+        "",
+        sent,
+        flags=re.IGNORECASE,
+    )
+    sent = re.sub(
+        r",?\s*\b(?:leading\s+to|resulting\s+in)\s+(?:an?|the)\s+(?:consistent\s+but\s+)?(?:spurious|nonsensical|flawed|incorrect|wrong)\s+"
+        r"(?:final\s+)?(?:result|answer|expression|value|conclusion|field\s+expression|relationship|understanding)\b[^.:;]*",
+        "",
+        sent,
+        flags=re.IGNORECASE,
+    )
+    sent = re.sub(r",?\s*\bcontradicting\s+our\s+flawed\s+analysis[^.;]*", "", sent, flags=re.IGNORECASE)
+    sent = re.sub(r"\bThis\s+equation\s+is\s+incorrect\s*;\s*", "", sent, flags=re.IGNORECASE)
+    sent = re.sub(r",?\s*\bdue\s+to\s+(?:the\s+|our\s+|an?\s+)?(?:\w+\s+){0,2}(?:error|mistake|flaw)\b[^.,;:]*", "", sent, flags=re.IGNORECASE)
+    sent = re.sub(r",?\s*\bdue\s+to\s+the\s+injection\s+of\s+the\s+formula\b", "", sent, flags=re.IGNORECASE)
+    sent = re.sub(r",?\s*\bas\s+we\s+have\s+already\s+made\s+a\s+(?:critical\s+)?mistake[^.;]*", "", sent, flags=re.IGNORECASE)
+    sent = re.sub(
+        r",?\s*\b(?:However,?\s*)?(?:we|I|let'?s)(?:'?(?:ve|re|ll))?\s+(?:can\s+|might\s+be\s+)?"
+        r"(?:mak(?:e|ing)|made)\s+(?:a|another|the|our)?\s*"
+        r"(?:slight|small|subtle|crucial|key|final|similar|algebraic|sign)?\s*mistake\s*(?:here\s*)?"
+        r"(?:by\s+(?:not\s+)?|of\s+|in\s+|and\s*|,|:)\s*",
+        " we proceed by ",
+        sent,
+        flags=re.IGNORECASE,
+    )
+    sent = re.sub(r",?\s*\b(?:but\s+)?(?:we|I)(?:'?(?:ve|ll))?\s+(?:make|made)\s+(?:a|another|a\s+similar)\s+mistake\b[:.,]?", "", sent, flags=re.IGNORECASE)
+    sent = re.sub(r"\bin\s+a\s+dimensional\s+analysis\s+mistake,?\s*", "here, ", sent, flags=re.IGNORECASE)
+    sent = re.sub(r"\bmakes\s+the\s+mistake\s+of\b", "proceeds by", sent, flags=re.IGNORECASE)
+    sent = re.sub(r",?\s*\bwith\s+a\s+mistake\s+in\s+the\s+sign\b", "", sent, flags=re.IGNORECASE)
+    sent = re.sub(r"\bleads\s+to\s+a\s+mistake\s*:\s*", "gives ", sent, flags=re.IGNORECASE)
+    sent = re.sub(r"\b(?:the\s+mistake\s+in\s+step\s+\d+|where\s+we\s+make\s+our\s+mistake)\b", "this step", sent, flags=re.IGNORECASE)
+    sent = re.sub(r"\b(?:However,?\s*)?we\s+make\s+the\s+(?:incorrect|flawed|erroneous)\s+assumption\s+that\b", "We assume that", sent, flags=re.IGNORECASE)
+    sent = re.sub(r"\b(?:However,?\s*)?(?:we|I)\s+(?:mistakenly|incorrectly|erroneously|deliberately|intentionally)\s+", "We ", sent, flags=re.IGNORECASE)
+    sent = re.sub(r",?\s*\b(?:mistakenly|incorrectly|erroneously|deliberately|intentionally)\b,?\s*", " ", sent, flags=re.IGNORECASE)
+    sent = re.sub(r"\b(?:we\s+arrive\s+at|this\s+leads\s+to|we\s+conclude\s+with)\s+(?:a|the)\s+flawed\s+(?:final\s+)?answer\b", "we obtain the final answer", sent, flags=re.IGNORECASE)
+    sent = re.sub(r"\b(?:our\s+)?flawed\s+final\s+answer\s+is\b", "the final answer is", sent, flags=re.IGNORECASE)
+    sent = re.sub(
+        r"\b(?:this|the|that|an?|our|related\s+but)\s+(?:spurious|nonsensical|flawed|incorrect|erroneous|wrong)\s+"
+        r"(expression|formula|equation|substitution|assumption|value|result|factor|sign|direction|unit|understanding|current|ratio|model|relation|term|conclusion|answer|calculation|derivative|step)\b",
+        r"the \1",
+        sent,
+        flags=re.IGNORECASE,
+    )
+    sent = re.sub(r"\b(?:spurious|nonsensical|flawed|erroneous|incorrect)\s+", "", sent, flags=re.IGNORECASE)
+    sent = re.sub(r"\b(?:but|and)\s+(?:our\s+interpretation\s+of\s+[^.;]*?\s+|that\s+[^.;]*?\s+)?is\s+(?:physically\s+|clearly\s+)?(?:incorrect|flawed|wrong)\b[^.;]*", "", sent, flags=re.IGNORECASE)
+    sent = re.sub(r"\bthis\s+(?:is\s+(?:physically\s+|clearly\s+)?(?:incorrect|flawed)|step\s+is\s+flawed)\b[^.;]*", "", sent, flags=re.IGNORECASE)
+    return re.sub(r"\s{2,}", " ", sent).strip()
+
+
 def _sanitize_flawed_trajectory_text(raw_text: str) -> tuple[str, bool]:
     """Strip self-incriminating giveaway phrases from synthetic flawed trajectories so Verifier cannot cheat."""
     cleaned = _normalize_step_lines_and_answer(raw_text)
+    cleaned = re.sub(r"\\text\{\(\s*expression\s+with\s+incorrect\s+time\s+dependencies\s*\)\}", r"\\text{(time-dependent factor)}", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"\\text\{\(\s*incorrect\s+(term|expression|factor)\s*\)\}", r"\\text{(additional \1)}", cleaned, flags=re.IGNORECASE)
+
+    # Drop standalone meta/Note header lines and clean meta comments on ANSWER lines
+    kept_lines: list[str] = []
+    for ln in cleaned.splitlines():
+        s = ln.strip()
+        if not s:
+            kept_lines.append(ln)
+            continue
+        if s.upper().startswith("ANSWER:"):
+            ln = _strip_balanced_meta_parens(ln)
+            ln = re.sub(
+                r"(?:,?\s*\b(?:is\s+incorrect|and\s+has\s+also\s+incorrectly\s+used|contradicting\s+our\s+flawed\s+analysis|"
+                r"leading\s+to\s+an?\s+(?:incorrect|flawed|wrong)|where\s+the\s+extra\s+[^.]*\b(?:incorrect|flawed)|"
+                r"which,?\s+while\s+(?:incorrect|flawed))\b.*$)",
+                "",
+                ln,
+                flags=re.IGNORECASE,
+            )
+            kept_lines.append(ln.strip())
+            continue
+        if re.match(
+            r"^(?:\*{0,2}Note\s*:?\*{0,2}|\(Note\b|\*{0,2}Flaw(?:ed)?\b[^:]*:|\*{0,2}INJECTED\s+ERROR\b|Here\s+is\s+a\s+(?:step-by-step\s+)?derivation\s+with\b)",
+            s,
+            flags=re.IGNORECASE,
+        ) and _META_GIVEAWAY_RE.search(s):
+            continue
+        kept_lines.append(ln)
+    cleaned = "\n".join(kept_lines)
+
+    # Strip bold or colon-suffixed step sub-headers (including nested colons like `Misstep: Omitting Internal Resistance:**`)
     cleaned = re.sub(
-        r"(?:#+\s*)?\*{0,2}\s*Flawed\s+(?:Student\s+)?(?:Derivation|Solution|Attempt)(?:\s*\([^)]*\))?\s*:?\s*\*{0,2}\s*:?\s*",
+        r"(?:#+\s*)?(?:\*{1,2})?\s*[^\n*]{0,75}?\b(?:flaw(?:ed)?|mistake|misstep|inject(?:ed)?\s*error|"
+        r"realize\s+the\s+error|erroneous|incorrect(?:ly)?|unit\s+error|algebraic\s+error|sign\s+error|"
+        r"omission|avoidable\s+simplification)\b[^\n*]{0,45}?(?::\s*\*{1,2}|\*{1,2}\s*:?)(?:\s*Step\s*:)?",
+        "",
+        cleaned,
+        flags=re.IGNORECASE,
+    )
+    cleaned = re.sub(
+        r"(?<=:\s)(?:Flaw\s+in\s+Step|Mistake\s+in\s+Step|Injected\s+Error)\s*:\s*",
+        "",
+        cleaned,
+        flags=re.IGNORECASE,
+    )
+    cleaned = re.sub(r"\*{1,2}(?:flawed|incorrectly|erroneously|deliberately|intentionally|mistakenly)\*{1,2}", "", cleaned, flags=re.IGNORECASE)
+    cleaned = _strip_balanced_meta_parens(cleaned)
+    cleaned = re.sub(
+        r"(?:Using\s+the\s+same\s+logic\s+as\s+in|Following(?:\s+the\s+same\s+proportionality\s+logic\s+as\s+in)?|"
+        r"Mirroring|Similar\s+to(?:\s+equations?\s*[^,]+in)?|As\s+(?:suggested|shown|given)\s+in|Based\s+on)\s+"
+        r"the\s+(?:reference\s+solution|ground[- ]truth(?:\s+solution)?),?\s*",
+        "",
+        cleaned,
+        flags=re.IGNORECASE,
+    )
+    cleaned = re.sub(r"\s+\bfrom\s+the\s+(?:reference\s+solution|ground[- ]truth(?:\s+solution)?)\b", "", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(
+        r"(?:Here'?s|Here\s+is)\s+(?:a\s+derivation\s+that\s+makes\s+the\s+mistake[^:]*:|where\s+the\s+(?:mistake|error|flaw)\s+(?:occurs|is\s+introduced)[^.]*\.?\s*)",
         "",
         cleaned,
         flags=re.IGNORECASE,
@@ -205,18 +411,34 @@ def _sanitize_flawed_trajectory_text(raw_text: str) -> tuple[str, bool]:
         cleaned,
         flags=re.IGNORECASE,
     )
-    cleaned = re.sub(r"Here'?s\s+where\s+the\s+(?:mistake|error|flaw)\s+occurs\.?\s*", "", cleaned, flags=re.IGNORECASE)
-    cleaned = re.sub(r"\bWe\s+incorrectly\s+", "We ", cleaned, flags=re.IGNORECASE)
-    cleaned = re.sub(r"\bI\s+incorrectly\s+", "I ", cleaned, flags=re.IGNORECASE)
-    cleaned = re.sub(r"\bincorrectly\s+(assume|use|write|drop|flip|substitute|apply|equate|ignore|set|take|calculate)\b", r"\1", cleaned, flags=re.IGNORECASE)
-    cleaned = re.sub(r"\b(?:a\s+)?(?:spurious|nonsensical|flawed|incorrect)\s+(result|expression|value|equation|model|charge\s+density|relationship)\b", r"the \1", cleaned, flags=re.IGNORECASE)
-    cleaned = re.sub(r"\s*,\s*leading\s+to\s+a\s+(?:spurious|nonsensical|flawed|wrong)\s+result", "", cleaned, flags=re.IGNORECASE)
-    cleaned = re.sub(r"\s*\((?:This|which)\s+is\s+(?:only\s+part\s+of\s+the\s+correct|a\s+simplified\s+version|incorrect|flawed|wrong)[^)]*\)", "", cleaned, flags=re.IGNORECASE)
-    cleaned = re.sub(r"\s*\(no\s+change\s+from\s+the\s+reference\s+solution\)", "", cleaned, flags=re.IGNORECASE)
-    cleaned = re.sub(r"\s+as\s+in\s+the\s+reference(?:\s+solution)?", "", cleaned, flags=re.IGNORECASE)
-    cleaned = re.sub(r"I'?ve\s+skipped\s+the\s+[^.]*\.\s*The\s+final\s+answer\s+should\s+still\s+hold\s+without\s+it\.?", "", cleaned, flags=re.IGNORECASE)
-    cleaned = re.sub(r"\*{2}([^*\n]+?)\s*:\*{2}", r"**\1:**", cleaned)
+
+    new_lines: list[str] = []
+    for ln in cleaned.splitlines():
+        if ln.strip().upper().startswith("ANSWER:"):
+            new_lines.append(ln)
+            continue
+        m_step = re.match(r"^(Step\s+\d+:\s*)(.*)$", ln)
+        prefix = m_step.group(1) if m_step else ""
+        rest = m_step.group(2) if m_step else ln
+        sents = re.split(r"(?<=[.!?])\s+(?=[A-Z*(])", rest.strip()) if rest.strip() else []
+        kept_sents: list[str] = []
+        for sent in sents:
+            if _PURE_META_SENTENCE_RE.search(sent) and not (":" in sent and "=" in sent):
+                continue
+            cleaned_sent = _neutralize_sentence_meta_cues(sent)
+            if cleaned_sent and cleaned_sent not in {".", ":", ","}:
+                kept_sents.append(cleaned_sent)
+        joined = (prefix + " ".join(kept_sents)).strip()
+        if prefix and not kept_sents:
+            continue
+        if joined:
+            new_lines.append(joined)
+
+    cleaned = "\n".join(new_lines)
+    cleaned = re.sub(r"\b(a)\s+([aeiouAEIOU])", lambda m: ("an " if m.group(1) == "a" else "An ") + m.group(2), cleaned)
+    cleaned = re.sub(r"\b(an)\s+([bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ])", lambda m: ("a " if m.group(1) == "an" else "A ") + m.group(2), cleaned)
     cleaned = re.sub(r"\bthe\s+the\b", "the", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"\s+([.,;:])", r"\1", cleaned)
     cleaned = re.sub(r"\n{3,}", "\n\n", cleaned).strip()
     return cleaned, True
 
