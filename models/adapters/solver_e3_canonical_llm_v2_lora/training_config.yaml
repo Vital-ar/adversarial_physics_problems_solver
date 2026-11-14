@@ -1,0 +1,3 @@
+model_name: CohereLabs/tiny-aya-global
+task_type: !!python/object/apply:aligntune.core.registry.TaskType
+- instruction_following

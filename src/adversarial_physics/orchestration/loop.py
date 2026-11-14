@@ -816,9 +816,209 @@ class DualLoRAEngine:
             use_stop_strings=True,
         )
 
+    def _generate_batch(
+        self,
+        *,
+        adapter_name: str,
+        raw_prompts: Sequence[str],
+        max_new_tokens: int,
+        temperature: float,
+        use_stop_strings: bool,
+    ) -> list[tuple[str, int, float]]:
+        """Run batched left-padded generation for multiple prompts under one adapter switch."""
+        import torch
+
+        if not raw_prompts:
+            return []
+        if len(raw_prompts) == 1:
+            return [
+                self._generate(
+                    adapter_name=adapter_name,
+                    raw_prompt=raw_prompts[0],
+                    max_new_tokens=max_new_tokens,
+                    temperature=temperature,
+                    use_stop_strings=use_stop_strings,
+                )
+            ]
+
+        t0 = time.monotonic()
+        self.model.set_adapter(adapter_name)
+        formatted = [
+            format_model_prompt(p, prompt_mode=self.prompt_mode, tokenizer=self.tokenizer)
+            for p in raw_prompts
+        ]
+        orig_pad_side = getattr(self.tokenizer, "padding_side", "right")
+        self.tokenizer.padding_side = "left"
+        try:
+            encoded = self.tokenizer(
+                formatted,
+                return_tensors="pt",
+                padding=True,
+                truncation=True,
+                max_length=2048,
+            )
+        finally:
+            self.tokenizer.padding_side = orig_pad_side
+
+        device = self._input_device()
+        encoded = {k: v.to(device) for k, v in encoded.items()}
+        prompt_len = int(encoded["input_ids"].shape[1])
+
+        gen_kwargs: dict[str, Any] = {
+            "max_new_tokens": max_new_tokens,
+            "pad_token_id": self.tokenizer.pad_token_id or self.tokenizer.eos_token_id,
+            "eos_token_id": self.tokenizer.eos_token_id,
+            "use_cache": True,
+        }
+        if temperature > 0.0:
+            gen_kwargs["do_sample"] = True
+            gen_kwargs["temperature"] = temperature
+            gen_kwargs["top_p"] = 0.95
+        else:
+            gen_kwargs["do_sample"] = False
+
+        with torch.inference_mode():
+            out_ids = self.model.generate(**encoded, **gen_kwargs)
+
+        elapsed_each = (time.monotonic() - t0) / max(1, len(raw_prompts))
+        pad_id = self.tokenizer.pad_token_id
+        eos_id = self.tokenizer.eos_token_id
+        outputs: list[tuple[str, int, float]] = []
+        for row_idx in range(len(raw_prompts)):
+            new_ids = out_ids[row_idx, prompt_len:]
+            decoded = self.tokenizer.decode(new_ids, skip_special_tokens=True).strip()
+            if use_stop_strings:
+                for sentinel in self.stop_strings:
+                    idx = decoded.find(sentinel)
+                    if idx != -1:
+                        decoded = decoded[: idx + len(sentinel)].strip()
+                        break
+            non_pad = int(
+                sum(
+                    1
+                    for tok in new_ids.tolist()
+                    if tok != pad_id and tok != eos_id
+                )
+            )
+            outputs.append((decoded, max(1, non_pad), elapsed_each))
+        return outputs
+
+    def generate_solver_batch(self, raw_prompts: Sequence[str]) -> list[tuple[str, int, float]]:
+        """Run batched ``solver`` generation on multiple Turn-0 or Hinted-Revision prompts."""
+        return self._generate_batch(
+            adapter_name="solver",
+            raw_prompts=raw_prompts,
+            max_new_tokens=self.solver_max_new_tokens,
+            temperature=self.temperature_solver,
+            use_stop_strings=False,
+        )
+
+    def generate_verifier_batch(self, raw_prompts: Sequence[str]) -> list[tuple[str, int, float]]:
+        """Run batched ``verifier`` generation on multiple ``[problem, solution]`` prompts."""
+        return self._generate_batch(
+            adapter_name="verifier",
+            raw_prompts=raw_prompts,
+            max_new_tokens=self.verifier_max_new_tokens,
+            temperature=self.temperature_verifier,
+            use_stop_strings=True,
+        )
+
+
+_DIRECTIVE_STOPWORDS = frozenset(
+    {
+        "to",
+        "the",
+        "of",
+        "in",
+        "and",
+        "for",
+        "is",
+        "that",
+        "you",
+        "must",
+        "use",
+        "apply",
+        "consider",
+        "find",
+        "solve",
+        "problem",
+        "this",
+        "by",
+        "with",
+        "from",
+        "on",
+        "as",
+        "be",
+        "are",
+        "an",
+        "at",
+        "or",
+        "correctly",
+        "determine",
+    }
+)
+
 
 def _normalize_hint_key(text: str) -> str:
     return re.sub(r"\s+", " ", (text or "").strip().lower())
+
+
+def _directive_content_tokens(text: str) -> set[str]:
+    toks = set(re.findall(r"\\[A-Za-z]+|[a-zA-Z0-9_]{2,}", (text or "").lower()))
+    return toks - _DIRECTIVE_STOPWORDS
+
+
+def _is_near_duplicate_directive(
+    new_directive: str,
+    previous_directives: Sequence[str],
+    *,
+    jaccard_threshold: float = 0.45,
+) -> bool:
+    """Return True if `new_directive` is an exact or semantic near-duplicate of any prior directive."""
+    norm_new = _normalize_hint_key(new_directive)
+    if not norm_new:
+        return True
+    for prev in previous_directives:
+        if _normalize_hint_key(prev) == norm_new:
+            return True
+    new_toks = _directive_content_tokens(new_directive)
+    if len(new_toks) < 6:
+        return False
+    for prev in previous_directives:
+        prev_toks = _directive_content_tokens(prev)
+        if len(prev_toks) < 6:
+            continue
+        union_n = len(new_toks | prev_toks)
+        if union_n > 0 and (len(new_toks & prev_toks) / union_n) >= jaccard_threshold:
+            return True
+    return False
+
+
+def _is_structurally_sound_trace(trace: TurnTrace) -> bool:
+    """Check whether a turn produced a non-empty, unit-consistent, non-unintegrated ANSWER: sentinel."""
+    sv = trace.solver_validation or {}
+    if not sv.get("has_answer_sentinel", False):
+        return False
+    if not sv.get("unit_consistent", True):
+        return False
+    ans = str(sv.get("extracted_candidate_answer") or "").strip()
+    if not ans or len(ans) > 100:
+        return False
+    if "\\int" in ans or "+ C" in ans or "+C" in ans or "undefined" in ans.lower():
+        return False
+    return True
+
+
+def _select_best_turn_trace(traces: Sequence[TurnTrace]) -> TurnTrace:
+    """Turn Regression Guard: return the final trace unless it suffered a structural regression
+    (missing ANSWER:, unit mismatch, or un-evaluated integral) while an earlier turn was structurally sound."""
+    last = traces[-1]
+    if len(traces) <= 1 or _is_structurally_sound_trace(last):
+        return last
+    for candidate in reversed(traces[:-1]):
+        if _is_structurally_sound_trace(candidate):
+            return candidate
+    return last
 
 
 def _safe_rate(num: int, den: int) -> float | None:
@@ -928,7 +1128,10 @@ def run_single_problem_loop(
             stop_reason = "empty_directive"
             break
         hint_key = _normalize_hint_key(hint)
-        if stop_on_duplicate_hint and hint_key in seen_hint_keys:
+        if stop_on_duplicate_hint and (
+            hint_key in seen_hint_keys
+            or _is_near_duplicate_directive(hint, accumulated_directives)
+        ):
             stop_reason = "duplicate_hint_stopped"
             break
 
@@ -936,7 +1139,7 @@ def run_single_problem_loop(
         accumulated_directives.append(hint)
 
     first = traces[0]
-    last = traces[-1]
+    last = _select_best_turn_trace(traces)
     turn0_ok = first.solver_is_correct
     final_ok = last.solver_is_correct
 
@@ -963,12 +1166,188 @@ def run_single_problem_loop(
     )
 
 
+def run_batch_problems_loop(
+    problems: Sequence[CanonicalProblem],
+    *,
+    solver_generate_batch: Callable[[Sequence[str]], Sequence[str | tuple[str, int] | tuple[str, int, float]]],
+    verifier_generate_batch: Callable[[Sequence[str]], Sequence[str | tuple[str, int] | tuple[str, int, float]]],
+    max_iterations: int = 3,
+    verify_final_iteration: bool = True,
+    stop_on_duplicate_hint: bool = True,
+    rel_tol: float = 0.015,
+) -> list[ProblemLoopResult]:
+    """Execute up to ``max_iterations`` Solver -> Verifier cycles across a batch of problems in lockstep."""
+    if max_iterations < 1:
+        raise ValueError(f"max_iterations must be >= 1, got {max_iterations}")
+    if not problems:
+        return []
+
+    n_batch = len(problems)
+    norm_ref_answers = [prepare_reference_for_validation(p.reference_solution)[1] for p in problems]
+    accumulated_directives: list[list[str]] = [[] for _ in range(n_batch)]
+    seen_hint_keys: list[set[str]] = [set() for _ in range(n_batch)]
+    traces_per_prob: list[list[TurnTrace]] = [[] for _ in range(n_batch)]
+    stop_reasons: list[str] = ["max_iterations_reached" for _ in range(n_batch)]
+    active_indices: list[int] = list(range(n_batch))
+
+    for iteration in range(1, max_iterations + 1):
+        if not active_indices:
+            break
+        turn = iteration - 1
+        directives_snapshots = [list(accumulated_directives[i]) for i in active_indices]
+        solver_prompts = [
+            format_solver_prompt(problems[i].problem_statement, directives_snapshots[pos])
+            for pos, i in enumerate(active_indices)
+        ]
+
+        t_s0 = time.monotonic()
+        raw_solver_batch = solver_generate_batch(solver_prompts)
+        fallback_s_lat = (time.monotonic() - t_s0) / max(1, len(active_indices))
+        unpacked_solver = [_unpack_gen_result(r) for r in raw_solver_batch]
+
+        val_results = [
+            score_solver_output(unpacked_solver[pos][0], problems[i].reference_solution, rel_tol=rel_tol)
+            for pos, i in enumerate(active_indices)
+        ]
+
+        should_verify = (iteration < max_iterations) or verify_final_iteration
+        if should_verify:
+            verifier_prompts = [
+                format_verifier_prompt(problems[i].problem_statement, unpacked_solver[pos][0])
+                for pos, i in enumerate(active_indices)
+            ]
+            t_v0 = time.monotonic()
+            raw_verifier_batch = verifier_generate_batch(verifier_prompts)
+            fallback_v_lat = (time.monotonic() - t_v0) / max(1, len(active_indices))
+            unpacked_verifier = [_unpack_gen_result(r) for r in raw_verifier_batch]
+        else:
+            verifier_prompts = [None for _ in active_indices]  # type: ignore[misc]
+            unpacked_verifier = [("", 0, 0.0) for _ in active_indices]
+            fallback_v_lat = 0.0
+
+        next_active: list[int] = []
+        for pos, i in enumerate(active_indices):
+            solver_raw, solver_tokens, solver_lat = unpacked_solver[pos]
+            if solver_lat == 0.0:
+                solver_lat = fallback_s_lat
+            val_res = val_results[pos]
+
+            verifier_prompt: str | None = None
+            verifier_raw: str | None = None
+            verifier_verdict: str | None = None
+            verifier_directive: str | None = None
+            verifier_decision_ok: bool | None = None
+            verifier_tokens = 0
+            verifier_lat = 0.0
+
+            if should_verify:
+                verifier_prompt = verifier_prompts[pos]
+                verifier_raw, verifier_tokens, verifier_lat = unpacked_verifier[pos]
+                if verifier_lat == 0.0:
+                    verifier_lat = fallback_v_lat
+                parsed = parse_verifier_response(
+                    verifier_raw, problem_statement=problems[i].problem_statement
+                )
+                verifier_verdict = parsed.verdict
+                verifier_directive = parsed.directive
+                if parsed.verdict == "APPROVE":
+                    verifier_decision_ok = bool(val_res.is_equivalent)
+                elif parsed.verdict == "CHALLENGE":
+                    verifier_decision_ok = not bool(val_res.is_equivalent)
+
+            traces_per_prob[i].append(
+                TurnTrace(
+                    iteration=iteration,
+                    turn=turn,
+                    accumulated_directives=directives_snapshots[pos],
+                    solver_prompt=solver_prompts[pos],
+                    solver_output=solver_raw,
+                    solver_validation=val_res.to_dict(),
+                    solver_is_correct=bool(val_res.is_equivalent),
+                    solver_tokens=solver_tokens,
+                    solver_latency_s=round(solver_lat, 4),
+                    verifier_prompt=verifier_prompt,
+                    verifier_output=verifier_raw,
+                    verifier_verdict=verifier_verdict,
+                    verifier_directive=verifier_directive,
+                    verifier_is_decision_correct=verifier_decision_ok,
+                    verifier_tokens=verifier_tokens,
+                    verifier_latency_s=round(verifier_lat, 4),
+                )
+            )
+
+            if not should_verify:
+                stop_reasons[i] = "max_iterations_reached"
+                continue
+            if verifier_verdict == "APPROVE":
+                stop_reasons[i] = "approved"
+                continue
+            if verifier_verdict != "CHALLENGE":
+                stop_reasons[i] = "verifier_no_sentinel"
+                continue
+            if iteration >= max_iterations:
+                stop_reasons[i] = "max_iterations_reached"
+                continue
+
+            hint = (verifier_directive or "").strip()
+            if not hint:
+                stop_reasons[i] = "empty_directive"
+                continue
+            hint_key = _normalize_hint_key(hint)
+            if stop_on_duplicate_hint and (
+                hint_key in seen_hint_keys[i]
+                or _is_near_duplicate_directive(hint, accumulated_directives[i])
+            ):
+                stop_reasons[i] = "duplicate_hint_stopped"
+                continue
+
+            seen_hint_keys[i].add(hint_key)
+            accumulated_directives[i].append(hint)
+            next_active.append(i)
+
+        active_indices = next_active
+
+    batch_results: list[ProblemLoopResult] = []
+    for i, problem in enumerate(problems):
+        traces = traces_per_prob[i]
+        first = traces[0]
+        last = _select_best_turn_trace(traces)
+        turn0_ok = first.solver_is_correct
+        final_ok = last.solver_is_correct
+        batch_results.append(
+            ProblemLoopResult(
+                problem_id=problem.problem_id,
+                domain=problem.domain,
+                problem_statement=problem.problem_statement,
+                reference_solution=problem.reference_solution,
+                normalized_reference_answer=norm_ref_answers[i],
+                iterations_used=len(traces),
+                max_iterations=max_iterations,
+                stop_reason=stop_reasons[i],
+                turn0_correct=turn0_ok,
+                final_correct=final_ok,
+                turn0_has_answer=bool(first.solver_validation.get("has_answer_sentinel", False)),
+                final_has_answer=bool(last.solver_validation.get("has_answer_sentinel", False)),
+                turn0_match_method=str(first.solver_validation.get("match_method", "unknown")),
+                final_match_method=str(last.solver_validation.get("match_method", "unknown")),
+                converted=(not turn0_ok) and final_ok,
+                regressed=turn0_ok and (not final_ok),
+                total_latency_s=round(sum(t.solver_latency_s + t.verifier_latency_s for t in traces), 4),
+                total_tokens=sum(t.solver_tokens + t.verifier_tokens for t in traces),
+                traces=traces,
+            )
+        )
+    return batch_results
+
+
 def compute_loop_metrics(
     results: Sequence[ProblemLoopResult],
     *,
     max_iterations: int = 3,
 ) -> dict[str, Any]:
     """Compute end-to-end Solver accuracy, conversion/regression rates, and Verifier safety diagnostics."""
+    from adversarial_physics.evaluation.auditkit_bridge import compute_directive_actionability_score
+
     n = len(results)
     turn0_correct_n = sum(1 for r in results if r.turn0_correct)
     final_correct_n = sum(1 for r in results if r.final_correct)
@@ -996,8 +1375,12 @@ def compute_loop_metrics(
             "accuracy": _safe_rate(k_correct, n),
         }
 
-    # Verifier confusion matrix over all reviewed Solver outputs (positive class = CHALLENGE / flawed)
+    # Verifier confusion matrix + Suite 4 directive self-containment & actionability
     tp = fp = tn = fn = unknown_v = 0
+    challenge_directives_n = 0
+    self_contained_no_leak_n = 0
+    actionability_scores: list[float] = []
+
     for r in results:
         for t in r.traces:
             if t.verifier_verdict is None:
@@ -1007,6 +1390,15 @@ def compute_loop_metrics(
                     fp += 1
                 else:
                     tp += 1
+                challenge_directives_n += 1
+                rubric = compute_directive_actionability_score(
+                    str(t.verifier_directive or ""),
+                    problem_statement=r.problem_statement,
+                    reference_answer=r.normalized_reference_answer,
+                )
+                if rubric["is_self_contained_no_leak"]:
+                    self_contained_no_leak_n += 1
+                actionability_scores.append(float(rubric["actionability_score"]))
             elif t.verifier_verdict == "APPROVE":
                 if t.solver_is_correct:
                     tn += 1
@@ -1024,28 +1416,32 @@ def compute_loop_metrics(
         else None
     )
 
+    def _summarize_subset(subset: Sequence[ProblemLoopResult]) -> dict[str, Any]:
+        sn = len(subset)
+        s0 = sum(1 for x in subset if x.turn0_correct)
+        sf = sum(1 for x in subset if x.final_correct)
+        s0_acc = _safe_rate(s0, sn)
+        sf_acc = _safe_rate(sf, sn)
+        return {
+            "count": sn,
+            "turn0_correct": s0,
+            "turn0_accuracy": s0_acc,
+            "final_correct": sf,
+            "final_accuracy": sf_acc,
+            "net_revision_gain": round(sf_acc - s0_acc, 6) if (s0_acc is not None and sf_acc is not None) else None,
+            "converted": sum(1 for x in subset if x.converted),
+            "regressed": sum(1 for x in subset if x.regressed),
+        }
+
     by_domain_raw: dict[str, list[ProblemLoopResult]] = defaultdict(list)
+    by_tier_raw: dict[str, list[ProblemLoopResult]] = defaultdict(list)
     for r in results:
         by_domain_raw[r.domain].append(r)
+        tier_key = "physgym_olympiad" if str(r.problem_id).startswith("physgym") else "curated_in_domain"
+        by_tier_raw[tier_key].append(r)
 
-    per_domain: dict[str, dict[str, Any]] = {}
-    for domain in sorted(by_domain_raw):
-        d_rows = by_domain_raw[domain]
-        dn = len(d_rows)
-        d0 = sum(1 for x in d_rows if x.turn0_correct)
-        df = sum(1 for x in d_rows if x.final_correct)
-        d0_acc = _safe_rate(d0, dn)
-        df_acc = _safe_rate(df, dn)
-        per_domain[domain] = {
-            "count": dn,
-            "turn0_correct": d0,
-            "turn0_accuracy": d0_acc,
-            "final_correct": df,
-            "final_accuracy": df_acc,
-            "net_revision_gain": round(df_acc - d0_acc, 6) if (d0_acc is not None and df_acc is not None) else None,
-            "converted": sum(1 for x in d_rows if x.converted),
-            "regressed": sum(1 for x in d_rows if x.regressed),
-        }
+    per_domain = {domain: _summarize_subset(by_domain_raw[domain]) for domain in sorted(by_domain_raw)}
+    per_tier = {tier: _summarize_subset(by_tier_raw[tier]) for tier in sorted(by_tier_raw)}
 
     stop_reasons = dict(Counter(r.stop_reason for r in results))
     final_match_methods = dict(Counter(r.final_match_method for r in results))
@@ -1085,6 +1481,14 @@ def compute_loop_metrics(
             "verifier_overall_false_approval_rate": _safe_rate(fn, total_reviews),
             "verifier_approve_rate": _safe_rate(tn + fn, total_reviews),
             "verifier_challenge_rate": _safe_rate(tp + fp, total_reviews),
+            "directive_self_containment_no_leak_rate": _safe_rate(
+                self_contained_no_leak_n, challenge_directives_n
+            ),
+            "auditkit_directive_actionability_score": (
+                round(sum(actionability_scores) / len(actionability_scores), 6)
+                if actionability_scores
+                else None
+            ),
         },
         "loop_efficiency": {
             "mean_iterations_used": round(sum(r.iterations_used for r in results) / n, 4) if n else None,
@@ -1093,6 +1497,7 @@ def compute_loop_metrics(
             "mean_tokens_per_problem": round(sum(r.total_tokens for r in results) / n, 2) if n else None,
             "stop_reason_counts": stop_reasons,
         },
+        "per_tier": per_tier,
         "per_domain": per_domain,
     }
 
@@ -1117,8 +1522,10 @@ def run_adversarial_validation_loop(
     problems: Sequence[CanonicalProblem],
     *,
     engine: DualLoRAEngine | None = None,
+    parallel_engines: Sequence[DualLoRAEngine] | None = None,
     solver_generate: Callable[[str], str | tuple[str, int] | tuple[str, int, float]] | None = None,
     verifier_generate: Callable[[str], str | tuple[str, int] | tuple[str, int, float]] | None = None,
+    batch_size: int = 1,
     max_iterations: int = 3,
     verify_final_iteration: bool = True,
     stop_on_duplicate_hint: bool = True,
@@ -1128,7 +1535,22 @@ def run_adversarial_validation_loop(
     metadata: dict[str, Any] | None = None,
     progress_callback: Callable[[int, int, ProblemLoopResult], None] | None = None,
 ) -> dict[str, Any]:
-    """Run E4A + E4B multi-turn validation across ``problems``, writing JSONL + summary artifacts."""
+    """Run E4A + E4B multi-turn validation across ``problems``, writing JSONL + summary artifacts.
+
+    Supports both single-problem execution (`batch_size=1`), batched lockstep execution
+    (`batch_size > 1`), and multi-GPU data-parallel execution (`parallel_engines=[eng0, eng1]`).
+    """
+    from concurrent.futures import ThreadPoolExecutor
+    import threading
+
+    active_engines: list[DualLoRAEngine] = []
+    if parallel_engines:
+        active_engines = list(parallel_engines)
+        if engine is None:
+            engine = active_engines[0]
+    elif engine is not None:
+        active_engines = [engine]
+
     if engine is not None:
         solver_fn = engine.generate_solver
         verifier_fn = engine.generate_verifier
@@ -1136,43 +1558,118 @@ def run_adversarial_validation_loop(
         solver_fn = solver_generate
         verifier_fn = verifier_generate
     else:
-        raise ValueError("Provide either `engine` or both `solver_generate` and `verifier_generate`.")
+        raise ValueError("Provide `engine`, `parallel_engines`, or both `solver_generate` and `verifier_generate`.")
 
     out_path = resolve_project_path(output_dir)
     out_path.mkdir(parents=True, exist_ok=True)
     traces_jsonl = out_path / "results_per_problem.jsonl"
     summary_json = out_path / "summary.json"
 
-    results: list[ProblemLoopResult] = []
+    existing_results: list[ProblemLoopResult] = []
     completed_ids: set[str] = set()
     if resume and traces_jsonl.is_file():
-        results = _load_existing_problem_results(traces_jsonl)
-        completed_ids = {r.problem_id for r in results}
+        existing_results = _load_existing_problem_results(traces_jsonl)
+        completed_ids = {r.problem_id for r in existing_results}
         if completed_ids:
             logger.info(f"Resuming from {traces_jsonl}: skipping {len(completed_ids)} completed problems.")
     elif traces_jsonl.is_file():
         traces_jsonl.unlink()
 
+    pending_problems = [p for p in problems if p.problem_id not in completed_ids]
     total = len(problems)
-    with traces_jsonl.open("a", encoding="utf-8") as f:
-        for idx, problem in enumerate(problems, start=1):
-            if problem.problem_id in completed_ids:
-                continue
-            res = run_single_problem_loop(
-                problem,
-                solver_generate=solver_fn,
-                verifier_generate=verifier_fn,
-                max_iterations=max_iterations,
-                verify_final_iteration=verify_final_iteration,
-                stop_on_duplicate_hint=stop_on_duplicate_hint,
-                rel_tol=rel_tol,
-            )
-            results.append(res)
-            f.write(json.dumps(res.to_dict(), ensure_ascii=False) + "\n")
-            f.flush()
-            if progress_callback is not None:
-                progress_callback(idx, total, res)
+    eff_batch_size = max(1, int(batch_size))
 
+    results_by_id: dict[str, ProblemLoopResult] = {r.problem_id: r for r in existing_results}
+    completed_counter = len(completed_ids)
+    io_lock = threading.Lock()
+
+    with traces_jsonl.open("a", encoding="utf-8") as f:
+        def _record_completed(batch_res: Sequence[ProblemLoopResult]) -> None:
+            nonlocal completed_counter
+            with io_lock:
+                for res in batch_res:
+                    results_by_id[res.problem_id] = res
+                    f.write(json.dumps(res.to_dict(), ensure_ascii=False) + "\n")
+                    f.flush()
+                    completed_counter += 1
+                    if progress_callback is not None:
+                        progress_callback(completed_counter, total, res)
+
+        if len(active_engines) >= 2 and len(pending_problems) > 1:
+            # Data-parallel multi-GPU execution: shard batches across independent GPU engines
+            num_workers = len(active_engines)
+            batches: list[list[CanonicalProblem]] = [
+                pending_problems[i : i + eff_batch_size]
+                for i in range(0, len(pending_problems), eff_batch_size)
+            ]
+            worker_queues: list[list[list[CanonicalProblem]]] = [[] for _ in range(num_workers)]
+            for b_idx, batch in enumerate(batches):
+                worker_queues[b_idx % num_workers].append(batch)
+
+            def _run_worker(worker_eng: DualLoRAEngine, assigned_batches: list[list[CanonicalProblem]]) -> None:
+                for batch in assigned_batches:
+                    if eff_batch_size > 1:
+                        batch_res = run_batch_problems_loop(
+                            batch,
+                            solver_generate_batch=worker_eng.generate_solver_batch,
+                            verifier_generate_batch=worker_eng.generate_verifier_batch,
+                            max_iterations=max_iterations,
+                            verify_final_iteration=verify_final_iteration,
+                            stop_on_duplicate_hint=stop_on_duplicate_hint,
+                            rel_tol=rel_tol,
+                        )
+                    else:
+                        batch_res = [
+                            run_single_problem_loop(
+                                p,
+                                solver_generate=worker_eng.generate_solver,
+                                verifier_generate=worker_eng.generate_verifier,
+                                max_iterations=max_iterations,
+                                verify_final_iteration=verify_final_iteration,
+                                stop_on_duplicate_hint=stop_on_duplicate_hint,
+                                rel_tol=rel_tol,
+                            )
+                            for p in batch
+                        ]
+                    _record_completed(batch_res)
+
+            with ThreadPoolExecutor(max_workers=num_workers) as pool:
+                futures = [
+                    pool.submit(_run_worker, active_engines[w], worker_queues[w])
+                    for w in range(num_workers)
+                    if worker_queues[w]
+                ]
+                for fut in futures:
+                    fut.result()
+
+        elif eff_batch_size > 1 and engine is not None:
+            for i in range(0, len(pending_problems), eff_batch_size):
+                batch = pending_problems[i : i + eff_batch_size]
+                batch_res = run_batch_problems_loop(
+                    batch,
+                    solver_generate_batch=engine.generate_solver_batch,
+                    verifier_generate_batch=engine.generate_verifier_batch,
+                    max_iterations=max_iterations,
+                    verify_final_iteration=verify_final_iteration,
+                    stop_on_duplicate_hint=stop_on_duplicate_hint,
+                    rel_tol=rel_tol,
+                )
+                _record_completed(batch_res)
+        else:
+            for problem in pending_problems:
+                res = run_single_problem_loop(
+                    problem,
+                    solver_generate=solver_fn,
+                    verifier_generate=verifier_fn,
+                    max_iterations=max_iterations,
+                    verify_final_iteration=verify_final_iteration,
+                    stop_on_duplicate_hint=stop_on_duplicate_hint,
+                    rel_tol=rel_tol,
+                )
+                _record_completed([res])
+
+    # Preserve input problem order in final summary
+    results = [results_by_id[p.problem_id] for p in problems if p.problem_id in results_by_id]
     metrics = compute_loop_metrics(results, max_iterations=max_iterations)
 
     def _build_turn_eval_rows(use_final: bool) -> list[dict[str, Any]]:

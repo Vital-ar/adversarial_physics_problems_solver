@@ -1,0 +1,376 @@
+{
+  "total_problems": 37,
+  "max_iterations": 3,
+  "solver": {
+    "turn0_correct": 0,
+    "turn0_accuracy": 0.0,
+    "final_correct": 0,
+    "final_accuracy": 0.0,
+    "net_revision_gain": 0.0,
+    "turn0_sentinel_compliance_rate": 0.918919,
+    "final_sentinel_compliance_rate": 0.972973,
+    "converted_count": 0,
+    "turn0_wrong_count": 37,
+    "correction_conversion_rate": 0.0,
+    "regressed_count": 0,
+    "regression_rate": null,
+    "per_iteration_cumulative": {
+      "iter_1": {
+        "correct": 0,
+        "total": 37,
+        "accuracy": 0.0
+      },
+      "iter_2": {
+        "correct": 0,
+        "total": 37,
+        "accuracy": 0.0
+      },
+      "iter_3": {
+        "correct": 0,
+        "total": 37,
+        "accuracy": 0.0
+      }
+    },
+    "final_match_method_counts": {
+      "mismatch": 36,
+      "missing_sentinel": 1
+    }
+  },
+  "verifier": {
+    "total_reviews": 109,
+    "tp_true_challenge": 107,
+    "fp_false_challenge": 0,
+    "tn_true_approve": 0,
+    "fn_false_approve": 0,
+    "unknown_no_sentinel": 2,
+    "verifier_sentinel_accuracy": 0.981651,
+    "verifier_challenge_precision": 1.0,
+    "verifier_challenge_recall": 1.0,
+    "verifier_challenge_f1": 1.0,
+    "verifier_false_approval_rate": 0.0,
+    "verifier_false_challenge_rate": null,
+    "verifier_overall_false_approval_rate": 0.0,
+    "verifier_approve_rate": 0.0,
+    "verifier_challenge_rate": 0.981651,
+    "directive_self_containment_no_leak_rate": 1.0,
+    "auditkit_directive_actionability_score": 1.0
+  },
+  "loop_efficiency": {
+    "mean_iterations_used": 2.9459,
+    "mean_latency_s": 199.0475,
+    "total_latency_s": 7364.7581,
+    "mean_tokens_per_problem": 1734.54,
+    "stop_reason_counts": {
+      "max_iterations_reached": 35,
+      "verifier_no_sentinel": 2
+    }
+  },
+  "per_tier": {
+    "physgym_olympiad": {
+      "count": 37,
+      "turn0_correct": 0,
+      "turn0_accuracy": 0.0,
+      "final_correct": 0,
+      "final_accuracy": 0.0,
+      "net_revision_gain": 0.0,
+      "converted": 0,
+      "regressed": 0
+    }
+  },
+  "per_domain": {
+    "ELECTROMAGNETISM": {
+      "count": 11,
+      "turn0_correct": 0,
+      "turn0_accuracy": 0.0,
+      "final_correct": 0,
+      "final_accuracy": 0.0,
+      "net_revision_gain": 0.0,
+      "converted": 0,
+      "regressed": 0
+    },
+    "MECHANICS": {
+      "count": 15,
+      "turn0_correct": 0,
+      "turn0_accuracy": 0.0,
+      "final_correct": 0,
+      "final_accuracy": 0.0,
+      "net_revision_gain": 0.0,
+      "converted": 0,
+      "regressed": 0
+    },
+    "MODERN_PHYSICS": {
+      "count": 3,
+      "turn0_correct": 0,
+      "turn0_accuracy": 0.0,
+      "final_correct": 0,
+      "final_accuracy": 0.0,
+      "net_revision_gain": 0.0,
+      "converted": 0,
+      "regressed": 0
+    },
+    "OPTICS": {
+      "count": 3,
+      "turn0_correct": 0,
+      "turn0_accuracy": 0.0,
+      "final_correct": 0,
+      "final_accuracy": 0.0,
+      "net_revision_gain": 0.0,
+      "converted": 0,
+      "regressed": 0
+    },
+    "RELATIVITY": {
+      "count": 1,
+      "turn0_correct": 0,
+      "turn0_accuracy": 0.0,
+      "final_correct": 0,
+      "final_accuracy": 0.0,
+      "net_revision_gain": 0.0,
+      "converted": 0,
+      "regressed": 0
+    },
+    "THERMODYNAMICS": {
+      "count": 4,
+      "turn0_correct": 0,
+      "turn0_accuracy": 0.0,
+      "final_correct": 0,
+      "final_accuracy": 0.0,
+      "net_revision_gain": 0.0,
+      "converted": 0,
+      "regressed": 0
+    }
+  },
+  "lexsi_audit_turn0": {
+    "experiment": "solver_eval",
+    "auditkit_available": false,
+    "aligntune_math_grading_available": true,
+    "match_method_breakdown": {
+      "mismatch": 34,
+      "missing_sentinel": 3
+    },
+    "generation_hygiene": {
+      "reward_hacking": 0.0,
+      "sycophancy": 0.0,
+      "refusal_collapse": 0.0,
+      "verbosity_gain": 37.9189,
+      "timestamp": "2026-11-14T22:49:34.767418+00:00",
+      "avg_response_tokens": 269.92,
+      "repetition_ratio": 0.1095,
+      "unique_token_ratio": 0.4981,
+      "degenerate_rate": 0.0
+    },
+    "physics_accuracy_metrics": {
+      "exact_or_equiv_accuracy": 0.0,
+      "tolerant_5pct_accuracy": 0.0,
+      "aligntune_math_grade_accuracy": 0.0,
+      "answer_sentinel_rate": 0.9189,
+      "extracted_nonempty_answer_rate": 0.9189,
+      "strict_symbolic_or_exact_rate": 0.0,
+      "sympy_symbolic_match_rate": 0.0,
+      "unit_consistency_rate": 0.8919
+    },
+    "derivation_similarity_metrics": {
+      "rouge1_f1": 0.3633,
+      "rouge2_f1": 0.1152,
+      "rougeL_f1": 0.2017,
+      "bleu_score": 0.0165,
+      "physics_equation_token_f1": 0.3035,
+      "mean_reference_length_ratio": 1.8806
+    },
+    "reasoning_structure_metrics": {
+      "step_structure_rate": 1.0,
+      "mean_equations_per_response": 23.1892,
+      "symbolic_verification_cues_rate": 1.0,
+      "clean_ending_rate": 0.9189
+    },
+    "alignment_audit": {
+      "avg_response_tokens": 269.92,
+      "repetition_ratio": 0.1095,
+      "degenerate_rate": 0.0,
+      "meta_leakage_rate": 0.0
+    },
+    "stratified_breakdown": {
+      "by_tier": {
+        "physgym_olympiad": {
+          "total": 37,
+          "correct": 0,
+          "accuracy": 0.0,
+          "tolerant_5pct_accuracy": 0.0,
+          "sentinel_rate": 0.9189,
+          "degenerate_rate": 0.0
+        }
+      },
+      "by_domain": {
+        "ELECTROMAGNETISM": {
+          "total": 11,
+          "correct": 0,
+          "accuracy": 0.0,
+          "tolerant_5pct_accuracy": 0.0,
+          "sentinel_rate": 0.8182,
+          "degenerate_rate": 0.0
+        },
+        "MECHANICS": {
+          "total": 15,
+          "correct": 0,
+          "accuracy": 0.0,
+          "tolerant_5pct_accuracy": 0.0,
+          "sentinel_rate": 1.0,
+          "degenerate_rate": 0.0
+        },
+        "MODERN_PHYSICS": {
+          "total": 3,
+          "correct": 0,
+          "accuracy": 0.0,
+          "tolerant_5pct_accuracy": 0.0,
+          "sentinel_rate": 1.0,
+          "degenerate_rate": 0.0
+        },
+        "OPTICS": {
+          "total": 3,
+          "correct": 0,
+          "accuracy": 0.0,
+          "tolerant_5pct_accuracy": 0.0,
+          "sentinel_rate": 1.0,
+          "degenerate_rate": 0.0
+        },
+        "RELATIVITY": {
+          "total": 1,
+          "correct": 0,
+          "accuracy": 0.0,
+          "tolerant_5pct_accuracy": 0.0,
+          "sentinel_rate": 1.0,
+          "degenerate_rate": 0.0
+        },
+        "THERMODYNAMICS": {
+          "total": 4,
+          "correct": 0,
+          "accuracy": 0.0,
+          "tolerant_5pct_accuracy": 0.0,
+          "sentinel_rate": 0.75,
+          "degenerate_rate": 0.0
+        }
+      }
+    },
+    "suite_summary": {
+      "total_samples": 37,
+      "total_metrics_computed": 22,
+      "elapsed_ms": 2664.43
+    }
+  },
+  "lexsi_audit_final": {
+    "experiment": "solver_eval",
+    "auditkit_available": false,
+    "aligntune_math_grading_available": true,
+    "match_method_breakdown": {
+      "mismatch": 36,
+      "missing_sentinel": 1
+    },
+    "generation_hygiene": {
+      "reward_hacking": 0.0,
+      "sycophancy": 0.027,
+      "refusal_collapse": 0.0,
+      "verbosity_gain": 12.8378,
+      "timestamp": "2026-11-14T22:49:37.900496+00:00",
+      "avg_response_tokens": 244.84,
+      "repetition_ratio": 0.0921,
+      "unique_token_ratio": 0.5136,
+      "degenerate_rate": 0.027
+    },
+    "physics_accuracy_metrics": {
+      "exact_or_equiv_accuracy": 0.0,
+      "tolerant_5pct_accuracy": 0.0,
+      "aligntune_math_grade_accuracy": 0.0,
+      "answer_sentinel_rate": 0.973,
+      "extracted_nonempty_answer_rate": 0.973,
+      "strict_symbolic_or_exact_rate": 0.0,
+      "sympy_symbolic_match_rate": 0.0,
+      "unit_consistency_rate": 0.9189
+    },
+    "derivation_similarity_metrics": {
+      "rouge1_f1": 0.3663,
+      "rouge2_f1": 0.1181,
+      "rougeL_f1": 0.208,
+      "bleu_score": 0.0153,
+      "physics_equation_token_f1": 0.3106,
+      "mean_reference_length_ratio": 1.6528
+    },
+    "reasoning_structure_metrics": {
+      "step_structure_rate": 1.0,
+      "mean_equations_per_response": 21.5405,
+      "symbolic_verification_cues_rate": 0.9189,
+      "clean_ending_rate": 0.973
+    },
+    "alignment_audit": {
+      "avg_response_tokens": 244.84,
+      "repetition_ratio": 0.0921,
+      "degenerate_rate": 0.027,
+      "meta_leakage_rate": 0.0
+    },
+    "stratified_breakdown": {
+      "by_tier": {
+        "physgym_olympiad": {
+          "total": 37,
+          "correct": 0,
+          "accuracy": 0.0,
+          "tolerant_5pct_accuracy": 0.0,
+          "sentinel_rate": 0.973,
+          "degenerate_rate": 0.027
+        }
+      },
+      "by_domain": {
+        "ELECTROMAGNETISM": {
+          "total": 11,
+          "correct": 0,
+          "accuracy": 0.0,
+          "tolerant_5pct_accuracy": 0.0,
+          "sentinel_rate": 1.0,
+          "degenerate_rate": 0.0
+        },
+        "MECHANICS": {
+          "total": 15,
+          "correct": 0,
+          "accuracy": 0.0,
+          "tolerant_5pct_accuracy": 0.0,
+          "sentinel_rate": 1.0,
+          "degenerate_rate": 0.0
+        },
+        "MODERN_PHYSICS": {
+          "total": 3,
+          "correct": 0,
+          "accuracy": 0.0,
+          "tolerant_5pct_accuracy": 0.0,
+          "sentinel_rate": 1.0,
+          "degenerate_rate": 0.0
+        },
+        "OPTICS": {
+          "total": 3,
+          "correct": 0,
+          "accuracy": 0.0,
+          "tolerant_5pct_accuracy": 0.0,
+          "sentinel_rate": 1.0,
+          "degenerate_rate": 0.0
+        },
+        "RELATIVITY": {
+          "total": 1,
+          "correct": 0,
+          "accuracy": 0.0,
+          "tolerant_5pct_accuracy": 0.0,
+          "sentinel_rate": 1.0,
+          "degenerate_rate": 0.0
+        },
+        "THERMODYNAMICS": {
+          "total": 4,
+          "correct": 0,
+          "accuracy": 0.0,
+          "tolerant_5pct_accuracy": 0.0,
+          "sentinel_rate": 0.75,
+          "degenerate_rate": 0.25
+        }
+      }
+    },
+    "suite_summary": {
+      "total_samples": 37,
+      "total_metrics_computed": 22,
+      "elapsed_ms": 3113.28
+    }
+  }
+}

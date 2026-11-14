@@ -295,5 +295,121 @@ def test_run_adversarial_validation_loop_iter3_metrics_and_resume(tmp_path: Path
     assert m["verifier"]["fp_false_challenge"] == 1
     assert m["verifier"]["tn_true_approve"] == 3
     assert m["verifier"]["fn_false_approve"] == 1
+    assert m["verifier"]["directive_self_containment_no_leak_rate"] is not None
+    assert m["verifier"]["auditkit_directive_actionability_score"] is not None
+    assert "per_tier" in m
     assert Path(full["artifacts"]["summary_json"]).is_file()
     assert len(Path(full["artifacts"]["results_per_problem_jsonl"]).read_text(encoding="utf-8").splitlines()) == 4
+
+    # Also verify batched lockstep execution (`run_batch_problems_loop`) produces identical results
+    from adversarial_physics.orchestration.loop import run_batch_problems_loop
+
+    batch_results = run_batch_problems_loop(
+        problems,
+        solver_generate_batch=lambda prompts: [fake_solver(p) for p in prompts],
+        verifier_generate_batch=lambda prompts: [fake_verifier(p) for p in prompts],
+        max_iterations=3,
+    )
+    assert len(batch_results) == 4
+    assert [r.final_correct for r in batch_results] == [True, True, True, False]
+    assert [r.iterations_used for r in batch_results] == [1, 2, 3, 2]
+
+
+def test_comparison_tables_bootstrap_ci_and_suite4() -> None:
+    from adversarial_physics.evaluation.auditkit_bridge import run_verifier_suite4_audit
+    from adversarial_physics.evaluation.comparison_tables import (
+        bootstrap_ci95_and_p_value,
+        compute_run_fingerprint,
+    )
+
+    stats = bootstrap_ci95_and_p_value(
+        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+        [1, 1, 1, 0, 1, 1, 0, 1, 0, 0],
+        n_resamples=500,
+        seed=42,
+    )
+    assert stats.n_samples == 10
+    assert stats.candidate_mean == pytest.approx(0.6)
+    assert stats.baseline_mean == pytest.approx(0.1)
+    assert stats.delta_mean == pytest.approx(0.5)
+    assert stats.wins_candidate == 5
+    assert stats.wins_baseline == 0
+    assert stats.mcnemar_p_value < 0.10
+
+    fp1 = compute_run_fingerprint(
+        {"total": 2, "correct": 1, "per_sample": [{"problem_id": "p1", "is_equivalent": True, "predicted_answer": "42"}]}
+    )
+    fp2 = compute_run_fingerprint(
+        {"total": 2, "correct": 1, "per_sample": [{"problem_id": "p1", "is_equivalent": True, "predicted_answer": "42"}]}
+    )
+    assert len(fp1) == 64 and fp1 == fp2
+
+    s4 = run_verifier_suite4_audit(
+        [
+            {
+                "verifier_verdict": "CHALLENGE",
+                "solver_is_correct": False,
+                "verifier_directive": "Apply conservation of mechanical energy mgh = 1/2 mv^2 to solve for v.",
+                "problem_statement": "A block slides down height h.",
+                "reference_answer": "\\sqrt{2gh}",
+            },
+            {
+                "verifier_verdict": "APPROVE",
+                "solver_is_correct": True,
+                "verifier_directive": "Valid derivation.",
+            },
+        ]
+    )
+    assert s4["verifier_sentinel_accuracy"] == pytest.approx(1.0)
+    assert s4["verifier_challenge_f1"] == pytest.approx(1.0)
+    assert s4["directive_self_containment_no_leak_rate"] == pytest.approx(1.0)
+    assert s4["auditkit_directive_actionability_score"] > 0.5
+
+
+def test_semantic_duplicate_hint_and_turn_regression_guard() -> None:
+    """Verify semantic near-duplicate directive stopping and Turn Regression Guard fallback."""
+    from adversarial_physics.orchestration.loop import _is_near_duplicate_directive
+
+    d0 = (
+        "To find the polar coordinate trajectory equation r(theta), apply conservation "
+        "of mechanical energy and magnetic force F = q v x B."
+    )
+    d1_near = (
+        "To determine the trajectory equation r(theta) in polar coordinates, apply mechanical "
+        "energy conservation and the magnetic force law F = q v x B."
+    )
+    d1_diff = (
+        "Use Gauss's law for electrostatics to integrate the enclosed line charge density lambda "
+        "and compute the radial polarization force."
+    )
+    assert _is_near_duplicate_directive(d1_near, [d0]) is True
+    assert _is_near_duplicate_directive(d1_diff, [d0]) is False
+
+    # Turn Regression Guard: Turn 0 is correct & has ANSWER:, Turn 1 challenges with distinct directive,
+    # Turn 1 loses ANSWER: sentinel -> regression guard falls back to Turn 0!
+    prob = CanonicalProblem(
+        problem_id="p_reg",
+        domain="MECHANICS",
+        problem_statement="A block slides down a frictionless ramp of height 5 m.",
+        reference_solution="Step 1: v = sqrt(2gh).\nANSWER: 10",
+    )
+    s_calls = [
+        "Step 1: v = sqrt(2gh).\nANSWER: 10",
+        "Step 1: Attempting integral \\int dt/t without final sentinel",
+    ]
+    v_calls = [
+        "Check gravitational potential energy conversion mgh = 1/2 m v^2 carefully.\n[[CHALLENGE]]",
+        "Still missing final sentinel.\n[[CHALLENGE]]",
+    ]
+    res = run_single_problem_loop(
+        prob,
+        solver_generate=lambda _: s_calls.pop(0),
+        verifier_generate=lambda _: v_calls.pop(0),
+        max_iterations=2,
+    )
+    assert res.turn0_correct is True
+    assert res.final_correct is True
+    assert res.final_has_answer is True
+    assert res.regressed is False
+
+

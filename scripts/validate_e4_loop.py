@@ -130,6 +130,34 @@ def build_arg_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--rel-tol", type=float, default=0.015, help="Numerical equivalence tolerance (default: 0.015).")
     parser.add_argument("--hf-token", type=str, default=None, help="Hugging Face Hub token (or set HF_TOKEN).")
+    parser.add_argument(
+        "--batch-size",
+        type=int,
+        default=1,
+        help="Number of problems to evaluate per batched lockstep pass per GPU worker (e.g., 4 or 8 for 4x-6x speedup).",
+    )
+    parser.add_argument(
+        "--num-gpus",
+        type=int,
+        default=1,
+        help="Number of independent data-parallel GPU workers (set 2 or pass --ddp on Kaggle 2x T4).",
+    )
+    parser.add_argument(
+        "--ddp",
+        action="store_true",
+        help="Enable multi-GPU data-parallel worker sharding across all available CUDA GPUs (e.g., cuda:0 + cuda:1).",
+    )
+    parser.add_argument(
+        "--tier",
+        choices=["all", "curated_in_domain", "physgym_olympiad"],
+        default="all",
+        help="Filter evaluation problems by tier ('all', 'curated_in_domain', or 'physgym_olympiad').",
+    )
+    parser.add_argument(
+        "--curated-first",
+        action="store_true",
+        help="Evaluate the 22 curated_in_domain problems before the 38 physgym_olympiad problems.",
+    )
     return parser
 
 
@@ -191,9 +219,24 @@ def _print_summary(payload: dict[str, Any]) -> None:
         f"False Challenge Rate: {_fmt_pct(verifier['verifier_false_challenge_rate'])} (right -> CHALLENGE)"
     )
     print(
+        f"Directive Self-Contain : {_fmt_pct(verifier.get('directive_self_containment_no_leak_rate'))} | "
+        f"Actionability Score: {verifier.get('auditkit_directive_actionability_score')}"
+    )
+    print(
         f"Mean Iterations / Prob : {eff['mean_iterations_used']} | "
         f"Mean Latency: {eff['mean_latency_s']}s | Stop reasons: {eff['stop_reason_counts']}"
     )
+    if metrics.get("per_tier"):
+        print("-" * 78)
+        print("Per-Tier Breakdown:")
+        for tier_name, td in metrics["per_tier"].items():
+            tg = td["net_revision_gain"]
+            tg_str = f"{tg * 100:+.1f} pp" if tg is not None else "N/A"
+            print(
+                f"  {tier_name:<18} n={td['count']:>2} | "
+                f"Turn0={_fmt_pct(td['turn0_accuracy']):>7} ({td['turn0_correct']}/{td['count']}) -> "
+                f"Final={_fmt_pct(td['final_accuracy']):>7} ({td['final_correct']}/{td['count']}) ({tg_str})"
+            )
     print("-" * 78)
     print("Per-Domain Breakdown:")
     for domain, d in metrics["per_domain"].items():
@@ -209,6 +252,8 @@ def _print_summary(payload: dict[str, Any]) -> None:
 
 
 def main(argv: list[str] | None = None) -> None:
+    import torch
+
     args = build_arg_parser().parse_args(argv)
     hf_token = args.hf_token or os.getenv("HF_TOKEN") or os.getenv("HUGGINGFACE_TOKEN")
 
@@ -225,22 +270,64 @@ def main(argv: list[str] | None = None) -> None:
         hf_repo_id=args.validation_repo,
         hf_token=hf_token,
     )
-    problems = data_res.problems[: args.limit] if args.limit else data_res.problems
-    logger.info(f"Prepared {len(problems)} validation problems (source={data_res.source_used})")
+    problems = list(data_res.problems)
+    if args.tier == "curated_in_domain":
+        problems = [p for p in problems if not str(p.problem_id).startswith("physgym")]
+    elif args.tier == "physgym_olympiad":
+        problems = [p for p in problems if str(p.problem_id).startswith("physgym")]
+    elif args.curated_first:
+        cur_p = [p for p in problems if not str(p.problem_id).startswith("physgym")]
+        pg_p = [p for p in problems if str(p.problem_id).startswith("physgym")]
+        problems = cur_p + pg_p
 
-    engine = DualLoRAEngine(
-        base_model_id=args.base_model,
-        solver_adapter=args.solver_adapter,
-        verifier_adapter=args.verifier_adapter,
-        prompt_mode=args.prompt_mode,
-        solver_max_new_tokens=args.solver_max_new_tokens,
-        verifier_max_new_tokens=args.verifier_max_new_tokens,
-        temperature_solver=args.temperature_solver,
-        temperature_verifier=args.temperature_verifier,
-        device_map=args.device_map,
-        dtype=args.dtype,
-        hf_token=hf_token,
+    if args.limit:
+        problems = problems[: args.limit]
+    logger.info(
+        f"Prepared {len(problems)} validation problems (source={data_res.source_used}, "
+        f"tier={args.tier}, curated_first={args.curated_first})"
     )
+
+    cuda_count = torch.cuda.device_count() if torch.cuda.is_available() else 0
+    target_gpus = cuda_count if args.ddp else max(1, int(args.num_gpus))
+    target_gpus = min(target_gpus, max(1, cuda_count)) if cuda_count > 0 else 1
+
+    parallel_engines: list[DualLoRAEngine] = []
+    if target_gpus >= 2 and cuda_count >= 2:
+        logger.info(
+            f"Initializing {target_gpus} Data-Parallel DualLoRAEngine replicas across GPUs "
+            f"(batch_size={args.batch_size} per GPU)..."
+        )
+        for gpu_idx in range(target_gpus):
+            parallel_engines.append(
+                DualLoRAEngine(
+                    base_model_id=args.base_model,
+                    solver_adapter=args.solver_adapter,
+                    verifier_adapter=args.verifier_adapter,
+                    prompt_mode=args.prompt_mode,
+                    solver_max_new_tokens=args.solver_max_new_tokens,
+                    verifier_max_new_tokens=args.verifier_max_new_tokens,
+                    temperature_solver=args.temperature_solver,
+                    temperature_verifier=args.temperature_verifier,
+                    device_map=f"cuda:{gpu_idx}",
+                    dtype=args.dtype,
+                    hf_token=hf_token,
+                )
+            )
+        engine = parallel_engines[0]
+    else:
+        engine = DualLoRAEngine(
+            base_model_id=args.base_model,
+            solver_adapter=args.solver_adapter,
+            verifier_adapter=args.verifier_adapter,
+            prompt_mode=args.prompt_mode,
+            solver_max_new_tokens=args.solver_max_new_tokens,
+            verifier_max_new_tokens=args.verifier_max_new_tokens,
+            temperature_solver=args.temperature_solver,
+            temperature_verifier=args.temperature_verifier,
+            device_map=args.device_map,
+            dtype=args.dtype,
+            hf_token=hf_token,
+        )
 
     def _on_progress(idx: int, total: int, res: ProblemLoopResult) -> None:
         logger.info(
@@ -252,6 +339,8 @@ def main(argv: list[str] | None = None) -> None:
     payload = run_adversarial_validation_loop(
         problems,
         engine=engine,
+        parallel_engines=parallel_engines if len(parallel_engines) >= 2 else None,
+        batch_size=args.batch_size,
         max_iterations=args.max_iterations,
         verify_final_iteration=not args.skip_final_verify,
         stop_on_duplicate_hint=not args.allow_duplicate_hints,
@@ -262,6 +351,10 @@ def main(argv: list[str] | None = None) -> None:
             "validation_source": data_res.source_used,
             "validation_local_path": str(data_res.local_path),
             "limit": args.limit,
+            "batch_size": args.batch_size,
+            "num_gpu_workers": len(parallel_engines) if parallel_engines else 1,
+            "tier": args.tier,
+            "curated_first": args.curated_first,
         },
         progress_callback=_on_progress,
     )

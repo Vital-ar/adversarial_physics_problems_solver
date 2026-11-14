@@ -413,14 +413,21 @@ def build_aligntune_trainer_kwargs(
 
     if learning_rate is not None:
         lr = float(learning_rate)
+    elif ds_info.get("learning_rate") is not None:
+        lr = float(ds_info["learning_rate"])
     elif is_verifier:
         lr = float(train_cfg.get("learning_rate_verifier", 1.5e-4))
     else:
         lr = float(train_cfg.get("learning_rate_solver", 2.0e-4))
 
     lora_cfg = config.get("lora_configuration", {})
-    r_val = lora_r if lora_r is not None else lora_cfg.get("r", 16)
-    alpha_val = lora_cfg.get("lora_alpha", r_val * 2)
+    if lora_r is not None:
+        r_val = int(lora_r)
+        alpha_val = int(lora_r * 2)
+    else:
+        r_val = int(ds_info.get("lora_r", lora_cfg.get("r", 16)))
+        alpha_val = int(ds_info.get("lora_alpha", lora_cfg.get("lora_alpha", r_val * 2)))
+    dropout_val = float(ds_info.get("lora_dropout", lora_cfg.get("lora_dropout", 0.05)))
     target_modules = lora_cfg.get(
         "target_modules",
         ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
@@ -495,7 +502,7 @@ def build_aligntune_trainer_kwargs(
         "use_peft": bool(lora_cfg.get("use_peft", True)),
         "lora_r": int(r_val),
         "lora_alpha": int(alpha_val),
-        "lora_dropout": float(lora_cfg.get("lora_dropout", 0.05)),
+        "lora_dropout": float(dropout_val),
         "lora_target_modules": list(target_modules),
         "lora_bias": str(lora_cfg.get("bias", "none")),
         "train_embeddings": bool(lora_cfg.get("train_embeddings", False)),

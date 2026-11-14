@@ -1,0 +1,43 @@
+{
+  "adapter_name": "solver_e1_manual_det_v2_lora",
+  "dataset_key": "solver_e1_manual_det",
+  "experiment_id": "E1_solver_manual_deterministic_only",
+  "base_model": "CohereLabs/tiny-aya-global",
+  "aligntune_backend": "trl",
+  "effective_batch_size": 16,
+  "per_device_batch_size": 1,
+  "gradient_accumulation_steps": 16,
+  "learning_rate": 0.0001,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "max_epochs": 5,
+  "completion_only_loss": true,
+  "early_stopping_patience": 2,
+  "early_stopping_threshold": 0.005,
+  "final_adapter_dir": "models/adapters/solver_e1_manual_det_v2_lora/final_adapter",
+  "train_metrics": {
+    "training_time": 2705.3721663951874,
+    "final_loss": 1.6028381439677455,
+    "model_path": "models/adapters/solver_e1_manual_det_v2_lora",
+    "steps": 228,
+    "epochs": 0,
+    "metrics": {
+      "train_runtime": 2704.569,
+      "train_samples_per_second": 1.341,
+      "train_steps_per_second": 0.084,
+      "total_flos": 1.7076045362675712e+16,
+      "train_loss": 1.6028381439677455,
+      "epoch": 4.0
+    },
+    "task_type": "instruction_following"
+  },
+  "checkpoint_selection": {
+    "checkpoint_dir": "models/adapters/solver_e1_manual_det_v2_lora/checkpoint-57",
+    "step": 57,
+    "eval_loss": 1.224784016609192,
+    "val_accuracy": 0.0333,
+    "correct": 2,
+    "total": 60,
+    "composite_score": 1.174834016609192
+  }
+}

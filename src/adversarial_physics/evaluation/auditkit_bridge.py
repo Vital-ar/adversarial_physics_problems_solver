@@ -675,3 +675,144 @@ def run_physics_eval_audit(
             payload["auditkit_version"] = "installed"
 
     return payload
+
+
+_ACTIONABLE_VERB_RE = re.compile(
+    r"\b(?:apply|use|check|recalculate|recompute|substitute|verify|consider|correct|"
+    r"derive|integrate|differentiate|balance|equate|conservation|account\s+for|include|ensure)\b",
+    re.IGNORECASE,
+)
+
+
+def compute_directive_actionability_score(
+    directive: str,
+    *,
+    problem_statement: str = "",
+    reference_answer: str = "",
+) -> dict[str, Any]:
+    """Compute Blueprint Suite 4 directive self-containment, no-leak, and actionability rubric score."""
+    from adversarial_physics.data.curation.directive_leak_check import validate_verifier_directive
+    from adversarial_physics.data.schemas.trajectory import VERDICT_CHALLENGE
+
+    text = (directive or "").strip()
+    if not text:
+        return {
+            "is_self_contained_no_leak": False,
+            "actionability_score": 0.0,
+            "has_physics_or_math_cue": False,
+            "has_actionable_verb": False,
+            "rejection_reason": "empty_directive",
+        }
+
+    full_dir = text if VERDICT_CHALLENGE in text else f"{text}\n{VERDICT_CHALLENGE}"
+    ref_sol = f"ANSWER: {reference_answer}" if reference_answer else ""
+    val_res = validate_verifier_directive(
+        full_dir,
+        problem_statement=problem_statement,
+        reference_solution=ref_sol,
+    )
+    ok_dir = bool(val_res.is_valid and not val_res.has_banned_relative_phrase and not val_res.leaks_final_answer)
+    reason = val_res.failure_reason or "ok"
+    ref_clean = (reference_answer or "").strip()
+    leaks_ref = bool(val_res.leaks_final_answer)
+    if not leaks_ref and ref_clean and len(ref_clean) >= 3:
+        if ref_clean.lower() in text.lower():
+            leaks_ref = True
+
+    is_self_contained_no_leak = bool(ok_dir and not leaks_ref)
+    has_math_or_phys = bool(_EQUATION_PATTERN.search(text) or len(_MATH_TOKEN_PATTERN.findall(text)) >= 3)
+    has_action_verb = bool(_ACTIONABLE_VERB_RE.search(text))
+
+    score = 0.0
+    if has_math_or_phys:
+        score += 0.35
+    if has_action_verb:
+        score += 0.35
+    if is_self_contained_no_leak:
+        score += 0.30
+
+    return {
+        "is_self_contained_no_leak": is_self_contained_no_leak,
+        "actionability_score": round(score, 4),
+        "has_physics_or_math_cue": has_math_or_phys,
+        "has_actionable_verb": has_action_verb,
+        "rejection_reason": "leaks_reference_answer" if leaks_ref else reason,
+    }
+
+
+def run_verifier_suite4_audit(
+    reviews: Sequence[dict[str, Any]],
+) -> dict[str, Any]:
+    """Compute Blueprint Section 8.2 Suite 4 Verifier Safety & Diagnostic Metrics.
+
+    Each item in ``reviews`` may contain:
+    - ``verifier_verdict`` ("APPROVE" | "CHALLENGE" | None)
+    - ``solver_is_correct`` (bool): whether the reviewed Solver output was ground-truth correct
+    - ``verifier_directive`` (str | None): extracted directive text when verdict == "CHALLENGE"
+    - ``problem_statement`` (str, optional)
+    - ``reference_answer`` (str, optional)
+    """
+    tp = fp = tn = fn = unk = 0
+    challenge_directives = 0
+    self_contained_no_leak_n = 0
+    actionability_scores: list[float] = []
+
+    for rev in reviews:
+        verdict = rev.get("verifier_verdict")
+        solver_ok = bool(rev.get("solver_is_correct", False))
+        if verdict == "CHALLENGE":
+            if solver_ok:
+                fp += 1
+            else:
+                tp += 1
+            directive = str(rev.get("verifier_directive") or "").strip()
+            challenge_directives += 1
+            rubric = compute_directive_actionability_score(
+                directive,
+                problem_statement=str(rev.get("problem_statement") or ""),
+                reference_answer=str(rev.get("reference_answer") or ""),
+            )
+            if rubric["is_self_contained_no_leak"]:
+                self_contained_no_leak_n += 1
+            actionability_scores.append(float(rubric["actionability_score"]))
+        elif verdict == "APPROVE":
+            if solver_ok:
+                tn += 1
+            else:
+                fn += 1
+        else:
+            unk += 1
+
+    total = tp + fp + tn + fn + unk
+    precision = round(tp / (tp + fp), 6) if (tp + fp) > 0 else None
+    recall = round(tp / (tp + fn), 6) if (tp + fn) > 0 else None
+    f1 = (
+        round((2 * precision * recall) / (precision + recall), 6)
+        if (precision is not None and recall is not None and (precision + recall) > 0)
+        else None
+    )
+
+    return {
+        "total_reviews": total,
+        "tp_true_challenge": tp,
+        "fp_false_challenge": fp,
+        "tn_true_approve": tn,
+        "fn_false_approve": fn,
+        "unknown_no_sentinel": unk,
+        "verifier_sentinel_accuracy": round((tp + tn) / total, 6) if total > 0 else None,
+        "verifier_challenge_precision": precision,
+        "verifier_challenge_recall": recall,
+        "verifier_challenge_f1": f1,
+        "verifier_false_approval_rate": round(fn / (tp + fn), 6) if (tp + fn) > 0 else None,
+        "verifier_false_challenge_rate": round(fp / (fp + tn), 6) if (fp + tn) > 0 else None,
+        "directive_self_containment_no_leak_rate": (
+            round(self_contained_no_leak_n / challenge_directives, 6)
+            if challenge_directives > 0
+            else None
+        ),
+        "auditkit_directive_actionability_score": (
+            round(sum(actionability_scores) / len(actionability_scores), 6)
+            if actionability_scores
+            else None
+        ),
+    }

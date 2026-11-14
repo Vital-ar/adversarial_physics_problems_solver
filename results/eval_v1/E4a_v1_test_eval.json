@@ -1,0 +1,441 @@
+{
+  "total": 38,
+  "correct": 0,
+  "accuracy": 0.0,
+  "sentinel_rate": 0.6053,
+  "domain_breakdown": {
+    "ELECTROMAGNETISM": {
+      "total": 12,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "MECHANICS": {
+      "total": 15,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "MODERN_PHYSICS": {
+      "total": 3,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "OPTICS": {
+      "total": 3,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "RELATIVITY": {
+      "total": 1,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "THERMODYNAMICS": {
+      "total": 4,
+      "correct": 0,
+      "accuracy": 0.0
+    }
+  },
+  "per_sample": [
+    {
+      "problem_id": "physgym_0033",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\begin{array}{r}{(\\sigma T_{2}^{4}-\\sigma T_{1}^{4})\\frac{r(R-b)}{R^{2}+b^{2}-2R b \\cos \\theta}}\\end{array}",
+      "prediction": "The power absorbed per unit area is proportional to the cosine of the angle between the surface normal and the direction of the heat source. The power density is proportional to the cosine of the angle between the surface normal and the direction of the heat source, and the power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source. The power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source, and the power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source. The power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source, and the power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source. The power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source, and the power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source. The power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source, and the power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source. The power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source, and the power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source. The power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source, and the power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source. The power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source, and the power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source. The power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source, and the power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source. The power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source, and the power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source. The power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source, and the power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source. The power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source, and the power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source. The power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source, and the power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source. The power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source, and the power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source. The power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source, and the power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source. The power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source, and the power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source. The power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source, and the power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source. The power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source, and the power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source. The power density is proportional to the square of the cosine of the angle between the surface normal and the direction of the heat source, and the power density is proportional to the square of the cosine of the angle between the surface normal and the"
+    },
+    {
+      "problem_id": "physgym_0045",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "v = \\sqrt{\\left. \\left(\\frac{\\partial p}{\\partial\\rho} \\right. \\right)_{s}} = \\sqrt{\\frac{\\gamma\\mu}{\\mu\\rho - b\\rho^{2}}\\left( p + \\frac{a}{\\mu^{2}}\\rho^{2} \\right) - \\frac{2a\\rho}{\\mu^{2}}}(12)",
+      "prediction": "The state equation of one mole of the gas is given as:\n\n$$\n\\left( p + \\frac{a}{V^{2}} \\right)(V - b) = RT\\ \n$$\n\nThe molar heat capacity at constant volume is $c_{v}$, and the molar mass of the gas is $\\mu$. Solve for the wave speed under adiabatic conditions, expressed in terms of $p, \\rho, a, b,\\mu, \\gamma = \\frac{c_{v} + R}{c_{v}}$.  \nHint: You can use the formulas:\n\n$$dU = c_{v}dT + \\left( \\frac{\\partial U}{\\partial V} \\right)_{T}dV$$\n\nand\n\n$$\\left( \\frac{\\partial U}{\\partial V} \\right)_{T} = T\\left( \\frac{\\partial p}{\\partial T} \\right)_{V} - p$$\n\nto calculate the adiabatic equation.\n\nThe state equation of one mole of the gas is given as:\n\n$$\n\\left( p + \\frac{a}{V^{2}} \\right)(V - b) = RT\\ \n$$\n\nThe molar heat capacity at constant volume is $c_{v}$, and the molar mass of the gas is $\\mu$. Solve for the wave speed under adiabatic conditions, expressed in terms of $p, \\rho, a, b,\\mu, \\gamma = \\frac{c_{v} + R}{c_{v}}$.  \nHint: You can use the formulas:\n\n$$dU = c_{v}dT + \\left( \\frac{\\partial U}{\\partial V} \\right)_{T}dV$$\n\nand\n\n$$\\left( \\frac{\\partial U}{\\partial V} \\right)_{T} = T\\left( \\frac{\\partial p}{\\partial T} \\right)_{V} - p$$\n\nto calculate the adiabatic equation.\n\nThe state equation of one mole of the gas is given as:\n\n$$\n\\left( p + \\frac{a}{V^{2}} \\right)(V - b) = RT\\ \n$$\n\nThe molar heat capacity at constant volume is $c_{v}$, and the molar mass of the gas is $\\mu$. Solve for the wave speed under adiabatic conditions, expressed in terms of $p, \\rho, a, b,\\mu, \\gamma = \\frac{c_{v} + R}{c_{v}}$.  \nHint: You can use the formulas:\n\n$$dU = c_{v}dT + \\left( \\frac{\\partial U}{\\partial V} \\right)_{T}dV$$\n\nand\n\n$$\\left( \\frac{\\partial U}{\\partial V} \\right)_{T} = T\\left( \\frac{\\partial p}{\\partial T} \\right)_{V} - p$$\n\nto calculate the adiabatic equation.\n\nThe state equation of one mole of the gas is given as:\n\n$$\n\\left( p + \\frac{a}{V^{2}} \\right)(V - b) = RT\\ \n$$\n\nThe molar heat capacity at constant volume is $c_{v}$, and the molar mass of the gas is $\\mu$. Solve for the wave speed under adiabatic conditions, expressed in terms of $p, \\rho, a, b,\\mu, \\gamma = \\frac{c_{v} + R}{c_{v}}$.  \nHint: You can use the formulas:\n\n$$dU = c_{v}dT + \\left( \\frac{\\partial U}{\\partial V} \\right)_{T}dV$$\n\nand\n\n$$\\left( \\frac{\\partial U}{\\partial V} \\right)_{T} = T\\left( \\frac{\\partial p}{\\partial T} \\right)_{V} - p$$\n\nto calculate the adiabatic equation.\n\nThe state equation of one mole of the gas is given as:\n\n$$\n\\left( p + \\frac{a}{V^{2}} \\right)(V - b) = RT\\ \n$$\n\nThe molar heat capacity at constant volume is $c_{v}$, and the molar mass of the gas is $\\mu$. Solve for the wave speed under adiabatic conditions, expressed in terms of $p, \\rho, a, b,\\mu, \\gamma = \\frac{c_{v} + R}{c_{v}}$.  \nHint: You can use the formulas:\n\n$$dU = c_{v}dT + \\left( \\frac{\\partial U}{\\partial V} \\right)_{T}dV$$\n\nand\n\n$$\\left( \\frac{\\partial U}{\\partial V} \\right)_{T} = T\\left( \\frac{\\partial p}{\\partial T} \\right)_{V} - p$$\n\nto calculate the adiabatic equation.\n\nThe state equation of one mole of the gas is given as:\n\n$$\n\\left( p + \\frac{a}{V^{2}} \\right)(V - b) = RT\\ \n$$\n\nThe molar heat capacity at constant volume is $c_{v}$, and the molar mass of the gas is $\\mu$. Solve for the wave speed under adi"
+    },
+    {
+      "problem_id": "physgym_0054",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "mgL/2",
+      "reference_answer": "T_2=2mg+4m\\frac{v_0^2}{l}",
+      "prediction": "The tension in the middle string is the same as the tension in the top string, so we can use the equation for the tension in a string, T =mgL, to find the tension in the middle string. The distance from the top string to the middle string is L/2, so the tension in the middle string is mgL/2.\nANSWER: mgL/2"
+    },
+    {
+      "problem_id": "physgym_0058",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "i,j=1,2,3) in the problem statement",
+      "reference_answer": "R={\\frac{V_{1}-V_{2}}{I}}={\\frac{(2R_{1}-R_{2})R_{2}}{2R_{1}}}=(2-{\\frac{R_{2}}{R_{1}}})R_{2}",
+      "prediction": "The equivalent resistance between the other two vertices is ${{R}_{2} + R_{1}} \\cdot \\frac{1}{2}$. The result is obtained by the method of finding the coefficients $a_{i j} (i,j=1,2,3)$ in the problem statement.\nANSWER: i,j=1,2,3) in the problem statement."
+    },
+    {
+      "problem_id": "physgym_0071",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "v_{E}={\\frac{E\\times B}{B^{2}}}(1-{\\frac{1}{4}}{(k \\frac{m v_{\\perp}}{\\vert{q}\\vert B})}^2)",
+      "prediction": "The magnitude of the electric field is $E_{0}$, and the particle's initial position is $(x_{0},y_{0},z_{0})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $(v_{\\perp}\\cos\\delta,v_{\\perp}\\sin\\delta,v_{z})$. The magnitude of the magnetic field is $B_{0}$, and the particle's initial velocity is $("
+    },
+    {
+      "problem_id": "physgym_0083",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "mB_0 \\cos\\alpha",
+      "reference_answer": "M=-{\\frac{27}{31}}m B_{0}\\sin\\alpha",
+      "prediction": "The torque is given by $\\tau = \\vec{m} \\times \\vec{B} = mB_0 \\cos\\alpha$.\nANSWER: mB_0 \\cos\\alpha"
+    },
+    {
+      "problem_id": "physgym_0089",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{v_{0}}{r_{0}} \\cdot \\frac{1}{q_{0}}",
+      "reference_answer": "\\Omega^2 = 3\\omega^2 - \\frac{N e q_{0}}{2\\pi m H\\varepsilon_{0}r_{0}^2}\\left[\\frac{(2k m_{N}r_{0}^2 - 1)e^{m_{N}kr_{0}^2} + 1}{e^{m_{N}k R^2} - 1} - \\frac{(2k m_{\\text{e}}r_{0}^2 - 1)e^{m_{\\text{e}}kr_{0}^2} + 1}{e^{m_{\\text{e}}k R^2} - 1}\\right] + \\frac{k N V\\omega^2}{\\pi m H}\\left[\\frac{(2k m_{N}r_{0}^2 + 1)e^{m_{N}kr_{0}^2}}{e^{m_{N}k R^2} - 1}m_{N}^2 + \\frac{(2k m_{e}r_{0}^2 + 1)e^{m_{e}kr_{0}^2}}{e^{m_{e}k R^2} - 1}m_{e}^2\\right]",
+      "prediction": "The angular frequency of the precession is given by\n$\\Omega = \\frac{v_{0}}{r_{0}} \\cdot \\frac{1}{q_{0}}$.\nANSWER: \\frac{v_{0}}{r_{0}} \\cdot \\frac{1}{q_{0}}"
+    },
+    {
+      "problem_id": "physgym_0103",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "6R",
+      "reference_answer": "R_{04}=\\left(3-\\sqrt{3}\\right)R",
+      "prediction": "The equivalent resistance is the sum of the individual resistances. The individual resistances are $R_{0-3}, R_{0-1}, R_{0-2}, R_{0-4}, R_{1-2}, R_{1-3}, R_{2-3}$. The sum is $R_{0-3} + R_{0-1} + R_{0-2} + R_{0-4} + R_{1-2} + R_{1-3} + R_{2-3} = 6R$.\nANSWER: 6R"
+    },
+    {
+      "problem_id": "physgym_0117",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{2R}{3}",
+      "reference_answer": "\\begin{array}{l} {{\\delta y_{f} = \\frac{32}{3}\\frac{\\sigma R^{2}r}{M}}}{{}}\\\\ {{\\delta y_{g} = \\frac{32}{3}\\frac{\\sigma R^{2}r}{M}}}{{}}\\\\ {{\\delta y = \\frac{64}{3}\\frac{\\sigma R^{2}r}{M}}} \\end{array}",
+      "prediction": "The cube is released from rest, so its initial velocity is zero. The highest position is reached when the cube's velocity is zero. The velocity is given by $v = \\frac{d\\theta}{dt}$. The acceleration is $a = \\frac{d^2\\theta}{dt^2}$. The equation of motion is $v = \\frac{d\\theta}{dt} = \\frac{a}{g} \\sin\\theta$. Setting $v = 0$, we have $a = 0$, and $\\theta = \\frac{\\pi}{2}$. The highest position is $y = R(1-\\cos\\theta) = \\frac{2R}{3}$.\nANSWER: \\frac{2R}{3}"
+    },
+    {
+      "problem_id": "physgym_0131",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\begin{array}{c} \\ {{m^{\\prime}= \\frac{R^{3}}{a^{3}}m}} \\end{array}",
+      "prediction": "The magnetic field of the needle is\nproportional to its magnetic moment, so we have\nB = k m, where k is a constant. The field of the\nsuperconducting sphere is zero, so the field of the\nneedle and the field of the sphere are in phase,\nand the field of the sphere is proportional to the\nfield of the needle. The field of the sphere is\nzero, so the field of the sphere is proportional to\nthe field of the needle, and the field of the sphere\nis proportional to the field of the needle. The\nfield of the sphere is proportional to the field of\nthe needle, so the field of the sphere is proportional\nto the field of the needle, and the field of the sphere\nis proportional to the field of the needle. The\nfield of the sphere is proportional to the field of\nthe needle, so the field of the sphere is proportional\nto the field of the needle, and the field of the sphere\nis proportional to the field of the needle. The\nfield of the sphere is proportional to the field of\nthe needle, so the field of the sphere is proportional\nto the field of the needle, and the field of the sphere\nis proportional to the field of the needle. The\nfield of the sphere is proportional to the field of\nthe needle, so the field of the sphere is proportional\nto the field of the needle, and the field of the sphere\nis proportional to the field of the needle. The\nfield of the sphere is proportional to the field of\nthe needle, so the field of the sphere is proportional\nto the field of the needle, and the field of the sphere\nis proportional to the field of the needle. The\nfield of the sphere is proportional to the field of\nthe needle, so the field of the sphere is proportional\nto the field of the needle, and the field of the sphere\nis proportional to the field of the needle. The\nfield of the sphere is proportional to the field of\nthe needle, so the field of the sphere is proportional\nto the field of the needle, and the field of the sphere\nis proportional to the field of the needle. The\nfield of the sphere is proportional to the field of\nthe needle, so the field of the sphere is proportional\nto the field of the needle, and the field of the sphere\nis proportional to the field of the needle. The\nfield of the sphere is proportional to the field of\nthe needle, so the field of the sphere is proportional\nto the field of the needle, and the field of the sphere\nis proportional to the field of the needle. The\nfield of the sphere is proportional to the field of\nthe needle, so the field of the sphere is proportional\nto the field of the needle, and the field of the sphere\nis proportional to the field of the needle. The\nfield of the sphere is proportional to the field of\nthe needle, so the field of the sphere is proportional\nto the field of the needle, and the field of the sphere\nis proportional to the field of the needle. The\nfield of the sphere is proportional to the field of\nthe needle, so the field of the sphere is proportional\nto the field of the needle, and the field of the sphere\nis proportional to the field of the needle. The\nfield of the sphere is proportional to the field of\nthe needle, so the field of the sphere is proportional\nto the field of the needle, and the field of the sphere\nis proportional to the field of the needle. The\nfield of the sphere is proportional to the field of\nthe needle, so the field of the sphere is proportional\nto the field of the needle, and the field of the sphere\nis proportional to the field of the needle. The\nfield of the sphere is proportional to the field of\nthe needle, so the field of the sphere is proportional\nto the field of the needle, and the field of the sphere\nis proportional to the field of the needle. The\nfield of the sphere is proportional to the field of\nthe needle, so the field of the sphere is proportional\nto the field of the needle, and the field of the sphere\nis proportional to the field of the needle. The\nfield of the sphere is proportional to the field of\nthe needle, so the field of the sphere is proportional\nto the field of the needle, and the field of the sphere\nis proportional to the field of the needle. The\nfield of the sphere is proportional to the field of\nthe needle, so the field of the sphere is proportional\nto the field of the needle, and the field of the sphere\nis proportional to the field of the needle. The\nfield of the sphere is proportional to the field of\nthe needle, so the field of the sphere is proportional\nto the field of the needle, and the field of the sphere\nis proportional to the"
+    },
+    {
+      "problem_id": "physgym_0133",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "a = \\frac{v_{x}}{R}",
+      "reference_answer": "a = \\sqrt{a_{n}^{2} + a_{\\tau}^{2}} = \\frac{v^{2}}{R} \\frac{1}{\\cos\\theta} = \\frac{v^{3}}{R v_{x}}",
+      "prediction": "The acceleration is given by $a = \\frac{v_{x}}{R}$, so the result is $a = \\frac{v_{x}}{R}$.\nANSWER: $a = \\frac{v_{x}}{R}$"
+    },
+    {
+      "problem_id": "physgym_0140",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "T = {\\frac{\\sqrt{6}}{18}}P",
+      "prediction": "The center of mass of the three spheres is at the center of the rope, so the center of mass of the four spheres is at the center of the rope plus the height of the top sphere, $h$, so the center of mass of the four spheres is at a distance $h/2$ from the center of the rope. The center of mass of the four spheres is at a distance $h/2$ from the center of the rope, so the center of mass of the four spheres is at a distance $h/2$ from the center of the rope. The center of mass of the four spheres is at a distance $h/2$ from the center of the rope, so the center of mass of the four spheres is at a distance $h/2$ from the center of the rope. The center of mass of the four spheres is at a distance $h/2$ from the center of the rope, so the center of mass of the four spheres is at a distance $h/2$ from the center of the rope. The center of mass of the four spheres is at a distance $h/2$ from the center of the rope, so the center of mass of the four spheres is at a distance $h/2$ from the center of the rope. The center of mass of the four spheres is at a distance $h/2$ from the center of the rope, so the center of mass of the four spheres is at a distance $h/2$ from the center of the rope. The center of mass of the four spheres is at a distance $h/2$ from the center of the rope, so the center of mass of the four spheres is at a distance $h/2$ from the center of the rope. The center of mass of the four spheres is at a distance $h/2$ from the center of the rope, so the center of mass of the four spheres is at a distance $h/2$ from the center of the rope. The center of mass of the four spheres is at a distance $h/2$ from the center of the rope, so the center of mass of the four spheres is at a distance $h/2$ from the center of the rope. The center of mass of the four spheres is at a distance $h/2$ from the center of the rope, so the center of mass of the four spheres is at a distance $h/2$ from the center of the rope. The center of mass of the four spheres is at a distance $h/2$ from the center of the rope, so the center of mass of the four spheres is at a distance $h/2$ from the center of the rope. The center of mass of the four spheres is at a distance $h/2$ from the center of the rope, so the center of mass of the four spheres is at a distance $h/2$ from the center of the rope. The center of mass of the four spheres is at a distance $h/2$ from the center of the rope, so the center of mass of the four spheres is at a distance $h/2$ from the center of the rope. The center of mass of the four spheres is at a distance $h/2$ from the center of the rope, so the center of mass of the four spheres is at a distance $h/2$ from the center of the rope. The center of mass of the four spheres is at a distance $h/2$ from the center of the rope, so the center of mass of the four spheres is at a distance $h/2$ from the center of the rope. The center of mass of the four spheres is at a distance $h/2$ from the center of the rope, so the center of mass of the four spheres is at a distance $h/2$ from the center of the rope. The center of mass of the four spheres is at a distance $h/2$ from the center of the rope, so the center of mass of the four spheres is at a distance $h/2$ from the center of the rope. The center of mass of the four spheres is at a distance $h/2$ from the center of the rope, so the center of mass of the four spheres is at a distance $h/2$ from the center of the rope. The center of mass of the four spheres is at a distance $h/2$ from the center of the rope, so the center of mass of the four spheres is at a distance $h/2$ from the center of the rope. The center of mass of the four spheres is at a distance $h/2$ from the center of the rope, so the center of mass of the four spheres is at a distance $h/2$ from the center of the rope. The center of mass of the four spheres is at a distance $h/2$ from the center of the rope, so"
+    },
+    {
+      "problem_id": "physgym_0143",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "t = t_{1} + t_{2} = 2\\left(\\pi + \\frac{2a}{b}\\right)\\sqrt{\\frac{m}{k}}",
+      "prediction": "The equation of motion is\nv2 = 2ax\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12gx2\nv2 = 2ax + 12g"
+    },
+    {
+      "problem_id": "physgym_0204",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "l$ is the distance between the rings",
+      "reference_answer": "\\omega_{z}=\\sqrt{\\frac{Q q}{2\\pi\\varepsilon_{0}m}\\frac{(R^{2}-2l^{2})}{(R^{2}+l^{2})^{\\frac{5}{2}}}}",
+      "prediction": "The particle is subject to the electric field of the ring at the origin, which is given by $E = \\frac{kQ}{r^2} \\hat{z}$. The particle's motion is governed by the equation of motion, which is the equation of a free particle in a uniform electric field. The equation of motion is:\n\n$$\n\\frac{d^2x}{dt^2} = \\frac{q}{m} \\cdot \\frac{d^2x}{dt^2}\n$$\n\nwhere $x$ is the position of the particle, and $q$ and $m$ are the charge and mass of the particle, respectively. The solution to this equation is:\n\n$$\nx(t) = x_0 + \\frac{q}{m} \\cdot \\frac{q}{2\\pi\\omega_{z}} \\cdot \\frac{1}{2} \\cdot \\frac{1}{1 - \\frac{q}{m\\omega_{z}}^2} \\cdot t^2\n$$\n\nwhere $x_0$ is the initial position of the particle, and $\\omega_{z}$ is the angular frequency of the perturbation.\n\nThe particle's motion is affected by the electric field of the ring, which is given by $E = \\frac{kQ}{r^2} \\hat{z}$. The particle's acceleration is given by:\n\n$$\na = \\frac{d^2x}{dt^2} = \\frac{q}{m} \\cdot \\frac{d^2x}{dt^2}\n$$\n\nSubstituting the expression for $x(t)$ into the equation of motion, we get:\n\n$$\na = \\frac{q}{m} \\cdot \\frac{q}{2\\pi\\omega_{z}} \\cdot \\frac{1}{2} \\cdot \\frac{1}{1 - \\frac{q}{m\\omega_{z}}^2} \\cdot t^2\n$$\n\nThe particle is stable if the acceleration is zero, which occurs when the argument of the square root is zero:\n\n$$\n1 - \\frac{q}{m\\omega_{z}}^2 = 0\n$$\n\nSolving for $\\omega_{z}$, we get:\n\n$$\n\\omega_{z} = \\frac{q^2}{2\\pi m l}\n$$\n\nwhere $l$ is the distance between the rings.\n\nANSWER: $l$ is the distance between the rings."
+    },
+    {
+      "problem_id": "physgym_0206",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "V=\\frac{V_{0}}{\\ln\\frac{\\tan\\frac{\\alpha_{2}}{2}}{\\tan\\frac{\\alpha_{1}}{2}}}\\mathrm{ln}\\frac{\\tan\\frac{\\alpha}{2}}{\\tan\\frac{\\alpha_{1}}{2}}",
+      "prediction": "The potential is a function of the angle $\\alpha$ between the cone surface and the positive $z$-axis. The potential is constant on the cone surface, so we can set $V_{A} = 0$ and $V_{B} = V_{0}$. The potential is zero at the origin, so we have $V_{A} = V_{B} = 0$. The potential is constant on the cone surface, so we have $V_{A} = V_{B} = 0$. The potential is zero at the origin, so we have $V_{A} = V_{B} = 0$. The potential is constant on the cone surface, so we have $V_{A} = V_{B} = 0$. The potential is zero at the origin, so we have $V_{A} = V_{B} = 0$. The potential is constant on the cone surface, so we have $V_{A} = V_{B} = 0$. The potential is zero at the origin, so we have $V_{A} = V_{B} = 0$. The potential is constant on the cone surface, so we have $V_{A} = V_{B} = 0$. The potential is zero at the origin, so we have $V_{A} = V_{B} = 0$. The potential is constant on the cone surface, so we have $V_{A} = V_{B} = 0$. The potential is zero at the origin, so we have $V_{A} = V_{B} = 0$. The potential is constant on the cone surface, so we have $V_{A} = V_{B} = 0$. The potential is zero at the origin, so we have $V_{A} = V_{B} = 0$. The potential is constant on the cone surface, so we have $V_{A} = V_{B} = 0$. The potential is zero at the origin, so we have $V_{A} = V_{B} = 0$. The potential is constant on the cone surface, so we have $V_{A} = V_{B} = 0$. The potential is zero at the origin, so we have $V_{A} = V_{B} = 0$. The potential is constant on the cone surface, so we have $V_{A} = V_{B} = 0$. The potential is zero at the origin, so we have $V_{A} = V_{B} = 0$. The potential is constant on the cone surface, so we have $V_{A} = V_{B} = 0$. The potential is zero at the origin, so we have $V_{A} = V_{B} = 0$. The potential is constant on the cone surface, so we have $V_{A} = V_{B} = 0$. The potential is zero at the origin, so we have $V_{A} = V_{B} = 0$. The potential is constant on the cone surface, so we have $V_{A} = V_{B} = 0$. The potential is zero at the origin, so we have $V_{A} = V_{B} = 0$. The potential is constant on the cone surface, so we have $V_{A} = V_{B} = 0$. The potential is zero at the origin, so we have $V_{A} = V_{B} = 0$. The potential is constant on the cone surface, so we have $V_{A} = V_{B} = 0$. The potential is zero at the origin, so we have $V_{A} = V_{B} = 0$. The potential is constant on the cone surface, so we have $V_{A} = V_{B} = 0$. The potential is zero at the origin, so we have $V_{A} = V_{B} = 0$. The potential is constant on the cone surface, so we have $V_{A} = V_{B} = 0$. The potential is zero at the origin, so we have $V_{A} = V_{B} = 0$. The potential is constant on the cone surface, so we have $V_{A} = V_{B} = 0$. The potential is zero at the origin, so we have $V_{A} = V_{B} = 0$. The potential is constant on the cone surface, so we have $V_{A} = V_{B} = 0$. The potential is zero at the origin, so we have $V_{A} = V_{B} = 0$. The potential is constant on the cone surface, so we have $V_{A} = V_{B} = 0"
+    },
+    {
+      "problem_id": "physgym_0228",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\begin{array}{r l}&{\\alpha_{2}=\\cfrac{3\\sin(\\theta_{1}-\\theta_{2})\\left[2g\\cos\\theta_{1}+2l_{1}\\omega_{1}^{2}+l_{2}\\omega_{2}^{2}\\cos(\\theta_{1}-\\theta_{2})\\right]}{l_{2}\\left[1+3\\sin^{2}(\\theta_{1}-\\theta_{2})\\right]}}\\end{array}",
+      "prediction": "The angular acceleration of the rod is given by\n$$\\alpha_{2} = \\frac{\\omega_{1}^{2} - \\omega_{2}^{2}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{2}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l_{2}} = \\frac{\\omega_{1}^{2} - \\frac{g l_{1}^{2}}{l_{2}^{3}}}{l"
+    },
+    {
+      "problem_id": "physgym_0256",
+      "domain": "MODERN_PHYSICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\alpha_{c} \\cdot 2M c^2",
+      "reference_answer": "E_{1}={\\frac{15/4-3}{2{\\sqrt{3}}}}M c^{2}={\\frac{\\sqrt{3}}{8}}M c^{2}",
+      "prediction": "The energy of the photon is $E = \\alpha_{c} \\cdot 2M c^2$, so the minimum value of $E_{1}$ is $\\alpha_{c} \\cdot 2M c^2$.\nANSWER: $\\alpha_{c} \\cdot 2M c^2$"
+    },
+    {
+      "problem_id": "physgym_0259",
+      "domain": "MODERN_PHYSICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\text{Area} = \\frac{2v^2 t'^2 (1 - u^2/c^2)^{3/2}}{1 - (uv/c)^2}",
+      "prediction": "The area of a quadrilateral is proportional to the square of the distance between its vertices. The distance between the vertices is the same in both reference frames, so the area is proportional to the square of the velocity. The square of the velocity is proportional to the square of the time, so the area is proportional to the square of the time squared. The square of the time is proportional to the square of the distance between the reference frames, so the area is proportional to the square of the square of the distance between the reference frames, i.e., proportional to the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of the square of"
+    },
+    {
+      "problem_id": "physgym_0281",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "1/ (tanθ + 1/ g)2",
+      "reference_answer": "h={\\sqrt{\\frac{2\\sigma}{\\rho g}(1-\\sin\\theta)}}",
+      "prediction": "The radius of curvature at the wall is\nR = 1/ (tanθ) = 1/ tanθ.\nThe radius of curvature at the center of the\ncontainer is R = 1/ (tanθ + 1/ g).\nThe difference in radii of curvature is\nh =R2 = 1/ (tanθ + 1/ g)2.\nANSWER: 1/ (tanθ + 1/ g)2"
+    },
+    {
+      "problem_id": "physgym_0285",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "mω2R2",
+      "reference_answer": "F_{m a x}=5m\\omega^{2}R",
+      "prediction": "The maximum force is the force required to keep the bug from slipping, so we have\nF =mω2R−ω2R2 =mω2R2\nANSWER: mω2R2"
+    },
+    {
+      "problem_id": "physgym_0310",
+      "domain": "MODERN_PHYSICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\beta_{1}=\\frac{\\left(\\sqrt{\\frac{1+\\beta_{0}}{1-\\beta_{0}}}+\\frac{2E}{m c^{2}}\\right)^{2}-1}{\\left(\\sqrt{\\frac{1+\\beta_{0}}{1-\\beta_{0}}}+\\frac{2E}{m c^{2}}\\right)^{2}+1}",
+      "prediction": "The energy of a photon is $E = h\\nu$, and the power is $P = h\\nu/2\\pi$. The energy of the mirror is $E_{\\circ} = h\\nu_{\\circ}/2\\pi$, and the power is $P_{\\circ} = h\\nu_{\\circ}/2\\pi$. The change in energy is $E_{\\circ} - E = h(\\nu_{\\circ} - \\nu)/2\\pi$, and the change in power is $P_{\\circ} - P = h(\\nu_{\\circ} - \\nu)/2\\pi$. The change in momentum is $p_{\\circ} = m\\nu_{\\circ}/2\\pi$, and the change in velocity is $v_{\\circ} = \\nu_{\\circ}/c$. The change in momentum is $p = m\\nu/2\\pi$, and the change in velocity is $v = \\nu/c$. The change in momentum is $p_{\\circ} - p = m(\\nu_{\\circ} - \\nu)/2\\pi$, and the change in velocity is $v_{\\circ} - v = \\nu_{\\circ}/c - \\nu/c$. The change in velocity is $v_{\\circ} - v = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\circ}/c - \\nu/c = \\nu_{\\"
+    },
+    {
+      "problem_id": "physgym_0331",
+      "domain": "OPTICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "d",
+      "reference_answer": "\\Delta y=\\frac{1+\\tan2\\phi^{2}}{\\sin\\phi}\\frac{\\lambda L}{d}",
+      "prediction": "The wave vector is proportional to the\ndistance, so the spacing of the maxima is proportional to the distance from the center. The distance from the center to the first maximum is\n1/2λ, so the spacing of the maxima is\n1/4λ. The wavelength is λ = 2d, so the\nspacing is d.\nANSWER: d"
+    },
+    {
+      "problem_id": "physgym_0332",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "µmgr2−d2R2",
+      "reference_answer": "\\mu={\\frac{M R^{2}\\sin\\varphi\\sin(\\beta+\\gamma)}{\\sqrt{\\cos\\beta^{2}\\left[M R^{2}\\cos\\varphi+m L^{2}\\sin\\beta^{2}({\\frac{3}{2}}\\cos\\varphi-1)\\right]^{2}+[M R^{2}\\sin\\varphi\\cos(\\beta+\\gamma)]^{2}}}}",
+      "prediction": "The static friction force is given by\nFs =µkmg, where k is the normal force. The normal force is\nk =mg−(R2−d2)R2, so the static friction force is\nFs =µkmg =µmgr2−d2R2.\nANSWER: µmgr2−d2R2"
+    },
+    {
+      "problem_id": "physgym_0336",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "f={\\frac{1}{2\\pi}}{\\sqrt{\\frac{4g(b+R-{\\frac{b^{2}R}{a^{2}}})}{(a^{2}+5b^{2})({\\frac{b R}{a^{2}}}-1)}}}",
+      "prediction": "The center of mass of the elliptical cylinder is at a distance $a/2$ from the center of the circular cylinder. The acceleration of the center of mass is $a g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$. The acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g$. The acceleration of the center of mass of the elliptical cylinder is $a g - b g$, and the acceleration of the center of mass of the circular cylinder is $b g"
+    },
+    {
+      "problem_id": "physgym_0409",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\sigma=\\frac{2\\varepsilon_{0}E_{0}a}{\\sqrt{a^{2}-r^{2}}}",
+      "prediction": "The field lines of an electric field or magnetic field are tangent to the curve where the field strength changes with $\\mu$ while $\\nu,\\varphi$ remain fixed. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines are perpendicular to the $xy$ plane. The field lines are parallel to the $z$ axis, so the field lines"
+    },
+    {
+      "problem_id": "physgym_0419",
+      "domain": "OPTICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "4π2n2 sin2i1",
+      "reference_answer": "R_{s}=\\left(1+\\left(\\frac{2\\mathrm{e}^{-\\frac{2\\pi d}{\\lambda}\\sqrt{\\mathrm{sin}i_2^2-n^2}}}{1 - \\mathrm{e}^{-\\frac{4\\pi d}{\\lambda}\\sqrt{\\mathrm{sin}i_2^2-n^2}}}\\frac{2\\sqrt{(1 - \\sin^{2}i_{2})(\\sin^{2}i_{2}-n^{2})}}{1 - n^{2}}\\right)^{2}\\right)^{-1}",
+      "prediction": "The s-polarized light intensity is\nproportional to the square of the amplitude of the\ns-wave, so we have\nR s = 4π2n2 sin2i1\nANSWER: 4π2n2 sin2i1"
+    },
+    {
+      "problem_id": "physgym_0420",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "Lθ",
+      "reference_answer": "\\theta=\\theta_{0}\\frac{x_{0}}{x}",
+      "prediction": "The motion of A can be described by the equation of motion for a simple pendulum, which is\n$$\n\\theta = \\frac{x}{L}\n$$\nwhere $L$ is the length of the pendulum. Solving for $x$, we get\n$$\nx = L\\theta\n$$\nANSWER: Lθ"
+    },
+    {
+      "problem_id": "physgym_0432",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{\\mu_0 Q R^2 \\omega^2}{4\\pi mg}",
+      "reference_answer": "h={\\sqrt{\\frac{-Q^{2}+{\\sqrt{Q^{4}+{\\frac{96\\pi\\varepsilon_{0}^{2}m g\\mu_{0}Q^{2}R^{4}\\omega^{2}}{25}}}}}{32\\pi\\varepsilon_{0}m g}}}",
+      "prediction": "The magnetic moment is given by\n$$\n\\mu = \\frac{1}{2} \\mu_0 Q R^2 \\omega^2\n$$\nThe magnetic field at the surface of the plate is given by\n$$\nB = \\frac{\\mu_0 Q R^2 \\omega^2}{4\\pi h}\n$$\nThe magnetic field is perpendicular to the surface of the plate, so the magnetic force on the sphere is given by\n$$\nF = qB = \\frac{\\mu_0 Q R^2 \\omega^2}{4\\pi h}\n$$\nThe gravitational force on the sphere is given by\n$$\nF_g = mg\n$$\nThe magnetic force is balanced by the gravitational force, so\n$$\n\\frac{\\mu_0 Q R^2 \\omega^2}{4\\pi h} = mg\n$$\nSolving for $h$, we get\n$$\nh = \\frac{\\mu_0 Q R^2 \\omega^2}{4\\pi mg}\n$$\nANSWER: \\frac{\\mu_0 Q R^2 \\omega^2}{4\\pi mg}"
+    },
+    {
+      "problem_id": "physgym_0450",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\beta = 4A \\sqrt{A^2 - B^2} g \\frac{2A^{4} + 2A^{3} \\sqrt{A^2 - B^2} - A^{3}B + B^{4}}{(2A^{3} + B^{3})^{2}B}",
+      "prediction": "The acceleration is the second derivative of the position with respect to time, so we have\na = d2x/ dt2 = d2x/ dt2 + d2x/ dφ2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ dφ2 + d2x/ dt2\n= d2x/ d"
+    },
+    {
+      "problem_id": "physgym_0453",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\alpha=\\frac{N}{6\\pi n\\epsilon_0^2c^4}\\frac{(\\frac{\\omega^2 e^2}{m})^2}{(\\omega_0^2-\\omega^2)^2+\\gamma^2 \\omega^2}",
+      "prediction": "The power of radiation emitted by a charged particle in accelerated motion is given by:\n\n$$\nP = {\\frac{e^{2}{\\overline{{{\\dot{v}}^{2}}}}}{6\\pi\\varepsilon_{0}c^{3}}}\n$$\n\nThe power of light absorbed by the medium is proportional to the square of the electric field, so we have:\n\n$$\nP_{abs} = \\frac{1}{2} \\varepsilon_{0} n^{2} \\omega_{0}^{2} \\overline{{{\\dot{v}}^{2}}} N\n$$\n\nThe power of light emitted by the medium is proportional to the square of the electric field, so we have:\n\n$$\nP_{emit} = \\frac{1}{2} \\varepsilon_{0} n^{2} \\omega_{0}^{2} \\overline{{{\\dot{v}}^{2}}} N\n$$\n\nThe difference between the absorbed and emitted power is:\n\n$$\n\\Delta P = P_{abs} - P_{emit} = \\frac{1}{2} \\varepsilon_{0} n^{2} \\omega_{0}^{2} \\left( \\overline{{{\\dot{v}}^{2}}} N - \\overline{{{\\dot{v}}^{2}}} N \\right) = \\frac{1}{2} \\varepsilon_{0} n^{2} \\omega_{0}^{2} \\left( 0 \\right)\n$$\n\nThe result is that the absorption coefficient is proportional to the square of the electric field, so we have:\n\n$$\n\\alpha = \\frac{1}{2} \\varepsilon_{0} n^{2} \\omega_{0}^{2} \\left( 0 \\right)\n$$\n\nThe result is that the absorption coefficient is proportional to the square of the electric field, so we have:\n\n$$\n\\alpha = \\frac{1}{2} \\varepsilon_{0} n^{2} \\omega_{0}^{2} \\left( 0 \\right)\n$$\n\nThe result is that the absorption coefficient is proportional to the square of the electric field, so we have:\n\n$$\n\\alpha = \\frac{1}{2} \\varepsilon_{0} n^{2} \\omega_{0}^{2} \\left( 0 \\right)\n$$\n\nThe result is that the absorption coefficient is proportional to the square of the electric field, so we have:\n\n$$\n\\alpha = \\frac{1}{2} \\varepsilon_{0} n^{2} \\omega_{0}^{2} \\left( 0 \\right)\n$$\n\nThe result is that the absorption coefficient is proportional to the square of the electric field, so we have:\n\n$$\n\\alpha = \\frac{1}{2} \\varepsilon_{0} n^{2} \\omega_{0}^{2} \\left( 0 \\right)\n$$\n\nThe result is that the absorption coefficient is proportional to the square of the electric field, so we have:\n\n$$\n\\alpha = \\frac{1}{2} \\varepsilon_{0} n^{2} \\omega_{0}^{2} \\left( 0 \\right)\n$$\n\nThe result is that the absorption coefficient is proportional to the square of the electric field, so we have:\n\n$$\n\\alpha = \\frac{1}{2} \\varepsilon_{0} n^{2} \\omega_{0}^{2} \\left( 0 \\right)\n$$\n\nThe result is that the absorption coefficient is proportional to the square of the electric field, so we have:\n\n$$\n\\alpha = \\frac{1}{2} \\varepsilon_{0} n^{2} \\omega_{0}^{2} \\left( 0 \\right)\n$$\n\nThe result is that the absorption coefficient is proportional to the square of the electric field, so we have:\n\n$$\n\\alpha = \\frac{1}{2} \\varepsilon_{0} n^{2} \\omega_{0}^{2} \\left( 0 \\right)\n$$\n\nThe result is that the absorption coefficient is proportional to the square of the electric field, so we have:\n\n$$\n\\alpha = \\frac{1}{2} \\varepsilon_{0} n^{2} \\omega_{0}^{2} \\left( 0 \\right)\n$$\n\nThe result is that the absorption coefficient is proportional to the square of the electric field, so we have:\n\n$$\n\\alpha = \\frac{1}{2} \\varepsilon_{0} n^{2} \\omega_{0}^{2} \\left( 0 \\right)\n$$\n\nThe result is that the absorption coefficient is proportional to the square of the electric field, so we have:\n\n$$\n\\alpha = \\frac{1}{2} \\varepsilon_{0} n^{2} \\omega_{0}^{2} \\left( 0 \\right)\n$$\n\nThe result is that the absorption coefficient is proportional to the square of the electric field, so we have:\n\n$$\n\\alpha = \\frac{1}{2} \\varepsilon_{0} n^{2} \\omega_{0}^{2} \\left( 0 \\right)\n$$\n\nThe result is that the"
+    },
+    {
+      "problem_id": "physgym_0457",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "constant",
+      "reference_answer": "{\\omega}=\\sqrt{\\frac{8F\\sin\\frac{\\pi}{N}(9-5\\tan^{2}\\frac{\\pi}{N})^{2}}{m l(2+\\frac{1}{3}\\sin^{2}\\frac{\\pi}{N}+\\cos^{2}\\frac{\\pi}{N})((9+7\\tan^{2}\\frac{\\pi}{N})^{2}-(9-5\\tan^{2}\\frac{\\pi}{N})^{2})}}",
+      "prediction": "The angular velocity is constant because the\nfriction is constant. The angular acceleration\nis zero, so the angular velocity is constant.\nThe angular acceleration is zero because the\nfriction is constant. The angular velocity is\nconstant because the friction is constant.\nANSWER: constant."
+    },
+    {
+      "problem_id": "physgym_0458",
+      "domain": "RELATIVITY",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\rho \\eta \\frac{\\Delta p}{a l}",
+      "reference_answer": "\\frac{\\sqrt{3} a^4 \\Delta p}{320 l}",
+      "prediction": "The velocity field is given by\n\n$$\n\\vec{v} = \\frac{\\Delta p}{\\rho \\eta} \\frac{\\partial \\vec{x}}{\\partial t} + \\frac{\\Delta p}{\\rho \\eta} \\vec{x} \\cdot \\nabla \\vec{x} + \\frac{\\Delta p}{\\rho \\eta} \\nabla \\vec{x} \\cdot \\vec{x}\n$$\n\nwhere $\\vec{x}$ is the position vector of the fluid element. The velocity field is constant in space, so we can simplify the expression to\n\n$$\n\\vec{v} = \\frac{\\Delta p}{\\rho \\eta} \\frac{\\partial \\vec{x}}{\\partial t}\n$$\n\nThe volumetric flow rate $Q$ is given by\n\n$$\nQ = \\rho \\eta \\frac{\\Delta p}{a l}\n$$\n\nANSWER: \\rho \\eta \\frac{\\Delta p}{a l}"
+    },
+    {
+      "problem_id": "physgym_0478",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "F=\\frac{1}{\\varepsilon_{r}}QE_{0}",
+      "prediction": "The force on the sphere is given by the equation\n$$F = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2}} = \\frac{1}{4\\pi\\varepsilon_{0}}\\frac{Q^{2}}{R^{2"
+    },
+    {
+      "problem_id": "physgym_0497",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "(1 + \\gamma_1)(1 + \\gamma_2) - 1",
+      "reference_answer": "\\Delta A = \\frac{m A_0}{4M}\\left[\\frac{1}{3}(\\gamma_1 - 1) + \\gamma_2\\right]",
+      "prediction": "The total mass is \\(m + \\gamma_1 m\\), and the total spring constant is \\(k + \\gamma_2 k\\). The amplitude is proportional to the square root of the total mass and the total spring constant, so the amplitude is proportional to the square root of the ratio of the total mass to the original mass, and the square root of the ratio of the total spring constant to the original spring constant. The ratio of the total mass to the original mass is \\(1 + \\gamma_1\\), and the ratio of the total spring constant to the original spring constant is \\(1 + \\gamma_2\\). Therefore, the amplitude is proportional to the square root of \\((1 + \\gamma_1)(1 + \\gamma_2)\\), and the change in amplitude is proportional to the square root of \\((1 + \\gamma_1)(1 + \\gamma_2) - 1\\). The proportionality constant is \\((1 + \\gamma_1)(1 + \\gamma_2)\\), so the change in amplitude is proportional to the square root of \\((1 + \\gamma_1)(1 + \\gamma_2) - 1\\).\nANSWER: \\((1 + \\gamma_1)(1 + \\gamma_2) - 1\\)"
+    },
+    {
+      "problem_id": "physgym_0650",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{2g}{mL}",
+      "reference_answer": "d_{\\operatorname*{max}}=\\frac{2}{\\pi}\\sqrt{\\frac{E_{0}R}{m g}}\\sqrt{(\\pi-2)^{2}\\frac{R}{L}+2}",
+      "prediction": "The potential energy of the ball is zero at the bottom of the semicircle, so the total energy is $E_{0} = 2m gR$, and the maximum tension occurs when the ball is at the bottom of the semicircle, so the maximum force is $2mg$. The tension in the string is $T =mg$, so $d_{max} = \\frac{2mg}{L} = \\frac{2g}{L} \\cdot \\frac{1}{m} = \\frac{2g}{mL}$.\nANSWER: \\frac{2g}{mL}"
+    },
+    {
+      "problem_id": "physgym_0688",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "2m/ qB0",
+      "reference_answer": "T = \\frac{2 \\pi m}{q B_{0} \\sqrt{n+1}}",
+      "prediction": "The equation of motion is\n$m\\frac{d^{2}r}{dt^{2}}\n= qB_{0}\\left(\\frac{r}{r_{0}}\\right)^{n}$.\nThe solution is\n$r(t) = r_{0}\\left(1 + \\frac{qB_{0}}{2m}\\frac{t^{2}}{r_{0}^{2}}\\right)$.\nThe period is\n$T = \\frac{2\\pi}{qB_{0}}\\frac{1}{\\sqrt{\\frac{2m}{qB_{0}}}}$.\nANSWER: 2m/ qB0"
+    },
+    {
+      "problem_id": "physgym_0708",
+      "domain": "OPTICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "equal to half the wavelength of the light",
+      "reference_answer": "x = \\sqrt{\\frac{2m}{k T}} \\cdot \\frac{L c \\lambda_2}{2\\pi d}",
+      "prediction": "The first blurred fringe is at a position where the difference in path length between the two slits is equal to half the wavelength of the light. The difference in path length is $2d\\cos\\theta$, where $\\theta$ is the angle between the direction of the light and the line connecting the slits. The condition for the first blurred fringe is $2d\\cos\\theta = \\frac{\\lambda_{1}}{2}$, so $\\theta = \\frac{\\lambda_{1}}{4d}$. The result is that the first blurred fringe is at a position where the difference in path length between the two slits is equal to half the wavelength of the light.\nANSWER: equal to half the wavelength of the light"
+    },
+    {
+      "problem_id": "physgym_0709",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "2πc/ mr2",
+      "reference_answer": "\\delta\\omega = - \\frac{2}{m^2+1}\\Omega",
+      "prediction": "The precession is caused by the coupling between the ring and the rotating frame. The angular frequency of the ring's vibration is given by ω = 1/2πk, where k is the wave number. The wave number is related to the wavelength by k = 2π/λ, and the wavelength is related to the frequency by λ =c/ω. The coupling constant is given by the ratio of the ring's moment of inertia to the ring's mass, which is 1/2mr2. The precession angular velocity is then δω = ω/k = 2πkc/2πmr2 = 2πc/ mr2.\nANSWER: 2πc/ mr2"
+    }
+  ],
+  "lexsi_audit": {
+    "experiment": "E4a_test",
+    "auditkit_available": true,
+    "aligntune_math_grading_available": true,
+    "match_method_breakdown": {
+      "mismatch": 23,
+      "missing_sentinel": 15
+    },
+    "generation_hygiene": {
+      "reward_hacking": 0.0,
+      "sycophancy": 0.0,
+      "refusal_collapse": 0.0,
+      "verbosity_gain": 0.0,
+      "timestamp": "2026-11-14T01:10:19.776798+00:00",
+      "avg_response_tokens": 274.58,
+      "repetition_ratio": 0.4365,
+      "unique_token_ratio": 0.377,
+      "degenerate_rate": 0.0
+    },
+    "auditkit_version": "1.1.11"
+  }
+}

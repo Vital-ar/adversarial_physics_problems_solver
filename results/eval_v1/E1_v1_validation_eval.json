@@ -1,0 +1,441 @@
+{
+  "total": 38,
+  "correct": 0,
+  "accuracy": 0.0,
+  "sentinel_rate": 0.5,
+  "domain_breakdown": {
+    "ELECTROMAGNETISM": {
+      "total": 12,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "MECHANICS": {
+      "total": 15,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "MODERN_PHYSICS": {
+      "total": 3,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "OPTICS": {
+      "total": 3,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "RELATIVITY": {
+      "total": 1,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "THERMODYNAMICS": {
+      "total": 4,
+      "correct": 0,
+      "accuracy": 0.0
+    }
+  },
+  "per_sample": [
+    {
+      "problem_id": "physgym_0025",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "r=a(1-\\cos\\theta)",
+      "prediction": "The particle’s motion is two-dimensional, so we can use the equation $x = r \\sin \\theta$ and $y = r \\cos \\theta$. The magnetic field is directed along the polar axis, so the only force acting on the particle is the magnetic force, which is $F = qvB = \\frac{m}{2}qB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB = \\frac{m}{2}mvqB ="
+    },
+    {
+      "problem_id": "physgym_0036",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "eccentricity is zero",
+      "reference_answer": "e={\\sqrt{\\frac{30\\omega^{2}+45{\\frac{G m}{r^{3}}}}{16\\pi\\rho G}}}",
+      "prediction": "The gravitational force on the Earth is\n$F=\\int_{R}^{R+d}G{\\frac{\\lambda}{2\\pi r^{3}}}{\\frac{\\mathrm{d}r}{r}}$.\nThe acceleration of the Earth is\n$a=\\frac{F}{M}$,\nwhere $M$ is the mass of the Earth. The acceleration of the Earth is\n$a=\\int_{R}^{R+d}\\mathrm{d}r\\left(\\frac{\\mathrm{d}r}{r}\\right)=\\frac{d}{2}(R+d)^{2}-d^{2}$,\nand the acceleration of the ring is\n$a_{\\mathrm{ring}}=\\int_{R}^{R+d}\\mathrm{d}r\\left(\\frac{\\mathrm{d}r}{r}\\right)=\\frac{d}{2}(R+d)^{2}-d^{2}$.\nThe total acceleration of the Earth is\n$a_{\\mathrm{Earth}}=\\frac{1}{M}\\left(a_{\\mathrm{Earth}}+a_{\\mathrm{ring}}\\right)=\\frac{1}{M}\\left(\\frac{d}{2}(R+d)^{2}-d^{2}+\\frac{d}{2}(R+d)^{2}-d^{2}\\right)=0$.\nThe result is that the Earth is stable, and its\neccentricity is zero.\nANSWER: eccentricity is zero."
+    },
+    {
+      "problem_id": "physgym_0037",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "a_{y} = \\frac{1}{m} \\int_{0}^{2\\pi} f_{y} d\\theta = \\frac{\\mu^{2} \\omega h g}{2 \\nu}",
+      "prediction": "The curling is a solid cylinder, so its mass is $m = \\rho V = \\rho\\pi r^2h$. The curling's acceleration is $a_y = \\frac{\\partial F_y}{\\partial t} = \\frac{\\partial}{\\partial t}\\left(\\rho\\pi r^2h\\omega F_y\\right)$, where $F_y$ is the normal force. The normal force is $F_y = mg - \\mu N$. Therefore, $a_y = \\frac{\\partial}{\\partial t}\\left(\\rho\\pi r^2h\\omega(mg - \\mu N)\\right)$. The curling's velocity is $v = \\omega r$, so $t = \\frac{v}{\\omega}$. Substituting, we have $a_y = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h\\omega(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v}{\\omega} = \\frac{\\partial}{\\partial v}\\left(\\rho\\pi r^2h(mg - \\mu N)\\right)\\frac{v"
+    },
+    {
+      "problem_id": "physgym_0042",
+      "domain": "OPTICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "n(r)=n_{0}a{\\sqrt{\\left({\\frac{a^{2}q^{2}}{r^{4}}}-{\\frac{q^{2}-1}{r^{2}}}\\right)}}",
+      "prediction": "The refractive index is defined as\n$$n = \\frac{1}{n_0}\\left(\\frac{\\partial}{\\partial r}\\left[n_0\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac{\\partial}{\\partial r}\\left(\\frac"
+    },
+    {
+      "problem_id": "physgym_0050",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{3}{2}(p_{1}-p_{0})k_{B}T_{0} \\cdot \\frac{1}{2}h^{-1}",
+      "reference_answer": "T_{1} = T_{0} \\frac{\\left(1 + \\frac{N m g}{p_{1} S}\\right)^{\\frac{2 p_{1} S}{7 N m g}}}{\\left(1 + \\frac{N m g}{p_{0} S}\\right)^{\\frac{2 p_{0} S}{7 N m g}}} \\left(\\frac{p_{1} S + N m g}{p_{0} S + N m g}\\right)^{\\frac{2}{7}}",
+      "prediction": "The powder is sprinkled onto the piston, which then slowly sinks down. The piston is fixed on the ground, so the powder is spreading out on the ground. The powder is spreading out in a layer of thickness $h$, and the area of the spreading powder is $S_{1}=S + h^{2}/2$. The mass of the powder is $(p_{1}-p_{0})S/g$, so the density of the powder is $\\rho_{1}=\\frac{(p_{1}-p_{0})S}{gh}$. The number of molecules in the powder is $N_{1}=\\frac{(p_{1}-p_{0})S}{mg}$, and the number of molecules in the gas is $N_{2}=\\frac{(p_{1}-p_{0})S}{2mgh}$, so the number of molecules in the gas is $N_{2}=2N_{1}$. The total number of molecules in the gas is $N_{2}=2N_{1}=\\frac{(p_{1}-p_{0})S}{2mgh}$, so $N_{1}=\\frac{(p_{1}-p_{0})S}{2mgh}$, and $T_{1}=\\frac{3}{2}N_{1}K_{B}=\\frac{3}{2}(p_{1}-p_{0})k_{B}T_{0} \\cdot \\frac{1}{2}h^{-1}$.\nANSWER: \\frac{3}{2}(p_{1}-p_{0})k_{B}T_{0} \\cdot \\frac{1}{2}h^{-1}"
+    },
+    {
+      "problem_id": "physgym_0055",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{\\lambda}{4\\pi\\varepsilon_{0}}q^{1/2}",
+      "reference_answer": "F(r)=p(r){\\frac{\\mathrm{d}E}{\\mathrm{d}r}}=-{\\frac{3\\left(\\varepsilon_{r}-1\\right)V\\lambda^{2}}{4\\pi^{2}\\left(\\varepsilon_{r}+2\\right)}}{\\frac{1}{r^{3}}}",
+      "prediction": "The force on the particle is the force of the electric field of the charged straight line on the particle. The electric field of the charged straight line is\n$$E = \\frac{\\lambda}{2\\pi\\varepsilon_{0}}\\frac{1}{r^{3/2}}\\cdot\\frac{1}{r^{2}}\\cdot r = \\frac{\\lambda}{4\\pi\\varepsilon_{0}r^{3}}\\cdot r^{3/2} = \\frac{\\lambda}{4\\pi\\varepsilon_{0}}\\cdot r^{1/2}.$$\nThe magnitude of the force is\n$$F = qE = \\frac{\\lambda}{4\\pi\\varepsilon_{0}}q^{1/2}.$$\nANSWER: \\frac{\\lambda}{4\\pi\\varepsilon_{0}}q^{1/2}"
+    },
+    {
+      "problem_id": "physgym_0062",
+      "domain": "RELATIVITY",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\gamma B(2J S+\\gamma B)",
+      "prediction": "The energy of the state is\n$$\nE = -\\frac{1}{2}J(S_{1}S_{2} + S_{1}^{2} + S_{2}^{2}) - \\frac{1}{2}\\gamma B(S_{1}^{2}+S_{2}^{2})\n$$\nThe first term is the energy of the interaction between the two spins, which is proportional to the square of the spin vector. The second term is the energy of the interaction between the two spins and the external magnetic field, which is proportional to the square of the spin vector plus the square of the magnetic moment. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector. The energy of the state is proportional to the square of the spin vector, so the energy of the state is proportional to the square of the spin vector."
+    },
+    {
+      "problem_id": "physgym_0065",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\vec{v}=\\vec{v_{0}}e^{-\\frac{5\\pi R B^{2}}{14m\\lambda}t}",
+      "prediction": "The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\( v_0 \\) in the horizontal plane, and its initial angular velocity is such that it is in a pure rolling state. The sphere’s center has acquired a velocity \\("
+    },
+    {
+      "problem_id": "physgym_0095",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "x=-\\frac{7F}{57M\\Omega^{2}}+\\frac{4F}{39M\\Omega^{2}}\\cos{\\sqrt{6}}\\Omega t+\\frac{5F}{247M\\Omega^{2}}\\cos{\\sqrt{19}}\\Omega t",
+      "prediction": "The particle is initially at rest, so its velocity is zero. The particle’s acceleration is $a = F/m$, and the Coriolis acceleration is $\\vec{a}_{\\mathrm{C}} = -2\\Omega^{2}\\vec{r} \\times \\vec{v}$, where $\\vec{r}$ is the particle’s position vector and $\\vec{v}$ is its velocity vector. The particle’s acceleration is the vector sum of the Coriolis acceleration and the gravitational acceleration. The particle’s acceleration is $a = \\frac{F}{m} - 2\\Omega^{2}\\vec{r} \\times \\vec{v}$. The particle’s acceleration is $a = \\frac{F}{m} - 2\\Omega^{2}\\vec{r} \\times \\vec{v}$, and the particle’s velocity is $v = \\frac{a}{m} = \\frac{F}{m m} - \\frac{2\\Omega^{2} m}{l} \\vec{r} \\times \\vec{v}$. The particle’s velocity is $v = \\frac{a}{m} = \\frac{F}{m m} - \\frac{2\\Omega^{2} m}{l} \\vec{r} \\times \\vec{v}$, and the particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle’s initial position. The particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle’s initial position. The particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle’s initial position. The particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle’s initial position. The particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle’s initial position. The particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle’s initial position. The particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle’s initial position. The particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle’s initial position. The particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle’s initial position. The particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle’s initial position. The particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle’s initial position. The particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle’s initial position. The particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle’s initial position. The particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle’s initial position. The particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle’s initial position. The particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle’s initial position. The particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle’s initial position. The particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle’s initial position. The particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle’s initial position. The particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle’s initial position. The particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle’s initial position. The particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle’s initial position. The particle’s position is $\\vec{r} = \\vec{r}_{0} + v t$, where $\\vec{r}_{0}$ is the particle"
+    },
+    {
+      "problem_id": "physgym_0100",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\omega_{2} = {\\sqrt{\\frac{K}{M}}} = {\\sqrt{\\frac{2m g^{2}l}{E a h^{3}}}}",
+      "prediction": "Let’s use the following notations:\na: beam width;\nh: beam thickness;\nE: Young’s modulus;\nl: distance between supports;\nm: mass of the weight;\ng: gravitational acceleration;\nθ: angle between the beam and the horizontal line;\nθ′: small perturbation;\nω: angular frequency;\nT: period;\nk: spring constant;\nx: displacement;\ny: height;\nz: vertical displacement;\nx′: displacement of the weight;\ny′: height of the weight;\nz′: vertical displacement of the weight;\nx: displacement of the beam;\ny: height of the beam;\nz: vertical displacement of the beam;\nx′′: displacement of the beam;\ny′′: height of the beam;\nz′′: vertical displacement of the beam;\nx: displacement of the beam;\ny: height of the beam;\nz: vertical displacement of the beam;\nx′′′: displacement of the beam;\ny′′′: height of the beam;\nz′′′: vertical displacement of the beam;\nx: displacement of the beam;\ny: height of the beam;\nz: vertical displacement of the beam;\nx′′′′: displacement of the beam;\ny′′′′: height of the beam;\nz′′′′: vertical displacement of the beam;\nx: displacement of the beam;\ny: height of the beam;\nz: vertical displacement of the beam;\nx′′′′′: displacement of the beam;\ny′′′′′: height of the beam;\nz′′′′′: vertical displacement of the beam;\nx: displacement of the beam;\ny: height of the beam;\nz: vertical displacement of the beam;\nx′′′′′′: displacement of the beam;\ny′′′′′′: height of the beam;\nz′′′′′′: vertical displacement of the beam;\nx: displacement of the beam;\ny: height of the beam;\nz: vertical displacement of the beam;\nx′′′′′′′: displacement of the beam;\ny′′′′′′′: height of the beam;\nz′′′′′′′: vertical displacement of the beam;\nx: displacement of the beam;\ny: height of the beam;\nz: vertical displacement of the beam;\nx′′′′′′′′: displacement of the beam;\ny′′′′′′′′: height of the beam;\nz′′′′′′′′: vertical displacement of the beam;\nx: displacement of the beam;\ny: height of the beam;\nz: vertical displacement of the beam;\nx′′′′′′′′′: displacement of the beam;\ny′′′′′′′′′: height of the beam;\nz′′′′′′′′′: vertical displacement of the beam;\nx: displacement of the beam;\ny: height of the beam;\nz: vertical displacement of the beam;\nx′′′′′′′′′′: displacement of the beam;\ny′′′′′′′′′′: height of the beam;\nz′′′′′′′′′′: vertical displacement of the beam;\nx: displacement of the beam;\ny: height of the beam;\nz: vertical displacement of the beam;\nx′′′′′′′′′′′: displacement of the beam;\ny′′′′′′′′′′′: height of the beam;\nz′′′′′′′′′′′: vertical displacement of the beam;\nx: displacement of the beam;\ny: height of the beam;\nz: vertical displacement of the beam;\nx′′′′′′′′′′′′: displacement of the beam;\ny′′′′′′′′′′′′: height of the beam;\nz′′′′′′′′′′′′: vertical displacement of the beam;\nx: displacement of the beam;\ny: height of the beam;\nz: vertical displacement of the beam;\nx′′′′′′′′′′′′′: displacement of the beam;\ny′′′′′′′′′′′′′: height of the beam;\nz′′′′′′′′′′′′′: vertical displacement of the beam;\nx: displacement of the beam;\ny: height of the beam;\nz: vertical displacement of the beam;\nx′′′′′′′′′′′′′′: displacement of the beam;\ny′′′′′′′′′′′′′′: height of the beam;\nz′′′′′′′′′′′′′′: vertical displacement of the beam;\nx: displacement of the beam;\ny: height of the beam;\nz: vertical displacement of the beam;\nx′′′′′′"
+    },
+    {
+      "problem_id": "physgym_0106",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "v=-\\sqrt{3gl\\sin\\theta_{0}}",
+      "prediction": "Let the angle of the rod with the table be $\\theta$ (measured from the vertical). The vertical forces on the top end of the rod are $mg$ and $T$, and the horizontal forces are $mg\\sin\\theta$ and $mg\\cos\\theta$. The total horizontal force on the top end of the rod is $mg\\sin\\theta - mg\\cos\\theta = 0$, so the top end of the rod is in equilibrium. The vertical forces on the top end of the rod are $mg + T = 0$, so $T = -mg$. The tension in the string is $mg\\sin\\theta - mg\\cos\\theta = 0$, so $mg\\sin\\theta - mg\\cos\\theta = 0$. The total force on the top end of the rod is $mg\\sin\\theta - mg\\cos\\theta = 0$, so the top end of the rod is in equilibrium. The vertical forces on the top end of the rod are $mg + T = 0$, so $T = -mg$. The tension in the string is $mg\\sin\\theta - mg\\cos\\theta = 0$, so $mg\\sin\\theta - mg\\cos\\theta = 0$. The total force on the top end of the rod is $mg\\sin\\theta - mg\\cos\\theta = 0$, so the top end of the rod is in equilibrium. The vertical forces on the top end of the rod are $mg + T = 0$, so $T = -mg$. The tension in the string is $mg\\sin\\theta - mg\\cos\\theta = 0$, so $mg\\sin\\theta - mg\\cos\\theta = 0$. The total force on the top end of the rod is $mg\\sin\\theta - mg\\cos\\theta = 0$, so the top end of the rod is in equilibrium. The vertical forces on the top end of the rod are $mg + T = 0$, so $T = -mg$. The tension in the string is $mg\\sin\\theta - mg\\cos\\theta = 0$, so $mg\\sin\\theta - mg\\cos\\theta = 0$. The total force on the top end of the rod is $mg\\sin\\theta - mg\\cos\\theta = 0$, so the top end of the rod is in equilibrium. The vertical forces on the top end of the rod are $mg + T = 0$, so $T = -mg$. The tension in the string is $mg\\sin\\theta - mg\\cos\\theta = 0$, so $mg\\sin\\theta - mg\\cos\\theta = 0$. The total force on the top end of the rod is $mg\\sin\\theta - mg\\cos\\theta = 0$, so the top end of the rod is in equilibrium. The vertical forces on the top end of the rod are $mg + T = 0$, so $T = -mg$. The tension in the string is $mg\\sin\\theta - mg\\cos\\theta = 0$, so $mg\\sin\\theta - mg\\cos\\theta = 0$. The total force on the top end of the rod is $mg\\sin\\theta - mg\\cos\\theta = 0$, so the top end of the rod is in equilibrium. The vertical forces on the top end of the rod are $mg + T = 0$, so $T = -mg$. The tension in the string is $mg\\sin\\theta - mg\\cos\\theta = 0$, so $mg\\sin\\theta - mg\\cos\\theta = 0$. The total force on the top end of the rod is $mg\\sin\\theta - mg\\cos\\theta = 0$, so the top end of the rod is in equilibrium. The vertical forces on the top end of the rod are $mg + T = 0$, so $T = -mg$. The tension in the string is $mg\\sin\\theta - mg\\cos\\theta = 0$, so $mg\\sin\\theta - mg\\cos\\theta = 0$. The total force on the top end of the rod is $mg\\sin\\theta - mg\\cos\\theta = 0$, so the top end of the rod is in equilibrium. The vertical forces on the top end of the rod are $mg + T = 0$, so $T = -mg$. The tension in the string is $mg\\sin\\theta - mg\\cos\\theta = 0$, so $mg\\sin\\theta - mg\\cos\\theta = 0$. The total force on the top end of the rod is $mg\\sin\\theta - mg\\cos\\theta = 0$, so the top end of the rod is in equilibrium. The vertical forces on the top end of the rod are $mg + T = 0$, so $T = -mg$. The tension in the string is $mg\\sin\\theta - mg\\cos\\theta = 0$, so $mg\\sin\\theta - mg\\cos\\theta = 0$. The total force on the top end of the rod is $mg\\sin\\theta - mg\\cos\\theta = 0$, so the top end of the rod is in equilibrium. The vertical forces on the top end of the rod are $mg + T = 0$, so $T = -mg$."
+    },
+    {
+      "problem_id": "physgym_0110",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "{{\\alpha=\\arctan({\\frac{\\sqrt{c^{4}-d^{2}(a^{2}-c^{2})}}{a d}})}}",
+      "prediction": "Let the picture frame be a square with side length $2c$, and let the nail be at the center of the square. The total mass of the picture frame is $m = \\frac{1}{2}m_{\\text{frame}} + \\frac{1}{2}m_{\\text{string}}$, where $m_{\\text{frame}}$ is the mass of the frame and $m_{\\text{string}}$ is the mass of the string. The total mass of the string is $m_{\\text{string}} = \\frac{1}{2}m_{\\text{string}}$, where $m_{\\text{string}}$ is the mass of the string. The mass of the frame is $m_{\\text{frame}} = \\frac{1}{2}m_{\\text{frame}}$, where $m_{\\text{frame}}$ is the mass of the frame. The mass of the string is $m_{\\text{string}} = \\frac{1}{2}m_{\\text{string}}$, where $m_{\\text{string}}$ is the mass of the string. The mass of the frame is $m_{\\text{frame}} = \\frac{1}{2}m_{\\text{frame}}$, where $m_{\\text{frame}}$ is the mass of the frame. The mass of the string is $m_{\\text{string}} = \\frac{1}{2}m_{\\text{string}}$, where $m_{\\text{string}}$ is the mass of the string. The mass of the frame is $m_{\\text{frame}} = \\frac{1}{2}m_{\\text{frame}}$, where $m_{\\text{frame}}$ is the mass of the frame. The mass of the string is $m_{\\text{string}} = \\frac{1}{2}m_{\\text{string}}$, where $m_{\\text{string}}$ is the mass of the string. The mass of the frame is $m_{\\text{frame}} = \\frac{1}{2}m_{\\text{frame}}$, where $m_{\\text{frame}}$ is the mass of the frame. The mass of the string is $m_{\\text{string}} = \\frac{1}{2}m_{\\text{string}}$, where $m_{\\text{string}}$ is the mass of the string. The mass of the frame is $m_{\\text{frame}} = \\frac{1}{2}m_{\\text{frame}}$, where $m_{\\text{frame}}$ is the mass of the frame. The mass of the string is $m_{\\text{string}} = \\frac{1}{2}m_{\\text{string}}$, where $m_{\\text{string}}$ is the mass of the string. The mass of the frame is $m_{\\text{frame}} = \\frac{1}{2}m_{\\text{frame}}$, where $m_{\\text{frame}}$ is the mass of the frame. The mass of the string is $m_{\\text{string}} = \\frac{1}{2}m_{\\text{string}}$, where $m_{\\text{string}}$ is the mass of the string. The mass of the frame is $m_{\\text{frame}} = \\frac{1}{2}m_{\\text{frame}}$, where $m_{\\text{frame}}$ is the mass of the frame. The mass of the string is $m_{\\text{string}} = \\frac{1}{2}m_{\\text{string}}$, where $m_{\\text{string}}$ is the mass of the string. The mass of the frame is $m_{\\text{frame}} = \\frac{1}{2}m_{\\text{frame}}$, where $m_{\\text{frame}}$ is the mass of the frame. The mass of the string is $m_{\\text{string}} = \\frac{1}{2}m_{\\text{string}}$, where $m_{\\text{string}}$ is the mass of the string. The mass of the frame is $m_{\\text{frame}} = \\frac{1}{2}m_{\\text{frame}}$, where $m_{\\text{frame}}$ is the mass of the frame. The mass of the string is $m_{\\text{string}} = \\frac{1}{2}m_{\\text{string}}$, where $m_{\\text{string}}$ is the mass of the string. The mass of the frame is $m_{\\text{frame}} = \\frac{1}{2}m_{\\text{frame}}$, where $m_{\\text{frame}}$ is the mass of the frame. The mass of the string is $m_{\\text{string}} = \\frac{1}{2}m_{\\text{string}}$, where $m_{\\text{string}}$ is the mass of the string. The mass of the frame is $m_{\\text{frame}} = \\frac{1}{2}m_{\\text{frame}}$, where $m_{\\text{frame}}$ is the mass of the frame. The mass of the string is"
+    },
+    {
+      "problem_id": "physgym_0112",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{1}{2}{\\varepsilon_0}{\\varepsilon_r}{\\vec{E}^2} + \\frac{1}{2}\\varepsilon_0{\\sigma}{\\vec{E}^2}",
+      "reference_answer": "Q_{t o t}=\\int_{0}^{\\infty}W_{J}\\mathrm{d}t=\\int_{0}^{\\infty}\\frac{12\\pi\\sigma}{(\\varepsilon_{r}+2)^{2}}e^{-2\\frac{\\sigma}{\\varepsilon_{0}(2+\\varepsilon_{r})}t}R^{3}E_{0}^{2}\\mathrm{d}t=\\frac{6\\pi\\varepsilon_{0}}{(\\varepsilon_{r}+2)}R^{3}E_{0}^{2}",
+      "prediction": "The energy density of the field is $\\frac{1}{2}{\\varepsilon_0}{\\vec{E}^2}$, and the energy density of the charge is $\\frac{1}{2}\\varepsilon_0{\\sigma}{\\vec{E}^2}$. The total energy density is\n$\\frac{1}{2}{\\varepsilon_0}{\\varepsilon_r}{\\vec{E}^2}$, and the total energy is\n$\\frac{1}{2}{\\varepsilon_0}{\\varepsilon_r}{\\vec{E}^2} + \\frac{1}{2}\\varepsilon_0{\\sigma}{\\vec{E}^2}$.\nThe total energy is conserved, so the total Joule heat generated is\n$\\frac{1}{2}{\\varepsilon_0}{\\varepsilon_r}{\\vec{E}^2} + \\frac{1}{2}\\varepsilon_0{\\sigma}{\\vec{E}^2}$.\nANSWER: \\frac{1}{2}{\\varepsilon_0}{\\varepsilon_r}{\\vec{E}^2} + \\frac{1}{2}\\varepsilon_0{\\sigma}{\\vec{E}^2}"
+    },
+    {
+      "problem_id": "physgym_0118",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "R_{BC}=\\frac{38}{41}r",
+      "prediction": "Let’s label the vertices of the dodecahedron $A, B, C, D, E, F, G, H, I, J, K, L$. The vertices opposite to each other are $A$ and $D$, $B$ and $E$, $C$ and $F$, $D$ and $G$, $E$ and $H$, $F$ and $I$, $G$ and $J$, $H$ and $K$, and $I$ and $L$. The resistance between two vertices is the same as the resistance between the opposite ones. The resistance between $B$ and $C$ is therefore the same as the resistance between $A$ and $D$. The resistance between $A$ and $D$ is\n$$\n\\frac{1}{r_{AD}} = \\frac{1}{r_{AB}} + \\frac{1}{r_{AC}} + \\frac{1}{r_{AD}} + \\frac{1}{r_{BD}} + \\frac{1}{r_{DC}} + \\frac{1}{r_{ED}} + \\frac{1}{r_{DF}} + \\frac{1}{r_{EG}} + \\frac{1}{r_{FD}} + \\frac{1}{r_{GE}} + \\frac{1}{r_{HF}} + \\frac{1}{r_{IG}} + \\frac{1}{r_{GF}} + \\frac{1}{r_{GH}} + \\frac{1}{r_{IJ}} + \\frac{1}{r_{JK}} + \\frac{1}{r_{IL}}.\n$$\nThe resistance between $A$ and $D$ is the same as the resistance between $B$ and $C$, so we can simplify the expression by writing it as\n$$\n\\frac{1}{r_{AD}} = 2\\left(\\frac{1}{r_{AB}} + \\frac{1}{r_{AC}} + \\frac{1}{r_{BD}} + \\frac{1}{r_{CD}} + \\frac{1}{r_{DE}} + \\frac{1}{r_{ED}} + \\frac{1}{r_{DF}} + \\frac{1}{r_{FD}} + \\frac{1}{r_{GE}} + \\frac{1}{r_{EG}} + \\frac{1}{r_{HF}} + \\frac{1}{r_{IH}} + \\frac{1}{r_{IJ}} + \\frac{1}{r_{JK}} + \\frac{1}{r_{IL}}\\right).\n$$\nThe resistance between $B$ and $C$ is therefore\n$$\n\\frac{1}{r_{BC}} = \\frac{1}{r_{AB}} + \\frac{1}{r_{AC}} + \\frac{1}{r_{BD}} + \\frac{1}{r_{CD}} + \\frac{1}{r_{DE}} + \\frac{1}{r_{ED}} + \\frac{1}{r_{DF}} + \\frac{1}{r_{EG}} + \\frac{1}{r_{GF}} + \\frac{1}{r_{GH}} + \\frac{1}{r_{IH}} + \\frac{1}{r_{IJ}} + \\frac{1}{r_{JK}} + \\frac{1}{r_{IL}}.\n$$\nThe resistance between $B$ and $C$ is $2r$, so\n$$\n\\frac{1}{2r_{BC}} = \\frac{1}{r_{AB}} + \\frac{1}{r_{AC}} + \\frac{1}{r_{BD}} + \\frac{1}{r_{CD}} + \\frac{1}{r_{DE}} + \\frac{1}{r_{ED}} + \\frac{1}{r_{DF}} + \\frac{1}{r_{EG}} + \\frac{1}{r_{GF}} + \\frac{1}{r_{GH}} + \\frac{1}{r_{IH}} + \\frac{1}{r_{IJ}} + \\frac{1}{r_{JK}} + \\frac{1}{r_{IL}}.\n$$\nThe resistance between $A$ and $D$ is $r$, so\n$$\n\\frac{1}{2r_{AD}} = \\frac{1}{r_{AB}} + \\frac{1}{r_{AC}} + \\frac{1}{r_{BD}} + \\frac{1}{r_{CD}} + \\frac{1}{r_{DE}} + \\frac{1}{r_{ED}} + \\frac{1}{r_{DF}} + \\frac{1}{r_{EG}} + \\frac{1}{r_{GF}} + \\frac{1}{r_{GH}} + \\frac{1}{r_{IH}} + \\frac{1}{r_{IJ}} + \\frac{1"
+    },
+    {
+      "problem_id": "physgym_0120",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\eta=\\frac{\\gamma-1}{2\\sqrt{\\gamma p_0 V_0/W}-1}",
+      "prediction": "The area of the rectangle is fixed, so the area of the triangle plus the area of the square is fixed. The area of the square is fixed, so the area of the triangle is fixed, and the area of the triangle is equal to the area of the rectangle minus the area of the square. The area of the triangle is $\\frac{1}{2} p_0(V_0 - V_1 - V_2)$. The area of the square is $\\frac{1}{2} V_0(p_1 - p_2)$. The area of the triangle plus the area of the square is fixed, so we have\n$$\n\\frac{1}{2} p_0(V_0 - V_1 - V_2) + \\frac{1}{2} V_0(p_1 - p_2) = W.\n$$\nThe area of the square is fixed, so the area of the square is $\\frac{1}{2} V_0(p_1 - p_2)$. The area of the triangle plus the area of the square is fixed, so we have\n$$\n\\frac{1}{2} p_0(V_0 - V_1 - V_2) + \\frac{1}{2} V_0(p_1 - p_2) = W.\n$$\nThe area of the triangle plus the area of the square is fixed, so we have\n$$\n\\frac{1}{2} p_0(V_0 - V_1 - V_2) + \\frac{1}{2} V_0(p_1 - p_2) = W.\n$$\nThe area of the triangle plus the area of the square is fixed, so we have\n$$\n\\frac{1}{2} p_0(V_0 - V_1 - V_2) + \\frac{1}{2} V_0(p_1 - p_2) = W.\n$$\nThe area of the triangle plus the area of the square is fixed, so we have\n$$\n\\frac{1}{2} p_0(V_0 - V_1 - V_2) + \\frac{1}{2} V_0(p_1 - p_2) = W.\n$$\nThe area of the triangle plus the area of the square is fixed, so we have\n$$\n\\frac{1}{2} p_0(V_0 - V_1 - V_2) + \\frac{1}{2} V_0(p_1 - p_2) = W.\n$$\nThe area of the triangle plus the area of the square is fixed, so we have\n$$\n\\frac{1}{2} p_0(V_0 - V_1 - V_2) + \\frac{1}{2} V_0(p_1 - p_2) = W.\n$$\nThe area of the triangle plus the area of the square is fixed, so we have\n$$\n\\frac{1}{2} p_0(V_0 - V_1 - V_2) + \\frac{1}{2} V_0(p_1 - p_2) = W.\n$$\nThe area of the triangle plus the area of the square is fixed, so we have\n$$\n\\frac{1}{2} p_0(V_0 - V_1 - V_2) + \\frac{1}{2} V_0(p_1 - p_2) = W.\n$$\nThe area of the triangle plus the area of the square is fixed, so we have\n$$\n\\frac{1}{2} p_0(V_0 - V_1 - V_2) + \\frac{1}{2} V_0(p_1 - p_2) = W.\n$$\nThe area of the triangle plus the area of the square is fixed, so we have\n$$\n\\frac{1}{2} p_0(V_0 - V_1 - V_2) + \\frac{1}{2} V_0(p_1 - p_2) = W.\n$$\nThe area of the triangle plus the area of the square is fixed, so we have\n$$\n\\frac{1}{2} p_0(V_0 - V_1 - V_2) + \\frac{1}{2} V_0(p_1 - p_2) = W.\n$$\nThe area of the triangle plus the area of the square is fixed, so we have\n$$\n\\frac{1}{2} p_0(V_0 - V_1 - V_2) + \\frac{1}{2} V_0(p_1 - p_2) = W.\n$$\nThe area of the triangle plus the area of the square is fixed, so we have\n$$\n\\frac{1}{2} p_0(V_0 - V_1 - V_2) + \\frac{1}{2} V_0(p_1 - p_2)"
+    },
+    {
+      "problem_id": "physgym_0121",
+      "domain": "MODERN_PHYSICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "1/(1-\\beta_{1}-\\beta_{2})",
+      "reference_answer": "u=c^{2}{\\frac{\\left|{\\sqrt{c^{2}-v_{1}^{2}}}-{\\sqrt{c^{2}-v_{1}^{2}}}\\right|}{{\\sqrt{c^{2}\\left(v_{1}^{2}+v_{2}^{2}\\right)-2v_{1}^{2}v_{2}^{2}-2v_{1}v_{2}\\cos\\alpha{\\sqrt{(c^{2}-v_{1}^{2})(c^{2}-v_{2}^{2})}}}}}}",
+      "prediction": "The velocity of light in the medium is $c/u$.\nThe velocity of light in the inertial frame is\n$c/(1-\\beta_{1}-\\beta_{2})$, where $\\beta_{1}$ and\n$\\beta_{2}$ are the velocities of the two spacecraft\nin the inertial frame. The velocity of light in the\ninertial frame is also $c/u$. Therefore, we have\n$\\frac{c}{u} = \\frac{c}{1-\\beta_{1}-\\beta_{2}}$,\nwhich gives $\\frac{1}{u} = \\frac{1}{1-\\beta_{1}-\\beta_{2}}$, i.e., $u = 1/(1-\\beta_{1}-\\beta_{2})$.\nANSWER: 1/(1-\\beta_{1}-\\beta_{2})"
+    },
+    {
+      "problem_id": "physgym_0124",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "2\\pi/\\sqrt{gL_{0}}",
+      "reference_answer": "T=2\\pi\\sqrt{\\frac{m(M+m\\sin^{2}\\theta)}{k(M+m)}}",
+      "prediction": "The system is a simple pendulum, and the period of a simple pendulum is $T = 2\\pi/\\sqrt{gL}$. The period of the small block is $T_{m} = 2\\pi/\\sqrt{gL_{0}}$.\nANSWER: 2\\pi/\\sqrt{gL_{0}}"
+    },
+    {
+      "problem_id": "physgym_0134",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "a_{n}={\\frac{v_{2}^{2}}{\\rho}}={\\frac{v_{1}v_{2}}{L}}",
+      "prediction": "Let’s pick a coordinate system in which the fox is at the origin, and let’s say the fox is moving to the right. Then the fox’s velocity is $v_{1} = (0, v_{1})$ and the hound’s velocity is $v_{2} = (0, v_{2})$. The fox’s acceleration is $a_{1} = (0, 0)$ and the hound’s acceleration is $a_{2} = (0, a_{2})$. The distance between the fox and the hound is $FD = L$, and the magnitude of their accelerations is $a_{1}^{2} + a_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v_{1}^{2} + v_{2}^{2} = v"
+    },
+    {
+      "problem_id": "physgym_0139",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\varphi = \\arctan\\left(\\frac{r_{2}T_{2} - r_{2}F_{2}}{r_{1} - r_{2}}\\right)",
+      "reference_answer": "\\tan\\varphi = \\frac{P_{2}-P_{1}\\cos(2\\beta)}{P_{1}\\sin(2\\beta)}",
+      "prediction": "Let the vertical forces be $F_{1}$ and $F_{2}$, and the horizontal ones $T_{1}$ and $T_{2}$. The vertical forces must balance, so $F_{1} = F_{2}$. Let the vertical forces be $F_{1} = (P_{1} + P_{2})R$ and $F_{2} = - (P_{1} + P_{2})R$. The horizontal forces must balance, so $T_{1} = T_{2}$. Let the horizontal forces be $T_{1} = \\frac{(P_{1} + P_{2})R}{2}$ and $T_{2} = \\frac{(P_{1} + P_{2})R}{2}$. The torque equation is\n$$\n\\tau_{1} = \\tau_{2},\n$$\nwhere $\\tau_{1} = r_{1}F_{1} - r_{1}T_{1}$ and $\\tau_{2} = r_{2}F_{2} - r_{2}T_{2}$. The result is\n$$\nr_{1}F_{1} - r_{1}T_{1} = r_{2}F_{2} - r_{2}T_{2},\n$$\nwhich can be simplified to\n$$\nr_{1}F_{1} - r_{1}T_{1} + r_{2}T_{2} = r_{2}F_{2} - r_{1}T_{1} - r_{2}T_{2},\n$$\n$$\nr_{1}F_{1} + r_{2}T_{2} = r_{2}F_{2} + r_{1}T_{1}.\n$$\nThe result is\n$$\nr_{1}F_{1} + r_{2}T_{2} - r_{2}F_{2} - r_{1}T_{1} = 0,\n$$\n$$\nr_{1}F_{1} - r_{2}F_{2} + r_{2}T_{2} - r_{1}T_{1} = 0,\n$$\nwhich can be simplified to\n$$\nF_{1} = \\frac{r_{2}T_{2} - r_{2}F_{2}}{r_{1} - r_{2}},\n$$\n$$\nT_{2} = \\frac{r_{1}F_{1} - r_{1}F_{2}}{r_{1} - r_{2}}.\n$$\nThe result is\n$$\n\\varphi = \\arctan\\left(\\frac{r_{2}T_{2} - r_{2}F_{2}}{r_{1} - r_{2}}\\right).\n$$\nANSWER: \\varphi = \\arctan\\left(\\frac{r_{2}T_{2} - r_{2}F_{2}}{r_{1} - r_{2}}\\right)"
+    },
+    {
+      "problem_id": "physgym_0211",
+      "domain": "MODERN_PHYSICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "a_{B}={\\frac{a_{A}}{1+{\\frac{a_{A}L_{0}}{c^{2}}}}}",
+      "prediction": "Let the coordinate system be such that the\nright side of train A is at $x=L_{0}$, and the right\nside of train B is at $x=L_{0}+D$. The coordinate system is chosen such that the right side of\ntrain A is at $x=0$, and the right side of train B\nis at $x=L_{0}+D$. The coordinate system is\nchosen such that the right side of train A is at\n$x=0$, and the right side of train B is at $x=L_{0}+D$. The coordinate system is chosen such that\nthe right side of train A is at $x=0$, and the right\nside of train B is at $x=L_{0}+D$. The coordinate system is chosen such that the right side of\ntrain A is at $x=0$, and the right side of train B\nis at $x=L_{0}+D$. The coordinate system is\nchosen such that the right side of train A is at\n$x=0$, and the right side of train B is at $x=L_{0}+D$. The coordinate system is chosen such that\nthe right side of train A is at $x=0$, and the right\nside of train B is at $x=L_{0}+D$. The coordinate system is chosen such that the right side of\ntrain A is at $x=0$, and the right side of train B\nis at $x=L_{0}+D$. The coordinate system is\nchosen such that the right side of train A is at\n$x=0$, and the right side of train B is at $x=L_{0}+D$. The coordinate system is chosen such that\nthe right side of train A is at $x=0$, and the right\nside of train B is at $x=L_{0}+D$. The coordinate system is chosen such that the right side of\ntrain A is at $x=0$, and the right side of train B\nis at $x=L_{0}+D$. The coordinate system is\nchosen such that the right side of train A is at\n$x=0$, and the right side of train B is at $x=L_{0}+D$. The coordinate system is chosen such that\nthe right side of train A is at $x=0$, and the right\nside of train B is at $x=L_{0}+D$. The coordinate system is chosen such that the right side of\ntrain A is at $x=0$, and the right side of train B\nis at $x=L_{0}+D$. The coordinate system is\nchosen such that the right side of train A is at\n$x=0$, and the right side of train B is at $x=L_{0}+D$. The coordinate system is chosen such that\nthe right side of train A is at $x=0$, and the right\nside of train B is at $x=L_{0}+D$. The coordinate system is chosen such that the right side of\ntrain A is at $x=0$, and the right side of train B\nis at $x=L_{0}+D$. The coordinate system is\nchosen such that the right side of train A is at\n$x=0$, and the right side of train B is at $x=L_{0}+D$. The coordinate system is chosen such that\nthe right side of train A is at $x=0$, and the right\nside of train B is at $x=L_{0}+D$. The coordinate system is chosen such that the right side of\ntrain A is at $x=0$, and the right side of train B\nis at $x=L_{0}+D$. The coordinate system is\nchosen such that the right side of train A is at\n$x=0$, and the right side of train B is at $x=L_{0}+D$. The coordinate system is chosen such that\nthe right side of train A is at $x=0$, and the right\nside of train B is at $x=L_{0}+D$. The coordinate system is chosen such that the right side of\ntrain A is at $x=0$, and the right side of train B\nis at $x=L_{0}+D$. The coordinate system is\nchosen such that the right side of train A is at\n$x=0$, and the right side of train B is at $x=L_{0}+D$. The coordinate system is chosen such that\nthe right side of train A is at $x=0$, and the right\nside of train B is at $x=L_{0}+D$. The coordinate system is chosen such that the right side of\ntrain A is at $x=0$, and the right side of train B\nis at $x=L_{0}+D$. The coordinate system is\nchosen such that"
+    },
+    {
+      "problem_id": "physgym_0221",
+      "domain": "MODERN_PHYSICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "t=\\frac{1}{\\rho A}\\sqrt{\\frac{B}{k}}(\\frac{k}{c^{2}}(-\\frac{1}{R}+\\frac{1}{R_{0}})+\\frac{4}{7}B(\\frac{1}{R^{7}}-\\frac{1}{R_{0}^{7}}))",
+      "prediction": "The mass of the sphere is $m_{0} = \\frac{4}{3}\\pi R^{3}/8\\pi^{2} \\rho$, so the rest mass is $m_{0} = \\frac{1}{8\\pi^{2}}\\rho A R^{3}$. The velocity of the sphere is $v_{0} = 2\\pi R/c$. The energy of the sphere is $E_{0} = \\frac{1}{2}m_{0} v_{0}^{2} = \\frac{1}{2}\\rho A R^{3} c^{2}$. The energy of the sphere plus the energy of the dust is $E = \\frac{1}{2}\\rho A R^{3} c^{2} + \\frac{1}{2}m_{0} v_{0}^{2} = \\frac{1}{2}\\rho A R^{3} c^{2} + \\frac{1}{8}\\rho A R^{3} c^{2} = \\frac{5}{8}\\rho A R^{3} c^{2}$. The change in energy is $\\Delta E = \\frac{3}{8}\\rho A R^{3} c^{2}$, which is the same as the energy of the dust adhering to the sphere. The work done by the dust is $\\Delta E = \\frac{3}{8}\\rho A R^{3} c^{2}$, and the time required is $t = \\frac{\\Delta E}{c^{2}} = \\frac{3}{8}\\rho A R^{3} c^{2}/\\rho A R^{3} c^{2} = \\frac{3}{8}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R^{3} = \\frac{1}{2}R"
+    },
+    {
+      "problem_id": "physgym_0318",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "d^{2}h}{dr^{2}}dr",
+      "reference_answer": "F = -\\pi R^2 h\\gamma P_0 k^2 A\\cos kx \\cos 2\\pi ft",
+      "prediction": "The force on a cylindrical surface is\n$F = \\int_{0}^{h} P_{0}\\cos 2\\pi f t \\cdot \\frac{1}{2}\\mu_{0}\\mu_{r}\\left(\\frac{1}{r^{2}}\\right)\\frac{dh}{dr}dr$.\nThe displacement of the cylinder is $\\delta = \\frac{1}{2}\\mu_{0}\\mu_{r}\\left(\\frac{1}{R^{2}}\\right)\\frac{dh}{dr}$, so the force is\n$F = \\int_{0}^{h} P_{0}\\cos 2\\pi f t \\cdot \\frac{1}{2}\\mu_{0}\\mu_{r}\\left(\\frac{1}{r^{2}}\\right)\\frac{d\\delta}{dr}dr$.\nThe derivative of the displacement is\n$\\frac{d\\delta}{dr} = -\\frac{1}{2}\\mu_{0}\\mu_{r}\\left(\\frac{1}{R^{2}}\\right)\\frac{d^{2}h}{dr^{2}}$,\nso the force is\n$F = \\int_{0}^{h} P_{0}\\cos 2\\pi f t \\cdot \\frac{1}{2}\\mu_{0}\\mu_{r}\\left(\\frac{1}{r^{2}}\\right)\\frac{d^{2}h}{dr^{2}}dr$.\nANSWER: d^{2}h}{dr^{2}}dr$."
+    },
+    {
+      "problem_id": "physgym_0321",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{2\\pi r}{\\lambda}",
+      "reference_answer": "\\varphi=2\\pi\\sqrt{\\frac{1+r/\\lambda}{1+r/\\lambda-r^2/\\lambda^2}}",
+      "prediction": "The angular velocity is $\\omega = \\frac{2\\pi}{\\lambda}$, so the angle rotated is $\\theta = \\frac{2\\pi}{\\lambda}r$. The answer is $\\theta = \\frac{2\\pi r}{\\lambda}$.\nANSWER: \\frac{2\\pi r}{\\lambda}"
+    },
+    {
+      "problem_id": "physgym_0333",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "2\\mu_0 P_0/(L^2)r e^{kr}",
+      "reference_answer": "\\beta = \\frac{2M}{mR^2+4\\mu_0P_0^2\\pi L[\\frac 3{8k^4}+(\\frac{R^3}{2k}-\\frac{3R^2}{4k^2}+\\frac{3R}{4k^3}-\\frac 3 {8k^4})e ^{2kR}}]",
+      "prediction": "The torque is $T = (1/2)\\mu_0 m P_0 e^{kr}r^2$, and the moment of inertia is $I = mL^2/8$. The angular acceleration is $\\beta = \\tau/I = (1/2)\\mu_0 m P_0 e^{kr}r^2/(mL^2/8) = 2\\mu_0 P_0 e^{kr}r/(L^2) = 2\\mu_0 P_0/(L^2)r e^{kr}$.\nANSWER: 2\\mu_0 P_0/(L^2)r e^{kr}"
+    },
+    {
+      "problem_id": "physgym_0412",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{2\\pi g}{r^{3}}",
+      "reference_answer": "T=2\\pi\\sqrt{\\frac{m}{\\frac{\\pi}{2}\\mu_{0}n I R^{2}r^{2}\\cdot[(\\frac{\\mu_{0}n I\\pi r^{2}}{2L}-I_{0})\\frac{3z_{0}}{(z_{0}^{2}+R^{2})^{5/2}}-\\frac{\\mu_{0}n I\\pi r^{2}}{2L}\\frac{3z_{0}^{2}-R^{2}}{(z_{0}^{2}+R^{2})^{3}}]}}",
+      "prediction": "The superconducting ring is a solenoid with a current $I_{0}$, so the magnetic field at the ring’s location is $B_{0}= \\frac{\\mu_{0}I_{0}}{2\\pi R}$, and the magnetic field at the metal ring’s location is $B(z)=\\frac{\\mu_{0}I_{0}}{2\\pi R}\\frac{1}{z^{2}}\\frac{1}{1-\\frac{z}{R}}$. The gravitational force on the metal ring is $F_{g}=\\frac{mg}{r^{2}}\\widehat{z}$, and the magnetic force on the metal ring is $F_{m}=\\frac{1}{2}\\mu_{0}I_{0}\\frac{1}{z^{2}}\\frac{1}{1-\\frac{z}{R}}\\frac{1}{r^{2}}\\widehat{\\theta}$. The total force on the metal ring is $F_{total}=F_{g}+F_{m}$. The condition for the stability of the equilibrium is $F_{total}=0$, i.e., $F_{g}+F_{m}=0$. The vibration period is $T=\\frac{2\\pi}{\\omega}$, where $\\omega$ is the angular frequency. The angular frequency is $\\omega=\\frac{g}{r}$. The period is $T=\\frac{2\\pi g}{r^{3}}$.\nANSWER: \\frac{2\\pi g}{r^{3}}"
+    },
+    {
+      "problem_id": "physgym_0443",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{2\\pi}{\\mathrm{i}\\alpha \\mathrm{i}\\beta}",
+      "reference_answer": "\\lambda=\\sqrt{\\frac{\\varepsilon_{1}+\\varepsilon_{21}}{\\varepsilon_{1}\\varepsilon_{21}}}\\lambda_{0}",
+      "prediction": "The refracted wave has a wavevector $k_{x}=\\alpha$, $k_{y}=-\\mathrm{i}\\beta$, so the electric field has a wavevector $k_{x}=\\mathrm{i}\\beta$, $k_{y}=-\\mathrm{i}\\alpha$. The wavevector of the surface plasmon is $k_{x}=k_{x}^{\\mathrm{incident}}+k_{x}^{\\mathrm{reflected}}-\nk_{x}^{\\mathrm{transmitted}}$, so we have\n$$\n\\mathrm{i}\\beta -\\mathrm{i}\\alpha -\\mathrm{i}\\beta =0,\n$$\nwhich means that the transmitted wave has a wavevector $k_{x}^{\\mathrm{transmitted}}=-\\mathrm{i}\\alpha$. The relationship between the wavevector and the wavelength is $k=\\frac{2\\pi}{\\lambda}$, so we have\n$$\n-\\mathrm{i}\\alpha =-\\frac{2\\pi}{\\lambda_{0}^{\\mathrm{incident}}},\n$$\n$$\n\\lambda_{0}^{\\mathrm{incident}}=\\frac{2\\pi}{\\mathrm{i}\\alpha},\n$$\nand\n$$\n\\lambda_{0}=\\frac{2\\pi}{\\mathrm{i}\\alpha \\mathrm{i}\\beta}.\n$$\nANSWER: \\frac{2\\pi}{\\mathrm{i}\\alpha \\mathrm{i}\\beta}"
+    },
+    {
+      "problem_id": "physgym_0493",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "T_{1}=2\\pi\\sqrt{\\frac{\\frac{1}{2}MR^{2}}{\\frac{\\mu_{0}mIR^{2}(2h^{4}+2R^{4}-11R^{2}h^{2})}{4(h^{2}+R^{2})^{7/2}}}} = 2\\pi\\sqrt{\\frac{2M(h^{2}+R^{2})^{7/2}}{\\mu_{0}mI(2h^{4}+2R^{4}-11R^{2}h^{2})}}",
+      "prediction": "The magnetic field produced by the ring at the position of the magnetic dipole is\n$B = \\frac{\\mu_0 I}{2\\pi R} \\frac{R}{h} = \\frac{\\mu_0 I}{2\\pi} \\frac{1}{h}$.\nThe magnetic force on the ring is\n$F = \\frac{1}{2}m B^2 = \\frac{1}{2}m \\left(\\frac{\\mu_0 I}{2\\pi}\\right)^2 \\frac{1}{h} = \\frac{\\mu_0 I^2}{8\\pi^2 m h}$.\nThe period of the simple harmonic motion of the ring is\n$T = 2\\pi \\sqrt{\\frac{m}{F}} = 2\\pi \\sqrt{\\frac{m}{8\\pi^2 m h}} = \\frac{\\pi}{h}\\sqrt{\\frac{1}{8h}} = \\frac{\\pi}{8h}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac{\\pi}{8}\\sqrt{\\frac{1}{h}} = \\frac"
+    },
+    {
+      "problem_id": "physgym_0495",
+      "domain": "OPTICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "v = \\frac{NZ e^3}{2c\\varepsilon_0 m^2 n} \\cdot \\frac{\\omega^2}{(\\omega_0^2 - \\omega^2)^2}",
+      "prediction": "The Verdet constant is the ratio of the magnetic field intensity to the electric field intensity, i.e., \\(v = \\frac{B}{E}\\). The electric field intensity is proportional to the square of the amplitude of the electric field, so \\(E \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\vec{E} \\right|^2 \\propto \\left| \\"
+    },
+    {
+      "problem_id": "physgym_0498",
+      "domain": "OPTICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "2\\pi\\left(d - d_0\\right)",
+      "reference_answer": "\\varphi = \\frac{2\\pi d}{\\lambda (n_b - n_a)} \\left[ n_b\\sqrt{n_b^2 - \\sin^2 i} - n_a\\sqrt{n_a^2 - \\sin^2 i} - \\sin^2 i \\ln \\left( \\frac{n_b + \\sqrt{n_b^2 - \\sin^2 i}}{n_a + \\sqrt{n_a^2 - \\sin^2 i}} \\right) \\right]",
+      "prediction": "The phase difference is the difference in the path lengths of the two beams of light. The path length of the first beam is \\(2S + 2d\\), and the path length of the second beam is \\(2S + 2d + 2d_0\\). The phase difference is\n\\[\n\\varphi = \\frac{2\\pi}{\\lambda}\\left[2S + 2d - 2S - 2d_0\\right] = 2\\pi\\left(d - d_0\\right)\n\\]\nANSWER: 2\\pi\\left(d - d_0\\right)"
+    },
+    {
+      "problem_id": "physgym_0505",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "y^{2}=\\frac{\\omega^{4}}{g^{2}}(R^{2}-x^{2})\\left(x^{2}-R^{2}+\\frac{g^{2}}{\\omega^{4}}\\right)",
+      "prediction": "The sphere is rotating, so the projection of the sphere onto the $xy$-plane is a circle. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $xy$-plane is a circle of radius $R$. The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the projection of the sphere onto the $"
+    },
+    {
+      "problem_id": "physgym_0603",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\varepsilon(\\omega)=\\varepsilon_0 n^2",
+      "reference_answer": "\\varepsilon =1-\\frac{ne^2}{\\varepsilon_0 m\\omega^2}",
+      "prediction": "The polarization intensity $P$ is proportional to the square of the charge density, so $P \\propto n^2$. The dielectric constant is proportional to the square of the permittivity, so $\\varepsilon \\propto n^2$. The result is $\\varepsilon(\\omega)=\\varepsilon_0 n^2$.\nANSWER: \\varepsilon(\\omega)=\\varepsilon_0 n^2"
+    },
+    {
+      "problem_id": "physgym_0617",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\omega_\\infty=\\frac{\\rho l}{\\sqrt{3}h}=\\frac lh\\sqrt{\\frac g{2h}}",
+      "prediction": "Let the angular velocity of the first rod be $\\omega_0$, and the angular velocity of the second one be $\\omega_1$. The angular velocity of the third one is $\\omega_1 + \\omega_2$, and so on. The angular velocity of the $n$-th rod is $\\omega_n = \\omega_0 + (n-1)\\omega_1 +... + (n-1)\\omega_{n-1}$. The total angular velocity of all the rods is $\\omega_{\\infty} = \\sum_{n=1}^{\\infty} \\omega_n$. This is a geometric series, and we can simplify it by taking the limit as $n$ goes to infinity. The sum of the series is $\\omega_{\\infty} = \\frac{\\omega_0}{1-\\omega_1}$. The angular velocity of the first rod is $\\omega_0 = \\frac{2\\pi}{\\tau}$, where $\\tau$ is the period of the pendulum. The angular velocity of the second rod is $\\omega_1 = \\frac{\\omega_0}{2}$. The angular velocity of the third rod is $\\omega_2 = \\frac{\\omega_0}{4}$, and so on. The limit as $n$ goes to infinity is $\\omega_1 = \\frac{\\omega_0}{2}$, so $\\omega_{\\infty} = \\frac{\\omega_0}{1-\\omega_1} = \\frac{2\\pi}{\\tau} \\cdot \\frac{1}{1-\\frac{\\omega_0}{2}} = \\frac{2\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\frac{4\\pi}{\\omega_0(1-\\omega_0/2)} = \\"
+    },
+    {
+      "problem_id": "physgym_0630",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "2/3P0",
+      "reference_answer": "P_{1}=P_{0}\\frac{(1+\\alpha)(5+10\\alpha+2\\alpha(\\frac{\\lambda}{R T_{0}}))}{5+8\\alpha}",
+      "prediction": "The change in the number of moles of gas is\n$\\Delta n = 2\\alpha - 1$, and the change in the\nnumber of moles of gas is $\\Delta n = \\frac{3}{2}\\alpha - 1$, so\n$\\frac{3}{2}\\alpha - 1 = 1$, and $\\alpha = \\frac{2}{3}$.\nThe change in the number of moles of gas is\n$\\Delta n = 2\\alpha - 1 = 1$, so\n$P_{1} = \\frac{(2\\alpha - 1)RT_{0}}{V_{0}} = \\frac{2}{3}P_{0}$.\nANSWER: 2/3P0"
+    },
+    {
+      "problem_id": "physgym_0648",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "3kQ/4πmR2",
+      "reference_answer": "u_{0} = \\sqrt{\\frac{2k Q q}{m R}\\frac{1-\\cos\\frac{\\pi}{n}}{2\\cos\\frac{\\pi}{n}-1}}",
+      "prediction": "The sphere’s motion is confined to the\nregion between the inner and outer shells, so the\nonly forces acting on it are the electric forces\nfrom the inner and outer shells. The electric force\nfrom the inner shell is $F_{1} = \\frac{kQ}{R^{2}}$,\nand the electric force from the outer shell is\n$F_{2} = \\frac{kQ}{2R^{2}}$.\nThe total force on the sphere is $F =F_{1} +F_{2} = \\frac{kQ}{R^{2}}+\\frac{kQ}{2R^{2}}=\\frac{3kQ}{2R^{2}}$.\nThe sphere’s acceleration is $a = \\frac{F}{m}$,\nso $a = \\frac{3kQ}{2mR^{2}}$.\nThe sphere’s velocity is $v = \\frac{a}{2\\pi R}$,\nso $v = \\frac{3kQ}{4\\pi mR^{2}}$.\nANSWER: 3kQ/4πmR2"
+    },
+    {
+      "problem_id": "physgym_0670",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{1}{n_0} \\frac{1}{e} \\frac{k}{4\\pi\\varepsilon_0}",
+      "reference_answer": "\\lambda_{_D}=\\sqrt{\\frac{k T\\varepsilon_{0}}{2e^{2}n_{0}}}",
+      "prediction": "The Debye radius is defined as the distance at which the potential decays to \\( \\frac{1}{e} \\) of the vacuum point charge potential. The vacuum point charge potential is \\( \\frac{k}{4\\pi\\varepsilon_0} \\). The potential of the point charge is \\( \\frac{k}{4\\pi\\varepsilon_0} \\left( \\frac{n_0}{n_0 + \\frac{1}{n_0}} \\right) \\). The Debye radius is the spatial range at which the potential is \\( \\frac{1}{e} \\) of the vacuum point charge potential, i.e., the spatial range at which the potential is \\( \\frac{1}{e} \\frac{k}{4\\pi\\varepsilon_0} \\). The spatial range is \\( \\frac{1}{n_0} \\lambda_D \\), so \\( \\lambda_D = \\frac{1}{n_0} \\frac{1}{e} \\frac{k}{4\\pi\\varepsilon_0} \\).\nANSWER: \\frac{1}{n_0} \\frac{1}{e} \\frac{k}{4\\pi\\varepsilon_0}"
+    },
+    {
+      "problem_id": "physgym_0716",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "2πkq2/(mgL)",
+      "reference_answer": "\\omega_B = 4 \\sqrt{ \\frac{13 k q Q}{23 m L^3} }",
+      "prediction": "The ball is at point B, so the spring is not stretched. The spring force is zero, and the ball is at rest. The spring force is kq2/(L/4)2, and the ball's weight is mg. The spring force equals the ball's weight, so kq2/(L/4)2 =mg. The ball's mass is m, so ω =\n2πkq2/(mgL).\nANSWER: 2πkq2/(mgL)"
+    },
+    {
+      "problem_id": "physgym_0719",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "where $T_{0}$ is the temperature at the surface of Mars",
+      "reference_answer": "T(h) = \\frac{\\mu G M_m}{n R (R_m + h)}",
+      "prediction": "The ideal gas law gives $T\\propto \\frac{1}{n}$,\nso we have\n$$\nT(h)=\\frac{T_{0}}{n}\\left(1+\\frac{h}{R_{m}}\\right)^{1-n}\n$$\nwhere $T_{0}$ is the temperature at the surface of Mars.\nANSWER: where $T_{0}$ is the temperature at the surface of Mars."
+    },
+    {
+      "problem_id": "physgym_0737",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\mathbb{T}=\\frac{2\\pi}{\\sqrt{n+1}}\\frac{m}{q B_{0}}",
+      "prediction": "The particle’s motion is circular, so its velocity is constant, and the magnetic force is\n${{\\mathbf{F}}={\\mathbf{v}}\\times{\\mathbf{B}}={\\mathbf{v}}\\times{\\mathbf{B}_{0}}\\left(\\frac{r}{R}\\right)^{n}=0}.\n$ The only force acting on the particle is the\ngravity of the earth, so the particle’s acceleration is\n${{\\mathbf{a}}={\\frac{\\mathbf{F}}{m}}={\\frac{v^{2}}{r}}\\times{\\mathbf{B}_{0}}\\left(\\frac{r}{R}\\right)^{n}=0}.\n$ The particle’s acceleration is zero, so its velocity is also zero, and it’s moving at a constant speed. The period of its motion is\n${T=\\frac{2\\pi}{v}=\\frac{2\\pi}{r{\\frac{v^{2}}{m}}}{\\frac{v^{2}}{r{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m}{r{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{2}}{r^{3}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{3}}{r^{5}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{4}}{r^{7}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{5}}{r^{9}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{6}}{r^{11}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{7}}{r^{13}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{8}}{r^{15}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{9}}{r^{17}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{10}}{r^{19}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{11}}{r^{21}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{12}}{r^{23}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{13}}{r^{25}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{14}}{r^{27}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{15}}{r^{29}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{16}}{r^{31}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{17}}{r^{33}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{18}}{r^{35}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{19}}{r^{37}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{20}}{r^{39}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{21}}{r^{41}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{22}}{r^{43}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{23}}{r^{45}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{24}}{r^{47}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{25}}{r^{49}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{26}}{r^{51}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{27}}{r^{53}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{28}}{r^{55}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{29}}{r^{57}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{30}}{r^{59}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{31}}{r^{61}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{32}}{r^{63}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{33}}{r^{65}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{34}}{r^{67}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{35}}{r^{69}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{36}}{r^{71}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{37}}{r^{73}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{38}}{r^{75}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{39}}{r^{77}{\\frac{v^{2}}{m}}}}={\\frac{2\\pi m^{40}}{r^{79}{\\frac{v^{"
+    }
+  ],
+  "lexsi_audit": {
+    "experiment": "E1_solver_manual_det_v2_validation",
+    "auditkit_available": true,
+    "aligntune_math_grading_available": true,
+    "match_method_breakdown": {
+      "mismatch": 19,
+      "missing_sentinel": 19
+    },
+    "generation_hygiene": {
+      "reward_hacking": 0.0,
+      "sycophancy": 0.0,
+      "refusal_collapse": 0.0,
+      "verbosity_gain": 0.0,
+      "timestamp": "2026-11-13T15:03:10.087567+00:00",
+      "avg_response_tokens": 251.45,
+      "repetition_ratio": 0.4468,
+      "unique_token_ratio": 0.338,
+      "degenerate_rate": 0.0
+    },
+    "auditkit_version": "1.1.11"
+  }
+}
