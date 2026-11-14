@@ -1,0 +1,14 @@
+{
+  "status": "training_started",
+  "adapter_name": "solver_e4_adversarial_v2_lora",
+  "dataset_key": "solver_e4_adversarial",
+  "base_model": "CohereLabs/tiny-aya-global",
+  "device_map": "balanced",
+  "max_memory": {
+    "0": "2.2GiB",
+    "1": "13GiB"
+  },
+  "hf_device_map": null,
+  "cuda_device_count": 2,
+  "gradient_accumulation_steps": 16
+}

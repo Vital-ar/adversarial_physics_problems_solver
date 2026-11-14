@@ -1,0 +1,43 @@
+{
+  "adapter_name": "solver_e4_adversarial_v2_lora",
+  "dataset_key": "solver_e4_adversarial",
+  "experiment_id": "E4_solver_adversarial_curated",
+  "base_model": "CohereLabs/tiny-aya-global",
+  "aligntune_backend": "trl",
+  "effective_batch_size": 16,
+  "per_device_batch_size": 1,
+  "gradient_accumulation_steps": 16,
+  "learning_rate": 0.0002,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "max_epochs": 10,
+  "completion_only_loss": true,
+  "early_stopping_patience": 2,
+  "early_stopping_threshold": 0.005,
+  "final_adapter_dir": "models/adapters/solver_e4_adversarial_v2_lora/final_adapter",
+  "train_metrics": {
+    "training_time": 2870.0619270801544,
+    "final_loss": 1.1200297468452043,
+    "model_path": "models/adapters/solver_e4_adversarial_v2_lora",
+    "steps": 186,
+    "epochs": 0,
+    "metrics": {
+      "train_runtime": 2869.1771,
+      "train_samples_per_second": 1.03,
+      "train_steps_per_second": 0.065,
+      "total_flos": 1.954290323891405e+16,
+      "train_loss": 1.1200297468452043,
+      "epoch": 3.0
+    },
+    "task_type": "instruction_following"
+  },
+  "checkpoint_selection": {
+    "checkpoint_dir": "models/adapters/solver_e4_adversarial_v2_lora/checkpoint-62",
+    "step": 62,
+    "eval_loss": 1.4785767793655396,
+    "val_accuracy": 0.0,
+    "correct": 0,
+    "total": 38,
+    "composite_score": 1.4785767793655396
+  }
+}

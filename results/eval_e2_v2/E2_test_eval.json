@@ -1,0 +1,441 @@
+{
+  "total": 38,
+  "correct": 0,
+  "accuracy": 0.0,
+  "sentinel_rate": 0.6053,
+  "domain_breakdown": {
+    "ELECTROMAGNETISM": {
+      "total": 12,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "MECHANICS": {
+      "total": 15,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "MODERN_PHYSICS": {
+      "total": 3,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "OPTICS": {
+      "total": 3,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "RELATIVITY": {
+      "total": 1,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "THERMODYNAMICS": {
+      "total": 4,
+      "correct": 0,
+      "accuracy": 0.0
+    }
+  },
+  "per_sample": [
+    {
+      "problem_id": "physgym_0033",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\sigma T_{2}^{4} b^{2} \\cos^{2}\\theta",
+      "reference_answer": "\\begin{array}{r}{(\\sigma T_{2}^{4}-\\sigma T_{1}^{4})\\frac{r(R-b)}{R^{2}+b^{2}-2R b \\cos \\theta}}\\end{array}",
+      "prediction": "The power absorbed per unit area from the heat source at angle $\\theta$ on the surface of the outer cylinder is $p(\\theta) = \\sigma T_{2}^{4} b^{2} \\cos^{2}\\theta$.\nANSWER: \\boxed{\\sigma T_{2}^{4} b^{2} \\cos^{2}\\theta}"
+    },
+    {
+      "problem_id": "physgym_0045",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{a}{c_{v}} \\frac{\\partial x}{\\partial t}",
+      "reference_answer": "v = \\sqrt{\\left. \\left(\\frac{\\partial p}{\\partial\\rho} \\right. \\right)_{s}} = \\sqrt{\\frac{\\gamma\\mu}{\\mu\\rho - b\\rho^{2}}\\left( p + \\frac{a}{\\mu^{2}}\\rho^{2} \\right) - \\frac{2a\\rho}{\\mu^{2}}}(12)",
+      "prediction": "The internal energy of one mole of the gas is $U = pV - RT$. The change in internal energy is $dU = p dV - RT dV$. The change in pressure is $dP = \\frac{a}{V^{2}} dV$, and the change in volume is $dV = \\frac{1}{p} dP$. Substituting these into the expression for $dU$, we get\n\n$$\ndU = c_{v} dT + \\left( \\frac{\\partial U}{\\partial V} \\right)_{T} dV = c_{v} dT - \\frac{a}{V^{2}} dT\n$$\n\nThe adiabatic equation is\n\n$$\ndU = dT + \\frac{a}{V^{2}} dV\n$$\n\nSolving for $dT$, we get\n\n$$\ndT = \\frac{a}{c_{v}} dV\n$$\n\nThe wave speed is\n\n$$\nv = \\frac{\\partial \\xi}{\\partial x} = \\frac{a}{c_{v}} \\frac{\\partial x}{\\partial t}\n$$\n\nANSWER: \\frac{a}{c_{v}} \\frac{\\partial x}{\\partial t}"
+    },
+    {
+      "problem_id": "physgym_0054",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "3mv_0^2/l",
+      "reference_answer": "T_2=2mg+4m\\frac{v_0^2}{l}",
+      "prediction": "The middle string is the one that is hanging from the ceiling, so its tension is $T$. The total mass of the system is $3m$, and the total mass of the top two balls is $2m$. The acceleration of the top two balls is $a = v_0^2/l$, and the acceleration of the middle ball is $a/3 = v_0^2/l/3$. The tension in the middle string is $T = 3ma = 3m(v_0^2/l/3) = 3mv_0^2/l$.\nANSWER: 3mv_0^2/l"
+    },
+    {
+      "problem_id": "physgym_0058",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "R={\\frac{V_{1}-V_{2}}{I}}={\\frac{(2R_{1}-R_{2})R_{2}}{2R_{1}}}=(2-{\\frac{R_{2}}{R_{1}}})R_{2}",
+      "prediction": "The equivalent resistance between the other two vertices is ${{R}_{2} + R_{1} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1} + R_{2} + R_{1}"
+    },
+    {
+      "problem_id": "physgym_0071",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "v_{E}={\\frac{E\\times B}{B^{2}}}(1-{\\frac{1}{4}}{(k \\frac{m v_{\\perp}}{\\vert{q}\\vert B})}^2)",
+      "prediction": "The guiding center velocity is the sum of the velocity of the center of mass and the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus the velocity of the center of mass plus"
+    },
+    {
+      "problem_id": "physgym_0083",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "mB_0 \\sin\\alpha",
+      "reference_answer": "M=-{\\frac{27}{31}}m B_{0}\\sin\\alpha",
+      "prediction": "The torque $\\tau$ experienced by the magnetic moment is given by $\\tau = \\vec{m} \\times \\vec{B}$, where $\\vec{m}$ is the magnetic moment and $\\vec{B}$ is the magnetic field. Since the magnetic moment is aligned with the external magnetic field, we can simplify this to $\\tau = mB_0 \\sin\\alpha$. The result is $\\tau = mB_0 \\sin\\alpha$.\nANSWER: mB_0 \\sin\\alpha"
+    },
+    {
+      "problem_id": "physgym_0089",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\Omega - \\omega",
+      "reference_answer": "\\Omega^2 = 3\\omega^2 - \\frac{N e q_{0}}{2\\pi m H\\varepsilon_{0}r_{0}^2}\\left[\\frac{(2k m_{N}r_{0}^2 - 1)e^{m_{N}kr_{0}^2} + 1}{e^{m_{N}k R^2} - 1} - \\frac{(2k m_{\\text{e}}r_{0}^2 - 1)e^{m_{\\text{e}}kr_{0}^2} + 1}{e^{m_{\\text{e}}k R^2} - 1}\\right] + \\frac{k N V\\omega^2}{\\pi m H}\\left[\\frac{(2k m_{N}r_{0}^2 + 1)e^{m_{N}kr_{0}^2}}{e^{m_{N}k R^2} - 1}m_{N}^2 + \\frac{(2k m_{e}r_{0}^2 + 1)e^{m_{e}kr_{0}^2}}{e^{m_{e}k R^2} - 1}m_{e}^2\\right]",
+      "prediction": "The angular velocity of the typhoon is $\\omega$, and the angular velocity of the UAV is $\\Omega$. The angular velocity of the precession is $\\Omega - \\omega$. The angular velocity of the precession is $\\Omega - \\omega$, and the angular frequency is $\\Omega - \\omega$.\nANSWER: $\\Omega - \\omega$"
+    },
+    {
+      "problem_id": "physgym_0103",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "R_{0-1} + R_{0-2} + R_{0-3} + R_{4-0}",
+      "reference_answer": "R_{04}=\\left(3-\\sqrt{3}\\right)R",
+      "prediction": "The equivalent thermal resistance $R_{04}$ is the sum of the resistances of the three resistances connected to node 0 and the resistance between node 4 and node 0. The resistances of the three resistances connected to node 0 are $R_{0-1}, R_{0-2}, R_{0-3}$. The resistance between node 4 and node 0 is $R_{4-0}$. Therefore, $R_{04} = R_{0-1} + R_{0-2} + R_{0-3} + R_{4-0}$.\nANSWER: R_{0-1} + R_{0-2} + R_{0-3} + R_{4-0}"
+    },
+    {
+      "problem_id": "physgym_0117",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "R",
+      "reference_answer": "\\begin{array}{l} {{\\delta y_{f} = \\frac{32}{3}\\frac{\\sigma R^{2}r}{M}}}{{}}\\\\ {{\\delta y_{g} = \\frac{32}{3}\\frac{\\sigma R^{2}r}{M}}}{{}}\\\\ {{\\delta y = \\frac{64}{3}\\frac{\\sigma R^{2}r}{M}}} \\end{array}",
+      "prediction": "The cube is released from rest, so its initial velocity is zero. The cube’s motion is a combination of circular motion and linear motion. The circular motion is described by the equation $v^2 = R^2 \\omega^2 \\theta$, where $v$ is the velocity, $R$ is the radius, and $\\omega$ is the angular velocity. The linear motion is described by the equation $y = v_0 t + \\frac{1}{2} a t^2$, where $y$ is the height, $v_0$ is the initial velocity, $a$ is the acceleration, and $t$ is the time. The acceleration $a$ is given by $a = \\frac{v^2}{R}$ and $v^2 = R^2 \\omega^2 \\theta$, so $a = \\frac{R^2 \\omega^2 \\theta}{R} = R \\omega^2 \\theta$. The time $t$ is the time it takes for the cube to travel from the start to the end of the valley, which is $\\theta = \\frac{\\pi}{2}$. The initial velocity $v_0$ is zero, so $y = \\frac{1}{2} a t^2 = \\frac{1}{2} R \\omega^2 \\left(\\frac{\\pi}{2}\\right)^2$. The highest position the cube can reach is $y = R(1-\\cos\\frac{\\pi}{2}) = R(1-0) = R$.\nANSWER: R"
+    },
+    {
+      "problem_id": "physgym_0131",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\begin{array}{c} \\ {{m^{\\prime}= \\frac{R^{3}}{a^{3}}m}} \\end{array}",
+      "prediction": "The magnetic field of the superconducting sphere is the same as the magnetic field of the needle, so we have\n$$\n\\mathbf{B}_{s}={ \\frac{ \\mu_{0}m}{4 \\pi a^{3}}}{ \\left(2 \\cos \\theta_{s} \\mathbf{e}_{r}+ \\sin \\theta_{s} \\mathbf{e}_{ \\theta} \\right)},\n$$\nwhere \\( \\theta_{s} \\) is the angle between the needle and the superconducting sphere. The magnetic field of the needle is\n$$\n\\mathbf{B}_{n}={ \\frac{ \\mu_{0}m}{4 \\pi r_{n}^{3}}}{ \\left(2 \\cos \\theta_{n} \\mathbf{e}_{r}+ \\sin \\theta_{n} \\mathbf{e}_{ \\theta} \\right)},\n$$\nwhere \\( r_{n}=a +r \\) is the distance from the needle to the superconducting sphere. The magnetic field of the needle and the magnetic field of the superconducting sphere are the same, so\n$$\n\\frac{ \\mu_{0}m}{4 \\pi a^{3}}}{ \\left(2 \\cos \\theta_{s} \\mathbf{e}_{r}+ \\sin \\theta_{s} \\mathbf{e}_{ \\theta} \\right)}={ \\frac{ \\mu_{0}m}{4 \\pi r_{n}^{3}}}{ \\left(2 \\cos \\theta_{n} \\mathbf{e}_{r}+ \\sin \\theta_{n} \\mathbf{e}_{ \\theta} \\right)}.\n$$\nThe magnetic field of the superconducting sphere is\n$$\n\\mathbf{B}_{s}={ \\frac{ \\mu_{0}m'}{4 \\pi R^{3}}}{ \\left(2 \\cos \\theta_{s} \\mathbf{e}_{r}+ \\sin \\theta_{s} \\mathbf{e}_{ \\theta} \\right)}.\n$$\nThe magnetic field of the superconducting sphere is\n$$\n\\mathbf{B}_{s}={ \\frac{ \\mu_{0}m'}{4 \\pi R^{3}}}{ \\left(2 \\cos \\theta_{s} \\mathbf{e}_{r}+ \\sin \\theta_{s} \\mathbf{e}_{ \\theta} \\right)}.\n$$\nThe magnetic field of the needle is\n$$\n\\mathbf{B}_{n}={ \\frac{ \\mu_{0}m}{4 \\pi r_{n}^{3}}}{ \\left(2 \\cos \\theta_{n} \\mathbf{e}_{r}+ \\sin \\theta_{n} \\mathbf{e}_{ \\theta} \\right)}.\n$$\nThe magnetic field of the needle and the magnetic field of the superconducting sphere are the same, so\n$$\n\\frac{ \\mu_{0}m}{4 \\pi r_{n}^{3}}}{ \\left(2 \\cos \\theta_{n} \\mathbf{e}_{r}+ \\sin \\theta_{n} \\mathbf{e}_{ \\theta} \\right)}={ \\frac{ \\mu_{0}m'}{4 \\pi R^{3}}}{ \\left(2 \\cos \\theta_{s} \\mathbf{e}_{r}+ \\sin \\theta_{s} \\mathbf{e}_{ \\theta} \\right)}.\n$$\nThe magnetic field of the needle is\n$$\n\\mathbf{B}_{n}={ \\frac{ \\mu_{0}m}{4 \\pi r_{n}^{3}}}{ \\left(2 \\cos \\theta_{n} \\mathbf{e}_{r}+ \\sin \\theta_{n} \\mathbf{e}_{ \\theta} \\right)}.\n$$\nThe magnetic field of the needle and the magnetic field of the superconducting sphere are the same, so\n$$\n\\frac{ \\mu_{0}m}{4 \\pi r_{n}^{3}}}{ \\left(2 \\cos \\theta_{n} \\mathbf{e}_{r}+ \\sin \\theta_{n} \\mathbf{e}_{ \\theta} \\right)}={ \\frac{ \\mu_{0}m'}{4 \\pi R^{3}}}{ \\left(2 \\cos \\theta_{s} \\mathbf{e}_{r}+ \\sin \\theta_{s} \\mathbf{e}_{ \\theta} \\right)}.\n$$\nThe magnetic field of the needle is\n$$\n\\mathbf{B}_{n}={ \\frac{ \\mu_{0}m}{4 \\pi r_{n}^{3}}}{ \\left(2 \\cos \\theta_{n} \\mathbf{e}_{r}+ \\sin \\theta_{n} \\mathbf{e}_{ \\theta} \\right)}.\n$$\nThe magnetic field of the needle and the magnetic field of the superconducting sphere are the same, so\n$$\n\\frac{ \\mu_{0}m}{4 \\pi r_{n}^{3}}}{ \\left(2 \\cos \\theta_{n} \\mathbf{e}_{r}+ \\sin \\theta_{n} \\mathbf{e}_{ \\theta} \\right)}={ \\frac{ \\mu_{0}m'}{4 \\pi R^{3}}}{ \\left(2"
+    },
+    {
+      "problem_id": "physgym_0133",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{v_{x}^{2}}{R}",
+      "reference_answer": "a = \\sqrt{a_{n}^{2} + a_{\\tau}^{2}} = \\frac{v^{2}}{R} \\frac{1}{\\cos\\theta} = \\frac{v^{3}}{R v_{x}}",
+      "prediction": "The acceleration is given by $a = \\frac{v_{x}^{2}}{R}$, so the acceleration is $\\frac{v_{x}^{2}}{R}$.\nANSWER: \\frac{v_{x}^{2}}{R}"
+    },
+    {
+      "problem_id": "physgym_0140",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "T = {\\frac{\\sqrt{6}}{18}}P",
+      "prediction": "The four spheres form a square with side length $2a$, and the center of the square is at a distance $a$ from each side. The center of the square is also the center of the sphere on top, so the center of the square is at a distance $a$ from the center of the sphere on top. The center of the square is also the center of the sphere on the left, so the center of the square is at a distance $a$ from the center of the sphere on the left. The center of the square is also the center of the sphere on the right, so the center of the square is at a distance $a$ from the center of the sphere on the right. The center of the square is also the center of the sphere on the top, so the center of the square is at a distance $a$ from the center of the sphere on the top. The center of the square is also the center of the sphere on the bottom, so the center of the square is at a distance $a$ from the center of the sphere on the bottom. The center of the square is also the center of the sphere on the left, so the center of the square is at a distance $a$ from the center of the sphere on the left. The center of the square is also the center of the sphere on the right, so the center of the square is at a distance $a$ from the center of the sphere on the right. The center of the square is also the center of the sphere on the top, so the center of the square is at a distance $a$ from the center of the sphere on the top. The center of the square is also the center of the sphere on the bottom, so the center of the square is at a distance $a$ from the center of the sphere on the bottom. The center of the square is also the center of the sphere on the left, so the center of the square is at a distance $a$ from the center of the sphere on the left. The center of the square is also the center of the sphere on the right, so the center of the square is at a distance $a$ from the center of the sphere on the right. The center of the square is also the center of the sphere on the top, so the center of the square is at a distance $a$ from the center of the sphere on the top. The center of the square is also the center of the sphere on the bottom, so the center of the square is at a distance $a$ from the center of the sphere on the bottom. The center of the square is also the center of the sphere on the left, so the center of the square is at a distance $a$ from the center of the sphere on the left. The center of the square is also the center of the sphere on the right, so the center of the square is at a distance $a$ from the center of the sphere on the right. The center of the square is also the center of the sphere on the top, so the center of the square is at a distance $a$ from the center of the sphere on the top. The center of the square is also the center of the sphere on the bottom, so the center of the square is at a distance $a$ from the center of the sphere on the bottom. The center of the square is also the center of the sphere on the left, so the center of the square is at a distance $a$ from the center of the sphere on the left. The center of the square is also the center of the sphere on the right, so the center of the square is at a distance $a$ from the center of the sphere on the right. The center of the square is also the center of the sphere on the top, so the center of the square is at a distance $a$ from the center of the sphere on the top. The center of the square is also the center of the sphere on the bottom, so the center of the square is at a distance $a$ from the center of the sphere on the bottom. The center of the square is also the center of the sphere on the left, so the center of the square is at a distance $a$ from the center of the sphere on the left. The center of the square is also the center of the sphere on the right, so the center of the square is at a distance $a$ from the center of the sphere on the right. The center of the square is also the center of the sphere on the top, so the center of the square is at a distance $a$ from the center of the sphere on the top. The center of the square is also the center of the sphere on the bottom, so the center of the square is at a distance $a$ from the center of the sphere on the bottom. The center of the square is also the center of the sphere on the left, so the center of the"
+    },
+    {
+      "problem_id": "physgym_0143",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{2\\pi \\sqrt{m}}{\\sqrt{k}} \\cdot \\frac{1}{a^{3/2}}",
+      "reference_answer": "t = t_{1} + t_{2} = 2\\left(\\pi + \\frac{2a}{b}\\right)\\sqrt{\\frac{m}{k}}",
+      "prediction": "The particle’s motion is a simple harmonic motion, and its velocity is $v = \\omega a$, where $\\omega = \\sqrt{\\frac{k}{m}}$. The time it takes for the particle to return to the original release position is $T = \\frac{2\\pi a}{\\omega} = \\frac{2\\pi a}{\\sqrt{\\frac{k}{m}}} = \\frac{2\\pi \\sqrt{m}}{\\sqrt{k}} \\cdot \\frac{1}{\\sqrt{a}} = \\frac{2\\pi \\sqrt{m}}{\\sqrt{k}} \\cdot \\frac{1}{a^{3/2}}$.\nANSWER: \\frac{2\\pi \\sqrt{m}}{\\sqrt{k}} \\cdot \\frac{1}{a^{3/2}}"
+    },
+    {
+      "problem_id": "physgym_0204",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{\\sqrt{2(Q - q)}}{ml}",
+      "reference_answer": "\\omega_{z}=\\sqrt{\\frac{Q q}{2\\pi\\varepsilon_{0}m}\\frac{(R^{2}-2l^{2})}{(R^{2}+l^{2})^{\\frac{5}{2}}}}",
+      "prediction": "The potential energy of the particle is given by $U = -\\frac{1}{2}q\\chi_{z} + \\frac{1}{2}m\\omega_{z}^{2}l^{2}$. The potential energy of the ring is $U_{ring} = \\frac{1}{2}Q\\chi_{z}$. The potential energy of the particle is $U_{p} = -\\frac{1}{2}q\\chi_{z} + \\frac{1}{2}m\\omega_{z}^{2}l^{2}$. The total potential energy is $U_{total} = U_{ring} + U_{p} = \\frac{1}{2}Q\\chi_{z} - \\frac{1}{2}q\\chi_{z} + \\frac{1}{2}m\\omega_{z}^{2}l^{2} = \\frac{1}{2}(Q - q)\\chi_{z} + \\frac{1}{2}m\\omega_{z}^{2}l^{2}$. The condition for the particle to be stable is that the total potential energy is greater than zero, i.e., $U_{total} > 0$. This can be rewritten as $\\frac{1}{2}(Q - q)\\chi_{z} + \\frac{1}{2}m\\omega_{z}^{2}l^{2} > 0$. Solving for $\\omega_{z}$, we get $\\omega_{z}^{2} > \\frac{2Q - 2q}{ml^{2}}$. Taking the square root, we find $\\omega_{z} > \\frac{\\sqrt{2(Q - q)}}{ml}$. Therefore, the angular frequency corresponding to the perturbation stability of the particle in the $\\hat{z}$ direction is $\\omega_{z} > \\frac{\\sqrt{2(Q - q)}}{ml}$.\nANSWER: \\frac{\\sqrt{2(Q - q)}}{ml}"
+    },
+    {
+      "problem_id": "physgym_0206",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "V=\\frac{V_{0}}{\\ln\\frac{\\tan\\frac{\\alpha_{2}}{2}}{\\tan\\frac{\\alpha_{1}}{2}}}\\mathrm{ln}\\frac{\\tan\\frac{\\alpha}{2}}{\\tan\\frac{\\alpha_{1}}{2}}",
+      "prediction": "The potential distribution $V(\\alpha)$ is obtained by integrating the electric field $E(\\alpha)$ from the origin to the cone surface. The electric field $E(\\alpha)$ is obtained by the following equation:  \n\n$$\nE(\\alpha) = \\frac{1}{4\\pi\\varepsilon_{0}} \\int_{0}^{\\infty} \\frac{r^{2}}{r^{2} + z^{2}} d\\theta\n$$  \n\nThe potential $V(\\alpha)$ is obtained by integrating the electric field $E(\\alpha)$ from the origin to the cone surface. The integral can be solved by the following method:  \n\n$$\nV(\\alpha) = \\frac{1}{4\\pi\\varepsilon_{0}} \\int_{0}^{\\infty} \\int_{0}^{2\\pi} \\int_{0}^{\\alpha_{2}} \\int_{0}^{\\alpha_{1}} \\frac{r^{2}}{r^{2} + z^{2}} d\\theta d\\phi dz\n$$  \n\nThe integral can be solved by the following method:  \n\n$$\nV(\\alpha) = \\frac{1}{4\\pi\\varepsilon_{0}} \\int_{0}^{\\infty} \\int_{0}^{2\\pi} \\int_{0}^{\\alpha_{2}} \\int_{0}^{\\alpha_{1}} \\frac{r^{2}}{r^{2} + z^{2}} d\\theta d\\phi dz\n$$  \n\nThe integral can be solved by the following method:  \n\n$$\nV(\\alpha) = \\frac{1}{4\\pi\\varepsilon_{0}} \\int_{0}^{\\infty} \\int_{0}^{2\\pi} \\int_{0}^{\\alpha_{2}} \\int_{0}^{\\alpha_{1}} \\frac{r^{2}}{r^{2} + z^{2}} d\\theta d\\phi dz\n$$  \n\nThe integral can be solved by the following method:  \n\n$$\nV(\\alpha) = \\frac{1}{4\\pi\\varepsilon_{0}} \\int_{0}^{\\infty} \\int_{0}^{2\\pi} \\int_{0}^{\\alpha_{2}} \\int_{0}^{\\alpha_{1}} \\frac{r^{2}}{r^{2} + z^{2}} d\\theta d\\phi dz\n$$  \n\nThe integral can be solved by the following method:  \n\n$$\nV(\\alpha) = \\frac{1}{4\\pi\\varepsilon_{0}} \\int_{0}^{\\infty} \\int_{0}^{2\\pi} \\int_{0}^{\\alpha_{2}} \\int_{0}^{\\alpha_{1}} \\frac{r^{2}}{r^{2} + z^{2}} d\\theta d\\phi dz\n$$  \n\nThe integral can be solved by the following method:  \n\n$$\nV(\\alpha) = \\frac{1}{4\\pi\\varepsilon_{0}} \\int_{0}^{\\infty} \\int_{0}^{2\\pi} \\int_{0}^{\\alpha_{2}} \\int_{0}^{\\alpha_{1}} \\frac{r^{2}}{r^{2} + z^{2}} d\\theta d\\phi dz\n$$  \n\nThe integral can be solved by the following method:  \n\n$$\nV(\\alpha) = \\frac{1}{4\\pi\\varepsilon_{0}} \\int_{0}^{\\infty} \\int_{0}^{2\\pi} \\int_{0}^{\\alpha_{2}} \\int_{0}^{\\alpha_{1}} \\frac{r^{2}}{r^{2} + z^{2}} d\\theta d\\phi dz\n$$  \n\nThe integral can be solved by the following method:  \n\n$$\nV(\\alpha) = \\frac{1}{4\\pi\\varepsilon_{0}} \\int_{0}^{\\infty} \\int_{0}^{2\\pi} \\int_{0}^{\\alpha_{2}} \\int_{0}^{\\alpha_{1}} \\frac{r^{2}}{r^{2} + z^{2}} d\\theta d\\phi dz\n$$  \n\nThe integral can be solved by the following method:  \n\n$$\nV(\\alpha) = \\frac{1}{4\\pi\\varepsilon_{0}} \\int_{0}^{\\infty} \\int_{0}^{2\\pi} \\int_{0}^{\\alpha_{2}} \\int_{0}^{\\alpha_{1}} \\frac{r^{2}}{r^{2} + z^{2}} d\\theta d\\phi dz\n$$  \n\nThe integral can be solved by the following method:  \n\n$$\nV(\\alpha) = \\frac{1}{4\\pi\\varepsilon_{0}} \\int_{0}^{\\infty} \\int_{0}^{2\\pi} \\int_{0}^{\\alpha_{2}} \\int_{0}^{\\alpha_{1}} \\frac{r^{2}}{r^{2} + z^{2}} d\\theta d\\phi dz\n$$  \n\nThe integral can be solved by the following method:  \n\n$$\nV(\\alpha) = \\frac{1}{4\\pi\\varepsilon_{0}} \\int_{0}^{\\infty} \\int_{0}^{2\\pi} \\int_{0"
+    },
+    {
+      "problem_id": "physgym_0228",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\omega_{1}^{2} + \\omega_{2}^{2} + 2\\omega_{1}\\omega_{2}\\sin(\\theta_{1}-\\theta_{2})",
+      "reference_answer": "\\begin{array}{r l}&{\\alpha_{2}=\\cfrac{3\\sin(\\theta_{1}-\\theta_{2})\\left[2g\\cos\\theta_{1}+2l_{1}\\omega_{1}^{2}+l_{2}\\omega_{2}^{2}\\cos(\\theta_{1}-\\theta_{2})\\right]}{l_{2}\\left[1+3\\sin^{2}(\\theta_{1}-\\theta_{2})\\right]}}\\end{array}",
+      "prediction": "The angular acceleration of the rod around its center of mass is $\\omega_{2}^{2} + \\omega_{1}^{2} + 2\\omega_{1}\\omega_{2}\\sin(\\theta_{1}-\\theta_{2})$. Since the string is inextensible, the angular velocity of the rod around its center of mass is $\\omega_{2} = \\omega_{1} + \\omega_{2}$, and the angle between the string and the vertical direction is $\\theta_{1} = \\theta_{2} + \\theta_{1}$. Therefore, the angular acceleration of the rod around its center of mass is $\\omega_{1}^{2} + \\omega_{2}^{2} + 2\\omega_{1}\\omega_{2}\\sin(\\theta_{1}-\\theta_{2}) = \\omega_{1}^{2} + \\omega_{2}^{2} + 2\\omega_{1}\\omega_{2}\\sin(\\theta_{1}-\\theta_{2})$. Since $\\omega_{1}$ and $\\omega_{2}$ are unknown, we cannot determine the angular acceleration of the rod around its center of mass.\nANSWER: $\\omega_{1}^{2} + \\omega_{2}^{2} + 2\\omega_{1}\\omega_{2}\\sin(\\theta_{1}-\\theta_{2})$"
+    },
+    {
+      "problem_id": "physgym_0256",
+      "domain": "MODERN_PHYSICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "E_{1}={\\frac{15/4-3}{2{\\sqrt{3}}}}M c^{2}={\\frac{\\sqrt{3}}{8}}M c^{2}",
+      "prediction": "The energy of the emitted photon is $E_{1} = \\alpha_{c}M^{2}h^{2}/(2\\pi c^{2})$. The energy of the ultra-high-speed particle is $E_{2} = \\frac{1}{2}mv^{2} + 2m\\alpha_{c}r^{2} = \\frac{1}{2}mv^{2} + 2m^{2}\\alpha_{c}^{2}r^{2}$. The energy of the ultra-high-speed particle is greater than the energy of the emitted photon, so the ultra-high-speed particle can emit a photon and separate $\\mathrm{X_{2}}$ and $\\mathrm{X}$. The minimum value $E_{1}$ of $E$ is $E_{2} - E_{1} = \\frac{1}{2}mv^{2} + 2m^{2}\\alpha_{c}^{2}r^{2} - \\frac{1}{2}mv^{2} - 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} = 2m^{2}\\alpha_{c}^{2}r^{2} ="
+    },
+    {
+      "problem_id": "physgym_0259",
+      "domain": "MODERN_PHYSICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{2 v_x v_y t}{1 - v^2/c^2}",
+      "reference_answer": "\\text{Area} = \\frac{2v^2 t'^2 (1 - u^2/c^2)^{3/2}}{1 - (uv/c)^2}",
+      "prediction": "1. **Coordinate Transformation**: In the \\(S'\\) reference frame, the coordinates of the particles are related to those in \\(S\\) by the Lorentz transformation:\n   \\[\n   x' = \\gamma (x - vt)\n   \\]\n   \\[\n   y' = \\gamma (y - vt)\n   \\]\n   where \\(\\gamma = \\frac{1}{\\sqrt{1 - v^2/c^2}}\\).\n\n2. **Velocity Transformation**: The velocity of each particle in \\(S'\\) is related to its velocity in \\(S\\) by:\n   \\[\n   v'_x = \\gamma v_x\n   \\]\n   \\[\n   v'_y = \\gamma v_y\n   \\]\n\n3. **Area Calculation**: The area of the quadrilateral formed by the four particles in \\(S'\\) is the sum of the areas of the four triangles:\n   \\[\n   A = \\frac{1}{2} \\left( v'_x + v'_x \\right) \\left( v'_y + v'_y \\right) dt'\n   \\]\n   \\[\n   A = \\frac{1}{2} \\left( 2\\gamma v_x \\right) \\left( 2\\gamma v_y \\right) dt'\n   \\]\n   \\[\n   A = \\frac{1}{2} \\cdot 4\\gamma^2 v_x v_y dt'\n   \\]\n   \\[\n   A = 2\\gamma^2 v_x v_y dt'\n   \\]\n\n4. **Time Transformation**: The time \\(t'\\) in \\(S'\\) is related to the time \\(t\\) in \\(S\\) by:\n   \\[\n   t' = \\gamma t\n   \\]\n\n5. **Final Area Expression**: Substituting the expressions for \\(\\gamma\\) and \\(t\\), we get:\n   \\[\n   A = 2\\gamma^2 v_x v_y \\gamma t\n   \\]\n   \\[\n   A = 2\\gamma^3 v_x v_y t\n   \\]\n\n6. **Simplification**: Since \\(\\gamma = \\frac{1}{\\sqrt{1 - v^2/c^2}}\\), we can simplify further:\n   \\[\n   A = 2 \\cdot \\frac{1}{1 - v^2/c^2} v_x v_y t\n   \\]\n\n7. **Final Answer**: The area of the quadrilateral in \\(S'\\) is:\n   \\[\n   A = \\frac{2 v_x v_y t}{1 - v^2/c^2}\n   \\]\nANSWER: \\frac{2 v_x v_y t}{1 - v^2/c^2}"
+    },
+    {
+      "problem_id": "physgym_0281",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{4\\sigma}{g\\theta}",
+      "reference_answer": "h={\\sqrt{\\frac{2\\sigma}{\\rho g}(1-\\sin\\theta)}}",
+      "prediction": "The radius of curvature of the liquid surface at the junction between the container wall and the liquid surface is $R = \\frac{1}{2}\\theta$, and the height of the liquid surface rise is $h = \\frac{2\\sigma}{gR} = \\frac{2\\sigma}{g(1/2)\\theta} = \\frac{4\\sigma}{g\\theta}$.\nANSWER: \\frac{4\\sigma}{g\\theta}"
+    },
+    {
+      "problem_id": "physgym_0285",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "4kmr",
+      "reference_answer": "F_{m a x}=5m\\omega^{2}R",
+      "prediction": "The maximum force occurs when the bug is at the furthest point from the center of the disk, i.e., when the distance between the bug and the center is $2R$. The force between the bug and the disk is $F =k(m +m)d$, where $k$ is the spring constant. Since the bug is at the furthest point, $d =2R$, so the maximum force is $F_{max} =k(2m)(2R) =4kmr$.\nANSWER: 4kmr"
+    },
+    {
+      "problem_id": "physgym_0310",
+      "domain": "MODERN_PHYSICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\beta_{1}=\\frac{\\left(\\sqrt{\\frac{1+\\beta_{0}}{1-\\beta_{0}}}+\\frac{2E}{m c^{2}}\\right)^{2}-1}{\\left(\\sqrt{\\frac{1+\\beta_{0}}{1-\\beta_{0}}}+\\frac{2E}{m c^{2}}\\right)^{2}+1}",
+      "prediction": "The energy of a photon is $E = \\frac{1}{2}m c^{2}\\beta_{0}^{2}$, and the power is $P = \\frac{1}{2}m c^{2}\\beta_{0}^{2} = \\frac{1}{2}m c^{2}\\beta_{0}^{2} = \\frac{1}{2}m c^{2}\\beta_{0}^{2} = \\frac{1}{2}m c^{2}\\beta_{0}^{2} = \\frac{1}{2}m c^{2}\\beta_{0}^{2}$. The energy of the mirror is $E_{\\circ} = \\frac{1}{2}m c^{2}\\beta_{0}^{2}S_{\\circ}$, and the power is $P_{\\circ} = \\frac{1}{2}m c^{2}\\beta_{0}^{2}S_{\\circ}$. The energy change of the mirror is $\\Delta E = E - E_{\\circ} = \\frac{1}{2}m c^{2}\\beta_{0}^{2}(1 - \\beta_{0}^{2})S_{\\circ}$, and the power change is $\\Delta P = P - P_{\\circ} = \\frac{1}{2}m c^{2}\\beta_{0}^{2}S_{\\circ}(1 - \\beta_{0}^{2})$. The change in momentum is $\\Delta p = \\Delta E/c = \\frac{1}{2}m c^{2}\\beta_{0}^{2}(1 - \\beta_{0}^{2})S_{\\circ}/c = \\frac{1}{2}m c\\beta_{0}^{2}(1 - \\beta_{0}^{2})S_{\\circ}$. The change in velocity is $\\Delta v = \\Delta p/m = \\frac{1}{2}m c\\beta_{0}^{2}(1 - \\beta_{0}^{2})S_{\\circ}/m = \\frac{1}{2}m c\\beta_{0}^{2}(1 - \\beta_{0}^{2})S_{\\circ}/m = \\frac{1}{2}m c\\beta_{0}^{2}(1 - \\beta_{0}^{2})S_{\\circ}/m$. Solving for $\\beta_{1}$, we get $\\beta_{1} = \\frac{1}{1 + \\beta_{0}^{2}(1 - \\beta_{0}^{2})S_{\\circ}/m c^{2}}$. The result is $\\beta_{1} = \\frac{1}{1 + \\beta_{0}^{2}(1 - \\beta_{0}^{2})S_{\\circ}/m c^{2}}$."
+    },
+    {
+      "problem_id": "physgym_0331",
+      "domain": "OPTICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "d/L",
+      "reference_answer": "\\Delta y=\\frac{1+\\tan2\\phi^{2}}{\\sin\\phi}\\frac{\\lambda L}{d}",
+      "prediction": "The diffraction pattern is a series of concentric circles, so the spacing of the primary maxima is the same as the spacing of the graduations. The angular position of the primary maxima is $\\theta=0$, so the distance from the center to the primary maxima is $y=0$, and the distance from the primary maxima to the point of contact is $L$, so the spacing of the primary maxima is $d/L$.\nANSWER: d/L"
+    },
+    {
+      "problem_id": "physgym_0332",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\mu={\\frac{M R^{2}\\sin\\varphi\\sin(\\beta+\\gamma)}{\\sqrt{\\cos\\beta^{2}\\left[M R^{2}\\cos\\varphi+m L^{2}\\sin\\beta^{2}({\\frac{3}{2}}\\cos\\varphi-1)\\right]^{2}+[M R^{2}\\sin\\varphi\\cos(\\beta+\\gamma)]^{2}}}}",
+      "prediction": "The maximum static friction force is $\\mu N$, where $N$ is the normal force. The normal force is $N = mg -T$, where $T$ is the tension in the rod. The maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$. Setting this equal to the maximum static friction force, we have $\\mu mg - \\mu mL\\sin\\varphi = \\mu mg - \\mu mL\\sin\\varphi$, which is a tautology. However, we can also use the fact that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL\\sin\\varphi$, and that the maximum static friction force is $\\mu mg - \\mu mL"
+    },
+    {
+      "problem_id": "physgym_0336",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "f={\\frac{1}{2\\pi}}{\\sqrt{\\frac{4g(b+R-{\\frac{b^{2}R}{a^{2}}})}{(a^{2}+5b^{2})({\\frac{b R}{a^{2}}}-1)}}}",
+      "prediction": "The center of mass of the elliptical cylinder is at a distance $a/2$ from the center of the circular cylinder. The distance between the center of mass and the center of the circular cylinder is $a/2 + R$, and the distance between the center of mass and the top of the circular cylinder is $a/2 + R + b$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration of the center of mass is $a/g$, and the acceleration of the center of mass is $a/g$. The acceleration"
+    },
+    {
+      "problem_id": "physgym_0409",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\sigma=\\frac{2\\varepsilon_{0}E_{0}a}{\\sqrt{a^{2}-r^{2}}}",
+      "prediction": "The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the same as those of the magnetic field, and the field lines of the magnetic field are the same as those of the electric field. The field lines of the electric field are the"
+    },
+    {
+      "problem_id": "physgym_0419",
+      "domain": "OPTICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{1}{2}",
+      "reference_answer": "R_{s}=\\left(1+\\left(\\frac{2\\mathrm{e}^{-\\frac{2\\pi d}{\\lambda}\\sqrt{\\mathrm{sin}i_2^2-n^2}}}{1 - \\mathrm{e}^{-\\frac{4\\pi d}{\\lambda}\\sqrt{\\mathrm{sin}i_2^2-n^2}}}\\frac{2\\sqrt{(1 - \\sin^{2}i_{2})(\\sin^{2}i_{2}-n^{2})}}{1 - n^{2}}\\right)^{2}\\right)^{-1}",
+      "prediction": "The s-polarized light intensity is $ I_s = \\frac{1}{2}I_0 $, and the reflectance is $ R_s = \\frac{1}{2} $.\nANSWER: \\frac{1}{2}"
+    },
+    {
+      "problem_id": "physgym_0420",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{1}{2}\\sqrt{\\frac{g}{x_{0}}}",
+      "reference_answer": "\\theta=\\theta_{0}\\frac{x_{0}}{x}",
+      "prediction": "The motion of A can be treated as a simple harmonic motion, and the equation of motion is $\\theta''_{0}+\\omega_{0}^{2}\\theta_{0}=0$, where $\\omega_{0}=\\sqrt{\\frac{g}{x_{0}}}$. The solution is $\\theta_{0}=\\frac{1}{2}\\sqrt{\\frac{g}{x_{0}}}$. The amplitude of the oscillation is $\\frac{1}{2}\\sqrt{\\frac{g}{x_{0}}}$, so the maximum amplitude is $\\frac{1}{2}\\sqrt{\\frac{g}{x_{0}}}$. The maximum amplitude of the oscillation is $\\frac{1}{2}\\sqrt{\\frac{g}{x_{0}}}$.\nANSWER: \\frac{1}{2}\\sqrt{\\frac{g}{x_{0}}}."
+    },
+    {
+      "problem_id": "physgym_0432",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{2mR^2Q\\omega^2}{g}",
+      "reference_answer": "h={\\sqrt{\\frac{-Q^{2}+{\\sqrt{Q^{4}+{\\frac{96\\pi\\varepsilon_{0}^{2}m g\\mu_{0}Q^{2}R^{4}\\omega^{2}}{25}}}}}{32\\pi\\varepsilon_{0}m g}}}",
+      "prediction": "The magnetic moment of the sphere is $\\mu = \\frac{1}{2} mR^2Q\\omega^2$. The magnetic field at the surface of the plate is $B = \\frac{\\mu_0}{4\\pi} \\frac{Q}{h^2}$. The magnetic force on the sphere is $F = qB = \\frac{1}{2} mR^2Q\\omega^2h$. The gravitational force on the sphere is $F_g = mg$. For stable levitation, the magnetic force must equal the gravitational force: $\\frac{1}{2} mR^2Q\\omega^2h = mg$. Solving for $h$, we get $h = \\frac{2mR^2Q\\omega^2}{g}$.\n\nANSWER: \\frac{2mR^2Q\\omega^2}{g}"
+    },
+    {
+      "problem_id": "physgym_0450",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\beta = 4A \\sqrt{A^2 - B^2} g \\frac{2A^{4} + 2A^{3} \\sqrt{A^2 - B^2} - A^{3}B + B^{4}}{(2A^{3} + B^{3})^{2}B}",
+      "prediction": "The angular acceleration is the derivative of the angular velocity with respect to time, i.e., \\(\\beta = \\frac{d\\omega}{dt}\\). The angular velocity is the derivative of the angle with respect to time, i.e., \\(\\omega = \\frac{d\\varphi}{dt}\\). The angular acceleration is then \\(\\beta = \\frac{d^2\\varphi}{dt^2}\\). The angle \\(\\varphi\\) is related to the eccentricity \\(e\\) and the semi-major axis \\(A\\) by \\(\\varphi = \\arccos\\left(\\frac{e}{1-e}\\right)\\). Therefore, \\(\\beta = \\frac{d^2\\arccos\\left(\\frac{e}{1-e}\\right)}{dt^2}\\). Using the chain rule, we have \\(\\beta = \\frac{e}{1-e}\\frac{d^2\\arccos\\left(\\frac{e}{1-e}\\right)}{d\\varphi^2}\\). The derivative of \\(\\arccos\\left(\\frac{e}{1-e}\\right)\\) with respect to \\(\\varphi\\) is \\(-\\frac{e}{1-e}\\frac{1}{1-e^2}\\). Therefore, \\(\\beta = \\frac{e^2}{1-e^2}\\frac{d^2\\arccos\\left(\\frac{e}{1-e}\\right)}{d\\varphi^2}\\). The derivative of \\(\\arccos\\left(\\frac{e}{1-e}\\right)\\) with respect to \\(\\varphi\\) is \\(-\\frac{e}{1-e^2}\\frac{1}{1-e^2}\\). Therefore, \\(\\beta = \\frac{e^2}{1-e^2}\\frac{d^2\\arccos\\left(\\frac{e}{1-e}\\right)}{d\\varphi^2}\\). The derivative of \\(\\arccos\\left(\\frac{e}{1-e}\\right)\\) with respect to \\(\\varphi\\) is \\(-\\frac{e}{1-e^2}\\frac{1}{1-e^2}\\). Therefore, \\(\\beta = \\frac{e^2}{1-e^2}\\frac{d^2\\arccos\\left(\\frac{e}{1-e}\\right)}{d\\varphi^2}\\). The derivative of \\(\\arccos\\left(\\frac{e}{1-e}\\right)\\) with respect to \\(\\varphi\\) is \\(-\\frac{e}{1-e^2}\\frac{1}{1-e^2}\\). Therefore, \\(\\beta = \\frac{e^2}{1-e^2}\\frac{d^2\\arccos\\left(\\frac{e}{1-e}\\right)}{d\\varphi^2}\\). The derivative of \\(\\arccos\\left(\\frac{e}{1-e}\\right)\\) with respect to \\(\\varphi\\) is \\(-\\frac{e}{1-e^2}\\frac{1}{1-e^2}\\). Therefore, \\(\\beta = \\frac{e^2}{1-e^2}\\frac{d^2\\arccos\\left(\\frac{e}{1-e}\\right)}{d\\varphi^2}\\). The derivative of \\(\\arccos\\left(\\frac{e}{1-e}\\right)\\) with respect to \\(\\varphi\\) is \\(-\\frac{e}{1-e^2}\\frac{1}{1-e^2}\\). Therefore, \\(\\beta = \\frac{e^2}{1-e^2}\\frac{d^2\\arccos\\left(\\frac{e}{1-e}\\right)}{d\\varphi^2}\\). The derivative of \\(\\arccos\\left(\\frac{e}{1-e}\\right)\\) with respect to \\(\\varphi\\) is \\(-\\frac{e}{1-e^2}\\frac{1}{1-e^2}\\). Therefore, \\(\\beta = \\frac{e^2}{1-e^2}\\frac{d^2\\arccos\\left(\\frac{e}{1-e}\\right)}{d\\varphi^2}\\). The derivative of \\(\\arccos\\left(\\frac{e}{1-e}\\right)\\) with respect to \\(\\varphi\\) is \\(-\\frac{e}{1-e^2}\\frac{1}{1-e^2}\\). Therefore, \\(\\beta = \\frac{e^2}{1-e^2}\\frac{d^2\\arccos\\left(\\frac{e}{1-e}\\right)}{d\\varphi^2}\\). The derivative of \\(\\arccos\\left(\\frac{e}{1-e}\\right)\\) with respect to \\(\\varphi\\) is \\(-\\frac{e}{1-e^2}\\frac{1}{1-e^2}\\). Therefore, \\(\\beta = \\frac{e^2}{1-e^2}\\frac{d^2\\arccos\\left(\\frac{e}{1-e}\\right)}{d\\varphi^2}\\). The derivative of \\(\\arccos\\left(\\frac{e}{1-e}\\right)\\) with respect to \\(\\varphi\\) is \\(-\\frac{e}{1-e^2}\\frac{1}{1-e^2}\\). Therefore, \\(\\beta = \\frac{e^2}{1-e^2}\\frac{d^2\\arccos"
+    },
+    {
+      "problem_id": "physgym_0453",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\alpha=\\frac{N}{6\\pi n\\epsilon_0^2c^4}\\frac{(\\frac{\\omega^2 e^2}{m})^2}{(\\omega_0^2-\\omega^2)^2+\\gamma^2 \\omega^2}",
+      "prediction": "The electric field component of the electromagnetic wave is $E = \\frac{e}{c}\\frac{\\omega_{0}^{2}x}{2m}$, where $x$ is the distance between the electron and the nucleus. The power of radiation emitted by the electron is:\n\n$$\nP = \\frac{e^{2}\\left(\\frac{\\omega_{0}^{2}x}{2m}\\right)^{2}}{6\\pi\\varepsilon_{0}c^{3}}\n$$  \n\nThe power of radiation absorbed by the medium is:\n\n$$\nP_{abs} = \\frac{e^{2}\\left(\\frac{\\omega_{0}^{2}x}{2m}\\right)^{2}}{6\\pi\\varepsilon_{0}c^{3}}N\n$$  \n\nThe power of radiation reflected by the medium is:\n\n$$\nP_{ref} = \\frac{e^{2}\\left(\\frac{\\omega_{0}^{2}x}{2m}\\right)^{2}}{6\\pi\\varepsilon_{0}c^{3}}(1 - R)\n$$  \n\nThe power of radiation transmitted by the medium is:\n\n$$\nP_{trans} = \\frac{e^{2}\\left(\\frac{\\omega_{0}^{2}x}{2m}\\right)^{2}}{6\\pi\\varepsilon_{0}c^{3}}(1 - T)\n$$  \n\nThe power of radiation absorbed by the medium is equal to the power of radiation transmitted by the medium plus the power of radiation reflected by the medium:\n\n$$\nP_{abs} = P_{trans} + P_{ref}\n$$  \n\nThe power of radiation transmitted by the medium is:\n\n$$\nP_{trans} = \\frac{e^{2}\\left(\\frac{\\omega_{0}^{2}x}{2m}\\right)^{2}}{6\\pi\\varepsilon_{0}c^{3}}(1 - T)\n$$  \n\nThe power of radiation reflected by the medium is:\n\n$$\nP_{ref} = \\frac{e^{2}\\left(\\frac{\\omega_{0}^{2}x}{2m}\\right)^{2}}{6\\pi\\varepsilon_{0}c^{3}}(1 - R)\n$$  \n\nThe power of radiation absorbed by the medium is:\n\n$$\nP_{abs} = \\frac{e^{2}\\left(\\frac{\\omega_{0}^{2}x}{2m}\\right)^{2}}{6\\pi\\varepsilon_{0}c^{3}}(1 - T - R)\n$$  \n\nThe power of radiation transmitted by the medium is:\n\n$$\nP_{trans} = \\frac{e^{2}\\left(\\frac{\\omega_{0}^{2}x}{2m}\\right)^{2}}{6\\pi\\varepsilon_{0}c^{3}}(1 - T)\n$$  \n\nThe power of radiation reflected by the medium is:\n\n$$\nP_{ref} = \\frac{e^{2}\\left(\\frac{\\omega_{0}^{2}x}{2m}\\right)^{2}}{6\\pi\\varepsilon_{0}c^{3}}(1 - R)\n$$  \n\nThe power of radiation absorbed by the medium is:\n\n$$\nP_{abs} = \\frac{e^{2}\\left(\\frac{\\omega_{0}^{2}x}{2m}\\right)^{2}}{6\\pi\\varepsilon_{0}c^{3}}(1 - T - R)\n$$  \n\nThe power of radiation transmitted by the medium is:\n\n$$\nP_{trans} = \\frac{e^{2}\\left(\\frac{\\omega_{0}^{2}x}{2m}\\right)^{2}}{6\\pi\\varepsilon_{0}c^{3}}(1 - T)\n$$  \n\nThe power of radiation reflected by the medium is:\n\n$$\nP_{ref} = \\frac{e^{2}\\left(\\frac{\\omega_{0}^{2}x}{2m}\\right)^{2}}{6\\pi\\varepsilon_{0}c^{3}}(1 - R)\n$$  \n\nThe power of radiation absorbed by the medium is:\n\n$$\nP_{abs} = \\frac{e^{2}\\left(\\frac{\\omega_{0}^{2}x}{2m}\\right)^{2}}{6\\pi\\varepsilon_{0}c^{3}}(1 - T - R)\n$$  \n\nThe power of radiation transmitted by the medium is:\n\n$$\nP_{trans} = \\frac{e^{2}\\left(\\frac{\\omega_{0}^{2}x}{2m}\\right)^{2}}{6\\pi\\varepsilon_{0}c^{3}}(1 - T)\n$$  \n\nThe power of radiation reflected by the medium is:\n\n$$\nP_{ref} = \\frac{e^{2}\\left(\\frac{\\omega_{0}^{2}x}{2m}\\right)^{2}}{6\\pi\\varepsilon_{0}c^{3}}(1 - R)\n$$  \n\nThe power of radiation absorbed by the medium is:\n\n$$\nP_{abs} = \\frac{e^{2}\\left(\\frac{\\omega_{0}^{2}x}{2m}\\right)^{2}}{6\\pi\\varepsilon_{0}c^{3}}(1 - T - R)\n$$  \n\nThe power of radiation transmitted by the medium is:\n\n$$\nP_{trans} = \\frac{e^{2}\\left(\\frac{\\omega_{0}^{2}x}{2m}\\right)^{2"
+    },
+    {
+      "problem_id": "physgym_0457",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{F}{m l} + \\omega_0",
+      "reference_answer": "{\\omega}=\\sqrt{\\frac{8F\\sin\\frac{\\pi}{N}(9-5\\tan^{2}\\frac{\\pi}{N})^{2}}{m l(2+\\frac{1}{3}\\sin^{2}\\frac{\\pi}{N}+\\cos^{2}\\frac{\\pi}{N})((9+7\\tan^{2}\\frac{\\pi}{N})^{2}-(9-5\\tan^{2}\\frac{\\pi}{N})^{2})}}",
+      "prediction": "The angular velocity after each collision is the same as the angular velocity before the collision. The angular velocity before the collision is $\\omega_0 = \\frac{F}{m l}$. The angular velocity after the collision is $\\omega = \\frac{F}{m l} + \\omega_0$.\nANSWER: \\frac{F}{m l} + \\omega_0"
+    },
+    {
+      "problem_id": "physgym_0458",
+      "domain": "RELATIVITY",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{\\Delta p}{2\\eta} \\cdot \\frac{a^2}{l}",
+      "reference_answer": "\\frac{\\sqrt{3} a^4 \\Delta p}{320 l}",
+      "prediction": "The volumetric flow rate $Q$ is given by the area of the cross-section times the velocity $v$:\n\n$$\nQ = A \\cdot v = \\frac{\\Delta p}{2\\eta} \\cdot \\frac{a^2}{l}\n$$\n\nwhere $A$ is the area of the cross-section, which is $\\frac{a^2}{2}$, and $\\frac{\\Delta p}{2\\eta}$ is the velocity.\n\nANSWER: \\frac{\\Delta p}{2\\eta} \\cdot \\frac{a^2}{l}"
+    },
+    {
+      "problem_id": "physgym_0478",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "zero",
+      "reference_answer": "F=\\frac{1}{\\varepsilon_{r}}QE_{0}",
+      "prediction": "The force on the conducting sphere is given by $F = Q\\vec{E}_{0}$, where $\\vec{E}_{0}$ is the external electric field. Since the sphere is a conductor, the electric field inside the conductor is zero, and the force on the sphere is zero. However, the electric field inside the conductor is zero because the electric field is perpendicular to the surface of the conductor, and the electric field is zero at the surface of a conductor. Therefore, the force on the conducting sphere is zero.\nANSWER: zero"
+    },
+    {
+      "problem_id": "physgym_0497",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\Delta A = \\frac{m A_0}{4M}\\left[\\frac{1}{3}(\\gamma_1 - 1) + \\gamma_2\\right]",
+      "prediction": "The velocity of the added mass is \\(v = \\frac{2\\pi L}{T}\\), where \\(T\\) is the period of the simple harmonic motion. The velocity of the spring is \\(v = \\frac{2\\pi L}{T}\\), so the velocity of the added mass is \\(v_1 = v_0 + v\\).\n\nThe acceleration of the added mass is \\(a_1 = a_0 + a\\), where \\(a\\) is the acceleration of the spring. The acceleration of the spring is \\(a = -\\omega^2 x\\), where \\(\\omega\\) is the angular frequency of the simple harmonic motion. Therefore, \\(a_1 = -\\omega^2 x_1\\), where \\(x_1\\) is the displacement of the added mass.\n\nThe displacement of the added mass is \\(x_1 = \\frac{2\\pi L}{T}(v_0 + v)\\), so \\(a_1 = -\\omega^2 \\frac{2\\pi L}{T}(v_0 + v)\\).\n\nThe acceleration of the spring is \\(a = -\\omega^2 x\\), where \\(x\\) is the displacement of the spring. Therefore, \\(a = -\\omega^2 \\frac{2\\pi L}{T} x\\).\n\nThe acceleration of the added mass is \\(a_1 = -\\omega^2 x_1\\), so \\(a_1 = -\\omega^2 \\frac{2\\pi L}{T} \\frac{2\\pi L}{T}(v_0 + v)\\).\n\nThe acceleration of the spring is \\(a = -\\omega^2 x\\), so \\(a = -\\omega^2 \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} x\\).\n\nThe acceleration of the added mass is \\(a_1 = -\\omega^2 x_1\\), so \\(a_1 = -\\omega^2 \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T}(v_0 + v)\\).\n\nThe acceleration of the spring is \\(a = -\\omega^2 x\\), so \\(a = -\\omega^2 \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} x\\).\n\nThe acceleration of the added mass is \\(a_1 = -\\omega^2 x_1\\), so \\(a_1 = -\\omega^2 \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} x\\).\n\nThe acceleration of the spring is \\(a = -\\omega^2 x\\), so \\(a = -\\omega^2 \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} x\\).\n\nThe acceleration of the added mass is \\(a_1 = -\\omega^2 x_1\\), so \\(a_1 = -\\omega^2 \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} x\\).\n\nThe acceleration of the spring is \\(a = -\\omega^2 x\\), so \\(a = -\\omega^2 \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} x\\).\n\nThe acceleration of the added mass is \\(a_1 = -\\omega^2 x_1\\), so \\(a_1 = -\\omega^2 \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} x\\).\n\nThe acceleration of the spring is \\(a = -\\omega^2 x\\), so \\(a = -\\omega^2 \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} x\\).\n\nThe acceleration of the added mass is \\(a_1 = -\\omega^2 x_1\\), so \\(a_1 = -\\omega^2 \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} \\frac{2\\pi L}{T} x\\).\n\nThe acceleration of the spring"
+    },
+    {
+      "problem_id": "physgym_0650",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "d_{\\operatorname*{max}}=\\frac{2}{\\pi}\\sqrt{\\frac{E_{0}R}{m g}}\\sqrt{(\\pi-2)^{2}\\frac{R}{L}+2}",
+      "prediction": "The maximum $d$ is $d_{max} = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2R}{g}$. The result is obtained by setting the potential energy of the semicircle to zero, which gives $d = \\frac{2"
+    },
+    {
+      "problem_id": "physgym_0688",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{2\\pi \\sqrt{\\frac{2q}{m}}}{\\sqrt{r_{0}^{n}}}",
+      "reference_answer": "T = \\frac{2 \\pi m}{q B_{0} \\sqrt{n+1}}",
+      "prediction": "The magnetic force on the charged particle is $F = qvB_{0}r_{0}^{n}$, and the centripetal force is $F_{c} = \\frac{1}{2}mv^{2}$. Equating the two forces, we get $v^{2} = \\frac{2qB_{0}r_{0}^{n}}{m}$. The period of the small radial oscillations is $T = \\frac{2\\pi v}{B_{0}r_{0}^{n}}$, so $T = \\frac{2\\pi \\sqrt{\\frac{2qB_{0}r_{0}^{n}}{m}}}{B_{0}r_{0}^{n}} = \\frac{2\\pi \\sqrt{\\frac{2q}{m}}}{\\sqrt{r_{0}^{n}}}$. The final answer is $\\frac{2\\pi \\sqrt{\\frac{2q}{m}}}{\\sqrt{r_{0}^{n}}}$.\nANSWER: \\frac{2\\pi \\sqrt{\\frac{2q}{m}}}{\\sqrt{r_{0}^{n}}}"
+    },
+    {
+      "problem_id": "physgym_0708",
+      "domain": "OPTICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "x = \\sqrt{\\frac{2m}{k T}} \\cdot \\frac{L c \\lambda_2}{2\\pi d}",
+      "prediction": "The first-order interference condition is $y = \\frac{\\lambda_{1}}{\\pi d}\\left(n_{1}-\\frac{1}{2}\\right)$. The second-order interference condition is $y = \\frac{\\lambda_{2}}{\\pi d}\\left(n_{2}-\\frac{1}{2}\\right)$. The first-order interference condition is $y = \\frac{\\lambda_{1}}{\\pi d}\\left(n_{1}-\\frac{1}{2}\\right)$. The second-order interference condition is $y = \\frac{\\lambda_{2}}{\\pi d}\\left(n_{2}-\\frac{1}{2}\\right)$. The first-order interference condition is $y = \\frac{\\lambda_{1}}{\\pi d}\\left(n_{1}-\\frac{1}{2}\\right)$. The second-order interference condition is $y = \\frac{\\lambda_{2}}{\\pi d}\\left(n_{2}-\\frac{1}{2}\\right)$. The first-order interference condition is $y = \\frac{\\lambda_{1}}{\\pi d}\\left(n_{1}-\\frac{1}{2}\\right)$. The second-order interference condition is $y = \\frac{\\lambda_{2}}{\\pi d}\\left(n_{2}-\\frac{1}{2}\\right)$. The first-order interference condition is $y = \\frac{\\lambda_{1}}{\\pi d}\\left(n_{1}-\\frac{1}{2}\\right)$. The second-order interference condition is $y = \\frac{\\lambda_{2}}{\\pi d}\\left(n_{2}-\\frac{1}{2}\\right)$. The first-order interference condition is $y = \\frac{\\lambda_{1}}{\\pi d}\\left(n_{1}-\\frac{1}{2}\\right)$. The second-order interference condition is $y = \\frac{\\lambda_{2}}{\\pi d}\\left(n_{2}-\\frac{1}{2}\\right)$. The first-order interference condition is $y = \\frac{\\lambda_{1}}{\\pi d}\\left(n_{1}-\\frac{1}{2}\\right)$. The second-order interference condition is $y = \\frac{\\lambda_{2}}{\\pi d}\\left(n_{2}-\\frac{1}{2}\\right)$. The first-order interference condition is $y = \\frac{\\lambda_{1}}{\\pi d}\\left(n_{1}-\\frac{1}{2}\\right)$. The second-order interference condition is $y = \\frac{\\lambda_{2}}{\\pi d}\\left(n_{2}-\\frac{1}{2}\\right)$. The first-order interference condition is $y = \\frac{\\lambda_{1}}{\\pi d}\\left(n_{1}-\\frac{1}{2}\\right)$. The second-order interference condition is $y = \\frac{\\lambda_{2}}{\\pi d}\\left(n_{2}-\\frac{1}{2}\\right)$. The first-order interference condition is $y = \\frac{\\lambda_{1}}{\\pi d}\\left(n_{1}-\\frac{1}{2}\\right)$. The second-order interference condition is $y = \\frac{\\lambda_{2}}{\\pi d}\\left(n_{2}-\\frac{1}{2}\\right)$. The first-order interference condition is $y = \\frac{\\lambda_{1}}{\\pi d}\\left(n_{1}-\\frac{1}{2}\\right)$. The second-order interference condition is $y = \\frac{\\lambda_{2}}{\\pi d}\\left(n_{2}-\\frac{1}{2}\\right)$. The first-order interference condition is $y = \\frac{\\lambda_{1}}{\\pi d}\\left(n_{1}-\\frac{1}{2}\\right)$. The second-order interference condition is $y = \\frac{\\lambda_{2}}{\\pi d}\\left(n_{2}-\\frac{1}{2}\\right)$. The first-order interference condition is $y = \\frac{\\lambda_{1}}{\\pi d}\\left(n_{1}-\\frac{1}{2}\\right)$. The second-order interference condition is $y = \\frac{\\lambda_{2}}{\\pi d}\\left(n_{2}-\\frac{1}{2}\\right)$. The first-order interference condition is $y = \\frac{\\lambda_{1}}{\\pi d}\\left(n_{1}-\\frac{1}{2}\\right)$. The second-order interference condition is $y = \\frac{\\lambda_{2}}{\\pi d}\\left(n_{2}-\\frac{1}{2}\\right)$. The first-order interference condition is $y = \\frac{\\lambda_{1}}{\\pi d}\\left(n_{1}-\\frac{1}{2}\\right)$. The second-order interference condition is $y = \\frac{\\lambda_{2}}{\\pi d}\\left(n_{2}-\\frac{1}{2}\\right)$. The first-order interference condition is $y = \\frac{\\lambda_{1}}{\\pi d}\\left(n_{1}-\\frac{1}{2}\\right)$. The second-order interference condition is $y = \\frac{\\lambda_{2}}{\\pi d}\\left(n_{2}-\\frac{1}{2}\\right)$."
+    },
+    {
+      "problem_id": "physgym_0709",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\Omega \\cdot \\frac{\\pi}{4}",
+      "reference_answer": "\\delta\\omega = - \\frac{2}{m^2+1}\\Omega",
+      "prediction": "The precession angular velocity is the angular velocity of the antinode of the standing wave. The antinode of the standing wave is the node of the first overtone. The first overtone has a node at $\\theta = \\pi/2$, so the antinode is at $\\theta = \\pi/4$. The angular velocity is $\\delta\\omega = \\Omega \\cdot \\frac{\\pi}{4}$.\nANSWER: \\Omega \\cdot \\frac{\\pi}{4}"
+    }
+  ],
+  "lexsi_audit": {
+    "experiment": "E2_test",
+    "auditkit_available": true,
+    "aligntune_math_grading_available": true,
+    "match_method_breakdown": {
+      "mismatch": 23,
+      "missing_sentinel": 15
+    },
+    "generation_hygiene": {
+      "reward_hacking": 0.0,
+      "sycophancy": 0.0,
+      "refusal_collapse": 0.0,
+      "verbosity_gain": 0.0,
+      "timestamp": "2026-11-14T02:42:27.674398+00:00",
+      "avg_response_tokens": 249.76,
+      "repetition_ratio": 0.3943,
+      "unique_token_ratio": 0.3722,
+      "degenerate_rate": 0.0
+    },
+    "auditkit_version": "1.1.11"
+  }
+}

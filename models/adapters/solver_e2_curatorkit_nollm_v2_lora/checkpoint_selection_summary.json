@@ -1,0 +1,50 @@
+{
+  "formula": "1.0 * eval_loss - 1.5 * val_accuracy (lower is better)",
+  "winner": {
+    "checkpoint_dir": "models/adapters/solver_e2_curatorkit_nollm_v2_lora/checkpoint-64",
+    "step": 64,
+    "eval_loss": 1.4527091979980469,
+    "val_accuracy": 0.0,
+    "correct": 0,
+    "total": 38,
+    "composite_score": 1.4527091979980469
+  },
+  "all_checkpoints": [
+    {
+      "checkpoint_dir": "models/adapters/solver_e2_curatorkit_nollm_v2_lora/checkpoint-32",
+      "step": 32,
+      "eval_loss": 1.501778244972229,
+      "val_accuracy": 0.0,
+      "correct": 0,
+      "total": 38,
+      "composite_score": 1.501778244972229
+    },
+    {
+      "checkpoint_dir": "models/adapters/solver_e2_curatorkit_nollm_v2_lora/checkpoint-64",
+      "step": 64,
+      "eval_loss": 1.4527091979980469,
+      "val_accuracy": 0.0,
+      "correct": 0,
+      "total": 38,
+      "composite_score": 1.4527091979980469
+    },
+    {
+      "checkpoint_dir": "models/adapters/solver_e2_curatorkit_nollm_v2_lora/checkpoint-96",
+      "step": 96,
+      "eval_loss": 1.485713243484497,
+      "val_accuracy": 0.0,
+      "correct": 0,
+      "total": 38,
+      "composite_score": 1.485713243484497
+    },
+    {
+      "checkpoint_dir": "models/adapters/solver_e2_curatorkit_nollm_v2_lora/checkpoint-128",
+      "step": 128,
+      "eval_loss": 1.5405964851379395,
+      "val_accuracy": 0.0,
+      "correct": 0,
+      "total": 38,
+      "composite_score": 1.5405964851379395
+    }
+  ]
+}

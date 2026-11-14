@@ -1,0 +1,441 @@
+{
+  "total": 38,
+  "correct": 0,
+  "accuracy": 0.0,
+  "sentinel_rate": 0.6316,
+  "domain_breakdown": {
+    "ELECTROMAGNETISM": {
+      "total": 12,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "MECHANICS": {
+      "total": 15,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "MODERN_PHYSICS": {
+      "total": 3,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "OPTICS": {
+      "total": 3,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "RELATIVITY": {
+      "total": 1,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "THERMODYNAMICS": {
+      "total": 4,
+      "correct": 0,
+      "accuracy": 0.0
+    }
+  },
+  "per_sample": [
+    {
+      "problem_id": "physgym_0025",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "r=a(1-\\cos\\theta)",
+      "prediction": "The magnetic force is $F = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = qvB = q"
+    },
+    {
+      "problem_id": "physgym_0036",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\begin{array}{r}{e=\\frac{\\sqrt{(R + r)^{2}-R^{2}}}{R + r}}\\end{array}",
+      "reference_answer": "e={\\sqrt{\\frac{30\\omega^{2}+45{\\frac{G m}{r^{3}}}}{16\\pi\\rho G}}}",
+      "prediction": "The semi-major axis $a$ is the distance from the center of the Earth to the center of the Moon, which is $R + r$. The semi-minor axis $b$ is the distance from the center of the Earth to the edge of the Moon, which is $R$. The distance between the center of the Earth and the edge of the Moon is $R + r$, so the eccentricity is $\\begin{array}{r}{e=\\frac{\\sqrt{(R + r)^{2}-R^{2}}}{R + r}}\\end{array}$.\n\nANSWER: \\begin{array}{r}{e=\\frac{\\sqrt{(R + r)^{2}-R^{2}}}{R + r}}\\end{array}"
+    },
+    {
+      "problem_id": "physgym_0037",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "a_{y} = \\frac{1}{m} \\int_{0}^{2\\pi} f_{y} d\\theta = \\frac{\\mu^{2} \\omega h g}{2 \\nu}",
+      "prediction": "The curling is a solid cylinder with mass $m$, bottom surface radius $r$, and height $h$. Only the outer edge of the bottom is in contact with the ice surface, which has a friction coefficient $\\mu$. The support force of the ice surface on the curling stone is $N=\\int_{0}^{2\\pi}n(\\theta)\\mathrm{d}\\theta$,\nwhere $n(\\theta)$ is the distribution of the support force according to the polar coordinate $\\theta$. When the curling is stationary on the horizontal ice surface, $n(\\theta)=mg/2\\pi$. Assume that the deformation of the outer edge of the curling is very small, and the elastic force satisfies Hooke's law. Therefore, it can be proven that the support force distribution has the form $n(\\theta)=n_0+n_1\\cos(\\theta-\\theta_0)$ (where $n_0$, $n_1$, and $\\theta_0$ are unknown quantities). If the curling has a velocity $v$ in the positive direction along the x-axis, and also has an angular velocity $\\omega$ in the clockwise direction (viewed from above), the curling will generate a lateral acceleration $a$ in the y-direction. It is through this that the athlete can achieve the curling's turn. Find the expression for $a_y$ in the limit case where $v\\gg\\omega r$.\n\nThe curling is a solid cylinder with mass $m$, bottom surface radius $r$, and height $h$. Only the outer edge of the bottom is in contact with the ice surface, which has a friction coefficient $\\mu$. The support force of the ice surface on the curling stone is $N=\\int_{0}^{2\\pi}n(\\theta)\\mathrm{d}\\theta$,\nwhere $n(\\theta)$ is the distribution of the support force according to the polar coordinate $\\theta$. When the curling is stationary on the horizontal ice surface, $n(\\theta)=mg/2\\pi$. Assume that the deformation of the outer edge of the curling is very small, and the elastic force satisfies Hooke's law. Therefore, it can be proven that the support force distribution has the form $n(\\theta)=n_0+n_1\\cos(\\theta-\\theta_0)$ (where $n_0$, $n_1$, and $\\theta_0$ are unknown quantities). If the curling has a velocity $v$ in the positive direction along the x-axis, and also has an angular velocity $\\omega$ in the clockwise direction (viewed from above), the curling will generate a lateral acceleration $a$ in the y-direction. It is through this that the athlete can achieve the curling's turn. Find the expression for $a_y$ in the limit case where $v\\gg\\omega r$.\n\nThe curling is a solid cylinder with mass $m$, bottom surface radius $r$, and height $h$. Only the outer edge of the bottom is in contact with the ice surface, which has a friction coefficient $\\mu$. The support force of the ice surface on the curling stone is $N=\\int_{0}^{2\\pi}n(\\theta)\\mathrm{d}\\theta$,\nwhere $n(\\theta)$ is the distribution of the support force according to the polar coordinate $\\theta$. When the curling is stationary on the horizontal ice surface, $n(\\theta)=mg/2\\pi$. Assume that the deformation of the outer edge of the curling is very small, and the elastic force satisfies Hooke's law. Therefore, it can be proven that the support force distribution has the form $n(\\theta)=n_0+n_1\\cos(\\theta-\\theta_0)$ (where $n_0$, $n_1$, and $\\theta_0$ are unknown quantities). If the curling has a velocity $v$ in the positive direction along the x-axis, and also has an angular velocity $\\omega$ in the clockwise direction (viewed from above), the curling will generate a lateral acceleration $a$ in the y-direction. It is through this that the athlete can achieve the curling's turn. Find the expression for $a_y$ in the limit case where $v\\gg\\omega r$.\n\nThe curling is a solid cylinder with mass $m$, bottom surface radius $r$, and height $h$. Only the outer edge of the bottom is in contact with the ice surface, which has a friction coefficient $\\mu$. The support force of the ice surface on the curling stone is $N=\\int_{0}^{2\\pi}n(\\theta)\\mathrm{d}\\theta$,\nwhere $n(\\theta)$ is the distribution of the support force according to the polar coordinate $\\theta$. When the curling is stationary on the horizontal ice surface, $n(\\theta)=mg/2\\pi$. Assume that the deformation of the outer edge of the curling is very small, and the elastic force satisfies Hooke's law. Therefore, it can be proven that the support force distribution has the"
+    },
+    {
+      "problem_id": "physgym_0042",
+      "domain": "OPTICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "1 +i\\omega/c^2 + \\frac{r^2}{a^2} + \\cdots",
+      "reference_answer": "n(r)=n_{0}a{\\sqrt{\\left({\\frac{a^{2}q^{2}}{r^{4}}}-{\\frac{q^{2}-1}{r^{2}}}\\right)}}",
+      "prediction": "The refractive index is related to the\nangle of incidence by $n = \\frac{1}{1 -i\\omega/c^2} = \\frac{1}{1 -i\\omega/c^2} \\cdot \\frac{1}{1 +i\\omega/c^2} = \\frac{1}{1 +i\\omega/c^2}$. The result is\n$$n(r) = \\frac{1}{1 +i\\omega/c^2} = 1 +i\\omega/c^2 + \\frac{r^2}{a^2} + \\cdots$$\nANSWER: 1 +i\\omega/c^2 + \\frac{r^2}{a^2} + \\cdots"
+    },
+    {
+      "problem_id": "physgym_0050",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "T_{1} = T_{0} \\frac{\\left(1 + \\frac{N m g}{p_{1} S}\\right)^{\\frac{2 p_{1} S}{7 N m g}}}{\\left(1 + \\frac{N m g}{p_{0} S}\\right)^{\\frac{2 p_{0} S}{7 N m g}}} \\left(\\frac{p_{1} S + N m g}{p_{0} S + N m g}\\right)^{\\frac{2}{7}}",
+      "prediction": "The total mass of powder sprinkled onto the piston is $(p_{1}-p_{0})S/g$. The mass of the powder is $(p_{1}-p_{0})S/g$, and the mass of the piston is $p_{0}S/g$. The total mass of the gas inside the container is $N m$. The total mass of the gas inside the container after sprinkling the powder is $N m + (p_{1}-p_{0})S/g$. The total mass of the gas inside the container is $N m + (p_{1}-p_{0})S/g$, and the total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g$ divided by $m$, which is $N m + (p_{1}-p_{0})S/g/m$. The total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$, and the total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$. The total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$, and the total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$. The total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$, and the total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$. The total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$, and the total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$. The total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$, and the total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$. The total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$, and the total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$. The total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$, and the total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$. The total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$, and the total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$. The total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$, and the total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$. The total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$, and the total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$. The total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$, and the total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$. The total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$, and the total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$. The total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$, and the total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$. The total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$, and the total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$. The total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$, and the total volume of the gas inside the container is $N m + (p_{1}-p_{0})S/g/m$. The total volume of the gas inside the container is $N m + (p_{1}-p_{"
+    },
+    {
+      "problem_id": "physgym_0055",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{\\lambda m}{4\\pi\\varepsilon_{0}} \\frac{1}{r^{2}}",
+      "reference_answer": "F(r)=p(r){\\frac{\\mathrm{d}E}{\\mathrm{d}r}}=-{\\frac{3\\left(\\varepsilon_{r}-1\\right)V\\lambda^{2}}{4\\pi^{2}\\left(\\varepsilon_{r}+2\\right)}}{\\frac{1}{r^{3}}}",
+      "prediction": "The force on the particle is the force on a charged sphere in an electric field. The electric field is the same everywhere on the sphere, so the force on the particle is $qE$, where $q$ is the charge of the particle and $E$ is the electric field. The electric field is $E = \\frac{\\lambda}{4\\pi\\varepsilon_{0}} \\frac{1}{r^{2}}$. The force on the particle is $F = qE = \\frac{\\lambda}{4\\pi\\varepsilon_{0}} \\frac{1}{r^{2}}m$. The magnitude of the force is $\\frac{\\lambda m}{4\\pi\\varepsilon_{0}} \\frac{1}{r^{2}}$.\nANSWER: \\frac{\\lambda m}{4\\pi\\varepsilon_{0}} \\frac{1}{r^{2}}"
+    },
+    {
+      "problem_id": "physgym_0062",
+      "domain": "RELATIVITY",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\gamma B(2J S+\\gamma B)",
+      "prediction": "The energy of the state is $E = -\\frac{1}{2}J(S_{1}^{2}+S_{2}^{2}) - \\frac{1}{2}\\gamma B(S_{1}^{2}+S_{2}^{2})$. The energy of the state is $E = -\\frac{1}{2}J(S_{1}^{2}+S_{2}^{2}) - \\frac{1}{2}\\gamma B(S_{1}^{2}+S_{2}^{2})$. The energy of the state is $E = -\\frac{1}{2}J(S_{1}^{2}+S_{2}^{2}) - \\frac{1}{2}\\gamma B(S_{1}^{2}+S_{2}^{2})$. The energy of the state is $E = -\\frac{1}{2}J(S_{1}^{2}+S_{2}^{2}) - \\frac{1}{2}\\gamma B(S_{1}^{2}+S_{2}^{2})$. The energy of the state is $E = -\\frac{1}{2}J(S_{1}^{2}+S_{2}^{2}) - \\frac{1}{2}\\gamma B(S_{1}^{2}+S_{2}^{2})$. The energy of the state is $E = -\\frac{1}{2}J(S_{1}^{2}+S_{2}^{2}) - \\frac{1}{2}\\gamma B(S_{1}^{2}+S_{2}^{2})$. The energy of the state is $E = -\\frac{1}{2}J(S_{1}^{2}+S_{2}^{2}) - \\frac{1}{2}\\gamma B(S_{1}^{2}+S_{2}^{2})$. The energy of the state is $E = -\\frac{1}{2}J(S_{1}^{2}+S_{2}^{2}) - \\frac{1}{2}\\gamma B(S_{1}^{2}+S_{2}^{2})$. The energy of the state is $E = -\\frac{1}{2}J(S_{1}^{2}+S_{2}^{2}) - \\frac{1}{2}\\gamma B(S_{1}^{2}+S_{2}^{2})$. The energy of the state is $E = -\\frac{1}{2}J(S_{1}^{2}+S_{2}^{2}) - \\frac{1}{2}\\gamma B(S_{1}^{2}+S_{2}^{2})$. The energy of the state is $E = -\\frac{1}{2}J(S_{1}^{2}+S_{2}^{2}) - \\frac{1}{2}\\gamma B(S_{1}^{2}+S_{2}^{2})$. The energy of the state is $E = -\\frac{1}{2}J(S_{1}^{2}+S_{2}^{2}) - \\frac{1}{2}\\gamma B(S_{1}^{2}+S_{2}^{2})$. The energy of the state is $E = -\\frac{1}{2}J(S_{1}^{2}+S_{2}^{2}) - \\frac{1}{2}\\gamma B(S_{1}^{2}+S_{2}^{2})$. The energy of the state is $E = -\\frac{1}{2}J(S_{1}^{2}+S_{2}^{2}) - \\frac{1}{2}\\gamma B(S_{1}^{2}+S_{2}^{2})$. The energy of the state is $E = -\\frac{1}{2}J(S_{1}^{2}+S_{2}^{2}) - \\frac{1}{2}\\gamma B(S_{1}^{2}+S_{2}^{2})$. The energy of the state is $E = -\\frac{1}{2}J(S_{1}^{2}+S_{2}^{2}) - \\frac{1}{2}\\gamma B(S_{1}^{2}+S_{2}^{2})$. The energy of the state is $E = -\\frac{1}{2}J(S_{1}^{2}+S_{2}^{2}) - \\frac{1}{2}\\gamma B(S_{1}^{2}+S_{2}^{2})$. The energy of the state is $E = -\\frac{1}{2}J(S_{1}^{2}+S_{2}^{2}) - \\frac{1}{2}\\gamma B(S_{1}^{2}+S_{2}^{2})$. The energy of the state is $E = -\\frac{1}{2}J(S_{1}^{2}+S_{2}^{2}) - \\frac{1}{2}\\gamma B(S_{1}^{2}+S_{2}^{2})$. The energy of the state is $E = -\\frac{1}{2}J(S_{1}^{2}+S_{2}^{2}) - \\frac{1}{2}\\gamma B(S_{1}^{2}+S_{2}^{2})$. The energy of the"
+    },
+    {
+      "problem_id": "physgym_0065",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{qvBR}{m} t",
+      "reference_answer": "\\vec{v}=\\vec{v_{0}}e^{-\\frac{5\\pi R B^{2}}{14m\\lambda}t}",
+      "prediction": "The sphere is in a pure rolling state, so its angular velocity is constant. The magnetic force on the sphere is \\( F = qvB \\), and the torque is \\( \\tau = rF = qvBR \\). Since the sphere is in a pure rolling state, the torque is perpendicular to the plane of the sphere, so the angular acceleration is \\( \\alpha = \\tau/I = qvBR/m \\). The angular velocity is \\( \\omega = \\alpha t = \\frac{qvBR}{m} t \\), so the change in angular velocity is \\( \\Delta \\omega = \\frac{qvBR}{m} t \\).\nANSWER: \\frac{qvBR}{m} t"
+    },
+    {
+      "problem_id": "physgym_0095",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "t",
+      "reference_answer": "x=-\\frac{7F}{57M\\Omega^{2}}+\\frac{4F}{39M\\Omega^{2}}\\cos{\\sqrt{6}}\\Omega t+\\frac{5F}{247M\\Omega^{2}}\\cos{\\sqrt{19}}\\Omega t",
+      "prediction": "The Coriolis force is $F_{\\text{C}} = -2\\Omega^{2}M x$, where $x$ is the $x$-coordinate of the particle. The total force on the particle is $F_{\\text{total}} = F - F_{\\text{C}} = F - 2\\Omega^{2}M x$. The acceleration of the particle is $a = \\frac{F_{\\text{total}}}{M} = \\frac{F}{M} - 2\\Omega^{2}M x$. Using the small-angle approximation, we have $a \\approx \\frac{F}{M}$. The velocity of the particle is $v = \\frac{a}{a_{0}} = \\frac{F}{M a_{0}} = \\frac{F}{M \\frac{F}{M}} = \\frac{F}{F} = 1$. The $x$-coordinate of the particle relative to the carriage's reference frame is $x = v t = \\frac{F}{F} t = t$.\nANSWER: t"
+    },
+    {
+      "problem_id": "physgym_0100",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\omega_{2} = {\\sqrt{\\frac{K}{M}}} = {\\sqrt{\\frac{2m g^{2}l}{E a h^{3}}}}",
+      "prediction": "The moment of inertia of the beam is $I = \\frac{1}{12}m(a^2h)$, and the moment of inertia of the weight is $I_w = m(a^2h/2)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{1}{12}m(a^2h) + m(a^2h/2) = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a^2h)$. The moment of inertia of the beam plus the weight is $I_{total} = \\frac{5}{12}m(a"
+    },
+    {
+      "problem_id": "physgym_0106",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "v=-\\sqrt{3gl\\sin\\theta_{0}}",
+      "prediction": "The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2$ from the center of the table. The center of mass of the two rods is at a distance $l/2"
+    },
+    {
+      "problem_id": "physgym_0110",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "{{\\alpha=\\arctan({\\frac{\\sqrt{c^{4}-d^{2}(a^{2}-c^{2})}}{a d}})}}",
+      "prediction": "The forces on the picture frame are the tension in the light string, $T$, and the gravitational force, $mg$. The forces must be balanced, so $T = mg$. The tension in the light string is $T = kx$, where $k$ is the spring constant, and $x$ is the displacement of the light string from its equilibrium position. The displacement $x$ is related to the angle $\\alpha$ by $x = c\\sin\\alpha$. The spring constant $k$ is related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the light string and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$. The spring constant is also related to the mass of the picture frame and the length of the light string by $k = \\frac{1}{2}m\\alpha^2$."
+    },
+    {
+      "problem_id": "physgym_0112",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{1}{3} \\sigma^2 \\frac{R^3}{\\varepsilon_0}",
+      "reference_answer": "Q_{t o t}=\\int_{0}^{\\infty}W_{J}\\mathrm{d}t=\\int_{0}^{\\infty}\\frac{12\\pi\\sigma}{(\\varepsilon_{r}+2)^{2}}e^{-2\\frac{\\sigma}{\\varepsilon_{0}(2+\\varepsilon_{r})}t}R^{3}E_{0}^{2}\\mathrm{d}t=\\frac{6\\pi\\varepsilon_{0}}{(\\varepsilon_{r}+2)}R^{3}E_{0}^{2}",
+      "prediction": "The total Joule heat generated by the system is the integral of the power dissipated by the conductor, which is the integral of the square of the current density over the surface of the conductor. The current density is $J = \\sigma E$, so the power dissipated is $P = J^2 = \\sigma^2 E^2$. The total Joule heat is then $\\int_{0}^{t} \\sigma^2 E^2 dt = \\sigma^2 \\int_{0}^{t} E^2 dt$. The integral of $E^2$ is $\\frac{1}{3} E^3$, so the total Joule heat is $\\frac{1}{3} \\sigma^2 E^3$. The field $E$ is the same throughout the conductor, so the field is proportional to the radius of the conductor, $R$, and inversely proportional to the permittivity of the vacuum, $\\varepsilon_0$. Therefore, the total Joule heat is $\\frac{1}{3} \\sigma^2 \\frac{R^3}{\\varepsilon_0}$.\nANSWER: \\frac{1}{3} \\sigma^2 \\frac{R^3}{\\varepsilon_0}"
+    },
+    {
+      "problem_id": "physgym_0118",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "2r",
+      "reference_answer": "R_{BC}=\\frac{38}{41}r",
+      "prediction": "The resistance between $B$ and $C$ is $r_{BC} = 2r$.\nANSWER: 2r"
+    },
+    {
+      "problem_id": "physgym_0120",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "1",
+      "reference_answer": "\\eta=\\frac{\\gamma-1}{2\\sqrt{\\gamma p_0 V_0/W}-1}",
+      "prediction": "The maximum efficiency is achieved when the rectangle is a square, and the area of the square is $W$. The area of a square is $s^2$, so $s = \\sqrt{W}$. The area of the rectangle is $p_0V_0$, so $p_0V_0 = W$. The maximum efficiency is $\\frac{W}{W} = 1$.\nANSWER: 1"
+    },
+    {
+      "problem_id": "physgym_0121",
+      "domain": "MODERN_PHYSICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "c + v_1 + v_2",
+      "reference_answer": "u=c^{2}{\\frac{\\left|{\\sqrt{c^{2}-v_{1}^{2}}}-{\\sqrt{c^{2}-v_{1}^{2}}}\\right|}{{\\sqrt{c^{2}\\left(v_{1}^{2}+v_{2}^{2}\\right)-2v_{1}^{2}v_{2}^{2}-2v_{1}v_{2}\\cos\\alpha{\\sqrt{(c^{2}-v_{1}^{2})(c^{2}-v_{2}^{2})}}}}}}",
+      "prediction": "The velocity of light in the medium is $c/u$, and the velocity of light in the inertial frame is $c$. The velocity of light in the inertial frame is $c - v_1 - v_2$, so we have\n$$\nc/u = c - v_1 - v_2\n$$\n$$\nu = c + v_1 + v_2\n$$\nANSWER: c + v_1 + v_2"
+    },
+    {
+      "problem_id": "physgym_0124",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{2\\pi}{\\sqrt{\\frac{k}{m}}}",
+      "reference_answer": "T=2\\pi\\sqrt{\\frac{m(M+m\\sin^{2}\\theta)}{k(M+m)}}",
+      "prediction": "The small block will oscillate between the two blocks, and the total energy is conserved. The total energy is $E = \\frac{1}{2}kL_{0}^{2} + \\frac{1}{2}m v_{0}^{2}$. The potential energy is $U = mgh$, where $h$ is the height of the small block above the tabletop. The total energy is conserved, so $E = U$, and we have $kL_{0}^{2} + \\frac{1}{2}m v_{0}^{2} = mgh$. The velocity $v_{0}$ is $v_{0} = \\sqrt{2gL_{0}}$, so $kL_{0}^{2} + \\frac{1}{2}m(2gL_{0})^{2} = mgh$. Solving for $h$, we have $h = \\frac{1}{2}m(2gL_{0})^{2}/kL_{0}^{2} = \\frac{1}{2}m(2g)^{2}L_{0}^{2}/kL_{0}^{2} = \\frac{1}{2}m(2g)^{2}/k$. The period $T$ is $T = \\frac{2\\pi}{\\omega} = \\frac{2\\pi}{\\sqrt{\\frac{k}{m}}}$. The period is $T = \\frac{2\\pi}{\\sqrt{\\frac{k}{m}}}$.\nANSWER: \\frac{2\\pi}{\\sqrt{\\frac{k}{m}}}"
+    },
+    {
+      "problem_id": "physgym_0134",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{v_{2}^{2}}{2L}",
+      "reference_answer": "a_{n}={\\frac{v_{2}^{2}}{\\rho}}={\\frac{v_{1}v_{2}}{L}}",
+      "prediction": "The fox is at $F$ and the hound is at $D$, so the distance between them is $L$. The fox is moving at a constant speed $v_{1}$, so the time it takes for the hound to reach $D$ is $t_{1} = \\frac{L}{v_{1}}$. The hound is moving at a constant speed $v_{2}$, so the time it takes for the hound to reach $D$ is $t_{2} = \\frac{L}{v_{2}}$. The fox's acceleration is $a_{1} = \\frac{v_{1}^{2}}{2L}$, and the hound's acceleration is $a_{2} = \\frac{v_{2}^{2}}{2L}$. The magnitude of the hound's acceleration is $a_{2} = \\frac{v_{2}^{2}}{2L}$.\nANSWER: \\frac{v_{2}^{2}}{2L}"
+    },
+    {
+      "problem_id": "physgym_0139",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "mr_{2}^{2}",
+      "reference_answer": "\\tan\\varphi = \\frac{P_{2}-P_{1}\\cos(2\\beta)}{P_{1}\\sin(2\\beta)}",
+      "prediction": "The moment of inertia of a cylinder about its axis is $I = \\frac{1}{2}mr^{2}$. The torque $\\tau$ is $r_{1}P_{1}\\sin\\beta$, and the torque $\\tau$ is $r_{2}P_{2}\\sin\\beta$. The total torque is $r_{1}P_{1}\\sin\\beta + r_{2}P_{2}\\sin\\beta$. The total torque equals the total moment of inertia times the angle $\\beta$, so we have $r_{1}P_{1}\\sin\\beta + r_{2}P_{2}\\sin\\beta = \\frac{1}{2}mr_{2}^{2}\\beta$. Solving for $\\beta$, we get $\\beta = \\frac{2r_{1}P_{1}r_{2}P_{2}}{mr_{2}^{2}}$. The tangent value of $\\beta$ is $\\tan\\beta = \\frac{r_{1}P_{1}r_{2}P_{2}}{mr_{2}^{2}}$.\nANSWER: mr_{2}^{2}$"
+    },
+    {
+      "problem_id": "physgym_0211",
+      "domain": "MODERN_PHYSICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{1}{2} a_{A}",
+      "reference_answer": "a_{B}={\\frac{a_{A}}{1+{\\frac{a_{A}L_{0}}{c^{2}}}}}",
+      "prediction": "The distance between the left side of train A and the right side of train B is $D(t) = L_{0} + D + v_{B} t_{B} + v_{A} t_{A} + a_{A} t_{A}^{2} + a_{B} t_{B}^{2}$. Since $t_{A}=t_{B}=0$, we have $D(t) = L_{0} + D$. The acceleration of train B is $a_{B} = \\frac{1}{2} a_{A}$.\n\nANSWER: \\frac{1}{2} a_{A}"
+    },
+    {
+      "problem_id": "physgym_0221",
+      "domain": "MODERN_PHYSICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{3R_{0}}{2c^2}",
+      "reference_answer": "t=\\frac{1}{\\rho A}\\sqrt{\\frac{B}{k}}(\\frac{k}{c^{2}}(-\\frac{1}{R}+\\frac{1}{R_{0}})+\\frac{4}{7}B(\\frac{1}{R^{7}}-\\frac{1}{R_{0}^{7}}))",
+      "prediction": "The time required for the sphere to change its circular motion radius from $R_{0}$ to $R$ is $t = \\frac{2R_{0}}{c^2} \\int_{R_{0}}^{R} \\frac{1}{\\sqrt{1-\\left(\\frac{v}{c}\\right)^2}} d v$, where $v$ is the velocity of the sphere. The velocity $v$ is $v = \\frac{1}{R_{0}} \\frac{dR}{dt}$, and the integral can be solved by the substitution $u = \\frac{1}{R_{0}} \\frac{dR}{dt}$, $du = -\\frac{1}{R_{0}^{2}} dR$, and $d v = \\frac{1}{R_{0}^{2}} dR$. The integral becomes $\\frac{1}{2} \\int_{R_{0}}^{R} \\frac{1}{\\sqrt{1-\\left(\\frac{v}{c}\\right)^2}} d v = \\frac{1}{2} \\int_{0}^{1} \\frac{1}{\\sqrt{1-\\left(\\frac{u}{c}\\right)^2}} du$, which equals $\\frac{1}{2} \\left[\\frac{1}{2} \\left(1 + \\frac{1}{1-u^2}\\right)\\right]_{0}^{1} = \\frac{1}{2} \\left[\\frac{3}{2}\\right] = \\frac{3}{4}$. The time required is $t = \\frac{2R_{0}}{c^2} \\cdot \\frac{3}{4} = \\frac{3R_{0}}{2c^2}$. The final answer is $\\frac{3R_{0}}{2c^2}$.\nANSWER: \\frac{3R_{0}}{2c^2}"
+    },
+    {
+      "problem_id": "physgym_0318",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "-P_0 A\\cos kx\\cos 2\\pi ft",
+      "reference_answer": "F = -\\pi R^2 h\\gamma P_0 k^2 A\\cos kx \\cos 2\\pi ft",
+      "prediction": "The force on the cylinder is $F = -P_0 \\psi = -P_0 A\\cos kx\\cos 2\\pi ft$. The force is $F = -P_0 A\\cos kx\\cos 2\\pi ft$.\nANSWER: -P_0 A\\cos kx\\cos 2\\pi ft"
+    },
+    {
+      "problem_id": "physgym_0321",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\varphi=2\\pi\\sqrt{\\frac{1+r/\\lambda}{1+r/\\lambda-r^2/\\lambda^2}}",
+      "prediction": "The center of mass is at the origin, and the angular momentum is $L = 2\\hbar r^2 = 2\\lambda^2 r^2$. The angular velocity is $\\omega = \\frac{d\\theta}{dt}$. The angular acceleration is $\\alpha = \\frac{d^2\\theta}{dt^2}$. The radial acceleration is $a = \\omega^2 r - \\alpha^2 r^2$. The radial velocity is $v = \\omega r = \\alpha r$. The radial distance is $r = \\frac{v}{2\\omega} = \\frac{\\alpha r}{2\\omega} = \\frac{\\alpha^2 r}{2\\lambda^2}$. The angular velocity is $\\omega = \\frac{d\\theta}{dt} = \\frac{2\\lambda^2}{r} \\frac{d\\theta}{dt} = \\frac{2\\lambda^2}{r} \\alpha$. The angular acceleration is $\\alpha = \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d\\alpha}{dt} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^2}{r} \\frac{d^2\\theta}{dt^2} = \\frac{2\\lambda^"
+    },
+    {
+      "problem_id": "physgym_0333",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{P_0}{2\\pi \\varepsilon_0 m L^2} e^{kr}",
+      "reference_answer": "\\beta = \\frac{2M}{mR^2+4\\mu_0P_0^2\\pi L[\\frac 3{8k^4}+(\\frac{R^3}{2k}-\\frac{3R^2}{4k^2}+\\frac{3R}{4k^3}-\\frac 3 {8k^4})e ^{2kR}}]",
+      "prediction": "The torque $\\tau$ is $\\tau = r \\times F$, where $r$ is the position vector and $F$ is the force. The force $F$ is $F = qE$, where $q$ is the charge and $E$ is the electric field. The electric field $E$ is $E = \\frac{P_0}{2\\pi \\varepsilon_0 r^2} e^{kr}$, where $P_0$ is the polarization intensity and $\\varepsilon_0$ is the vacuum permittivity. The torque is $\\tau = qE \\times r = \\frac{P_0}{2\\pi \\varepsilon_0 r^3} e^{kr} \\times r = \\frac{P_0}{2\\pi \\varepsilon_0} e^{kr}$. The angular acceleration $\\beta$ is $\\beta = \\tau/I = \\frac{P_0}{2\\pi \\varepsilon_0 m L^2} e^{kr}$, where $I$ is the moment of inertia. The result is $\\beta = \\frac{P_0}{2\\pi \\varepsilon_0 m L^2} e^{kr}$.\nANSWER: \\frac{P_0}{2\\pi \\varepsilon_0 m L^2} e^{kr}"
+    },
+    {
+      "problem_id": "physgym_0412",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{2\\pi L}{nI_{0}} \\cdot \\frac{1}{2\\pi m g z_{0}}",
+      "reference_answer": "T=2\\pi\\sqrt{\\frac{m}{\\frac{\\pi}{2}\\mu_{0}n I R^{2}r^{2}\\cdot[(\\frac{\\mu_{0}n I\\pi r^{2}}{2L}-I_{0})\\frac{3z_{0}}{(z_{0}^{2}+R^{2})^{5/2}}-\\frac{\\mu_{0}n I\\pi r^{2}}{2L}\\frac{3z_{0}^{2}-R^{2}}{(z_{0}^{2}+R^{2})^{3}}]}}",
+      "prediction": "The metal ring is in a superconducting state, so the current is $I_{0}$, and the magnetic field is $B_{0}=0$. The magnetic field inside the solenoid is $B_{s}=nIL$, and the magnetic field outside the solenoid is $B_{o}=0$. The magnetic field of the metal ring is $B_{r}=0$, so the magnetic force on the metal ring is $F_{m}=0$. The gravitational force on the metal ring is $F_{g}=mg$. The magnetic force on the metal ring is $F_{m}=B_{0}L^{2}m$, and the magnetic force on the metal ring is $F_{m}=B_{r}L^{2}m$. Since $B_{r}=0$, the magnetic force on the metal ring is $F_{m}=0$. The equilibrium is stable, so the vibration period $T$ is $T=\\frac{2\\pi}{f}=\\frac{2\\pi L}{nI_{0}} \\cdot \\frac{1}{2\\pi m g z_{0}}$.\nANSWER: \\frac{2\\pi L}{nI_{0}} \\cdot \\frac{1}{2\\pi m g z_{0}}"
+    },
+    {
+      "problem_id": "physgym_0443",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\lambda=\\sqrt{\\frac{\\varepsilon_{1}+\\varepsilon_{21}}{\\varepsilon_{1}\\varepsilon_{21}}}\\lambda_{0}",
+      "prediction": "The refractive index of the metal is $n_{2}=\\frac{\\varepsilon_{2}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}}$, and the refractive index of the dielectric is $n_{1}=\\frac{\\varepsilon_{1}}{1+\\mathrm{i}\\varepsilon_{1}\\omega_{p}}$. The wavelength of the surface plasmon polariton mode is $\\lambda_{2}=\\frac{\\lambda_{0}}{n_{2}} \\cdot n_{1}=\\frac{\\lambda_{0}}{n_{2}(1+\\mathrm{i}\\varepsilon_{2}\\omega_{p})} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1}=\\frac{\\lambda_{0}}{1+\\mathrm{i}\\varepsilon_{2}\\omega_{p}} \\cdot n_{1"
+    },
+    {
+      "problem_id": "physgym_0493",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "T_{1}=2\\pi\\sqrt{\\frac{\\frac{1}{2}MR^{2}}{\\frac{\\mu_{0}mIR^{2}(2h^{4}+2R^{4}-11R^{2}h^{2})}{4(h^{2}+R^{2})^{7/2}}}} = 2\\pi\\sqrt{\\frac{2M(h^{2}+R^{2})^{7/2}}{\\mu_{0}mI(2h^{4}+2R^{4}-11R^{2}h^{2})}}",
+      "prediction": "The magnetic field produced by the current on the ring at the position of the magnetic dipole is $B = \\frac{\\mu_0 I R^2}{2h}$, and the magnetic force on the ring is $F = m B^2 = \\frac{1}{2} m \\mu_0 I^2 R^2$. The period of the simple harmonic vibration of the ring is $T = 2\\pi \\sqrt{\\frac{m}{k}}$, where $k$ is the spring constant. The spring constant is $k = \\frac{1}{2} m \\mu_0 I^2 R^2$, so $T = 2\\pi \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{m}{k}} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^2 R^2} = \\frac{2\\pi \\sqrt{2}}{2} \\sqrt{\\frac{1}{2} m \\mu_0 I^"
+    },
+    {
+      "problem_id": "physgym_0495",
+      "domain": "OPTICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{n\\omega}{c}",
+      "reference_answer": "v = \\frac{NZ e^3}{2c\\varepsilon_0 m^2 n} \\cdot \\frac{\\omega^2}{(\\omega_0^2 - \\omega^2)^2}",
+      "prediction": "The Verdet constant \\(\\v\\) is related to the refractive index \\(n\\) by:\n\\[\nv = \\frac{n\\omega}{c}\n\\]\nANSWER: \\frac{n\\omega}{c}"
+    },
+    {
+      "problem_id": "physgym_0498",
+      "domain": "OPTICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{2\\pi}{\\lambda} \\cdot 2d",
+      "reference_answer": "\\varphi = \\frac{2\\pi d}{\\lambda (n_b - n_a)} \\left[ n_b\\sqrt{n_b^2 - \\sin^2 i} - n_a\\sqrt{n_a^2 - \\sin^2 i} - \\sin^2 i \\ln \\left( \\frac{n_b + \\sqrt{n_b^2 - \\sin^2 i}}{n_a + \\sqrt{n_a^2 - \\sin^2 i}} \\right) \\right]",
+      "prediction": "The phase difference is the difference in the path lengths of the two beams of light. The path length of the first beam of light is \\(2S + 2d\\), and the path length of the second beam of light is \\(2S + 2d + 2d\\). Therefore, the phase difference is\n\\[\n\\varphi = \\frac{2\\pi}{\\lambda} \\cdot 2d\n\\]\nANSWER: \\frac{2\\pi}{\\lambda} \\cdot 2d"
+    },
+    {
+      "problem_id": "physgym_0505",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "y^{2}=\\frac{\\omega^{4}}{g^{2}}(R^{2}-x^{2})\\left(x^{2}-R^{2}+\\frac{g^{2}}{\\omega^{4}}\\right)",
+      "prediction": "The sphere rotates uniformly, so the angle between the normal to the surface and the $x$-axis is constant. The normal vector is tangent to the surface, so the angle between the normal and the $x$-axis is the same as the angle between the $x$-axis and the $z$-axis. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $z$-axis is $\\theta$, where $\\theta$ is the angle between the $x$-axis and the $y$-axis. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis, so the angle between the $x$-axis and the $y$-axis is $\\theta$. The $x$-axis is the $z$-axis"
+    },
+    {
+      "problem_id": "physgym_0603",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "1/n e^2 m \\omega^2",
+      "reference_answer": "\\varepsilon =1-\\frac{ne^2}{\\varepsilon_0 m\\omega^2}",
+      "prediction": "The electric dipole moment per unit volume of the electrons is $P=n e^2 m \\omega^2 \\sin(\\omega t)$. The dielectric constant is $\\varepsilon =1/P =1/n e^2 m \\omega^2$. The result is $\\varepsilon(\\omega)=1/n e^2 m \\omega^2$.\nANSWER: 1/n e^2 m \\omega^2"
+    },
+    {
+      "problem_id": "physgym_0617",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\omega_\\infty=\\frac{\\rho l}{\\sqrt{3}h}=\\frac lh\\sqrt{\\frac g{2h}}",
+      "prediction": "The angular velocity of the first domino is $\\omega_0$, and the angular velocity of the second domino is $\\omega_0 - \\omega_0 l/h$, so the angular velocity of the third domino is $\\omega_0 - \\omega_0 l/h + \\omega_0 l/h$, and so on. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0 l/h$. The angular velocity of the $n$-th domino is $\\omega_n = \\omega_0 - (n-1)\\omega_0"
+    },
+    {
+      "problem_id": "physgym_0630",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "2\\alpha P_{0}",
+      "reference_answer": "P_{1}=P_{0}\\frac{(1+\\alpha)(5+10\\alpha+2\\alpha(\\frac{\\lambda}{R T_{0}}))}{5+8\\alpha}",
+      "prediction": "The change in moles of gas is $\\Delta n = 1 + 3\\alpha - 2\\alpha = 3\\alpha - 1$, and the change in volume is $\\Delta V = 3\\alpha V_{0}$, so the pressure is $P_{1} = \\frac{(3\\alpha - 1)RT_{0}}{V_{0}} = 3\\alpha P_{0} - P_{0} = 2\\alpha P_{0}$.\nANSWER: 2\\alpha P_{0}"
+    },
+    {
+      "problem_id": "physgym_0648",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "2\\pi r",
+      "reference_answer": "u_{0} = \\sqrt{\\frac{2k Q q}{m R}\\frac{1-\\cos\\frac{\\pi}{n}}{2\\cos\\frac{\\pi}{n}-1}}",
+      "prediction": "The sphere’s motion is confined between the inner and outer shells, so its motion is periodic. The period of motion is $T = 2\\pi/\\omega$, where $\\omega$ is the angular frequency. The angular frequency is related to the velocity $v$ by $\\omega = v/r$, so $T = 2\\pi v/r$. The number of collisions in one period is $n = 2\\pi/T = 2\\pi v/r^2$. The total distance traveled in one period is $2\\pi r$, so the speed is $v = 2\\pi r/T = 2\\pi r^2/T^2 = 2\\pi r^3/T^2$. Substituting $T = 2\\pi v/r$, we get $v = 2\\pi r^2/r^3 = 2\\pi r$.\nANSWER: 2\\pi r"
+    },
+    {
+      "problem_id": "physgym_0670",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{1}{2}r",
+      "reference_answer": "\\lambda_{_D}=\\sqrt{\\frac{k T\\varepsilon_{0}}{2e^{2}n_{0}}}",
+      "prediction": "The Debye radius is defined as the distance at which the potential decays to \\( \\frac{1}{e} \\) of the vacuum point charge potential. The potential at a distance \\( r \\) from the point charge is \\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is the potential energy of the point charge. The potential energy of the point charge is \\( U = \\frac{1}{4\\pi\\varepsilon_0} \\frac{q^2}{r} \\), so \\( u(r) = \\frac{1}{4\\pi\\varepsilon_0} \\frac{q^2}{r} \\). The potential is \\( \\varphi(r) = \\frac{1}{4\\pi\\varepsilon_0} \\frac{q^2}{r^2} \\). The potential decays to \\( \\frac{1}{e} \\) of the vacuum point charge potential at a distance \\( r = \\lambda_D \\), so \\( \\varphi(\\lambda_D) = \\frac{1}{e} \\varphi(0) \\). The potential at the vacuum point charge is \\( \\varphi(0) = \\frac{1}{4\\pi\\varepsilon_0} \\frac{q^2}{r^2} \\), so \\( \\varphi(\\lambda_D) = \\frac{1}{e} \\frac{1}{4\\pi\\varepsilon_0} \\frac{q^2}{r^2} \\). The potential energy is \\( u(\\lambda_D) = \\frac{1}{4\\pi\\varepsilon_0} \\frac{q^2}{r^2} \\), so \\( u(\\lambda_D) = \\frac{1}{4\\pi\\varepsilon_0} \\frac{q^2}{r^2} \\). The potential energy is \\( U = \\frac{1}{4\\pi\\varepsilon_0} \\frac{q^2}{r} \\), so \\( \\frac{1}{4\\pi\\varepsilon_0} \\frac{q^2}{r} = \\frac{1}{4\\pi\\varepsilon_0} \\frac{q^2}{r^2} \\), which gives \\( \\lambda_D = \\frac{1}{2}r \\).\nANSWER: \\frac{1}{2}r"
+    },
+    {
+      "problem_id": "physgym_0716",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\omega_B = 4 \\sqrt{ \\frac{13 k q Q}{23 m L^3} }",
+      "prediction": "The small ball is at point B, so the distance OB is $L/2$. The force on the ball is $F = qkQ/(L/2)^2 = qk2Q/L^2$. The spring force is $F_s =kqL/4$. The total force on the ball is $F - F_s = qk2Q/L^2 - kqL/4$. The ball is at rest, so the net force on it is zero. The spring force is $kqL/4$, so the total force on the ball is $qk2Q/L^2 - kqL/4 = 0$. Solving for $q$, we get $q = 2Q/L^2$. The ball's mass is $m$, so its mass is $2Q/L^2m$. The ball's kinetic energy is $K = 12mv2 = 12m(2Q/L^2m)^2 = 48Q^2/L^4$. The ball's potential energy is $U = qkQ/L^2 = kQ^2/L^2$. The total energy is $E = K + U = 48Q^2/L^4 + kQ^2/L^2$. The rotational speed is $\\omega = v/r = 2Q/L^2m$. The total energy is $E = 48Q^2/L^4 + kQ^2/L^2 = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^2) = 2Q^2mL^2/(L^4 +L^"
+    },
+    {
+      "problem_id": "physgym_0719",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "T(h) = \\frac{\\mu G M_m}{n R (R_m + h)}",
+      "prediction": "The ideal gas law is $PV=N_{m}RT$, where $P$ is the pressure, $V$ is the volume, $N_{m}$ is the number of molecules, and $T$ is the temperature. The volume $V$ of the atmosphere is $V=\\frac{1}{2}\\alpha(h)h^{2}R_{m}$, where $h$ is the height above the surface of Mars. The number of molecules $N_{m}$ is $N_{m}=\\frac{1}{2}\\mu\\alpha(h)h^{2}R_{m}$, where $\\mu$ is the molar mass of the atmosphere. The ideal gas law gives $P=\\frac{1}{2}\\mu\\alpha(h)h^{2}R_{m}T$. The ideal gas law also gives $P=\\frac{1}{2}M_{m}RT$, where $M_{m}$ is the mass of Mars. Equating the two expressions for $P$, we have $T(h)=\\frac{1}{2}\\frac{M_{m}R}{\\mu\\alpha(h)h^{2}R_{m}}$. Substituting the expression for $\\alpha(h)$ and simplifying, we have $T(h)=\\frac{1}{2}\\frac{M_{m}R}{\\mu R_{m}(1+\\frac{h}{R_{m}})^{1-n}}.$ The result is $T(h)=\\frac{1}{2}\\frac{M_{m}R}{\\mu R_{m}(1+\\frac{h}{R_{m}})^{1-n}}.$"
+    },
+    {
+      "problem_id": "physgym_0737",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "zero",
+      "reference_answer": "\\mathbb{T}=\\frac{2\\pi}{\\sqrt{n+1}}\\frac{m}{q B_{0}}",
+      "prediction": "The magnetic force on the particle is $F = q\\mathbf{v} \\times \\mathbf{B}$, and since the magnetic field is radial, the force is also radial. The force is given by $F = m\\mathbf{a}$, where $\\mathbf{a}$ is the acceleration. Since the force is radial, the acceleration is also radial, and we have $a = \\frac{F}{m} = \\frac{q\\mathbf{v} \\times \\mathbf{B}}{m}$. The cross product of two radial vectors is zero, so the acceleration is zero. This is a contradiction, so the small radial disturbance must be negligible.\nANSWER: zero."
+    }
+  ],
+  "lexsi_audit": {
+    "experiment": "E2_validation",
+    "auditkit_available": true,
+    "aligntune_math_grading_available": true,
+    "match_method_breakdown": {
+      "mismatch": 24,
+      "missing_sentinel": 14
+    },
+    "generation_hygiene": {
+      "reward_hacking": 0.0,
+      "sycophancy": 0.0,
+      "refusal_collapse": 0.0,
+      "verbosity_gain": 0.0,
+      "timestamp": "2026-11-14T02:32:26.339746+00:00",
+      "avg_response_tokens": 204.39,
+      "repetition_ratio": 0.3627,
+      "unique_token_ratio": 0.3889,
+      "degenerate_rate": 0.0
+    },
+    "auditkit_version": "1.1.11"
+  }
+}

@@ -1,0 +1,441 @@
+{
+  "total": 38,
+  "correct": 0,
+  "accuracy": 0.0,
+  "sentinel_rate": 0.6316,
+  "domain_breakdown": {
+    "ELECTROMAGNETISM": {
+      "total": 12,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "MECHANICS": {
+      "total": 15,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "MODERN_PHYSICS": {
+      "total": 3,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "OPTICS": {
+      "total": 3,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "RELATIVITY": {
+      "total": 1,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "THERMODYNAMICS": {
+      "total": 4,
+      "correct": 0,
+      "accuracy": 0.0
+    }
+  },
+  "per_sample": [
+    {
+      "problem_id": "physgym_0025",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "r=a(1-\\cos\\theta)",
+      "prediction": "The trajectory is a straight line, so we can use the equation of a straight line in polar coordinates, $x = r\\cos\\theta$, $y = r\\sin\\theta$. The equation of motion in polar coordinates is $r = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta$. The equation of motion in Cartesian coordinates is $x = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta - \\frac{q\\sqrt{ar}}{m} \\sin\\theta t$, $y = \\frac{q\\sqrt{ar}}{m} \\cos\\theta t$. The equation of motion in polar coordinates is $r = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta$. The equation of motion in Cartesian coordinates is $x = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta - \\frac{q\\sqrt{ar}}{m} \\sin\\theta t$, $y = \\frac{q\\sqrt{ar}}{m} \\cos\\theta t$. The equation of motion in polar coordinates is $r = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta$. The equation of motion in Cartesian coordinates is $x = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta - \\frac{q\\sqrt{ar}}{m} \\sin\\theta t$, $y = \\frac{q\\sqrt{ar}}{m} \\cos\\theta t$. The equation of motion in polar coordinates is $r = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta$. The equation of motion in Cartesian coordinates is $x = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta - \\frac{q\\sqrt{ar}}{m} \\sin\\theta t$, $y = \\frac{q\\sqrt{ar}}{m} \\cos\\theta t$. The equation of motion in polar coordinates is $r = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta$. The equation of motion in Cartesian coordinates is $x = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta - \\frac{q\\sqrt{ar}}{m} \\sin\\theta t$, $y = \\frac{q\\sqrt{ar}}{m} \\cos\\theta t$. The equation of motion in polar coordinates is $r = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta$. The equation of motion in Cartesian coordinates is $x = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta - \\frac{q\\sqrt{ar}}{m} \\sin\\theta t$, $y = \\frac{q\\sqrt{ar}}{m} \\cos\\theta t$. The equation of motion in polar coordinates is $r = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta$. The equation of motion in Cartesian coordinates is $x = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta - \\frac{q\\sqrt{ar}}{m} \\sin\\theta t$, $y = \\frac{q\\sqrt{ar}}{m} \\cos\\theta t$. The equation of motion in polar coordinates is $r = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta$. The equation of motion in Cartesian coordinates is $x = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta - \\frac{q\\sqrt{ar}}{m} \\sin\\theta t$, $y = \\frac{q\\sqrt{ar}}{m} \\cos\\theta t$. The equation of motion in polar coordinates is $r = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta$. The equation of motion in Cartesian coordinates is $x = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta - \\frac{q\\sqrt{ar}}{m} \\sin\\theta t$, $y = \\frac{q\\sqrt{ar}}{m} \\cos\\theta t$. The equation of motion in polar coordinates is $r = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta$. The equation of motion in Cartesian coordinates is $x = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta - \\frac{q\\sqrt{ar}}{m} \\sin\\theta t$, $y = \\frac{q\\sqrt{ar}}{m} \\cos\\theta t$. The equation of motion in polar coordinates is $r = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta$. The equation of motion in Cartesian coordinates is $x = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta - \\frac{q\\sqrt{ar}}{m} \\sin\\theta t$, $y = \\frac{q\\sqrt{ar}}{m} \\cos\\theta t$. The equation of motion in polar coordinates is $r = \\frac{mv^2}{q\\sqrt{ar}} \\cos\\theta$. The equation of motion in Cartesian coordinates is $x = \\frac{mv"
+    },
+    {
+      "problem_id": "physgym_0036",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{1}{2}\\left(\\frac{4}{3}\\pi R^{3} + \\frac{2Gm}{\\omega^{2}}\\right)^{-1}",
+      "reference_answer": "e={\\sqrt{\\frac{30\\omega^{2}+45{\\frac{G m}{r^{3}}}}{16\\pi\\rho G}}}",
+      "prediction": "The gravitational force on the Earth is $F =G\\frac{mM}{r^{2}}$, and the centrifugal force is $F_{\\text{centrifugal}} = \\frac{1}{2}\\omega^{2}r^{2}M$. The difference between the two forces is $F_{\\text{centrifugal}} - F = \\frac{1}{2}\\omega^{2}r^{2}M - G\\frac{mM}{r^{2}}$. Setting this equal to zero, we have $r = \\frac{2Gm}{\\omega^{2}}$, and the eccentricity is $e = \\frac{\\sqrt{a^{2}-r^{2}}}{a}$, where $a = \\frac{4}{3}\\pi R^{3}$. Substituting the known values, we have $e = \\frac{1}{2}\\left(\\frac{4}{3}\\pi R^{3} + \\frac{2Gm}{\\omega^{2}}\\right)^{-1}$.\nANSWER: \\frac{1}{2}\\left(\\frac{4}{3}\\pi R^{3} + \\frac{2Gm}{\\omega^{2}}\\right)^{-1}"
+    },
+    {
+      "problem_id": "physgym_0037",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "v2r−ω2r2",
+      "reference_answer": "a_{y} = \\frac{1}{m} \\int_{0}^{2\\pi} f_{y} d\\theta = \\frac{\\mu^{2} \\omega h g}{2 \\nu}",
+      "prediction": "The acceleration in the y direction is\na_y = v2r−ω2r2\nANSWER: v2r−ω2r2"
+    },
+    {
+      "problem_id": "physgym_0042",
+      "domain": "OPTICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "tan−1r/a",
+      "reference_answer": "n(r)=n_{0}a{\\sqrt{\\left({\\frac{a^{2}q^{2}}{r^{4}}}-{\\frac{q^{2}-1}{r^{2}}}\\right)}}",
+      "prediction": "The refractive index is proportional to the\nrefractive index of the vacuum, so we have\nn =n0 cos qθ, where q = tan−1r/a.\nANSWER: tan−1r/a"
+    },
+    {
+      "problem_id": "physgym_0050",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "T_{1} = T_{0} \\frac{\\left(1 + \\frac{N m g}{p_{1} S}\\right)^{\\frac{2 p_{1} S}{7 N m g}}}{\\left(1 + \\frac{N m g}{p_{0} S}\\right)^{\\frac{2 p_{0} S}{7 N m g}}} \\left(\\frac{p_{1} S + N m g}{p_{0} S + N m g}\\right)^{\\frac{2}{7}}",
+      "prediction": "The pressure of the gas inside the container is $p_{1} = \\frac{3}{2}NkT_{1}/V$, where $V$ is the volume of the container. The pressure of the gas on the piston is $p_{2} = \\frac{3}{2}NkT_{2}/V$, where $V$ is the volume of the container. The pressure of the powder on the piston is $p_{3} = \\frac{3}{2}NkT_{3}/V$, where $V$ is the volume of the container. The pressure of the gas on the container is $p_{4} = \\frac{3}{2}NkT_{4}/V$, where $V$ is the volume of the container. The pressure of the powder on the container is $p_{5} = \\frac{3}{2}NkT_{5}/V$, where $V$ is the volume of the container. The pressure of the gas on the piston is $p_{6} = \\frac{3}{2}NkT_{6}/V$, where $V$ is the volume of the container. The pressure of the powder on the piston is $p_{7} = \\frac{3}{2}NkT_{7}/V$, where $V$ is the volume of the container. The pressure of the gas on the container is $p_{8} = \\frac{3}{2}NkT_{8}/V$, where $V$ is the volume of the container. The pressure of the powder on the container is $p_{9} = \\frac{3}{2}NkT_{9}/V$, where $V$ is the volume of the container. The pressure of the gas on the piston is $p_{10} = \\frac{3}{2}NkT_{10}/V$, where $V$ is the volume of the container. The pressure of the powder on the piston is $p_{11} = \\frac{3}{2}NkT_{11}/V$, where $V$ is the volume of the container. The pressure of the gas on the container is $p_{12} = \\frac{3}{2}NkT_{12}/V$, where $V$ is the volume of the container. The pressure of the powder on the container is $p_{13} = \\frac{3}{2}NkT_{13}/V$, where $V$ is the volume of the container. The pressure of the gas on the piston is $p_{14} = \\frac{3}{2}NkT_{14}/V$, where $V$ is the volume of the container. The pressure of the powder on the piston is $p_{15} = \\frac{3}{2}NkT_{15}/V$, where $V$ is the volume of the container. The pressure of the gas on the container is $p_{16} = \\frac{3}{2}NkT_{16}/V$, where $V$ is the volume of the container. The pressure of the powder on the container is $p_{17} = \\frac{3}{2}NkT_{17}/V$, where $V$ is the volume of the container. The pressure of the gas on the piston is $p_{18} = \\frac{3}{2}NkT_{18}/V$, where $V$ is the volume of the container. The pressure of the powder on the piston is $p_{19} = \\frac{3}{2}NkT_{19}/V$, where $V$ is the volume of the container. The pressure of the gas on the container is $p_{20} = \\frac{3}{2}NkT_{20}/V$, where $V$ is the volume of the container. The pressure of the powder on the container is $p_{21} = \\frac{3}{2}NkT_{21}/V$, where $V$ is the volume of the container. The pressure of the gas on the piston is $p_{22} = \\frac{3}{2}NkT_{22}/V$, where $V$ is the volume of the container. The pressure of the powder on the piston is $p_{23} = \\frac{3}{2}NkT_{23}/V$, where $V$ is the volume of the container. The pressure of the gas on the container is $p_{24} = \\frac{3}{2}NkT_{24}/V$, where $V$ is the volume of the container. The pressure of the powder on the container is $p_{25} = \\frac{3}{2}NkT_{25}/V$, where $V$ is the volume of the container. The pressure of the gas on the piston is $p_{26} = \\frac{3}{2}NkT"
+    },
+    {
+      "problem_id": "physgym_0055",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "F(r)=p(r){\\frac{\\mathrm{d}E}{\\mathrm{d}r}}=-{\\frac{3\\left(\\varepsilon_{r}-1\\right)V\\lambda^{2}}{4\\pi^{2}\\left(\\varepsilon_{r}+2\\right)}}{\\frac{1}{r^{3}}}",
+      "prediction": "The force on the particle is the force on a charge, so we have\nF =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =qE =q"
+    },
+    {
+      "problem_id": "physgym_0062",
+      "domain": "RELATIVITY",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\gamma B(2J S+\\gamma B)",
+      "prediction": "The time derivative of the Hamiltonian is\n$$\n\\frac{\\mathrm{d}}{\\mathrm{d}t}\\left(\\gamma\\overrightarrow{B}\\cdot\\vec{S}_{1}+\\gamma\\overrightarrow{B}\\cdot\\vec{S}_{2}\\right)=\\gamma B\\left(\\frac{\\mathrm{d}}{\\mathrm{d}t}\\vec{S}_{1}+\\frac{\\mathrm{d}}{\\mathrm{d}t}\\vec{S}_{2}\\right)\n$$\n$$\n=\\gamma B\\left(\\frac{\\partial H}{\\partial \\vec{S}_{1}} \\times \\vec{S}_{1} + \\frac{\\partial H}{\\partial \\vec{S}_{2}} \\times \\vec{S}_{2}\\right)\n$$\n$$\n=\\gamma B\\left(\\frac{\\partial H}{\\partial \\vec{S}_{1}} \\times \\vec{S}_{1} + \\frac{\\partial H}{\\partial \\vec{S}_{2}} \\times \\vec{S}_{2}\\right)\n$$\n$$\n=\\gamma B\\left(\\frac{\\partial H}{\\partial \\vec{S}_{1}} \\times \\vec{S}_{1} + \\frac{\\partial H}{\\partial \\vec{S}_{2}} \\times \\vec{S}_{2}\\right)\n$$\n$$\n=\\gamma B\\left(\\frac{\\partial H}{\\partial \\vec{S}_{1}} \\times \\vec{S}_{1} + \\frac{\\partial H}{\\partial \\vec{S}_{2}} \\times \\vec{S}_{2}\\right)\n$$\n$$\n=\\gamma B\\left(\\frac{\\partial H}{\\partial \\vec{S}_{1}} \\times \\vec{S}_{1} + \\frac{\\partial H}{\\partial \\vec{S}_{2}} \\times \\vec{S}_{2}\\right)\n$$\n$$\n=\\gamma B\\left(\\frac{\\partial H}{\\partial \\vec{S}_{1}} \\times \\vec{S}_{1} + \\frac{\\partial H}{\\partial \\vec{S}_{2}} \\times \\vec{S}_{2}\\right)\n$$\n$$\n=\\gamma B\\left(\\frac{\\partial H}{\\partial \\vec{S}_{1}} \\times \\vec{S}_{1} + \\frac{\\partial H}{\\partial \\vec{S}_{2}} \\times \\vec{S}_{2}\\right)\n$$\n$$\n=\\gamma B\\left(\\frac{\\partial H}{\\partial \\vec{S}_{1}} \\times \\vec{S}_{1} + \\frac{\\partial H}{\\partial \\vec{S}_{2}} \\times \\vec{S}_{2}\\right)\n$$\n$$\n=\\gamma B\\left(\\frac{\\partial H}{\\partial \\vec{S}_{1}} \\times \\vec{S}_{1} + \\frac{\\partial H}{\\partial \\vec{S}_{2}} \\times \\vec{S}_{2}\\right)\n$$\n$$\n=\\gamma B\\left(\\frac{\\partial H}{\\partial \\vec{S}_{1}} \\times \\vec{S}_{1} + \\frac{\\partial H}{\\partial \\vec{S}_{2}} \\times \\vec{S}_{2}\\right)\n$$\n$$\n=\\gamma B\\left(\\frac{\\partial H}{\\partial \\vec{S}_{1}} \\times \\vec{S}_{1} + \\frac{\\partial H}{\\partial \\vec{S}_{2}} \\times \\vec{S}_{2}\\right)\n$$\n$$\n=\\gamma B\\left(\\frac{\\partial H}{\\partial \\vec{S}_{1}} \\times \\vec{S}_{1} + \\frac{\\partial H}{\\partial \\vec{S}_{2}} \\times \\vec{S}_{2}\\right)\n$$\n$$\n=\\gamma B\\left(\\frac{\\partial H}{\\partial \\vec{S}_{1}} \\times \\vec{S}_{1} + \\frac{\\partial H}{\\partial \\vec{S}_{2}} \\times \\vec{S}_{2}\\right)\n$$\n$$\n=\\gamma B\\left(\\frac{\\partial H}{\\partial \\vec{S}_{1}} \\times \\vec{S}_{1} + \\frac{\\partial H}{\\partial \\vec{S}_{2}} \\times \\vec{S}_{2}\\right)\n$$\n$$\n=\\gamma B\\left(\\frac{\\partial H}{\\partial \\vec{S}_{1}} \\times \\vec{S}_{1} + \\frac{\\partial H}{\\partial \\vec{S}_{2}} \\times \\vec{S}_{2}\\right)\n$$\n$$\n=\\gamma B\\left(\\frac{\\partial H}{\\partial \\vec{S}_{1}} \\times \\vec{S}_{1} + \\frac{\\partial H}{\\partial \\vec{S}_{2}} \\times \\vec{S}_{2}\\right)\n$$\n$$\n=\\gamma B\\left(\\frac{\\partial H}{\\partial \\vec{S}_{1}} \\times \\vec{S}_{1} + \\frac{\\partial H}{\\partial \\vec{S}_{2}} \\times \\vec{S}_{2}\\right)\n$$\n$$\n=\\gamma B\\left(\\frac{\\partial H}{\\partial \\vec{S}_{1}} \\times \\vec{S}_{1} + \\frac{\\partial H}{\\partial \\vec{S}_{2}} \\times \\vec{S}_{2}\\right)\n$$\n$$\n=\\gamma B\\left(\\frac{\\partial H}{\\partial \\vec{S}_{1}} \\times \\vec{S}_{1"
+    },
+    {
+      "problem_id": "physgym_0065",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\vec{v}=\\vec{v_{0}}e^{-\\frac{5\\pi R B^{2}}{14m\\lambda}t}",
+      "prediction": "The sphere is in a pure rolling state, so its center is moving in a circle of radius \\( R \\) with constant speed \\( v_0 \\). The magnetic field is perpendicular to the surface of the sphere, so the magnetic force on the sphere is zero. The only force acting on the sphere is gravity, which is directed vertically downwards. The magnetic field exerts a force on the wires, but since the wires are connected, the magnetic field lines are continuous, and the force on the wires is zero. The only force acting on the sphere is gravity, which is directed vertically downwards. The magnetic field exerts a force on the wires, but since the wires are connected, the magnetic field lines are continuous, and the force on the wires is zero. The only force acting on the sphere is gravity, which is directed vertically downwards. The magnetic field exerts a force on the wires, but since the wires are connected, the magnetic field lines are continuous, and the force on the wires is zero. The only force acting on the sphere is gravity, which is directed vertically downwards. The magnetic field exerts a force on the wires, but since the wires are connected, the magnetic field lines are continuous, and the force on the wires is zero. The only force acting on the sphere is gravity, which is directed vertically downwards. The magnetic field exerts a force on the wires, but since the wires are connected, the magnetic field lines are continuous, and the force on the wires is zero. The only force acting on the sphere is gravity, which is directed vertically downwards. The magnetic field exerts a force on the wires, but since the wires are connected, the magnetic field lines are continuous, and the force on the wires is zero. The only force acting on the sphere is gravity, which is directed vertically downwards. The magnetic field exerts a force on the wires, but since the wires are connected, the magnetic field lines are continuous, and the force on the wires is zero. The only force acting on the sphere is gravity, which is directed vertically downwards. The magnetic field exerts a force on the wires, but since the wires are connected, the magnetic field lines are continuous, and the force on the wires is zero. The only force acting on the sphere is gravity, which is directed vertically downwards. The magnetic field exerts a force on the wires, but since the wires are connected, the magnetic field lines are continuous, and the force on the wires is zero. The only force acting on the sphere is gravity, which is directed vertically downwards. The magnetic field exerts a force on the wires, but since the wires are connected, the magnetic field lines are continuous, and the force on the wires is zero. The only force acting on the sphere is gravity, which is directed vertically downwards. The magnetic field exerts a force on the wires, but since the wires are connected, the magnetic field lines are continuous, and the force on the wires is zero. The only force acting on the sphere is gravity, which is directed vertically downwards. The magnetic field exerts a force on the wires, but since the wires are connected, the magnetic field lines are continuous, and the force on the wires is zero. The only force acting on the sphere is gravity, which is directed vertically downwards. The magnetic field exerts a force on the wires, but since the wires are connected, the magnetic field lines are continuous, and the force on the wires is zero. The only force acting on the sphere is gravity, which is directed vertically downwards. The magnetic field exerts a force on the wires, but since the wires are connected, the magnetic field lines are continuous, and the force on the wires is zero. The only force acting on the sphere is gravity, which is directed vertically downwards. The magnetic field exerts a force on the wires, but since the wires are connected, the magnetic field lines are continuous, and the force on the wires is zero. The only force acting on the sphere is gravity, which is directed vertically downwards. The magnetic field exerts a force on the wires, but since the wires are connected, the magnetic field lines are continuous, and the force on the wires is zero. The only force acting on the sphere is gravity, which is directed vertically downwards. The magnetic field exerts a force on the wires, but since the wires are connected, the magnetic field lines are continuous, and the force on the wires is zero. The only force acting on the sphere is gravity, which is directed vertically downwards. The magnetic field exerts a force on the wires, but since the wires are connected, the magnetic field lines are continuous, and the force on the wires is zero. The only force acting on the sphere is gravity, which is directed vertically downwards. The magnetic field exerts a force on the wires, but since the wires are connected, the magnetic field lines are continuous, and the force on the wires is zero. The"
+    },
+    {
+      "problem_id": "physgym_0095",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "x=-\\frac{7F}{57M\\Omega^{2}}+\\frac{4F}{39M\\Omega^{2}}\\cos{\\sqrt{6}}\\Omega t+\\frac{5F}{247M\\Omega^{2}}\\cos{\\sqrt{19}}\\Omega t",
+      "prediction": "The Coriolis force is proportional to the particle's velocity, so we can use the small-angle approximation to find the expression for the particle's velocity. The particle's velocity is $v = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m} = \\frac{F}{m"
+    },
+    {
+      "problem_id": "physgym_0100",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "3gE/h",
+      "reference_answer": "\\omega_{2} = {\\sqrt{\\frac{K}{M}}} = {\\sqrt{\\frac{2m g^{2}l}{E a h^{3}}}}",
+      "prediction": "The small perturbation is applied to the weight, so the beam is in equilibrium. The torque is zero, and the beam is in a state of pure rotation. The moment of inertia of the beam is $I = \\frac{1}{12}m h^3 a^2$, and the moment of inertia of the weight is $I_w = \\frac{1}{12}m h^3 a^2$. The angular frequency is ω = √(k/m), where k = 3E/2h. The angular frequency is ω = 3gE/h, and the angular frequency is ω = 3gE/h.\nANSWER: 3gE/h"
+    },
+    {
+      "problem_id": "physgym_0106",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "v=-\\sqrt{3gl\\sin\\theta_{0}}",
+      "prediction": "The center of mass of the system is at the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass is at a distance $l/2$ from the center of the table, so the center of mass is at a distance $l/2$ from the center of the table. The center of mass"
+    },
+    {
+      "problem_id": "physgym_0110",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{\\pi}{4}",
+      "reference_answer": "{{\\alpha=\\arctan({\\frac{\\sqrt{c^{4}-d^{2}(a^{2}-c^{2})}}{a d}})}}",
+      "prediction": "The picture frame is in equilibrium, so the total force on the frame is zero. The force on the frame from the nail is $mg$, and the force on the frame from the light string is $T$, which is the tension in the string. The force on the frame from the light string is $T = mg \\cos\\alpha$, and the force on the frame from the nail is $mg \\sin\\alpha$. Setting these equal, we have $mg \\cos\\alpha = mg \\sin\\alpha$, which gives $\\tan\\alpha = 1$, so $\\alpha = \\frac{\\pi}{4}$.\nANSWER: $\\frac{\\pi}{4}$"
+    },
+    {
+      "problem_id": "physgym_0112",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "Q_{t o t}=\\int_{0}^{\\infty}W_{J}\\mathrm{d}t=\\int_{0}^{\\infty}\\frac{12\\pi\\sigma}{(\\varepsilon_{r}+2)^{2}}e^{-2\\frac{\\sigma}{\\varepsilon_{0}(2+\\varepsilon_{r})}t}R^{3}E_{0}^{2}\\mathrm{d}t=\\frac{6\\pi\\varepsilon_{0}}{(\\varepsilon_{r}+2)}R^{3}E_{0}^{2}",
+      "prediction": "The field is uniform, so the field strength is constant, and the field is perpendicular to the surface of the sphere. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is perpendicular to the surface, and the field is perpendicular to the surface. The field is perpendicular to the surface, so the field is"
+    },
+    {
+      "problem_id": "physgym_0118",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "2r",
+      "reference_answer": "R_{BC}=\\frac{38}{41}r",
+      "prediction": "The resistance between two points is proportional to the distance between them, so we have\n$r_{BC} = \\frac{1}{2}r_{AB} = \\frac{1}{2}r_{AC} = \\frac{1}{2}r_{BC} = 2r$.\nANSWER: 2r"
+    },
+    {
+      "problem_id": "physgym_0120",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "1",
+      "reference_answer": "\\eta=\\frac{\\gamma-1}{2\\sqrt{\\gamma p_0 V_0/W}-1}",
+      "prediction": "The area of the rectangle is $W = p_0V_0$, so the efficiency is\n$$\\eta = \\frac{W}{W} = 1$$\nANSWER: 1"
+    },
+    {
+      "problem_id": "physgym_0121",
+      "domain": "MODERN_PHYSICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "u=c^{2}{\\frac{\\left|{\\sqrt{c^{2}-v_{1}^{2}}}-{\\sqrt{c^{2}-v_{1}^{2}}}\\right|}{{\\sqrt{c^{2}\\left(v_{1}^{2}+v_{2}^{2}\\right)-2v_{1}^{2}v_{2}^{2}-2v_{1}v_{2}\\cos\\alpha{\\sqrt{(c^{2}-v_{1}^{2})(c^{2}-v_{2}^{2})}}}}}}",
+      "prediction": "The speed of light is $c$, so the\ntime it takes for the light to travel from the\nspacecraft to the observer is $t = \\frac{1}{c} \\frac{1}{v_{1} - v_{2}} \\cdot \\frac{1}{1 - \\frac{v_{1}^{2} + v_{2}^{2}}{c^{2}}}$. The\ntime it takes for the light to travel from the\nspacecraft to the medium is $t_{2} = \\frac{1}{c} \\frac{1}{v_{1} + v_{2}} \\cdot \\frac{1}{1 - \\frac{v_{1}^{2} + v_{2}^{2}}{c^{2}}}$. The\ntime it takes for the light to travel from the\nmedium to the observer is $t_{3} = \\frac{1}{c} \\frac{1}{v_{1} - v_{2}} \\cdot \\frac{1}{1 - \\frac{v_{1}^{2} + v_{2}^{2}}{c^{2}}}$. The\ntime it takes for the light to travel from the\nmedium to the spacecraft is $t_{4} = \\frac{1}{c} \\frac{1}{v_{1} + v_{2}} \\cdot \\frac{1}{1 - \\frac{v_{1}^{2} + v_{2}^{2}}{c^{2}}}$. The\ntime it takes for the light to travel from the\nspacecraft to the medium is $t_{2} = \\frac{1}{c} \\frac{1}{v_{1} + v_{2}} \\cdot \\frac{1}{1 - \\frac{v_{1}^{2} + v_{2}^{2}}{c^{2}}}$. The\ntime it takes for the light to travel from the\nmedium to the observer is $t_{3} = \\frac{1}{c} \\frac{1}{v_{1} - v_{2}} \\cdot \\frac{1}{1 - \\frac{v_{1}^{2} + v_{2}^{2}}{c^{2}}}$. The\ntime it takes for the light to travel from the\nspacecraft to the medium is $t_{4} = \\frac{1}{c} \\frac{1}{v_{1} - v_{2}} \\cdot \\frac{1}{1 - \\frac{v_{1}^{2} + v_{2}^{2}}{c^{2}}}$. The\ntime it takes for the light to travel from the\nmedium to the observer is $t_{3} = \\frac{1}{c} \\frac{1}{v_{1} - v_{2}} \\cdot \\frac{1}{1 - \\frac{v_{1}^{2} + v_{2}^{2}}{c^{2}}}$. The\ntime it takes for the light to travel from the\nspacecraft to the medium is $t_{4} = \\frac{1}{c} \\frac{1}{v_{1} - v_{2}} \\cdot \\frac{1}{1 - \\frac{v_{1}^{2} + v_{2}^{2}}{c^{2}}}$. The\ntime it takes for the light to travel from the\nmedium to the observer is $t_{3} = \\frac{1}{c} \\frac{1}{v_{1} - v_{2}} \\cdot \\frac{1}{1 - \\frac{v_{1}^{2} + v_{2}^{2}}{c^{2}}}$. The\ntime it takes for the light to travel from the\nspacecraft to the medium is $t_{4} = \\frac{1}{c} \\frac{1}{v_{1} - v_{2}} \\cdot \\frac{1}{1 - \\frac{v_{1}^{2} + v_{2}^{2}}{c^{2}}}$. The\ntime it takes for the light to travel from the\nmedium to the observer is $t_{3} = \\frac{1}{c} \\frac{1}{v_{1} - v_{2}} \\cdot \\frac{1}{1 - \\frac{v_{1}^{2} + v_{2}^{2}}{c^{2}}}$. The\ntime it takes for the light to travel from the\nspacecraft to the medium is $t_{4} = \\frac{1}{c} \\frac{1}{v_{1} - v_{2}} \\cdot \\frac{1}{1 - \\frac{v_{1}^{2} + v_{2}^{2}}{c^{2}}}$. The\ntime it takes for the light to travel from the\nmedium to the observer is $t_{3} = \\frac{1}{c} \\frac{1}{v_{1} - v"
+    },
+    {
+      "problem_id": "physgym_0124",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "2\\pi \\sqrt{\\frac{k}{m}}",
+      "reference_answer": "T=2\\pi\\sqrt{\\frac{m(M+m\\sin^{2}\\theta)}{k(M+m)}}",
+      "prediction": "The motion of the small block is a simple harmonic motion, and the period is given by\n$$\nT = \\frac{2\\pi}{f} = \\frac{2\\pi}{\\omega} = \\frac{2\\pi}{\\sqrt{\\frac{k}{m}}}.\n$$\nANSWER: 2\\pi \\sqrt{\\frac{k}{m}}"
+    },
+    {
+      "problem_id": "physgym_0134",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "v_{2}^{2}/2L\\hat{i}",
+      "reference_answer": "a_{n}={\\frac{v_{2}^{2}}{\\rho}}={\\frac{v_{1}v_{2}}{L}}",
+      "prediction": "The fox is at $F$ and the hound is at $D$, so the distance between them is $L$. The fox is moving at a constant speed $v_{1}$, so its velocity is $v_{1}\\hat{i}$. The hound is moving at a constant speed $v_{2}$, so its velocity is $v_{2}\\hat{j}$. The magnitude of the hound's acceleration is $a = \\frac{v_{2}^{2}}{2L}\\hat{i}$. The direction of the acceleration is the same as the direction of the velocity of the hound, so the magnitude of the acceleration is $a = \\frac{v_{2}^{2}}{2L}\\hat{i}$.\nANSWER: $v_{2}^{2}/2L\\hat{i}$"
+    },
+    {
+      "problem_id": "physgym_0139",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "2rR",
+      "reference_answer": "\\tan\\varphi = \\frac{P_{2}-P_{1}\\cos(2\\beta)}{P_{1}\\sin(2\\beta)}",
+      "prediction": "The vertical forces on the cylinders are equal, so\nP1 =P2. The horizontal forces are equal, so\nP1 cosβ =P2 cosβ +P2 sinβ cosβ, and\nP1 sinβ =P2 sinβ +P2 cosβ sinβ.\nSolving these equations gives\ntanβ = 2rR.\nANSWER: 2rR"
+    },
+    {
+      "problem_id": "physgym_0211",
+      "domain": "MODERN_PHYSICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{1}{2L_{0} + D} a_{A}",
+      "reference_answer": "a_{B}={\\frac{a_{A}}{1+{\\frac{a_{A}L_{0}}{c^{2}}}}}",
+      "prediction": "The distance between the two trains is $D(t) = L_{0} + L_{0} + D = 2L_{0} + D$. The acceleration of train B is $a_{B} = \\frac{2L_{0}}{2L_{0} + D} a_{A}$. The speed of light is $c = \\frac{1}{\\sqrt{2L_{0} + D}} \\sqrt{2L_{0} + D} \\cdot \\frac{1}{2L_{0} + D} a_{A} = \\frac{1}{2L_{0} + D} a_{A}$.\nANSWER: \\frac{1}{2L_{0} + D} a_{A}"
+    },
+    {
+      "problem_id": "physgym_0221",
+      "domain": "MODERN_PHYSICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{2\\pi}{\\omega}\\left(\\frac{R_{0}}{R}\\right)",
+      "reference_answer": "t=\\frac{1}{\\rho A}\\sqrt{\\frac{B}{k}}(\\frac{k}{c^{2}}(-\\frac{1}{R}+\\frac{1}{R_{0}})+\\frac{4}{7}B(\\frac{1}{R^{7}}-\\frac{1}{R_{0}^{7}}))",
+      "prediction": "The equation of motion is\n$$m_{0}\\frac{d^{2}x}{dt^{2}}=kx$$\nwhich gives\n$$x(t)=x_{0}\\cos(\\omega t)$$\nwhere $x_{0}$ is the initial radius, and $\\omega$ is the angular frequency. The time required for the radius to change from $R_{0}$ to $R$ is\n$$t=\\frac{2\\pi}{\\omega}\\left(\\frac{R_{0}}{R}\\right)$$\nANSWER: \\frac{2\\pi}{\\omega}\\left(\\frac{R_{0}}{R}\\right)"
+    },
+    {
+      "problem_id": "physgym_0318",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "P0A2h2",
+      "reference_answer": "F = -\\pi R^2 h\\gamma P_0 k^2 A\\cos kx \\cos 2\\pi ft",
+      "prediction": "The force on the cylinder is the force per unit volume, so we have\nF =P0A2h2\nANSWER: P0A2h2"
+    },
+    {
+      "problem_id": "physgym_0321",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "2\\pi/\\lambda",
+      "reference_answer": "\\varphi=2\\pi\\sqrt{\\frac{1+r/\\lambda}{1+r/\\lambda-r^2/\\lambda^2}}",
+      "prediction": "The center of mass is at the origin, so the rotation is about the origin. The angular velocity is $2\\pi r/\\lambda$. The angle rotated in one cycle is $2\\pi$, so the result is $2\\pi/\\lambda$.\nANSWER: $2\\pi/\\lambda$"
+    },
+    {
+      "problem_id": "physgym_0333",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\beta = \\frac{2M}{mR^2+4\\mu_0P_0^2\\pi L[\\frac 3{8k^4}+(\\frac{R^3}{2k}-\\frac{3R^2}{4k^2}+\\frac{3R}{4k^3}-\\frac 3 {8k^4})e ^{2kR}}]",
+      "prediction": "The torque is $M = \\frac{1}{2}mL^2\\beta$, so $\\beta = \\frac{2M}{mL^2}$. The angular acceleration is $\\beta = \\frac{2M}{mL^2} = \\frac{2k}{R} \\frac{P_0}{m} \\frac{1}{\\mu_0} \\frac{1}{L^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\frac{1}{r^2} \\"
+    },
+    {
+      "problem_id": "physgym_0412",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "T=2\\pi\\sqrt{\\frac{m}{\\frac{\\pi}{2}\\mu_{0}n I R^{2}r^{2}\\cdot[(\\frac{\\mu_{0}n I\\pi r^{2}}{2L}-I_{0})\\frac{3z_{0}}{(z_{0}^{2}+R^{2})^{5/2}}-\\frac{\\mu_{0}n I\\pi r^{2}}{2L}\\frac{3z_{0}^{2}-R^{2}}{(z_{0}^{2}+R^{2})^{3}}]}}",
+      "prediction": "The magnetic field at the center of the solenoid is $B = \\frac{\\mu_{0}I_{0}}{2\\pi R}$, and the magnetic field at the center of the metal ring is $B_{0} = \\frac{\\mu_{0}I_{0}}{2\\pi r}$. The difference in the magnetic field is $B_{0} - B = \\frac{\\mu_{0}I_{0}}{2\\pi r} - \\frac{\\mu_{0}I_{0}}{2\\pi R} = \\frac{\\mu_{0}I_{0}}{2\\pi R} \\left( \\frac{1}{r^{2}} - \\frac{1}{R^{2}} \\right)$. The difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring, so the difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring. The difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring, so the difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring. The difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring, so the difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring. The difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring, so the difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring. The difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring, so the difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring. The difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring, so the difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring. The difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring, so the difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring. The difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring, so the difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring. The difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring, so the difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring. The difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring, so the difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring. The difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring, so the difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring. The difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring, so the difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring. The difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring, so the difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring. The difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring, so the difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring. The difference in the magnetic field is proportional to the square of the distance from the center of the solenoid to the center of the metal ring, so the difference in the magnetic field is proportional to the square of the distance from the center of the"
+    },
+    {
+      "problem_id": "physgym_0443",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\lambda=\\sqrt{\\frac{\\varepsilon_{1}+\\varepsilon_{21}}{\\varepsilon_{1}\\varepsilon_{21}}}\\lambda_{0}",
+      "prediction": "The refracted wave has a wavevector $k_{x}=\\alpha$, $k_{y}=-\\mathrm{i}\\beta$, and the electric field lies in the $xy$ plane. The wavevector of the reflected wave is $k_{x}=-\\alpha$, $k_{y}=-\\mathrm{i}\\beta$. The condition for no reflection is that the wavevector of the reflected wave equals the wavevector of the incident wave, i.e., $k_{x}=-\\alpha$. The condition for no absorption is that the wavevector of the reflected wave equals the wavevector of the incident wave plus the wavevector of the transmitted wave, i.e., $k_{x}=-\\alpha-\\mathrm{i}\\beta$. The condition for no absorption is that the wavevector of the reflected wave equals the wavevector of the incident wave plus the wavevector of the transmitted wave, i.e., $k_{x}=-\\alpha-\\mathrm{i}\\beta$. The condition for no absorption is that the wavevector of the reflected wave equals the wavevector of the incident wave plus the wavevector of the transmitted wave, i.e., $k_{x}=-\\alpha-\\mathrm{i}\\beta$. The condition for no absorption is that the wavevector of the reflected wave equals the wavevector of the incident wave plus the wavevector of the transmitted wave, i.e., $k_{x}=-\\alpha-\\mathrm{i}\\beta$. The condition for no absorption is that the wavevector of the reflected wave equals the wavevector of the incident wave plus the wavevector of the transmitted wave, i.e., $k_{x}=-\\alpha-\\mathrm{i}\\beta$. The condition for no absorption is that the wavevector of the reflected wave equals the wavevector of the incident wave plus the wavevector of the transmitted wave, i.e., $k_{x}=-\\alpha-\\mathrm{i}\\beta$. The condition for no absorption is that the wavevector of the reflected wave equals the wavevector of the incident wave plus the wavevector of the transmitted wave, i.e., $k_{x}=-\\alpha-\\mathrm{i}\\beta$. The condition for no absorption is that the wavevector of the reflected wave equals the wavevector of the incident wave plus the wavevector of the transmitted wave, i.e., $k_{x}=-\\alpha-\\mathrm{i}\\beta$. The condition for no absorption is that the wavevector of the reflected wave equals the wavevector of the incident wave plus the wavevector of the transmitted wave, i.e., $k_{x}=-\\alpha-\\mathrm{i}\\beta$. The condition for no absorption is that the wavevector of the reflected wave equals the wavevector of the incident wave plus the wavevector of the transmitted wave, i.e., $k_{x}=-\\alpha-\\mathrm{i}\\beta$. The condition for no absorption is that the wavevector of the reflected wave equals the wavevector of the incident wave plus the wavevector of the transmitted wave, i.e., $k_{x}=-\\alpha-\\mathrm{i}\\beta$. The condition for no absorption is that the wavevector of the reflected wave equals the wavevector of the incident wave plus the wavevector of the transmitted wave, i.e., $k_{x}=-\\alpha-\\mathrm{i}\\beta$. The condition for no absorption is that the wavevector of the reflected wave equals the wavevector of the incident wave plus the wavevector of the transmitted wave, i.e., $k_{x}=-\\alpha-\\mathrm{i}\\beta$. The condition for no absorption is that the wavevector of the reflected wave equals the wavevector of the incident wave plus the wavevector of the transmitted wave, i.e., $k_{x}=-\\alpha-\\mathrm{i}\\beta$. The condition for no absorption is that the wavevector of the reflected wave equals the wavevector of the incident wave plus the wavevector of the transmitted wave, i.e., $k_{x}=-\\alpha-\\mathrm{i}\\beta$. The condition for no absorption is that the wavevector of the reflected wave equals the wavevector of the incident wave plus the wavevector of the transmitted wave, i.e., $k_{x}=-\\alpha-\\mathrm{i}\\beta$. The condition for no absorption is that the wavevector of the reflected wave equals the wavevector of the incident wave plus the wavevector of the transmitted wave, i.e., $k_{x}=-\\alpha-\\mathrm{i}\\beta$. The condition for no absorption is that the wavevector of the reflected wave equals the wavevector of the incident wave plus the wavevector of the transmitted wave, i.e., $k_{x}=-\\alpha-\\mathrm{i}\\beta$. The condition for no absorption is that the wavevector of the reflected wave equals the wavevector of the incident wave plus the wavevector of the transmitted wave, i.e., $k_{x}=-\\alpha-\\mathrm{i}\\beta$. The condition for no absorption is that the wavevector of the reflected wave equals the wavevector of the incident wave plus the wavevector of the transmitted wave, i.e., $k_{x}=-\\alpha-\\mathrm{i}\\beta$. The condition for no absorption is that the wave"
+    },
+    {
+      "problem_id": "physgym_0493",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{2\\pi^2 R^2}{\\mu_0 I m}",
+      "reference_answer": "T_{1}=2\\pi\\sqrt{\\frac{\\frac{1}{2}MR^{2}}{\\frac{\\mu_{0}mIR^{2}(2h^{4}+2R^{4}-11R^{2}h^{2})}{4(h^{2}+R^{2})^{7/2}}}} = 2\\pi\\sqrt{\\frac{2M(h^{2}+R^{2})^{7/2}}{\\mu_{0}mI(2h^{4}+2R^{4}-11R^{2}h^{2})}}",
+      "prediction": "The period of a simple harmonic motion is given by $T = 2\\pi/\\omega$, where $\\omega$ is the angular frequency. The angular frequency is related to the magnetic moment and the magnetic field by $\\omega = \\frac{mB}{h}$, where $B$ is the magnetic field strength and $h$ is the distance between the magnetic dipole and the center of the ring. The magnetic field strength is given by $B = \\frac{\\mu_0 I}{2\\pi R}$, where $\\mu_0$ is the vacuum permeability. Substituting the expressions for $B$ and $h$ into the equation for $\\omega$, we have $\\omega = \\frac{2\\pi m}{\\mu_0 I R}$. The period is then $T = \\frac{2\\pi}{\\omega} = \\frac{2\\pi^2 R^2}{\\mu_0 I m}$. The result is $\\boxed{\\frac{2\\pi^2 R^2}{\\mu_0 I m}}$.\nANSWER: $\\boxed{\\frac{2\\pi^2 R^2}{\\mu_0 I m}}$"
+    },
+    {
+      "problem_id": "physgym_0495",
+      "domain": "OPTICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{n \\omega^2}{2\\pi}",
+      "reference_answer": "v = \\frac{NZ e^3}{2c\\varepsilon_0 m^2 n} \\cdot \\frac{\\omega^2}{(\\omega_0^2 - \\omega^2)^2}",
+      "prediction": "The Verdet constant is given by:\n\\[\n\\nu = \\frac{n \\omega^2}{2\\pi}\n\\]\nANSWER: \\frac{n \\omega^2}{2\\pi}"
+    },
+    {
+      "problem_id": "physgym_0498",
+      "domain": "OPTICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{4\\pi S}{\\lambda n_a n_b}",
+      "reference_answer": "\\varphi = \\frac{2\\pi d}{\\lambda (n_b - n_a)} \\left[ n_b\\sqrt{n_b^2 - \\sin^2 i} - n_a\\sqrt{n_a^2 - \\sin^2 i} - \\sin^2 i \\ln \\left( \\frac{n_b + \\sqrt{n_b^2 - \\sin^2 i}}{n_a + \\sqrt{n_a^2 - \\sin^2 i}} \\right) \\right]",
+      "prediction": "The phase difference is given by\n\\[\n\\varphi = \\frac{2\\pi}{\\lambda} \\Delta x\n\\]\nwhere \\(\\Delta x\\) is the change in the path length. The change in the path length is\n\\[\n\\Delta x = \\frac{2S}{n_a} + \\frac{2S}{n_b}\n\\]\nThe phase difference is\n\\[\n\\varphi = \\frac{4\\pi S}{\\lambda n_a n_b}\n\\]\nANSWER: \\frac{4\\pi S}{\\lambda n_a n_b}"
+    },
+    {
+      "problem_id": "physgym_0505",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "x^2+y^2=R^2",
+      "reference_answer": "y^{2}=\\frac{\\omega^{4}}{g^{2}}(R^{2}-x^{2})\\left(x^{2}-R^{2}+\\frac{g^{2}}{\\omega^{4}}\\right)",
+      "prediction": "The projection of the sphere onto the $xy$-plane is a circle of radius $R$, so the equation is $x^2+y^2=R^2$.\nANSWER: $x^2+y^2=R^2$"
+    },
+    {
+      "problem_id": "physgym_0603",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{4 \\varepsilon_0}{\\varepsilon_0 + \\frac{1}{\\omega^2}}",
+      "reference_answer": "\\varepsilon =1-\\frac{ne^2}{\\varepsilon_0 m\\omega^2}",
+      "prediction": "The electric field is $E_0 \\sin(\\omega t)$. The electric displacement is $D = \\varepsilon E = \\varepsilon_0 E + P$. The polarization is $P = n e \\langle \\mathbf{r} \\rangle \\langle \\mathbf{E} \\rangle$, where $\\langle \\mathbf{r} \\rangle$ is the average position of the electrons and $\\langle \\mathbf{E} \\rangle$ is the average electric field. The average position is $\\langle \\mathbf{r} \\rangle = \\frac{3}{4} \\frac{n e}{\\varepsilon_0 m} \\frac{1}{\\omega^2}$, and the average electric field is $\\langle \\mathbf{E} \\rangle = \\frac{3}{4} \\frac{n e \\omega}{\\varepsilon_0 m}$. The polarization is $P = \\frac{3}{4} \\frac{n e^2}{\\varepsilon_0 m \\omega^2}$. The dielectric constant is $\\varepsilon = \\frac{D}{E} = \\frac{\\varepsilon_0 + P}{\\varepsilon_0 + \\frac{P}{\\varepsilon_0}} = \\frac{4 \\varepsilon_0}{\\varepsilon_0 + \\frac{1}{\\omega^2}}$. The result is $\\varepsilon(\\omega) = \\frac{4 \\varepsilon_0}{\\varepsilon_0 + \\frac{1}{\\omega^2}}$.\nANSWER: \\frac{4 \\varepsilon_0}{\\varepsilon_0 + \\frac{1}{\\omega^2}}"
+    },
+    {
+      "problem_id": "physgym_0617",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "cosθ0 + cosθ1 +... + cosθn−1",
+      "reference_answer": "\\omega_\\infty=\\frac{\\rho l}{\\sqrt{3}h}=\\frac lh\\sqrt{\\frac g{2h}}",
+      "prediction": "The angular velocity of the first rod is\nv =ω0−ω0 cosθ0, where θ0 is the angle of the first rod with the vertical. The angular velocity of the second rod is\nv2 =v cosθ0 +ω0 cosθ0 cosθ1 +... cosθn−1, where θi is the angle of the i-th rod with the vertical. The total angular velocity is\nω =ω0 +ω1 +... +ωn−1, where n is the number of\ndominoes. The total angular velocity is proportional to the sum of the initial angular velocities, so\nω =kω0, where k = 1 + cosθ0 + cosθ1 +... + cosθn−1.\nANSWER: cosθ0 + cosθ1 +... + cosθn−1"
+    },
+    {
+      "problem_id": "physgym_0630",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{1+\\alpha}{3}P_{0}",
+      "reference_answer": "P_{1}=P_{0}\\frac{(1+\\alpha)(5+10\\alpha+2\\alpha(\\frac{\\lambda}{R T_{0}}))}{5+8\\alpha}",
+      "prediction": "The ideal gas law gives $P_{1} = \\frac{n_{1}RT_{1}}{V_{1}}$, where $n_{1}$ is the total number of moles of gas, $R$ is the ideal gas constant, and $V_{1}$ is the volume of the gas. The number of moles of gas is $n_{1} = \\alpha n_{0} + (1-\\alpha)n_{0} = n_{0}(1+\\alpha)$. The temperature is $T_{1} = \\frac{1}{3}(T_{0} + \\lambda)$, and the volume is $V_{1} = \\frac{n_{1}RT_{1}}{P_{0}} = \\frac{n_{0}(1+\\alpha)RT_{0}}{P_{0}}$. Substituting these into the ideal gas law gives $P_{1} = \\frac{n_{0}(1+\\alpha)RT_{0}}{V_{0}} = \\frac{1+\\alpha}{3}P_{0}$. The final answer is $\\frac{1+\\alpha}{3}P_{0}$.\nANSWER: $\\frac{1+\\alpha}{3}P_{0}$"
+    },
+    {
+      "problem_id": "physgym_0648",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "u_{0} = \\sqrt{\\frac{2k Q q}{m R}\\frac{1-\\cos\\frac{\\pi}{n}}{2\\cos\\frac{\\pi}{n}-1}}",
+      "prediction": "The sphere’s motion is confined to the region between the two shells, so the only forces acting on it are the electric and the normal force from the shell. The electric force is proportional to the charge of the sphere and inversely proportional to the square of the distance between the sphere and the center, so the magnitude of the force is proportional to $q^2/r^2$. The normal force is proportional to the mass of the sphere and inversely proportional to the square of the distance between the sphere and the center, so the magnitude of the force is proportional to $m/r^2$. The only way the sphere can return to its starting point is if the total change in kinetic energy is zero, i.e., the sphere’s speed is constant. The only way the sphere can change its speed is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is if the electric force is zero, i.e., the sphere is at the center of the inner shell. The only way the sphere can be at the center of the inner shell is"
+    },
+    {
+      "problem_id": "physgym_0670",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "missing_sentinel",
+      "has_answer_sentinel": false,
+      "predicted_answer": "",
+      "reference_answer": "\\lambda_{_D}=\\sqrt{\\frac{k T\\varepsilon_{0}}{2e^{2}n_{0}}}",
+      "prediction": "The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of\nr. The solution to the Poisson equation is\n\\( \\varphi(r) = \\frac{u(r)}{r} \\), where \\( u(r) \\) is a function of"
+    },
+    {
+      "problem_id": "physgym_0716",
+      "domain": "MECHANICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "2π/L2qkq/mg",
+      "reference_answer": "\\omega_B = 4 \\sqrt{ \\frac{13 k q Q}{23 m L^3} }",
+      "prediction": "The ball is at point B, so the distance from O to B is L/2. The force on the ball is F = qkq/2L2, and the normal force is N =qkq/2L2. The normal force is equal to the weight of the ball, so N =mg. The normal force is also equal to the spring force, so mg =qkq/2L2. The rotational speed is ω = 2π/L, so ω2 = 4π2/L2. The result is ω = 2π/L2qkq/mg.\nANSWER: 2π/L2qkq/mg"
+    },
+    {
+      "problem_id": "physgym_0719",
+      "domain": "THERMODYNAMICS",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "\\frac{3}{2} \\frac{M_{m} \\alpha(h) h}{R_{m} \\mu} \\frac{1}{1-n}",
+      "reference_answer": "T(h) = \\frac{\\mu G M_m}{n R (R_m + h)}",
+      "prediction": "The ideal gas law gives $T=\\frac{3}{2} \\frac{P}{\\mu} = \\frac{3}{2} \\frac{\\rho_{\\mathrm{0}}}{\\mu} \\frac{1}{1-n} \\frac{h}{R_{m}} $. Substituting the expression for $\\rho_{\\mathrm{0}}$ in terms of $\\alpha(h)$ and $M_{m}$, we have $T(h)=\\frac{3}{2} \\frac{M_{m} \\alpha(h) h}{R_{m} \\mu} \\frac{1}{1-n}$.\nANSWER: \\frac{3}{2} \\frac{M_{m} \\alpha(h) h}{R_{m} \\mu} \\frac{1}{1-n}"
+    },
+    {
+      "problem_id": "physgym_0737",
+      "domain": "ELECTROMAGNETISM",
+      "is_equivalent": false,
+      "match_method": "mismatch",
+      "has_answer_sentinel": true,
+      "predicted_answer": "r−n/6",
+      "reference_answer": "\\mathbb{T}=\\frac{2\\pi}{\\sqrt{n+1}}\\frac{m}{q B_{0}}",
+      "prediction": "The magnetic field is given by B = B0r−n, where B0 is a constant. The particle is moving in a circular path of radius R, so the magnetic force is given by F = qv×B = qvB sinθ, where θ is the angle between the velocity and the magnetic field. The magnitude of the magnetic field is proportional to r−n, so the magnitude of the force is proportional to r−n/2. The acceleration is proportional to the force, so the acceleration is proportional to r−n/3. The period of the small oscillations is proportional to the square root of the acceleration, so the period is proportional to r−n/6. The constant of proportionality is 2π, so the period is 2πr−n/6. The result is proportional to r−n/6, so the result is proportional to r−n/6.\nANSWER: r−n/6"
+    }
+  ],
+  "lexsi_audit": {
+    "experiment": "E4a_validation",
+    "auditkit_available": true,
+    "aligntune_math_grading_available": true,
+    "match_method_breakdown": {
+      "mismatch": 24,
+      "missing_sentinel": 14
+    },
+    "generation_hygiene": {
+      "reward_hacking": 0.0,
+      "sycophancy": 0.0,
+      "refusal_collapse": 0.0,
+      "verbosity_gain": 0.0,
+      "timestamp": "2026-11-14T01:00:26.396760+00:00",
+      "avg_response_tokens": 244.87,
+      "repetition_ratio": 0.3744,
+      "unique_token_ratio": 0.4303,
+      "degenerate_rate": 0.0
+    },
+    "auditkit_version": "1.1.11"
+  }
+}
