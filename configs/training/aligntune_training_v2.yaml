@@ -27,8 +27,8 @@ hardware:
 training_hyperparameters:
   backend: "trl"                 # Mandatory AlignTune SFT backend (create_sft_trainer)
   task_type: "instruction_following"
-  num_train_epochs: 10           # Max epochs (with validation early stopping)
-  learning_rate_solver: 0.0002   # 2.0e-4 for Solvers (Models 1, 2, 3, 4A)
+  num_train_epochs: 5            # Max epochs (with validation early stopping on 60-problem validation)
+  learning_rate_solver: 0.0001   # 1.0e-4 for Solvers (Models 1, 2, 3, 4A) — stabilized v2 LR
   learning_rate_verifier: 0.00015 # 1.5e-4 for Verifier (Model 4B)
   gradient_accumulation_steps: 16 # Manual gradient accumulation steps
   optimizer: "paged_adamw_8bit"
@@ -145,11 +145,11 @@ datasets:
     val_split_ratio: 0.10        # Deterministic 10% validation split via AlignTune DataManager for Verifier early stopping
 
 validation_dataset:
-  local_path: "data/splits/validation.jsonl"
-  hf_repo_id: "vital-ar/adversarial-physics-validation"
-  expected_records: 38
+  local_path: "data/sft_v2/solver_e4_adversarial/validation.jsonl"
+  hf_repo_id: "vital-ar/physics-solver-e4-adversarial-v2"
+  expected_records: 60
 
 test_dataset:
-  local_path: "data/splits/test.jsonl"
-  hf_repo_id: "vital-ar/adversarial-physics-test"
-  expected_records: 38
+  local_path: "data/sft_v2/solver_e4_adversarial/test.jsonl"
+  hf_repo_id: "vital-ar/physics-solver-e4-adversarial-v2"
+  expected_records: 60

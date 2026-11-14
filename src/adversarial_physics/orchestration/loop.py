@@ -1174,9 +1174,50 @@ def run_adversarial_validation_loop(
                 progress_callback(idx, total, res)
 
     metrics = compute_loop_metrics(results, max_iterations=max_iterations)
+
+    def _build_turn_eval_rows(use_final: bool) -> list[dict[str, Any]]:
+        rows: list[dict[str, Any]] = []
+        for res in results:
+            if not res.traces:
+                continue
+            tr = res.traces[-1] if use_final else res.traces[0]
+            val = dict(getattr(tr, "solver_validation", None) or {})
+            source = "physgym_seed" if str(res.problem_id).startswith("physgym") else "curated_in_domain"
+            rows.append(
+                {
+                    "problem_id": res.problem_id,
+                    "domain": res.domain,
+                    "source": source,
+                    "is_equivalent": bool(val.get("is_equivalent", res.final_correct if use_final else res.turn0_correct)),
+                    "match_method": str(val.get("match_method", res.final_match_method if use_final else res.turn0_match_method)),
+                    "has_answer_sentinel": bool(
+                        val.get("has_answer_sentinel", res.final_has_answer if use_final else res.turn0_has_answer)
+                    ),
+                    "unit_consistent": bool(val.get("unit_consistent", False)),
+                    "predicted_answer": str(val.get("extracted_candidate_answer", "")),
+                    "reference_answer": str(val.get("extracted_reference_answer", res.normalized_reference_answer)),
+                    "prediction": str(getattr(tr, "solver_output", "") or ""),
+                    "reference_solution": str(res.reference_solution or ""),
+                }
+            )
+        return rows
+
+    from adversarial_physics.evaluation.auditkit_bridge import run_physics_eval_audit
+
+    exp_label = str((metadata or {}).get("experiment_name") or "e4_adversarial_loop")
     payload: dict[str, Any] = {
         "metadata": dict(metadata or {}),
         "metrics": metrics,
+        "lexsi_audit": {
+            "turn0": run_physics_eval_audit(
+                {"per_sample": _build_turn_eval_rows(use_final=False)},
+                experiment_name=f"{exp_label}_turn0",
+            ),
+            "final": run_physics_eval_audit(
+                {"per_sample": _build_turn_eval_rows(use_final=True)},
+                experiment_name=f"{exp_label}_final",
+            ),
+        },
         "artifacts": {
             "output_dir": str(out_path),
             "results_per_problem_jsonl": str(traces_jsonl),

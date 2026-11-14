@@ -126,6 +126,7 @@ class SolverTrajectory:
     target_output: str = ""
     source_candidate_ids: list[str] = field(default_factory=list)
     dataset_tier: str = "E4_solver_adversarial"
+    source: str = "literature_curated"
 
     def to_dict(self) -> dict[str, Any]:
         d = asdict(self)
@@ -147,6 +148,7 @@ class SolverTrajectory:
             target_output=str(data.get("target_output") or data.get("output") or ""),
             source_candidate_ids=list(data.get("source_candidate_ids") or []),
             dataset_tier=str(data.get("dataset_tier") or "E4_solver_adversarial"),
+            source=str(data.get("source") or "literature_curated"),
         )
 
 

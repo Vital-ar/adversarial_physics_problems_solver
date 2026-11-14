@@ -469,7 +469,7 @@ def curate_and_deduplicate_stage2_trajectories(
     all_raw = list(sol2_raw) + list(flawed_8b_raw) + list(tiny_aya_raw)
     save_candidates_jsonl(all_raw, resolve_project_path(raw_synthetic_output_path))
 
-    cleaner = TextCleaner(fields=["instruction", "output"])
+    cleaner = TextCleaner(transforms={"strip_html": False}, fields=["instruction", "output"])
     schema_gate = SchemaGate(required_fields=["instruction", "output"], min_tokens=8, max_tokens=4096)
     # 2. Curate Minority-Domain Alternative Solution 2 (`82` problems)
     rejected_logs: list[dict[str, Any]] = []

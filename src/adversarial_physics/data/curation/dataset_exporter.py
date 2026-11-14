@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import time
 from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass
@@ -86,6 +87,26 @@ class Stage2ExportSummary:
         return asdict(self)
 
 
+_PROSE_ANSWER_WORDS_RE = re.compile(
+    r"\b(where|which|since|because|therefore|thus|hence|that|this|from|with|into|under|above|below|"
+    r"same|constant|direction|velocity|acceleration|proof|shown|see|text|solution|equation|result|"
+    r"claimed|sense|proportional|depends|function|independent)\b",
+    re.IGNORECASE,
+)
+
+
+def is_clean_symbolic_or_numeric_answer(ans_str: str) -> bool:
+    """Return True if an extracted `ANSWER:` value is a concise symbolic/numeric expression (not truncated prose)."""
+    a = str(ans_str or "").strip()
+    if not a or len(a) > 80:
+        return False
+    if a[-1] in "<>+-=*/^,;:":
+        return False
+    if _PROSE_ANSWER_WORDS_RE.search(a):
+        return False
+    return True
+
+
 def _problems_to_turn0_solver_trajectories(
     problems: list[CanonicalProblem],
     *,
@@ -105,6 +126,7 @@ def _problems_to_turn0_solver_trajectories(
                 target_output=p.reference_solution,
                 source_candidate_ids=[f"{p.problem_id}_sol1"],
                 dataset_tier=dataset_tier,
+                source=p.source,
             )
         )
     return rows
@@ -657,6 +679,8 @@ def _curate_and_write_dataset_artifacts(
     val_rows: list[dict[str, Any]] | None = None,
     test_rows: list[dict[str, Any]] | None = None,
     require_answer_sentinel: bool = False,
+    require_clean_answer: bool = False,
+    min_output_chars: int = 0,
 ) -> _CuratedDatasetResult:
     """Run CuratorKIT `TextCleaner`, `SchemaGate`, `ExactDeduplicator`, and optional `AnswerSentinelGate`
     over a dataset's rows, write `train.jsonl` (plus `validation.jsonl`/`test.jsonl` when provided),
@@ -681,7 +705,7 @@ def _curate_and_write_dataset_artifacts(
         for idx, r in enumerate(rows)
     ]
 
-    cleaner = TextCleaner(fields=["instruction", "output"])
+    cleaner = TextCleaner(transforms={"strip_html": False}, fields=["instruction", "output"])
     schema_gate = SchemaGate(required_fields=["instruction", "output"], min_tokens=20, max_tokens=8192)
     exact_dedup = ExactDeduplicator()
 
@@ -693,9 +717,19 @@ def _curate_and_write_dataset_artifacts(
     if require_answer_sentinel:
         sentinel_passed: list[DataSample] = []
         for s in deduped:
-            if "ANSWER:" in str(s.output):
+            out_str = str(s.output).strip()
+            has_sentinel = "ANSWER:" in out_str
+            ans_tail = out_str.split("ANSWER:")[-1].strip() if has_sentinel else ""
+            clean_ok = (not require_clean_answer) or is_clean_symbolic_or_numeric_answer(ans_tail)
+            len_ok = len(out_str) >= min_output_chars
+            if has_sentinel and clean_ok and len_ok:
                 sentinel_passed.append(s)
             else:
+                reason = (
+                    "missing ANSWER: sentinel line"
+                    if not has_sentinel
+                    else (f"output shorter than {min_output_chars} chars" if not len_ok else "non-symbolic/truncated ANSWER value")
+                )
                 rejected.append(
                     RejectedSample(
                         id=s.id,
@@ -705,7 +739,7 @@ def _curate_and_write_dataset_artifacts(
                         output=s.output,
                         task_type=s.task_type,
                         metadata=dict(s.metadata or {}),
-                        rejection_reason="missing ANSWER: sentinel line",
+                        rejection_reason=reason,
                         rejecting_step="AnswerSentinelGate",
                     )
                 )
@@ -714,12 +748,16 @@ def _curate_and_write_dataset_artifacts(
     else:
         sentinel_rejected = 0
 
-    # Sync cleaned instruction/output back into row metadata
+    # Sync cleaned instruction/output back into row metadata AND convenience SFT columns
     curated_rows: list[dict[str, Any]] = []
     for s in deduped:
         row_dict = dict(s.metadata or {})
-        row_dict[prompt_field] = s.instruction.strip()
-        row_dict[output_field] = s.output.strip()
+        clean_inst = s.instruction.strip()
+        clean_out = s.output.strip()
+        row_dict[prompt_field] = clean_inst
+        row_dict["instruction"] = clean_inst
+        row_dict[output_field] = clean_out
+        row_dict["output"] = clean_out
         curated_rows.append(row_dict)
 
     train_path = _write_jsonl_rows(curated_rows, dataset_dir / "train.jsonl")
@@ -862,10 +900,16 @@ def export_all_stage2_sft_datasets(
     surviving_flawed_path: str | Path = DEFAULT_SURVIVING_FLAWED_PATH,
     directives_input_path: str | Path = DEFAULT_DIRECTIVES_INPUT_PATH,
     sft_output_root: str | Path = DEFAULT_SFT_OUTPUT_ROOT,
+    tiny_aya_correct_path: str | Path | None = None,
+    max_repeated_ref_hints: int | None = None,
+    require_clean_e2_e3_e4: bool = False,
+    min_e3_e4_chars: int = 0,
 ) -> Stage2ExportSummary:
     """Build, curate with CuratorKIT, and export all 5 progressive SFT datasets (`E1`, `E2`, `E3`,
     `E4 Solver`, `E4 Verifier`) with per-dataset `manifest.json`, `lexsi_provenance.json`, and `checksums.txt`.
     """
+    from adversarial_physics.orchestration.loop import prepare_reference_for_validation
+
     out_root = resolve_project_path(sft_output_root)
     out_root.mkdir(parents=True, exist_ok=True)
 
@@ -884,14 +928,46 @@ def export_all_stage2_sft_datasets(
     e1_problems = load_problems_jsonl(e1_file)
     e2_problems = load_problems_jsonl(e2_file)
     e3_problems = load_problems_jsonl(e3_file)
-    val_problems = load_problems_jsonl(val_file) if val_file.is_file() else []
-    test_problems = load_problems_jsonl(test_file) if test_file.is_file() else []
+    val_problems_raw = load_problems_jsonl(val_file) if val_file.is_file() else []
+    test_problems_raw = load_problems_jsonl(test_file) if test_file.is_file() else []
+
+    val_problems = [
+        CanonicalProblem(
+            problem_id=p.problem_id,
+            domain=p.domain,
+            problem_statement=p.problem_statement,
+            reference_solution=prepare_reference_for_validation(p.reference_solution)[0],
+            source=p.source,
+            original_id=p.original_id,
+        )
+        for p in val_problems_raw
+    ]
+    test_problems = [
+        CanonicalProblem(
+            problem_id=p.problem_id,
+            domain=p.domain,
+            problem_statement=p.problem_statement,
+            reference_solution=prepare_reference_for_validation(p.reference_solution)[0],
+            source=p.source,
+            original_id=p.original_id,
+        )
+        for p in test_problems_raw
+    ]
 
     prob_map: dict[str, CanonicalProblem] = {p.problem_id: p for p in e3_problems}
     curated_sol2: list[CandidateSolution] = [
         c for c in load_candidates_jsonl(sol2_file) if c.problem_id in prob_map
     ]
     sol2_map: dict[str, str] = {c.candidate_id: c.solution_text for c in curated_sol2}
+    sol2_by_pid: dict[str, CandidateSolution] = {c.problem_id: c for c in curated_sol2}
+
+    tiny_correct_map: dict[str, CandidateSolution] = {}
+    if tiny_aya_correct_path is not None:
+        tiny_correct_file = resolve_project_path(tiny_aya_correct_path)
+        if tiny_correct_file.is_file():
+            for c in load_candidates_jsonl(tiny_correct_file):
+                if c.problem_id in prob_map and len(c.solution_text.strip()) >= 400 and "ANSWER:" in c.solution_text:
+                    tiny_correct_map.setdefault(c.problem_id, c)
 
     surviving_flawed = load_candidates_jsonl(surv_file) if surv_file.is_file() else []
     surviving_map: dict[str, CandidateSolution] = {c.candidate_id: c for c in surviving_flawed}
@@ -996,6 +1072,7 @@ def export_all_stage2_sft_datasets(
         val_rows=val_sft_rows,
         test_rows=test_sft_rows,
         require_answer_sentinel=True,
+        require_clean_answer=require_clean_e2_e3_e4,
     )
     e3_res = _curate_and_write_dataset_artifacts(
         dataset_key="solver_e3_canonical_llm",
@@ -1008,6 +1085,8 @@ def export_all_stage2_sft_datasets(
         val_rows=val_sft_rows,
         test_rows=test_sft_rows,
         require_answer_sentinel=True,
+        require_clean_answer=require_clean_e2_e3_e4,
+        min_output_chars=min_e3_e4_chars,
     )
     e1_out, e1_curated = e1_res.train_path, e1_res.curated_rows
     e2_out, e2_curated = e2_res.train_path, e2_res.curated_rows
@@ -1016,6 +1095,9 @@ def export_all_stage2_sft_datasets(
     # 2. Build & Export E4 Solver SFT Dataset (`solver_e4_adversarial`: 0 hints + 50% 1-hint + 50% 2-hints)
     e4_solver_objs: list[SolverTrajectory] = []
     for p in e3_problems:
+        tiny_cand = tiny_correct_map.get(p.problem_id)
+        turn0_target = tiny_cand.solution_text if tiny_cand is not None else p.reference_solution
+        turn0_cids = [tiny_cand.candidate_id] if tiny_cand is not None else [f"{p.problem_id}_sol1"]
         e4_solver_objs.append(
             SolverTrajectory(
                 trajectory_id=f"E4_solver:{p.problem_id}:turn0_sol1",
@@ -1024,28 +1106,10 @@ def export_all_stage2_sft_datasets(
                 turn=0,
                 accumulated_directives=[],
                 prompt=format_solver_prompt(p.problem_statement, []),
-                target_output=p.reference_solution,
-                source_candidate_ids=[f"{p.problem_id}_sol1"],
+                target_output=turn0_target,
+                source_candidate_ids=turn0_cids,
                 dataset_tier="E4_solver_adversarial",
-            )
-        )
-    sol2_kept_count = 0
-    for s2 in curated_sol2:
-        p = prob_map.get(s2.problem_id)
-        if p is None:
-            continue
-        sol2_kept_count += 1
-        e4_solver_objs.append(
-            SolverTrajectory(
-                trajectory_id=f"E4_solver:{p.problem_id}:turn0_sol2",
-                problem_id=p.problem_id,
-                domain=p.domain,
-                turn=0,
-                accumulated_directives=[],
-                prompt=format_solver_prompt(p.problem_statement, []),
-                target_output=s2.solution_text,
-                source_candidate_ids=[s2.candidate_id],
-                dataset_tier="E4_solver_adversarial",
+                source=p.source,
             )
         )
 
@@ -1067,12 +1131,48 @@ def export_all_stage2_sft_datasets(
     two_hint_probs = sorted_probs[:two_hint_target]
     one_hint_probs = sorted_probs[two_hint_target:]
 
+    sol2_used_in_hints: set[str] = set()
+    ref_hint_budget_turn1 = (max_repeated_ref_hints // 2) if max_repeated_ref_hints is not None else None
+    ref_hint_budget_turn2 = (
+        max_repeated_ref_hints - (max_repeated_ref_hints // 2) if max_repeated_ref_hints is not None else None
+    )
+    ref_hint_used_turn1 = 0
+    ref_hint_used_turn2 = 0
+
     turn1_count = 0
-    for p in one_hint_probs:
+    # When budgeting repeated reference hints, iterate problems round-robin across domains so all domains stay balanced
+    if ref_hint_budget_turn1 is not None:
+        by_dom_1: dict[str, list[CanonicalProblem]] = defaultdict(list)
+        for p in one_hint_probs:
+            by_dom_1[p.domain].append(p)
+        ordered_1: list[CanonicalProblem] = []
+        while any(by_dom_1.values()):
+            for dom in sorted(by_dom_1):
+                if by_dom_1[dom]:
+                    ordered_1.append(by_dom_1[dom].pop(0))
+        one_hint_iter = [p for p in ordered_1 if p.problem_id in sol2_by_pid] + [
+            p for p in ordered_1 if p.problem_id not in sol2_by_pid
+        ]
+    else:
+        one_hint_iter = one_hint_probs
+
+    for p in one_hint_iter:
         prob_hints = hints_by_prob.get(p.problem_id, [])
         if not prob_hints:
             continue
         cid1, h1 = prob_hints[0]
+        if max_repeated_ref_hints is not None and p.problem_id in sol2_by_pid:
+            s2 = sol2_by_pid[p.problem_id]
+            target_out = s2.solution_text
+            cids = [cid1, s2.candidate_id]
+            sol2_used_in_hints.add(p.problem_id)
+        else:
+            if ref_hint_budget_turn1 is not None:
+                if ref_hint_used_turn1 >= ref_hint_budget_turn1:
+                    continue
+                ref_hint_used_turn1 += 1
+            target_out = p.reference_solution
+            cids = [cid1]
         e4_solver_objs.append(
             SolverTrajectory(
                 trajectory_id=f"E4_solver:{p.problem_id}:turn1_1hint",
@@ -1081,15 +1181,31 @@ def export_all_stage2_sft_datasets(
                 turn=1,
                 accumulated_directives=[h1],
                 prompt=format_solver_prompt(p.problem_statement, [h1]),
-                target_output=p.reference_solution,
-                source_candidate_ids=[cid1],
+                target_output=target_out,
+                source_candidate_ids=cids,
                 dataset_tier="E4_solver_adversarial",
+                source=p.source,
             )
         )
         turn1_count += 1
 
     turn2_count = 0
-    for p in two_hint_probs:
+    if ref_hint_budget_turn2 is not None:
+        by_dom_2: dict[str, list[CanonicalProblem]] = defaultdict(list)
+        for p in two_hint_probs:
+            by_dom_2[p.domain].append(p)
+        ordered_2: list[CanonicalProblem] = []
+        while any(by_dom_2.values()):
+            for dom in sorted(by_dom_2):
+                if by_dom_2[dom]:
+                    ordered_2.append(by_dom_2[dom].pop(0))
+        two_hint_iter = [p for p in ordered_2 if p.problem_id in sol2_by_pid] + [
+            p for p in ordered_2 if p.problem_id not in sol2_by_pid
+        ]
+    else:
+        two_hint_iter = two_hint_probs
+
+    for p in two_hint_iter:
         prob_hints = hints_by_prob.get(p.problem_id, [])
         if not prob_hints:
             continue
@@ -1115,6 +1231,19 @@ def export_all_stage2_sft_datasets(
             directives = [h1, h2_clean]
             cids = [cid1, f"{p.problem_id}_second_constraint"]
             turn_num = 2
+
+        if max_repeated_ref_hints is not None and p.problem_id in sol2_by_pid:
+            s2 = sol2_by_pid[p.problem_id]
+            target_out = s2.solution_text
+            cids = [*cids, s2.candidate_id]
+            sol2_used_in_hints.add(p.problem_id)
+        else:
+            if ref_hint_budget_turn2 is not None:
+                if ref_hint_used_turn2 >= ref_hint_budget_turn2:
+                    continue
+                ref_hint_used_turn2 += 1
+            target_out = p.reference_solution
+
         e4_solver_objs.append(
             SolverTrajectory(
                 trajectory_id=f"E4_solver:{p.problem_id}:turn2_2hints",
@@ -1123,12 +1252,34 @@ def export_all_stage2_sft_datasets(
                 turn=turn_num,
                 accumulated_directives=directives,
                 prompt=format_solver_prompt(p.problem_statement, directives),
-                target_output=p.reference_solution,
+                target_output=target_out,
                 source_candidate_ids=cids,
                 dataset_tier="E4_solver_adversarial",
+                source=p.source,
             )
         )
         turn2_count += 1
+
+    sol2_kept_count = 0
+    for s2 in curated_sol2:
+        p = prob_map.get(s2.problem_id)
+        if p is None or s2.problem_id in sol2_used_in_hints:
+            continue
+        sol2_kept_count += 1
+        e4_solver_objs.append(
+            SolverTrajectory(
+                trajectory_id=f"E4_solver:{p.problem_id}:turn0_sol2",
+                problem_id=p.problem_id,
+                domain=p.domain,
+                turn=0,
+                accumulated_directives=[],
+                prompt=format_solver_prompt(p.problem_statement, []),
+                target_output=s2.solution_text,
+                source_candidate_ids=[s2.candidate_id],
+                dataset_tier="E4_solver_adversarial",
+                source=p.source,
+            )
+        )
 
     e4_solver_res = _curate_and_write_dataset_artifacts(
         dataset_key="solver_e4_adversarial",
@@ -1147,6 +1298,8 @@ def export_all_stage2_sft_datasets(
         val_rows=val_sft_rows,
         test_rows=test_sft_rows,
         require_answer_sentinel=True,
+        require_clean_answer=require_clean_e2_e3_e4,
+        min_output_chars=min_e3_e4_chars,
     )
     e4_solver_out, e4_solver_curated = e4_solver_res.train_path, e4_solver_res.curated_rows
 
@@ -1281,7 +1434,7 @@ def export_all_stage2_sft_datasets(
         solver_e3_canonical_llm_count=len(e3_curated),
         solver_e4_adversarial_total_count=len(e4_solver_curated),
         solver_e4_turn0_sol1_count=len(e3_problems),
-        solver_e4_turn0_minority_sol2_count=len(curated_sol2),
+        solver_e4_turn0_minority_sol2_count=sol2_kept_count,
         solver_e4_turn1_one_hint_count=turn1_count,
         solver_e4_turn2_two_hints_count=turn2_count,
         verifier_e4_total_count=len(e4_verifier_curated),

@@ -603,6 +603,8 @@ class TaskAccuracyCallback:
                         for idx in range(n_samples):
                             row = eval_ds[idx]
                             prompt = row.get("prompt") or row.get("instruction") or ""
+                            if prompt and not prompt.endswith("\n\n"):
+                                prompt = prompt.rstrip() + "\n\n"
                             reference = row.get("completion") or row.get("output") or row.get("target_output") or ""
                             if not prompt or not reference:
                                 continue
@@ -732,6 +734,36 @@ def create_aligntune_sft_trainer(
         f"grad_accum={trainer_kwargs.get('gradient_accumulation_steps')})..."
     )
     trainer = create_sft_trainer(**trainer_kwargs)
+
+    def _restore_dataset_prompt_boundary(ds: Any) -> Any:
+        col_names = getattr(ds, "column_names", None)
+        if not isinstance(col_names, (list, tuple)):
+            return ds
+        target_col = "prompt" if "prompt" in col_names else ("instruction" if "instruction" in col_names else None)
+        if target_col is None or not callable(getattr(ds, "map", None)):
+            return ds
+
+        def _ensure_nn(batch: dict[str, list[Any]]) -> dict[str, list[Any]]:
+            return {
+                target_col: [
+                    (p.rstrip() + "\n\n") if isinstance(p, str) and p and not p.endswith("\n\n") else p
+                    for p in batch[target_col]
+                ]
+            }
+
+        return ds.map(_ensure_nn, batched=True, desc=f"Restore trailing \\n\\n on {target_col}")
+
+    orig_setup_data = getattr(trainer, "setup_data", None)
+    if callable(orig_setup_data):
+        def _setup_data_preserving_prompt_boundary(*args: Any, **kwargs: Any) -> Any:
+            result = orig_setup_data(*args, **kwargs)
+            for attr_name in ("train_dataset", "eval_dataset", "dataset"):
+                ds_obj = getattr(trainer, attr_name, None)
+                if ds_obj is not None:
+                    setattr(trainer, attr_name, _restore_dataset_prompt_boundary(ds_obj))
+            return result
+
+        trainer.setup_data = _setup_data_preserving_prompt_boundary
 
     # Inspect and log actual model layer placement across devices
     model_obj = getattr(trainer, "model", None)
@@ -882,12 +914,14 @@ def batched_evaluate_solver_split(
             {
                 "problem_id": row.get("problem_id"),
                 "domain": dom,
+                "source": str(row.get("source") or "unknown"),
                 "is_equivalent": res.is_equivalent,
                 "match_method": res.match_method,
                 "has_answer_sentinel": res.has_answer_sentinel,
                 "predicted_answer": res.extracted_candidate_answer,
                 "reference_answer": res.extracted_reference_answer,
                 "prediction": pred,
+                "reference_solution": ref,
             }
         )
 
@@ -1256,7 +1290,7 @@ def train_adapter(
     if (not is_verifier) and ckpt_sel_cfg.get("enabled", True):
         configured_val = (config.get("validation_dataset", {}) or {}).get("local_path", "data/splits/validation.jsonl")
         dir_val = Path(dataset_dir) / "validation.jsonl"
-        val_file_path = configured_val if Path(configured_val).is_file() else str(dir_val)
+        val_file_path = str(dir_val) if dir_val.is_file() else configured_val
         if Path(val_file_path).is_file() and getattr(trainer, "model", None) is not None and tok_obj is not None:
             sel_report = select_best_epoch_checkpoint(
                 output_dir=output_dir,
