@@ -1,0 +1,41 @@
+{
+  "formula": "1.0 * eval_loss - 1.5 * val_accuracy (lower is better)",
+  "winner": {
+    "checkpoint_dir": "models/adapters/solver_e4_adversarial_v2_lora/checkpoint-156",
+    "step": 156,
+    "eval_loss": 1.13188898563385,
+    "val_accuracy": 0.0667,
+    "correct": 4,
+    "total": 60,
+    "composite_score": 1.0318389856338501
+  },
+  "all_checkpoints": [
+    {
+      "checkpoint_dir": "models/adapters/solver_e4_adversarial_v2_lora/checkpoint-52",
+      "step": 52,
+      "eval_loss": 1.131786823272705,
+      "val_accuracy": 0.05,
+      "correct": 3,
+      "total": 60,
+      "composite_score": 1.0567868232727051
+    },
+    {
+      "checkpoint_dir": "models/adapters/solver_e4_adversarial_v2_lora/checkpoint-104",
+      "step": 104,
+      "eval_loss": 1.129103422164917,
+      "val_accuracy": 0.0333,
+      "correct": 2,
+      "total": 60,
+      "composite_score": 1.079153422164917
+    },
+    {
+      "checkpoint_dir": "models/adapters/solver_e4_adversarial_v2_lora/checkpoint-156",
+      "step": 156,
+      "eval_loss": 1.13188898563385,
+      "val_accuracy": 0.0667,
+      "correct": 4,
+      "total": 60,
+      "composite_score": 1.0318389856338501
+    }
+  ]
+}
