@@ -350,11 +350,17 @@ def build_and_verify_v3() -> dict[str, Any]:
     """Build all 5 v3 SFT datasets deterministically in `data/sft_v3/` and run strict quality assertions."""
     rng = random.Random(42)
 
-    # 1. Load locked 60-problem validation_v2 and test_v2 splits (preserving identical evaluation benchmark across v2 and v3)
-    validation_v2 = load_problems_jsonl(PROJECT_ROOT / "data/splits/validation_v2.jsonl")
-    test_v2 = load_problems_jsonl(PROJECT_ROOT / "data/splits/test_v2.jsonl")
+    # 1. Load leak-free v3 (or fallback v2) validation and test splits
+    val_split_path = PROJECT_ROOT / "data/splits/validation_v3.jsonl"
+    test_split_path = PROJECT_ROOT / "data/splits/test_v3.jsonl"
+    if not val_split_path.is_file():
+        val_split_path = PROJECT_ROOT / "data/splits/validation_v2.jsonl"
+    if not test_split_path.is_file():
+        test_split_path = PROJECT_ROOT / "data/splits/test_v2.jsonl"
+    validation_v2 = load_problems_jsonl(val_split_path)
+    test_v2 = load_problems_jsonl(test_split_path)
     heldout_pids = {p.problem_id for p in validation_v2 + test_v2}
-    assert len(validation_v2) == 60 and len(test_v2) == 60 and len(heldout_pids) == 120
+    assert len(validation_v2) > 0 and len(test_v2) > 0 and len(heldout_pids) == len(validation_v2) + len(test_v2)
 
     # 2. Load and step-structure E3 canonical pool (`642` leak-free problems -> 100% step-structured)
     e3_raw = load_problems_jsonl(PROJECT_ROOT / "data/processed/canonical_train_v2.jsonl")
@@ -744,8 +750,20 @@ def build_and_verify_v3() -> dict[str, Any]:
                 pr = str(r.get("prompt") or "")
                 assert pr.endswith("\n\n"), f"{folder}/{split_name}.jsonl row {idx} prompt missing trailing \\n\\n!"
             if split_name in ("validation", "test"):
-                assert len(sp_rows) == 60, f"{folder}/{split_name}.jsonl expected 60 rows, got {len(sp_rows)}"
+                assert len(sp_rows) > 0, f"{folder}/{split_name}.jsonl is empty!"
                 split_stats[f"{split_name}_count"] = len(sp_rows)
+
+        # Strict all-MiniLM-L6-v2 cosine < 0.80 cross-split anti-leak guard
+        from adversarial_physics.evaluation.calibration_audit import check_embedding_train_eval_leakage
+
+        emb_audit = check_embedding_train_eval_leakage(
+            [ds_dir / "train.jsonl"],
+            [p for p in (ds_dir / "validation.jsonl", ds_dir / "test.jsonl") if p.is_file()],
+            cosine_threshold=0.80,
+        )
+        assert emb_audit["leak_free"], (
+            f"Semantic leakage >= 0.80 in {folder}: {emb_audit['leaked_by_split']}"
+        )
 
         if folder in ("solver_e2_curatorkit_nollm", "solver_e3_canonical_llm", "solver_e4_adversarial"):
             step_cnt = sum(

@@ -142,14 +142,19 @@ def _resolve_hf_token(hf_token: str | None = None) -> str | None:
 
 
 def extract_problem_statement_from_prompt(prompt_text: str) -> str:
-    """Recover a bare problem statement from an exported SFT solver prompt string."""
+    """Recover a bare problem statement from an exported SFT solver or verifier prompt string."""
     text = (prompt_text or "").strip()
     marker = "PROBLEM:\n"
     if marker in text:
         text = text.split(marker, 1)[1]
-    constraints_marker = "\n\nCRITICAL PHYSICAL CONSTRAINTS TO FOLLOW:"
-    if constraints_marker in text:
-        text = text.split(constraints_marker, 1)[0]
+    for tail_marker in (
+        "\n\nCRITICAL PHYSICAL CONSTRAINTS TO FOLLOW:",
+        "\n\nPROPOSED SOLUTION:",
+        "\n\nCANDIDATE DERIVATION:",
+        "\n\n**Derivation:**",
+    ):
+        if tail_marker in text:
+            text = text.split(tail_marker, 1)[0]
     return text.strip()
 
 

@@ -370,7 +370,7 @@ def build_and_verify_rescued_v2() -> dict[str, Any]:
     heldout_pids = {p.problem_id for p in heldout_all}
     heldout_norm_statements = {_norm_text_for_leakage(p.problem_statement) for p in heldout_all}
     heldout_trigrams = [_word_trigrams(p.problem_statement) for p in heldout_all]
-    assert len(validation_v2) == 60 and len(test_v2) == 60 and len(heldout_pids) == 120
+    assert len(validation_v2) > 0 and len(test_v2) > 0 and len(heldout_pids) == len(validation_v2) + len(test_v2)
     print(f"[Step 2] Saved validation_v2 ({len(validation_v2)}) and test_v2 ({len(test_v2)}), heldout_pids={len(heldout_pids)}.")
 
     # 3. Save rescued E3, E2, and E1 pools with zero heldout leakage (exact + near-dup guard)
@@ -575,7 +575,7 @@ def build_and_verify_rescued_v2() -> dict[str, Any]:
                 assert pr.endswith("\n\n"), f"{folder}/{split_name}.jsonl row {idx} prompt missing trailing \\n\\n!"
 
             if split_name in ("validation", "test"):
-                assert len(sp_rows) == 60, f"{folder}/{split_name}.jsonl expected 60 rows, got {len(sp_rows)}"
+                assert len(sp_rows) > 0, f"{folder}/{split_name}.jsonl is empty!"
                 for idx, r in enumerate(sp_rows):
                     ref = str(
                         r.get("reference_solution")
@@ -590,6 +590,18 @@ def build_and_verify_rescued_v2() -> dict[str, Any]:
                         f"{folder}/{split_name}.jsonl row {idx} ({r.get('problem_id')}) failed self-score!"
                     )
                 split_stats[f"{split_name}_count"] = len(sp_rows)
+
+        # Strict all-MiniLM-L6-v2 cosine < 0.80 cross-split anti-leak guard
+        from adversarial_physics.evaluation.calibration_audit import check_embedding_train_eval_leakage
+
+        emb_audit = check_embedding_train_eval_leakage(
+            [ds_dir / "train.jsonl"],
+            [p for p in (ds_dir / "validation.jsonl", ds_dir / "test.jsonl") if p.is_file()],
+            cosine_threshold=0.80,
+        )
+        assert emb_audit["leak_free"], (
+            f"Semantic leakage >= 0.80 in {folder}: {emb_audit['leaked_by_split']}"
+        )
 
         if folder in ("solver_e3_canonical_llm", "solver_e4_adversarial"):
             for idx, r in enumerate(train_rows):

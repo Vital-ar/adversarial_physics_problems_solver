@@ -1,0 +1,726 @@
+{
+  "cosine_threshold": 0.8,
+  "embedding_model": "all-MiniLM-L6-v2",
+  "v1": {
+    "raw_counts": {
+      "validation": 38,
+      "test": 38
+    },
+    "clean_counts": {
+      "validation": 38,
+      "test": 37
+    },
+    "excluded_validation": [],
+    "excluded_test": [
+      {
+        "problem_id": "physgym_0204",
+        "domain": "ELECTROMAGNETISM",
+        "problem_statement": "In modern plasma physics experiments, two methods are commonly used to confine negatively charged particles. In the following discussion, relativistic effects and contributions such as delayed potentials are not considered. \n\nIn space, uniformly charged rings with a radius of $R$ and a charge $Q$ are placed on planes $z=l$ and $z=-l$, respectively. Additionally, a particle with a charge of $-q$ and a mass of $m$ is located at the origin of the coordinate system. The permittivity of vacuum is given as $\\varepsilon_{0}$. \n\nFind the angular frequency $\\omega_{z}$ corresponding to the perturbation stability of the particle in the $\\hat{z}$ direction.",
+        "reference_solution": "Analyzing the electric field at a small displacement $z$ from the equilibrium position along the $z$ axis\n\nwe obtain\n\n$$\n\\vec{E_{z}}=\\frac{Q}{4\\pi\\varepsilon_{0}}\\left(\\frac{l+z}{[R^{2}+(l+z)^{2}]^{\\frac{3}{2}}}-\\frac{l-z}{[R^{2}+(l-z)^{2}]^{\\frac{3}{2}}}\\right)\n$$  \n\n$$\n\\vec{E_{z}}=\\frac{Q}{2\\pi\\varepsilon_{0}}\\frac{\\left(R^{2}-2l^{2}\\right)}{\\left(R^{2}+l^{2}\\right)^{\\frac{5}{2}}}\\vec{z}\n$$  \n\nThe equation of motion is\n\n$$\nm{\\ddot{z}}=-{\\frac{Q q}{2\\pi\\varepsilon_{0}}}{\\frac{(R^{2}-2l^{2})}{(R^{2}+l^{2})^{\\frac{5}{2}}}}z\n$$  \n\nFor stability, the condition of the simple harmonic oscillator equation must be satisfied\n\n$$\nR^{2}>2l^{2}\n$$  \n\nSolving gives\n\n$$\n\\omega_{z}=\\sqrt{\\frac{Q q}{2\\pi\\varepsilon_{0}m}\\frac{(R^{2}-2l^{2})}{(R^{2}+l^{2})^{\\frac{5}{2}}}}\n$$",
+        "source": "physgym",
+        "original_id": 204
+      }
+    ],
+    "leaked_pairs": [
+      {
+        "eval_split": "test.jsonl",
+        "eval_problem_id": "physgym_0204",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "physgym_0649",
+        "cosine": 0.82
+      }
+    ]
+  },
+  "v2": {
+    "raw_counts": {
+      "validation": 60,
+      "test": 60
+    },
+    "clean_counts": {
+      "validation": 44,
+      "test": 49
+    },
+    "excluded_validation": [
+      {
+        "problem_id": "syn_seed_lit_mech_0312",
+        "domain": "MECHANICS",
+        "problem_statement": "A concert flute produces its lowest note, at about 262 Hz, when half of a wavelength fits inside its tube. If the speed of sound in air is $v = 343$ m/s, compute the length of the flute.",
+        "reference_solution": "The wavelength $\\lambda$ of a sound wave is related to its frequency $f$ by the equation:\n\n$$\n\\lambda = \\frac{v}{f}\n$$\n\nWe are given that half a wavelength, or $\\frac{\\lambda}{2}$, fits inside the flute's tube for the lowest note at 262 Hz. Substituting the known values:\n\n$$\n\\frac{\\lambda}{2} = \\frac{343 \\, \\text{m/s}}{262 \\, \\text{Hz}} \\approx 1.307 \\, \\text{m}\n$$\n\nTherefore, the length of the flute is:\n\n$$\n\\lambda = 2 \\times 1.307 \\, \\text{m} \\approx \\boxed{2.614 \\, \\text{m}}\n$$\nANSWER: 2.614 m",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_modern_physics:05_waves_done_medium_well:p004"
+      },
+      {
+        "problem_id": "syn_seed_lit_mech_0318",
+        "domain": "MECHANICS",
+        "problem_statement": "A uranium atom deep in the Earth spits out an alpha particle. An alpha particle is a fragment of an atom. This alpha particle has an initial speed $v$ and travels a distance $d$ before stopping in the Earth.\n\nFind the force $F$ from the Earth's dirt that stopped the particle, in terms of $v$, $d$, and its mass $m$. Assume the force was constant.",
+        "reference_solution": "We are given the equation for the final kinetic energy of the alpha particle:\n\n$$0 = \\frac{1}{2}mv^2 + 2ad$$\n\nwhere $a$ is the acceleration due to the force of the Earth's dirt. Solving for $a$, we get:\n\n$$a = -\\frac{v^2}{2d}$$\n\nIntegrating this equation over the distance $d$ to find the work done $W$ by the force:\n\n$$W = \\int_0^d a \\, dx = -\\int_0^d \\frac{v^2}{2d} \\, dx = -\\frac{v^2}{2} \\int_0^d \\frac{1}{d} \\, dx = -\\frac{v^2}{2}x \\Big|_0^d = -\\frac{v^2d}{2}$$\n\nUsing Newton's second law, $F = ma$, we can express the force $F$ as:\n\n$$F = m\\frac{dW}{dt} = m\\frac{d(-\\frac{v^2d}{2})}{dt} = -mv^2$$\nANSWER: -mv^2",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_mechanics:04_force_and_motion:p008:part_a"
+      },
+      {
+        "problem_id": "syn_seed_lit_mech_0205",
+        "domain": "MECHANICS",
+        "problem_statement": "A physical therapist wants to help a patient rehabilitate his injured elbow. The patient lays his arm flat on a table and lifts a 2.1 kg mass by bending his elbow. Initially, the mass is 33 cm from the elbow. The patient complains of pain and asks if he can use a heavier mass with a shorter distance from the elbow (17 cm) to reduce the strain. Assuming the patient is lifting both his forearm and the mass, determine the mass he should use to maintain the same torque.",
+        "reference_solution": "Given:\n- Initial mass, $m_1 = 2.1 \\, \\text{kg}$\n- Initial distance from elbow, $r_1 = 33 \\, \\text{cm} = 0.33 \\, \\text{m}$\n- New distance from elbow, $r_2 = 17 \\, \\text{cm} = 0.17 \\, \\text{m}$\n\nThe torque, $\\tau$, is given by $\\tau = rF \\sin \\theta$, where $F$ is the force and $\\theta$ is the angle between the force vector and the lever arm.\n\nFor the initial setup:\n$$\n\\tau_1 = r_1 F_1 \\sin \\theta = 0.33 \\, \\text{m} \\cdot F_1 \\sin \\theta\n$$\n\nFor the new setup:\n$$\n\\tau_2 = r_2 F_2 \\sin \\theta = 0.17 \\, \\text{m} \\cdot F_2 \\sin \\theta\n$$\n\nSince the patient is lifting the same forearm in both cases, and assuming $\\sin \\theta$ is constant, we can set the torques equal to each other:\n$$\n0.33 \\, \\text{m} \\cdot F_1 \\sin \\theta = 0.17 \\, \\text{m} \\cdot F_2 \\sin \\theta\n$$\n\nSolving for $F_2$:\n$$\nF_2 = \\frac{0.33 \\, \\text{m} \\cdot F_1 \\sin \\theta}{0.17 \\, \\text{m}}\n$$\n\nThe force $F_1$ is the sum of the weight of the forearm and the mass:\n$$\nF_1 = m_1 g + F_{\\text{mass}}\n$$\n\nSubstituting and simplifying:\n$$\nF_2 = \\frac{0.33 \\, \\text{m} \\cdot (m_1 g + F_{\\text{mass}}) \\sin \\theta}{0.17 \\, \\text{m}}\n$$\n\nTo maintain the same torque, the patient should use a mass:\n$$\nm_2 = \\frac{0.33 \\, \\text{m} \\cdot F_{\\text{mass}} \\sin \\theta}{0.17 \\, \\text{m} \\cdot g}\n$$\n\nSubstituting $F_{\\text{mass}} = m_2 g$ and simplifying:\n$$\nm_2 = \\frac{2.1 \\, \\text{kg} \\cdot 9.81 \\, \\text{m/s}^2 \\cdot \\sin \\theta}{0.33 \\, \\text{m} \\cdot 9.81 \\, \\text{m/s}^2} \\approx 4.1 \\, \\text{kg}\n$$\nANSWER: 4.1 kg",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_conceptual_physics:03_conservation_of_angular_momentum:p002"
+      },
+      {
+        "problem_id": "syn_seed_lit_mech_0549",
+        "domain": "MECHANICS",
+        "problem_statement": "A toy manufacturer is playtesting teflon booties that slip on over your shoes. In the parking lot, engineers observe that when the booties are initially launched with a speed of $v_0 = 1.2 \\, \\text{m/s}$, they glide a distance of $d = 2.0 \\, \\text{m}$ before coming to a stop. Assuming the surface is horizontal and neglecting air resistance, determine the coefficient of kinetic friction $\\mu_k$ between the booties and the asphalt.",
+        "reference_solution": "1. **Given Data:**\n   - Initial velocity, $v_0 = 1.2 \\, \\text{m/s}$\n   - Distance glided, $d = 2.0 \\, \\text{m}$\n\n2. **Kinetic Friction Force:**\n   The kinetic friction force $F_k$ between two surfaces is given by $F_k = \\mu_k mg$, where $m$ is the mass of the booties and $g$ is the acceleration due to gravity.\n\n3. **Acceleration:**\n   Since the booties come to a stop after gliding, the final velocity $v_f$ is $0 \\, \\text{m/s}$, and the acceleration $a$ is given by $a = \\frac{v_f - v_0}{t}$, where $t$ is the time taken to glide.\n\n4. **Time of Gliding:**\n   Using the distance-velocity relationship, $d = v_0 t$, we can solve for $t$:\n   $$\n   t = \\frac{d}{v_0} = \\frac{2.0 \\, \\text{m}}{1.2 \\, \\text{m/s}} \\approx 1.67 \\, \\text{s}\n   $$\n\n5. **Kinetic Friction Force and Acceleration:**\n   The kinetic friction force balances the component of the gravitational force that acts along the surface, so $F_k = ma$.\n\n6. **Solving for $\\mu_k$:**\n   Substituting $F_k$ and $a$ into the previous equation, we get:\n   $$\n   \\mu_k mg = ma\n   $$\n   Dividing both sides by $mg$, we obtain:\n   $$\n   \\mu_k = \\frac{a}{g} = \\frac{\\frac{v_0}{t} - v_0}{g} = \\frac{v_0 \\left(1 - \\frac{1}{t}\\right)}{g}\n   $$\n\n7. **Plugging in Values:**\n   $$\n   \\mu_k = \\frac{1.2 \\, \\text{m/s} \\left(1 - \\frac{1}{1.67 \\, \\text{s}}\\right)}{9.81 \\, \\text{m/s}^2} \\approx 0.037\n   $$\nANSWER: 0.037",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_mechanics:05_analysis_of_forces:p034"
+      },
+      {
+        "problem_id": "syn_seed_lit_mech_0570",
+        "domain": "MECHANICS",
+        "problem_statement": "An airplane flies in the positive direction along the x-axis, experiencing a crosswind force $F = (a + bx)\\hat{x} + (c + dx)\\hat{y}$. Determine the work done by the wind on the plane ($W_{wp}$) and by the plane on the wind ($W_{pw}$) as the plane travels from the origin to position $x$.",
+        "reference_solution": "1. **Force Components**: The force $F$ can be decomposed into its $x$ and $y$ components: $F_x = a + bx$ and $F_y = c + dx$.\n2. **Work Done by Wind ($W_{wp}$)**: The work done by the wind is calculated by integrating the dot product of the force and the displacement vector over the distance traveled. In this case, the displacement is along the $x$-axis, so $\\mathbf{r} = x\\hat{x}$. The work is:\n\n$$\n\\begin{align*}\nW_{wp} &= \\int_0^x F \\cdot \\mathbf{r} \\, dx' \\\\\n&= \\int_0^x (a + bx') dx'\n\\end{align*}\n$$\n\n3. **Integration**: Integrating the above expression, we get:\n\n$$\n\\begin{align*}\nW_{wp} &= ax + \\frac{1}{2}bx^2 \\Big|_0^x \\\\\n&= ax + \\frac{1}{2}bx^2\n\\end{align*}\n$$\n\n4. **By Newton's Third Law, $W_{wp} = -W_{pw}$**: Since the plane exerts an equal and opposite force on the air, the work done by the plane on the wind is the negative of the work done by the wind on the plane.\nANSWER: -ax - \\frac{1}{2}bx^2",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_mechanics:13_work_the_transfer_of_mechanical_energy:p021"
+      },
+      {
+        "problem_id": "syn_seed_lit_mech_0520",
+        "domain": "MECHANICS",
+        "problem_statement": "A cross-country skier is gliding on a level trail, with negligible friction. At position $x$, the tip of his skis enters a patch of dirt, and as he rides onto the dirt, more of his weight is supported by the dirt. The skis have a length $L$, and if he reached $x=L$ without stopping, his weight would be entirely on the dirt. This problem seeks the acceleration as a function of $x$ for $0 < x < L$.\n\nWe assume the following parameters:\n- Mass of the skier: $m$ (constant)\n- Coefficient of kinetic friction: $\\mu_k$ (constant)\n- Length of skis: $L$ (constant)",
+        "reference_solution": "We begin by considering the forces acting on the skier at position $x$. The normal force from the dirt is $mgx/L$, and the frictional force is $-\\mu_k mgx/L$. The net force is the difference between these two:\n\n$$F_{\\text{net}} = mgx/L - \\mu_k mgx/L = mgx(1 - \\mu_k)/L$$\n\nSince the acceleration $a$ is the second derivative of displacement $x$ with respect to time $t$, we have:\n\n$$a = \\frac{d^2x}{dt^2} = \\frac{d}{dt}(mx/L)$$\n\nUsing Newton's second law, we can relate the net force to acceleration:\n\n$$ma = F_{\\text{net}} = mgx(1 - \\mu_k)/L$$\n\nSolving for acceleration as a function of $x$:\n\n$$a(x) = \\frac{mg(1 - \\mu_k)x}{L^2}$$\nANSWER: \\boxed{a(x) = \\frac{mg(1 - \\mu_k)x}{L^2}}\nANSWER: a(x) = \\frac{mg(1 - \\mu_k)x}{L^2}",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_mechanics:05_analysis_of_forces:p030:part_a"
+      },
+      {
+        "problem_id": "syn_seed_lit_em_0062",
+        "domain": "ELECTROMAGNETISM",
+        "problem_statement": "**Problem:** At time $t=0$, a positively charged particle is placed at rest in a vacuum where a uniform electric field of magnitude $E$ is present. Derive an equation relating the particle's speed $v$, time $t$, electric field $E$, and its mass $m$ and charge $q$.\n\n**Assumptions:**\n- The electric field is uniform.\n- The particle is initially at rest.\n- The force acting on the particle is only due to the electric field.",
+        "reference_solution": "**Step 1:** Recall Newton's second law of motion, $F = ma$, and the relationship between force and electric field, $F = qE$, where $q$ is the charge of the particle and $E$ is the electric field.\n\n**Step 2:** Since the electric field is uniform, both the force and acceleration on the particle will be constant.\n\n**Step 3:** For an object experiencing constant acceleration, the velocity is given by $v = at$.\n\n**Step 4:** Eliminate the unknown force $F$ by substituting $F = qE$ and $a = \\frac{dv}{dt}$ into the velocity equation:\n\n$$v = \\frac{qEt}{m}.$$\n\n**Step 5:** This equation shows that the velocity of the particle is directly proportional to the electric field and time, and inversely proportional to its mass.\n\n**Step 6:** The proportionality constant, $\\frac{qE}{m}$, represents the acceleration of the particle due to the electric field.\n\n**Step 7:** Thus, we have derived the equation relating the particle's speed, $v$, to time $t$, electric field $E$, and its mass $m$ and charge $q$:\n\n$$v = \\frac{qEt}{m}.$$\nANSWER: \\frac{qEt}{m}",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_fields_and_circuits:02_gausss_law:p007:part_a"
+      },
+      {
+        "problem_id": "syn_seed_lit_em_0065",
+        "domain": "ELECTROMAGNETISM",
+        "problem_statement": "**Problem:** Express the power dissipated by a resistor in terms of $R$ (resistance) and $\\Delta V$ (voltage difference) only, eliminating the current $I$.\n\n**Assumptions:**\n- Ohmic behavior: Power is proportional to the square of the current.\n- Constant resistance: $R$ is a constant value.\n\n**Objective:** Derive an equation for power in terms of $R$ and $\\Delta V$.",
+        "reference_solution": "1. We start from the definition of power, $P = I \\cdot \\Delta V$, where $I$ is the current and $\\Delta V$ is the voltage difference.\n2. Since we want to eliminate $I$, we rearrange the equation to solve for $P$:\n   $$\n   P = I \\cdot \\Delta V \\implies P = \\frac{\\Delta V}{R} \\cdot I \\implies P = \\frac{\\Delta V^2}{R}\n   $$\n3. Thus, the power dissipated by a resistor is given by:\n   $$\n   \\boxed{P = \\frac{\\Delta V^2}{R}}\n   $$\nANSWER: \\frac{\\Delta V^2}{R}",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_fields_and_circuits:08_electrical_resistance:p008:part_a"
+      },
+      {
+        "problem_id": "syn_seed_lit_em_0050",
+        "domain": "ELECTROMAGNETISM",
+        "problem_statement": "A charged particle is in a region of space with a uniform magnetic field $B = B_z$. There is no electric field, and no other forces act on the particle. Given the particle's initial velocity $\\mathbf{v}_0 = v_0 \\hat{i}$, describe its future motion.",
+        "reference_solution": "Given the initial velocity $\\mathbf{v}_0 = v_0 \\hat{i}$, we know the magnetic field is only in the $z$-direction, so the Lorentz force is:\n\n$$\n\\mathbf{F} = q \\mathbf{v} \\times \\mathbf{B} = qv_0 \\hat{j} \\times B_z \\hat{k} = qv_0 B_z \\hat{i}\n$$\n\nSince there are no other forces, the acceleration is:\n\n$$\n\\mathbf{a} = \\frac{\\mathbf{F}}{m} = \\frac{qv_0 B_z}{m} \\hat{i}\n$$\n\nThe particle's velocity as a function of time is:\n\n$$\n\\mathbf{v}(t) = \\mathbf{v}_0 + \\mathbf{a}t = v_0 \\hat{i} + \\frac{qv_0 B_z}{m}t \\hat{i}\n$$\n\nFor all time, the particle's velocity remains parallel to the initial velocity, and its magnitude increases linearly with time.\nANSWER: v(t) = v_0 + \\frac{qv_0 B_z t}{m}",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_fields_and_circuits:05_electromagnetism:p007:part_a"
+      },
+      {
+        "problem_id": "lit_em_0061",
+        "domain": "ELECTROMAGNETISM",
+        "problem_statement": "You have a circuit consisting of two unknown resistors in series,\nand a second circuit consisting of two unknown resistors in parallel.\n\nWhat would you learn about the resistors in the parallel circuit\nfrom knowing that the currents were equal?",
+        "reference_solution": "**Derivation:**\n\n1. **Understanding the Circuit Configuration:** We have two distinct circuit configurations: series and parallel. In a series circuit, components are connected end-to-end, so the same current flows through each component. In a parallel circuit, components are connected side-by-side, and the voltage across each component is the same.\n\n2. **Loop Rule Application:** The loop rule, also known as Kirchhoff's loop rule, states that the sum of the voltage drops around any closed loop in a circuit is equal to zero. In the parallel circuit, this means that the voltage across each resistor is the same.\n\n3. **Equal Currents, Equal Voltages:** Given that the currents through both circuits are equal, we can infer that the voltage drops across the resistors in the parallel circuit are also equal. This is because the current is directly proportional to the voltage (I = V/R) for a given resistor.\n\n4. **Resistance Equality:** Using the voltage-current relationship (V = IR), we can conclude that if the voltage across each resistor in the parallel circuit is the same, and the currents are equal, then the resistances (R) must also be equal. This is because for a constant voltage, equal currents through equal resistors imply that the resistances are the same.\n\n5. **Final Conclusion:** Therefore, from knowing that the currents in the parallel circuit are equal, we can deduce that the resistances of the two unknown resistors in the parallel circuit are also equal.\n\nANSWER: The resistances must be equal.\nANSWER: The resistances must be equal",
+        "source": "literature_curated",
+        "original_id": "crowell_fields_and_circuits:09_parallel_and_series_circuits:p002:part_c"
+      },
+      {
+        "problem_id": "lit_modern_0612",
+        "domain": "MODERN_PHYSICS",
+        "problem_statement": "The ground state of the nucleus boron-10 (10B) has spin s = 3,\nand is therefore degenerate.\n\n10B has four excited states that are bound, and these have various\nspins. Could some of these states be fermionic and some bosonic?",
+        "reference_solution": "**Derivation:**\n\n1. **Nuclear Composition:** Boron-10 (10B) is composed of 5 neutrons (N = 5) and 5 protons (Z = 5).\n\n2. **Spin of Nucleons:** Both neutrons and protons have half-integer spins, specifically 1/2.\n\n3. **Ground State Spin:** The ground state of 10B has a bosonic spin, meaning the total spin is an integer. This is a fundamental property of bosons.\n\n4. **Total Spin Calculation:** For the ground state, the total spin (S) is given by the sum of neutron and proton spins: S = (N/2) + (Z/2) = (5/2) + (5/2) = 5.\n\n5. **Even Number of Fermions:** Since the ground state has an integer spin, we know that the number of fermions (n) in the nucleus is even. In this case, n = N + Z = 5 + 5 = 10.\n\n6. **Excited States:** The excited states of 10B are still composed of an even number of fermions (10 fermions).\n\n7. **Spin of Excited States:** According to the Pauli Exclusion Principle, fermions cannot occupy the same quantum state. Therefore, to maintain the even number of fermions, the excited states must have spins that are also integers, making them bosons.\n\n8. **Conclusion:** All excited states of 10B, being composed of an even number of fermions, must be bosonic.\n\nANSWER: states all have to be bosonic.\nANSWER: states all have to be bosonic",
+        "source": "literature_curated",
+        "original_id": "crowell_modern_physics:18_quantization_of_angular_momentum:p002:part_c"
+      },
+      {
+        "problem_id": "lit_modern_0626",
+        "domain": "MODERN_PHYSICS",
+        "problem_statement": "The speed, v, of an atom in an ideal gas has a probability\ndistribution of the form D(v) = bve−cv2, where 0 ≤ v <∞, c relates\nto the temperature, and b is determined by normalization.\n\nFind b in terms of c.",
+        "reference_solution": "**DERIVATION:**\n\n1. **Problem Setup:** We are given the probability distribution of atomic speed $v$ in an ideal gas as $D(v) = bve^{-cv^2}$, where $0 \\leq v < \\infty$. We aim to find $b$ in terms of $c$.\n\n2. **Normalization Condition:** To ensure $D(v)$ is a proper probability distribution, it must integrate to 1 over all $v$. This gives us the normalization condition:\n\n$$\n\\int_{0}^{\\infty} D(v) \\, dv = 1.\n$$\n\n3. **Substitution:** We perform a substitution, $u = cv^2$, which implies $du = 2cv \\, dv$. This substitution simplifies the integrand:\n\n$$\nD(v) = bve^{-cv^2} \\rightarrow \\frac{b}{2c} e^{-u}.\n$$\n\n4. **Integral Transformation:** The integral becomes:\n\n$$\n\\int_{0}^{\\infty} \\frac{b}{2c} e^{-u} \\, du.\n$$\n\n5. **Evaluating the Integral:** The integral of $e^{-u}$ from 0 to $\\infty$ is 1, so:\n\n$$\n\\int_{0}^{\\infty} \\frac{b}{2c} e^{-u} \\, du = \\frac{b}{2c} \\cdot 1 = \\frac{b}{2c}.\n$$\n\n6. **Setting the Integral to 1:** From the normalization condition, we know the integral must equal 1:\n\n$$\n\\frac{b}{2c} = 1.\n$$\n\n7. **Solving for $b$:** Isolating $b$, we find:\n\n$$\nb = 2c.\n$$\n\n8. **Conclusion:** Thus, we have derived that $b$ is equal to $2c$.\n\nANSWER: 2c",
+        "source": "literature_curated",
+        "original_id": "crowell_modern_physics:14_probability_distributions_and_a_first_glimpse_of_quantum_physics:p006:part_b"
+      },
+      {
+        "problem_id": "lit_modern_0593",
+        "domain": "MODERN_PHYSICS",
+        "problem_statement": "The ground state of the nucleus boron-10 (10B) has spin s = 3,\nand is therefore degenerate.\n\nList the sz states and check that the number of states you get is\n2s + 1.",
+        "reference_solution": "**Derivation:**\n\n1. **Understanding the Problem:** We are given that the ground state of Boron-10 (10B) nucleus has a spin s = 3, which implies a degenerate energy level. We need to determine the possible values of the spin quantum number sz and verify if the count satisfies the formula 2s + 1.\n\n2. **Spin Quantization:** In quantum mechanics, the spin of a particle can only take on discrete values. For a particle with a total spin s, the possible values of sz (spin along an axis) are -s, -(s-1), ..., -1, 0, 1, ..., s.\n\n3. **Applying to Boron-10:** Given s = 3, we can list the possible sz states: -3, -2, -1, 0, 1, 2, 3.\n\n4. **Counting the States:** There are 7 possible sz states listed above.\n\n5. **Verifying 2s + 1 Rule:** The formula 2s + 1 gives us the number of states expected for a given total spin s. For s = 3, this formula predicts 2 * 3 + 1 = 7 states.\n\n6. **Comparison:** We have indeed found 7 sz states for Boron-10's ground state, which confirms that the number of states satisfies the 2s + 1 rule.\n\n7. **Conclusion:** The possible sz states for the ground state of 10B are -3, -2, -1, 0, 1, 2, 3, and this count aligns with the expected value from the 2s + 1 formula.\n\nANSWER: 7",
+        "source": "literature_curated",
+        "original_id": "crowell_modern_physics:18_quantization_of_angular_momentum:p002:part_a"
+      },
+      {
+        "problem_id": "lit_optics_0672",
+        "domain": "OPTICS",
+        "problem_statement": "A diverging mirror of focal length f is fixed, and faces down.\nAn object is dropped from the surface of the mirror, and falls away\nfrom it with acceleration g. The goal of the problem is to find the\nmaximum velocity of the image.\n\nUse arguments based on units to determine the form of the\nsolution, up to an unknown unitless multiplicative constant.",
+        "reference_solution": "**Derivation:**\n\n1. **Understanding the Problem:** We have a diverging mirror with focal length *f* and an object falling with acceleration *g*. We aim to find the maximum velocity of the image formed by the mirror.\n\n2. **Image Formation:** In optics, the velocity of an image is related to its distance from the lens/mirror and the focal length. For a diverging mirror, the image distance (*d*) is greater than the focal length, and the image velocity (*v*) is inversely proportional to *d*.\n\n3. **Velocity-Distance Relationship:** Using the mirror's properties, we can express the image velocity as a function of *f* and *g*. The relationship is given by: *v* = *√(2 * g * *d*)*.\n\n4. **Substituting Image Distance:** Since the object is dropped from the mirror's surface, the initial image distance is *f*. Thus, *d* = *f*.\n\n5. **Simplifying the Expression:** Substituting *d* = *f* into the velocity equation, we get: *v* = *√(2 * g * *f*)*.\n\n6. **Identifying the Constant:** The expression *√(2 * g * *f*)* has no unitless multiplicative constant in it. The constant β in the reference solution is introduced to match the form of the solution with the given units of velocity.\n\n7. **Final Expression:** Therefore, the maximum velocity of the image is: *v* = *β√(2 * g * *f*)*, where β is a unitless constant.\n\nANSWER: *β√(2 * g * *f*)*",
+        "source": "literature_curated",
+        "original_id": "crowell_modern_physics:11_images_quantiitatively:p028:part_b"
+      },
+      {
+        "problem_id": "lit_rel_0685",
+        "domain": "RELATIVITY",
+        "problem_statement": "Astronauts in three different spaceships are communicating\nwith each other. Those aboard ships A and B agree on the rate at\nwhich time is passing, but they disagree with the ones on ship C.\n\nGive the description according to Betty, whose frame of reference\nis ship B.",
+        "reference_solution": "**Derivation:**\n\n1. **Frame of Reference:** We are given that Betty is aboard spaceship B, which is at rest relative to an observer on Earth (let's call this observer O).\n\n2. **Relative Motion:** According to the problem, there is a disagreement between the astronauts on B and C regarding the passage of time. This implies that spaceship C is in motion relative to Betty's frame of reference.\n\n3. **Definition of Rest:** In relativity, an object is considered at rest if it has no relative motion with respect to a chosen frame of reference. Since Betty perceives C as moving, A (which is at rest according to Betty) must be the stationary object.\n\n4. **Agreement on Time:** The agreement between A and B on the rate of time passage means they share a common frame of reference where time is not distorted by relative motion.\n\n5. **Conclusion:** Therefore, Betty describes ship A as being at rest, while ship C is in motion relative to her.\n\nANSWER: Betty says A is at rest, but C is moving.\nANSWER: Betty says A is at rest, but C is moving",
+        "source": "literature_curated",
+        "original_id": "crowell_conceptual_physics:04_relativity:p002:part_c"
+      },
+      {
+        "problem_id": "syn_seed_lit_thermo_0780",
+        "domain": "THERMODYNAMICS",
+        "problem_statement": "**Problem:** Show that under conditions of standard pressure and temperature, the volume of a sample of an ideal gas depends only on the number of molecules in it.\n\n**Assumptions:**\n- Standard pressure: $P_0 = 1$ atm (101.325 kPa)\n- Standard temperature: $T_0 = 273.15$ K\n- Ideal gas law: $PV = nRT$\n- Negligible intermolecular interactions\n- Constant gas constant: $R = 8.314$ J/(mol·K)\n\n**Objective:** Derive the relationship between volume $V$ and number of molecules $n$ at standard conditions.",
+        "reference_solution": "**Derivation:**\n\n1. Start with the ideal gas law: $PV = nRT$.\n2. Rearrange the equation to isolate $V$: $V = \\frac{nRT}{P}$.\n3. Substitute the standard pressure $P_0$ and temperature $T_0$: $V = \\frac{nR T_0}{P_0}$.\n4. Simplify using the given values: $V = \\frac{n \\cdot 8.314 \\text{ J/(mol·K)} \\cdot 273.15 \\text{ K}}{1 \\text{ atm}}$.\n5. Cancel out units: $V = n \\cdot 0.08206 \\text{ L/mol}$ (converting K to J/(mol·K) and atm to Pa).\n6. Recognize the constant of 0.08206 L/mol as the universal gas constant per mol at standard conditions.\nANSWER: V \\propto n$ at standard pressure and temperature.\nANSWER: V \\propto n$ at standard pressure and temperature",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_modern_physics:07_statistics_and_the_ideal_gas:p004:part_a"
+      }
+    ],
+    "excluded_test": [
+      {
+        "problem_id": "physgym_0204",
+        "domain": "ELECTROMAGNETISM",
+        "problem_statement": "In modern plasma physics experiments, two methods are commonly used to confine negatively charged particles. In the following discussion, relativistic effects and contributions such as delayed potentials are not considered. \n\nIn space, uniformly charged rings with a radius of $R$ and a charge $Q$ are placed on planes $z=l$ and $z=-l$, respectively. Additionally, a particle with a charge of $-q$ and a mass of $m$ is located at the origin of the coordinate system. The permittivity of vacuum is given as $\\varepsilon_{0}$. \n\nFind the angular frequency $\\omega_{z}$ corresponding to the perturbation stability of the particle in the $\\hat{z}$ direction.",
+        "reference_solution": "Analyzing the electric field at a small displacement $z$ from the equilibrium position along the $z$ axis\n\nwe obtain\n\n$$\n\\vec{E_{z}}=\\frac{Q}{4\\pi\\varepsilon_{0}}\\left(\\frac{l+z}{[R^{2}+(l+z)^{2}]^{\\frac{3}{2}}}-\\frac{l-z}{[R^{2}+(l-z)^{2}]^{\\frac{3}{2}}}\\right)\n$$  \n\n$$\n\\vec{E_{z}}=\\frac{Q}{2\\pi\\varepsilon_{0}}\\frac{\\left(R^{2}-2l^{2}\\right)}{\\left(R^{2}+l^{2}\\right)^{\\frac{5}{2}}}\\vec{z}\n$$  \n\nThe equation of motion is\n\n$$\nm{\\ddot{z}}=-{\\frac{Q q}{2\\pi\\varepsilon_{0}}}{\\frac{(R^{2}-2l^{2})}{(R^{2}+l^{2})^{\\frac{5}{2}}}}z\n$$  \n\nFor stability, the condition of the simple harmonic oscillator equation must be satisfied\n\n$$\nR^{2}>2l^{2}\n$$  \n\nSolving gives\n\n$$\n\\omega_{z}=\\sqrt{\\frac{Q q}{2\\pi\\varepsilon_{0}m}\\frac{(R^{2}-2l^{2})}{(R^{2}+l^{2})^{\\frac{5}{2}}}}\n$$\nANSWER: \\omega_{z}=\\sqrt{\\frac{Q q}{2\\pi\\varepsilon_{0}m}\\frac{(R^{2}-2l^{2})}{(R^{2}+l^{2})^{\\frac{5}{2}}}}",
+        "source": "physgym",
+        "original_id": 204
+      },
+      {
+        "problem_id": "syn_seed_lit_mech_0422",
+        "domain": "MECHANICS",
+        "problem_statement": "You take a trip in your spaceship to another star. Setting off,\nyou increase your speed at a constant acceleration. Once you reach\nhalf the distance to your destination, you start decelerating at the\nsame constant rate, so that by the time you arrive, your speed is\nzero. Using the same values for acceleration $a$ and distance $d$,\nfind your maximum speed. Compare this to the speed of light,\n$c = 3.0 \\times 10^8$ m/s.",
+        "reference_solution": "1. **Initial conditions**: At the start, the spaceship's speed is $v_0 = 0$ m/s, and it accelerates at a constant rate $a$ for a time $t_1 = \\frac{d}{a}$.\n2. **Maximum speed**: At the halfway point, the speed is $v_1 = a \\cdot t_1 = da$.\n3. **Deceleration phase**: After reaching half the distance, the spaceship decelerates at the same rate $a$ for a time $t_2 = \\frac{d}{2a}$.\n4. **Final speed**: By the time of arrival, the speed is $v_f = 0$ m/s, so $0 = a \\cdot t_2 = \\frac{d}{2}$.\n5. **Solve for maximum speed**: Combining equations (2) and (4), we get $da = \\frac{d}{2}$, which simplifies to $a = \\frac{1}{2}$.\n6. **Maximum speed value**: Substituting $a = \\frac{1}{2}$ into $v_1 = da$, we find $v_{max} = \\frac{d}{2}$.\n7. **Comparison to speed of light**: The speed of light is $c = 3.0 \\times 10^8$ m/s. Since $v_{max} = \\frac{d}{2}$, it is always less than $c$, regardless of the values of $a$ and $d$.\nANSWER: \\frac{d}{2} < 3.0 \\times 10^8$ m/s",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_mechanics:03_acceleration_and_free_fall:p022:part_c"
+      },
+      {
+        "problem_id": "syn_seed_lit_mech_0319",
+        "domain": "MECHANICS",
+        "problem_statement": "A cop investigates an accident scene and measures the length \\( L \\) of a car's skid marks to determine its initial speed \\( v \\). Express \\( v \\) in terms of \\( L \\) and any other relevant variables, assuming the car's mass is \\( m \\), the coefficient of kinetic friction between the tires and the road surface is \\( \\mu_k \\), and the normal force exerted by the road on the car is \\( F_N \\).",
+        "reference_solution": "1. **Kinetic Friction Force**: The kinetic friction force \\( F_{k} \\) between the car's tires and the road surface is given by \\( F_k = \\mu_k F_N \\), where \\( \\mu_k \\) is the coefficient of kinetic friction and \\( F_N \\) is the normal force.\n2. **Acceleration Due to Friction**: Since the car is skidding, its acceleration \\( a \\) is entirely due to the kinetic friction force. Therefore, \\( a = \\frac{F_k}{m} = \\frac{\\mu_k F_N}{m} \\).\n3. **Final Velocity and Distance**: After a distance \\( L \\) of skid marks, the car comes to a stop, so its final velocity \\( v \\) is zero. The distance traveled during the skid is \\( v \\) times the time \\( t \\) it takes to stop, i.e., \\( L = v t \\).\n4. **Time of Skidding**: The time \\( t \\) can be found using the equation of motion \\( v = at \\). Substituting \\( a \\) from step 2, we get \\( t = \\frac{L}{a} \\).\n5. **Substituting into Velocity Equation**: Substituting \\( t \\) into the equation \\( L = v t \\) gives \\( L = a \\cdot \\frac{L}{a} \\), which simplifies to \\( v = L \\).\n6. **Final Expression**: Thus, the initial speed \\( v \\) of the car is expressed in terms of the skid mark length \\( L \\) as:\n$$\nv = \\frac{L}{\\mu_k}\n$$\nANSWER: \\frac{L}{\\mu_k}",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_mechanics:05_analysis_of_forces:p014"
+      },
+      {
+        "problem_id": "syn_seed_lit_mech_0572",
+        "domain": "MECHANICS",
+        "problem_statement": "A naughty child drops a golf ball from the roof of a building, and you observe it passing through the window of your apartment below. The height of the building, *H*, is 50 meters, and the time taken for the ball to pass through the window, *T*, is 2.5 seconds. Assuming the acceleration due to gravity, *g*, is 9.8 m/s², determine the initial velocity, *v₀*, of the golf ball when it first became visible.",
+        "reference_solution": "We are given the following parameters:\n- *H* = 50 m\n- *T* = 2.5 s\n- *g* = 9.8 m/s²\n\nWe want to find *v₀*, the initial velocity of the golf ball. Using the equation for distance traveled under constant acceleration:\n\n$$d = v_0t + \\frac{1}{2}at^2$$\n\nWhere:\n- *d* = *H* (height of the building)\n- *v₀* = initial velocity (unknown)\n- *a* = acceleration due to gravity, *g* = 9.8 m/s²\n- *t* = time, *T* = 2.5 s\n\nSubstituting the given values:\n\n$$H = v_0(2.5) + \\frac{1}{2}(9.8)(2.5)^2$$\n\nNow, we can solve for *v₀*:\n\n$$v_0 = \\frac{H - \\frac{1}{2}(9.8)(2.5)^2}{2.5}$$\n\n$$v_0 = \\frac{50 - 34.375}{2.5}$$\n\n$$v_0 = \\frac{15.625}{2.5}$$\n\n$$v_0 \\approx 6.25 \\, \\text{m/s}$$\nANSWER: 6.25 m/s",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_mechanics:03_acceleration_and_free_fall:p036"
+      },
+      {
+        "problem_id": "lit_mech_0311",
+        "domain": "MECHANICS",
+        "problem_statement": "Freddi Fish(TM) has a position as a function of time given by\nx = a/(b + t2).\n\nCheck that your answer has the right\nunits.",
+        "reference_solution": "**Derivation:**\n\n1. We are given the position function of Freddi Fish: $x = \\frac{a}{b + t^2}$.\n2. To determine the units, we need to analyze the components of the function. The term $a$ is a constant, and $b$ is also a constant, both having units of measurement.\n3. The term $t^2$ represents time squared, which has units of $s^2$ (seconds squared).\n4. In the denominator, $b + t^2$ is the sum of a constant and time squared, still with units of $s^2$.\n5. When we divide two quantities with the same units, the result is unitless. However, in this case, we have a constant ($a$) divided by the product of a constant and time squared.\n6. The units of the entire expression will be determined by the least common multiple (LCM) of the units in the numerator and denominator.\n7. The LCM of $[m]$ (for mass) and $[s^2]$ (for time squared) is $[m] \\cdot [s^2] = m \\, s^2$.\n8. Since $a$ and $b$ are in $m \\, s^2$, and $t^2$ is also in $s^2$, the final expression will have units of $m \\, s^2 \\div (m \\, s^2) = 1$.\n9. Thus, the position function $x$ is indeed unitless, as the units cancel out.\n10. Therefore, the final answer is:\n\nANSWER: m/s",
+        "source": "literature_curated",
+        "original_id": "crowell_mechanics:02_velocity_and_relative_motion:p005:part_c"
+      },
+      {
+        "problem_id": "syn_seed_lit_mech_0443",
+        "domain": "MECHANICS",
+        "problem_statement": "A motorcyclist performs a daring stunt by riding in a vertical circle inside a large bowl. We aim to determine the maximum radius of this circular path, assuming the cyclist's speed is $v$ and her shoes have a coefficient of static friction $\\mu_s$.",
+        "reference_solution": "1. We apply Newton's second law in the $x$-direction: $a_x = \\frac{F_x}{m}$, where $F_x$ is the force in the $x$-direction and $m$ is the mass of the cyclist.\n2. Since the cyclist is moving in a circular path, the net force in the $x$-direction is the centripetal force $F_c = \\frac{mv^2}{r}$, where $r$ is the radius of the circle.\n3. Equating these, we get $\\frac{mv^2}{r} = \\mu_s F_N$, where $F_N$ is the normal force exerted by the bowl's surface.\n4. Using the second law in the $y$-direction, $a_y = \\frac{F_y}{m}$, and the fact that $F_y = mg$, we find $0 = \\mu_s F_N - mg$.\n5. Solving for $F_N$, we get $F_N = \\mu_s mg$.\n6. Substituting this back into the equation from step 3, we have $\\frac{mv^2}{r} = \\mu_s (\\mu_s mg)$.\n7. Simplifying and rearranging, we obtain $r = \\frac{\\mu_s v^2}{g}$.\nANSWER: \\frac{\\mu_s v^2}{g}",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_mechanics:09_circular_motion:p017:part_a"
+      },
+      {
+        "problem_id": "syn_seed_lit_mech_0529",
+        "domain": "MECHANICS",
+        "problem_statement": "**Earth Rotation and Centripetal Acceleration**\n\nConsider the Earth, with a radius $R$ (in meters), rotating about its axis. Let $T$ be the time taken for one complete rotation, approximately 24 hours or $86,400$ seconds. Determine the speed $v$ at which a point on the Earth's equator moves due to its rotation.\n\n**Assumptions:**\n- The Earth is a sphere with uniform density.\n- We ignore the effects of the Earth's curvature on the rotation.\n- The rotation is constant over time.",
+        "reference_solution": "1. **Define the Centripetal Acceleration:** The centripetal acceleration $a$ of a point on the equator is given by $a = \\omega^2 R$, where $\\omega$ is the angular velocity.\n2. **Calculate Angular Velocity:** The angular velocity $\\omega$ is related to the time period $T$ by $\\omega = \\frac{2\\pi}{T}$.\n3. **Substitute and Simplify:** Substituting the expression for $\\omega$ into the centripetal acceleration equation, we get $a = \\left(\\frac{2\\pi}{T}\\right)^2 R$.\n4. **Relate to Linear Speed:** The centripetal acceleration is equal to the square of the linear speed $v$ divided by the radius, i.e., $a = \\frac{v^2}{R}$.\n5. **Solve for Linear Speed:** Equating the two expressions for acceleration, we find $v^2 = 4\\pi^2 R^2/T^2$.\n6. **Take the Square Root:** Taking the square root of both sides gives us $v = \\frac{2\\pi R}{T}$.\n7. **Substitute Known Values:** Given $R = 6,371,000$ meters and $T = 86,400$ seconds, we can calculate the speed: $v = \\frac{2\\pi \\cdot 6,371,000}{86,400} \\approx 463.2$ m/s.\nANSWER: \\frac{2\\pi R}{T}",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_mechanics:02_velocity_and_relative_motion:p026:part_a"
+      },
+      {
+        "problem_id": "lit_mech_0414",
+        "domain": "MECHANICS",
+        "problem_statement": "How high above the surface of the earth should a rocket be\nin order to have 1/100 of its normal weight? Express your answer\nin units of earth radii.",
+        "reference_solution": "**Derivation:**\n\n1. **Start with Newton's Law of Universal Gravitation:**  F = G * m1 * m2 / r^2, where F is the gravitational force, G is the gravitational constant, m1 and m2 are the masses of the objects, and r is the distance between their centers.\n\n2. **Express the relationship between distance and force:**  We are interested in the inverse square relationship between force and distance, so we rewrite the equation as F ∝ 1/r^2, or equivalently, r ∝ 1/√F.\n\n3. **Define the desired force ratio:** The problem states we want the rocket's weight to be 1/100th of its normal weight.  Since weight is force, this means we want F2 = (1/100) * F1, where F1 is the normal force (weight) of the rocket at the surface.\n\n4. **Solve for the distance ratio:**  From step 2, we know r1/r2 = F2/F1. Substituting the force ratio from step 3, we get r1/r2 = 1/100.\n\n5. **Identify r1 and r2:**  r1 is the distance from the rocket to the Earth's surface (what we want to find), and r2 is the Earth's radius.\n\n6. **Calculate r1:**  Since r2 = Earth's radius, and r1/r2 = 1/100, we can solve for r1: r1 = r2 * (1/100) = Earth's radius / 100.\n\n7. **Convert to Earth radii:**  The problem asks for the answer in Earth radii.  We've already expressed r1 in terms of the Earth's radius, so no further conversion is needed.\n\n8. **Simplify:**  Therefore, the rocket needs to be located 1/100th of the Earth's radius above the surface to have 1/100th of its normal weight.\n\nANSWER: 1/100 * Earth's radius",
+        "source": "literature_curated",
+        "original_id": "crowell_conceptual_physics:01_conservation_of_mass_and_energy:p013"
+      },
+      {
+        "problem_id": "lit_em_0140",
+        "domain": "ELECTROMAGNETISM",
+        "problem_statement": "A charged particle of mass m and charge q is below a horizontal conducting plane. We wish to find the distance 𝓁 between\nthe particle and the plane so that the particle will be in equilibrium,\nwith its weight supported by electrostatic forces.\n\nFind the full result for 𝓁.",
+        "reference_solution": "**Derivation:**\n\n1. **Problem Setup:** We have a charged particle of mass $m$ and charge $q$ positioned below a horizontal conducting plane. Our goal is to determine the distance $r$ at which the particle will be in equilibrium, with its weight counteracted by electrostatic forces.\n\n2. **Electrostatic Force:** The electrostatic force between the real charge $q$ and its image charge $-q$ above the plane is given by Coulomb's Law: $F = \\frac{1}{4\\pi\\epsilon_0} \\frac{q^2}{r^2}$, where $\\epsilon_0$ is the vacuum permittivity.\n\n3. **Image Charge:** To balance the particle's weight, we place the image charge $-q$ at a distance $2r$ above the real charge, as the electrostatic force must act in opposition to gravity.\n\n4. **Equilibrium Condition:** Setting the electrostatic force equal to the gravitational force, we have: $\\frac{1}{4\\pi\\epsilon_0} \\frac{q^2}{r^2} = mg$.\n\n5. **Solving for $r$:** Rearranging the equation, we get $r^2 = \\frac{4\\pi\\epsilon_0 q^2}{mg}$. Taking the square root of both sides, we obtain $r = \\sqrt{\\frac{4\\pi\\epsilon_0 q^2}{mg}}$.\n\n6. **Simplifying:** Recognizing that $\\frac{4\\pi\\epsilon_0}{m} = \\frac{k}{m}$, where $k$ is Coulomb's constant, we can rewrite the equation as $r = \\sqrt{\\frac{k q^2}{mg}}$.\n\n7. **Further Simplification:** Dividing both the numerator and denominator inside the square root by $q$, we get $r = \\sqrt{\\frac{k}{g} \\cdot \\frac{q}{m}}$.\n\n8. **Final Expression:** Simplifying further, we find $r = \\sqrt{\\frac{k}{2g} \\cdot \\frac{q}{m}}$, which gives us the equilibrium distance $r$.\n\n9. **Conclusion:** Therefore, the distance $r$ between the charged particle and the conducting plane for equilibrium is $r = \\frac{1}{2} \\frac{q k}{m g}$.\n\nANSWER: $\\frac{1}{2} \\frac{q k}{m g}$",
+        "source": "literature_curated",
+        "original_id": "crowell_fields_and_circuits:04_the_electric_potential:p023:part_b"
+      },
+      {
+        "problem_id": "syn_seed_lit_em_0052",
+        "domain": "ELECTROMAGNETISM",
+        "problem_statement": "A resistor has a voltage difference $\\Delta V$ across it, causing a current $I$ to flow. Derive an equation for the power it dissipates as heat in terms of the variables $I$ and $R$ only, eliminating $\\Delta V$.",
+        "reference_solution": "1. We start with the formula for power, $P = \\Delta V \\cdot I$, which relates the power $P$, voltage difference $\\Delta V$, and current $I$.\n2. However, we are asked to express $P$ in terms of only $I$ and $R$, so we manipulate the equation: $P = \\Delta V \\cdot I = I \\cdot (I \\cdot R) = I^2 \\cdot R$.\n3. Thus, we have derived the equation for power dissipated in a resistor as $P = I^2R$.\nANSWER: I^2R",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_fields_and_circuits:08_electrical_resistance:p007:part_a"
+      },
+      {
+        "problem_id": "syn_seed_lit_em_0038",
+        "domain": "ELECTROMAGNETISM",
+        "problem_statement": "A typical light bulb draws about 0.9 A from a 110 V household circuit. Assuming Ohm's law holds, determine the resistance (in ohms, Ω) of the light bulb.",
+        "reference_solution": "We use Ohm's law, which states that the current (I) flowing through a conductor is directly proportional to the voltage (∆V) applied across it:\n\n$$\nI = \\frac{\\Delta V}{R}\n$$\n\nGiven:\n- Voltage (∆V) = 110 V\n- Current (I) = 0.9 A\n\nSolving for resistance (R):\n\n$$\n\\begin{align*}\nR &= \\frac{\\Delta V}{I} \\\\\n&= \\frac{110 \\, \\text{V}}{0.9 \\, \\text{A}} \\\\\n&\\approx 122.22 \\, \\Omega\n\\end{align*}\n$$\nANSWER: 122.22 Ω",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_fields_and_circuits:08_electrical_resistance:p005"
+      }
+    ],
+    "leaked_pairs": [
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_mech_0318",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_mech_0268_a",
+        "cosine": 0.9758
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "lit_em_0061",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_em_0160_a",
+        "cosine": 0.965
+      },
+      {
+        "eval_split": "test_v2.jsonl",
+        "eval_problem_id": "lit_em_0140",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_em_0120_a",
+        "cosine": 0.9502
+      },
+      {
+        "eval_split": "test_v2.jsonl",
+        "eval_problem_id": "lit_mech_0311",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_mech_0221_a",
+        "cosine": 0.9453
+      },
+      {
+        "eval_split": "test_v2.jsonl",
+        "eval_problem_id": "lit_mech_0414",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_mech_0361",
+        "cosine": 0.9381
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "lit_rel_0685",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_rel_0034_d",
+        "cosine": 0.9353
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_mech_0205",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_mech_0028",
+        "cosine": 0.9271
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_mech_0312",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_mech_0570",
+        "cosine": 0.9234
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_mech_0570",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_mech_0440",
+        "cosine": 0.9138
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "lit_optics_0672",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_optics_0630_a",
+        "cosine": 0.9038
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_thermo_0780",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_thermo_0594_a",
+        "cosine": 0.8982
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "lit_modern_0612",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_modern_0690_b",
+        "cosine": 0.8906
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_em_0062",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_em_0088_a",
+        "cosine": 0.89
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_em_0050",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_em_0127_a",
+        "cosine": 0.8891
+      },
+      {
+        "eval_split": "test_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_mech_0443",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_mech_0354_a",
+        "cosine": 0.888
+      },
+      {
+        "eval_split": "test_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_em_0052",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_em_0153_a",
+        "cosine": 0.8842
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_mech_0549",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_mech_0301",
+        "cosine": 0.875
+      },
+      {
+        "eval_split": "test_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_mech_0572",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_mech_0262",
+        "cosine": 0.859
+      },
+      {
+        "eval_split": "test_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_mech_0529",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_mech_0232_a",
+        "cosine": 0.8338
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "lit_modern_0626",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_modern_0652_c",
+        "cosine": 0.8332
+      },
+      {
+        "eval_split": "test_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_mech_0422",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_mech_0711_c",
+        "cosine": 0.8321
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "lit_modern_0593",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_modern_0690_b",
+        "cosine": 0.8291
+      },
+      {
+        "eval_split": "test_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_em_0038",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_em_0152",
+        "cosine": 0.8236
+      },
+      {
+        "eval_split": "test_v2.jsonl",
+        "eval_problem_id": "physgym_0204",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "physgym_0649",
+        "cosine": 0.82
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_em_0065",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_em_0154_a",
+        "cosine": 0.8199
+      },
+      {
+        "eval_split": "test_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_mech_0319",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_mech_0283",
+        "cosine": 0.8077
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_mech_0520",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_mech_0297_a",
+        "cosine": 0.8
+      }
+    ]
+  },
+  "v3": {
+    "raw_counts": {
+      "validation": 60,
+      "test": 60
+    },
+    "clean_counts": {
+      "validation": 48,
+      "test": 55
+    },
+    "excluded_validation": [
+      {
+        "problem_id": "syn_seed_lit_mech_0312",
+        "domain": "MECHANICS",
+        "problem_statement": "A concert flute produces its lowest note, at about 262 Hz, when half of a wavelength fits inside its tube. If the speed of sound in air is $v = 343$ m/s, compute the length of the flute.",
+        "reference_solution": "The wavelength $\\lambda$ of a sound wave is related to its frequency $f$ by the equation:\n\n$$\n\\lambda = \\frac{v}{f}\n$$\n\nWe are given that half a wavelength, or $\\frac{\\lambda}{2}$, fits inside the flute's tube for the lowest note at 262 Hz. Substituting the known values:\n\n$$\n\\frac{\\lambda}{2} = \\frac{343 \\, \\text{m/s}}{262 \\, \\text{Hz}} \\approx 1.307 \\, \\text{m}\n$$\n\nTherefore, the length of the flute is:\n\n$$\n\\lambda = 2 \\times 1.307 \\, \\text{m} \\approx \\boxed{2.614 \\, \\text{m}}\n$$\nANSWER: 2.614 m",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_modern_physics:05_waves_done_medium_well:p004"
+      },
+      {
+        "problem_id": "syn_seed_lit_mech_0318",
+        "domain": "MECHANICS",
+        "problem_statement": "A uranium atom deep in the Earth spits out an alpha particle. An alpha particle is a fragment of an atom. This alpha particle has an initial speed $v$ and travels a distance $d$ before stopping in the Earth.\n\nFind the force $F$ from the Earth's dirt that stopped the particle, in terms of $v$, $d$, and its mass $m$. Assume the force was constant.",
+        "reference_solution": "We are given the equation for the final kinetic energy of the alpha particle:\n\n$$0 = \\frac{1}{2}mv^2 + 2ad$$\n\nwhere $a$ is the acceleration due to the force of the Earth's dirt. Solving for $a$, we get:\n\n$$a = -\\frac{v^2}{2d}$$\n\nIntegrating this equation over the distance $d$ to find the work done $W$ by the force:\n\n$$W = \\int_0^d a \\, dx = -\\int_0^d \\frac{v^2}{2d} \\, dx = -\\frac{v^2}{2} \\int_0^d \\frac{1}{d} \\, dx = -\\frac{v^2}{2}x \\Big|_0^d = -\\frac{v^2d}{2}$$\n\nUsing Newton's second law, $F = ma$, we can express the force $F$ as:\n\n$$F = m\\frac{dW}{dt} = m\\frac{d(-\\frac{v^2d}{2})}{dt} = -mv^2$$\nANSWER: -mv^2",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_mechanics:04_force_and_motion:p008:part_a"
+      },
+      {
+        "problem_id": "syn_seed_lit_mech_0205",
+        "domain": "MECHANICS",
+        "problem_statement": "A physical therapist wants to help a patient rehabilitate his injured elbow. The patient lays his arm flat on a table and lifts a 2.1 kg mass by bending his elbow. Initially, the mass is 33 cm from the elbow. The patient complains of pain and asks if he can use a heavier mass with a shorter distance from the elbow (17 cm) to reduce the strain. Assuming the patient is lifting both his forearm and the mass, determine the mass he should use to maintain the same torque.",
+        "reference_solution": "Given:\n- Initial mass, $m_1 = 2.1 \\, \\text{kg}$\n- Initial distance from elbow, $r_1 = 33 \\, \\text{cm} = 0.33 \\, \\text{m}$\n- New distance from elbow, $r_2 = 17 \\, \\text{cm} = 0.17 \\, \\text{m}$\n\nThe torque, $\\tau$, is given by $\\tau = rF \\sin \\theta$, where $F$ is the force and $\\theta$ is the angle between the force vector and the lever arm.\n\nFor the initial setup:\n$$\n\\tau_1 = r_1 F_1 \\sin \\theta = 0.33 \\, \\text{m} \\cdot F_1 \\sin \\theta\n$$\n\nFor the new setup:\n$$\n\\tau_2 = r_2 F_2 \\sin \\theta = 0.17 \\, \\text{m} \\cdot F_2 \\sin \\theta\n$$\n\nSince the patient is lifting the same forearm in both cases, and assuming $\\sin \\theta$ is constant, we can set the torques equal to each other:\n$$\n0.33 \\, \\text{m} \\cdot F_1 \\sin \\theta = 0.17 \\, \\text{m} \\cdot F_2 \\sin \\theta\n$$\n\nSolving for $F_2$:\n$$\nF_2 = \\frac{0.33 \\, \\text{m} \\cdot F_1 \\sin \\theta}{0.17 \\, \\text{m}}\n$$\n\nThe force $F_1$ is the sum of the weight of the forearm and the mass:\n$$\nF_1 = m_1 g + F_{\\text{mass}}\n$$\n\nSubstituting and simplifying:\n$$\nF_2 = \\frac{0.33 \\, \\text{m} \\cdot (m_1 g + F_{\\text{mass}}) \\sin \\theta}{0.17 \\, \\text{m}}\n$$\n\nTo maintain the same torque, the patient should use a mass:\n$$\nm_2 = \\frac{0.33 \\, \\text{m} \\cdot F_{\\text{mass}} \\sin \\theta}{0.17 \\, \\text{m} \\cdot g}\n$$\n\nSubstituting $F_{\\text{mass}} = m_2 g$ and simplifying:\n$$\nm_2 = \\frac{2.1 \\, \\text{kg} \\cdot 9.81 \\, \\text{m/s}^2 \\cdot \\sin \\theta}{0.33 \\, \\text{m} \\cdot 9.81 \\, \\text{m/s}^2} \\approx 4.1 \\, \\text{kg}\n$$\nANSWER: 4.1 kg",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_conceptual_physics:03_conservation_of_angular_momentum:p002"
+      },
+      {
+        "problem_id": "syn_seed_lit_mech_0549",
+        "domain": "MECHANICS",
+        "problem_statement": "A toy manufacturer is playtesting teflon booties that slip on over your shoes. In the parking lot, engineers observe that when the booties are initially launched with a speed of $v_0 = 1.2 \\, \\text{m/s}$, they glide a distance of $d = 2.0 \\, \\text{m}$ before coming to a stop. Assuming the surface is horizontal and neglecting air resistance, determine the coefficient of kinetic friction $\\mu_k$ between the booties and the asphalt.",
+        "reference_solution": "1. **Given Data:**\n   - Initial velocity, $v_0 = 1.2 \\, \\text{m/s}$\n   - Distance glided, $d = 2.0 \\, \\text{m}$\n\n2. **Kinetic Friction Force:**\n   The kinetic friction force $F_k$ between two surfaces is given by $F_k = \\mu_k mg$, where $m$ is the mass of the booties and $g$ is the acceleration due to gravity.\n\n3. **Acceleration:**\n   Since the booties come to a stop after gliding, the final velocity $v_f$ is $0 \\, \\text{m/s}$, and the acceleration $a$ is given by $a = \\frac{v_f - v_0}{t}$, where $t$ is the time taken to glide.\n\n4. **Time of Gliding:**\n   Using the distance-velocity relationship, $d = v_0 t$, we can solve for $t$:\n   $$\n   t = \\frac{d}{v_0} = \\frac{2.0 \\, \\text{m}}{1.2 \\, \\text{m/s}} \\approx 1.67 \\, \\text{s}\n   $$\n\n5. **Kinetic Friction Force and Acceleration:**\n   The kinetic friction force balances the component of the gravitational force that acts along the surface, so $F_k = ma$.\n\n6. **Solving for $\\mu_k$:**\n   Substituting $F_k$ and $a$ into the previous equation, we get:\n   $$\n   \\mu_k mg = ma\n   $$\n   Dividing both sides by $mg$, we obtain:\n   $$\n   \\mu_k = \\frac{a}{g} = \\frac{\\frac{v_0}{t} - v_0}{g} = \\frac{v_0 \\left(1 - \\frac{1}{t}\\right)}{g}\n   $$\n\n7. **Plugging in Values:**\n   $$\n   \\mu_k = \\frac{1.2 \\, \\text{m/s} \\left(1 - \\frac{1}{1.67 \\, \\text{s}}\\right)}{9.81 \\, \\text{m/s}^2} \\approx 0.037\n   $$\nANSWER: 0.037",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_mechanics:05_analysis_of_forces:p034"
+      },
+      {
+        "problem_id": "syn_seed_lit_mech_0570",
+        "domain": "MECHANICS",
+        "problem_statement": "An airplane flies in the positive direction along the x-axis, experiencing a crosswind force $F = (a + bx)\\hat{x} + (c + dx)\\hat{y}$. Determine the work done by the wind on the plane ($W_{wp}$) and by the plane on the wind ($W_{pw}$) as the plane travels from the origin to position $x$.",
+        "reference_solution": "1. **Force Components**: The force $F$ can be decomposed into its $x$ and $y$ components: $F_x = a + bx$ and $F_y = c + dx$.\n2. **Work Done by Wind ($W_{wp}$)**: The work done by the wind is calculated by integrating the dot product of the force and the displacement vector over the distance traveled. In this case, the displacement is along the $x$-axis, so $\\mathbf{r} = x\\hat{x}$. The work is:\n\n$$\n\\begin{align*}\nW_{wp} &= \\int_0^x F \\cdot \\mathbf{r} \\, dx' \\\\\n&= \\int_0^x (a + bx') dx'\n\\end{align*}\n$$\n\n3. **Integration**: Integrating the above expression, we get:\n\n$$\n\\begin{align*}\nW_{wp} &= ax + \\frac{1}{2}bx^2 \\Big|_0^x \\\\\n&= ax + \\frac{1}{2}bx^2\n\\end{align*}\n$$\n\n4. **By Newton's Third Law, $W_{wp} = -W_{pw}$**: Since the plane exerts an equal and opposite force on the air, the work done by the plane on the wind is the negative of the work done by the wind on the plane.\nANSWER: -ax - \\frac{1}{2}bx^2",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_mechanics:13_work_the_transfer_of_mechanical_energy:p021"
+      },
+      {
+        "problem_id": "syn_seed_lit_em_0065",
+        "domain": "ELECTROMAGNETISM",
+        "problem_statement": "**Problem:** Express the power dissipated by a resistor in terms of $R$ (resistance) and $\\Delta V$ (voltage difference) only, eliminating the current $I$.\n\n**Assumptions:**\n- Ohmic behavior: Power is proportional to the square of the current.\n- Constant resistance: $R$ is a constant value.\n\n**Objective:** Derive an equation for power in terms of $R$ and $\\Delta V$.",
+        "reference_solution": "1. We start from the definition of power, $P = I \\cdot \\Delta V$, where $I$ is the current and $\\Delta V$ is the voltage difference.\n2. Since we want to eliminate $I$, we rearrange the equation to solve for $P$:\n   $$\n   P = I \\cdot \\Delta V \\implies P = \\frac{\\Delta V}{R} \\cdot I \\implies P = \\frac{\\Delta V^2}{R}\n   $$\n3. Thus, the power dissipated by a resistor is given by:\n   $$\n   \\boxed{P = \\frac{\\Delta V^2}{R}}\n   $$\nANSWER: \\frac{\\Delta V^2}{R}",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_fields_and_circuits:08_electrical_resistance:p008:part_a"
+      },
+      {
+        "problem_id": "syn_seed_lit_em_0050",
+        "domain": "ELECTROMAGNETISM",
+        "problem_statement": "A charged particle is in a region of space with a uniform magnetic field $B = B_z$. There is no electric field, and no other forces act on the particle. Given the particle's initial velocity $\\mathbf{v}_0 = v_0 \\hat{i}$, describe its future motion.",
+        "reference_solution": "Given the initial velocity $\\mathbf{v}_0 = v_0 \\hat{i}$, we know the magnetic field is only in the $z$-direction, so the Lorentz force is:\n\n$$\n\\mathbf{F} = q \\mathbf{v} \\times \\mathbf{B} = qv_0 \\hat{j} \\times B_z \\hat{k} = qv_0 B_z \\hat{i}\n$$\n\nSince there are no other forces, the acceleration is:\n\n$$\n\\mathbf{a} = \\frac{\\mathbf{F}}{m} = \\frac{qv_0 B_z}{m} \\hat{i}\n$$\n\nThe particle's velocity as a function of time is:\n\n$$\n\\mathbf{v}(t) = \\mathbf{v}_0 + \\mathbf{a}t = v_0 \\hat{i} + \\frac{qv_0 B_z}{m}t \\hat{i}\n$$\n\nFor all time, the particle's velocity remains parallel to the initial velocity, and its magnitude increases linearly with time.\nANSWER: v(t) = v_0 + \\frac{qv_0 B_z t}{m}",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_fields_and_circuits:05_electromagnetism:p007:part_a"
+      },
+      {
+        "problem_id": "lit_em_0061",
+        "domain": "ELECTROMAGNETISM",
+        "problem_statement": "You have a circuit consisting of two unknown resistors in series,\nand a second circuit consisting of two unknown resistors in parallel.\n\nWhat would you learn about the resistors in the parallel circuit\nfrom knowing that the currents were equal?",
+        "reference_solution": "**Derivation:**\n\n1. **Understanding the Circuit Configuration:** We have two distinct circuit configurations: series and parallel. In a series circuit, components are connected end-to-end, so the same current flows through each component. In a parallel circuit, components are connected side-by-side, and the voltage across each component is the same.\n\n2. **Loop Rule Application:** The loop rule, also known as Kirchhoff's loop rule, states that the sum of the voltage drops around any closed loop in a circuit is equal to zero. In the parallel circuit, this means that the voltage across each resistor is the same.\n\n3. **Equal Currents, Equal Voltages:** Given that the currents through both circuits are equal, we can infer that the voltage drops across the resistors in the parallel circuit are also equal. This is because the current is directly proportional to the voltage (I = V/R) for a given resistor.\n\n4. **Resistance Equality:** Using the voltage-current relationship (V = IR), we can conclude that if the voltage across each resistor in the parallel circuit is the same, and the currents are equal, then the resistances (R) must also be equal. This is because for a constant voltage, equal currents through equal resistors imply that the resistances are the same.\n\n5. **Final Conclusion:** Therefore, from knowing that the currents in the parallel circuit are equal, we can deduce that the resistances of the two unknown resistors in the parallel circuit are also equal.\n\nANSWER: The resistances must be equal.\nANSWER: The resistances must be equal",
+        "source": "literature_curated",
+        "original_id": "crowell_fields_and_circuits:09_parallel_and_series_circuits:p002:part_c"
+      },
+      {
+        "problem_id": "lit_modern_0612",
+        "domain": "MODERN_PHYSICS",
+        "problem_statement": "The ground state of the nucleus boron-10 (10B) has spin s = 3,\nand is therefore degenerate.\n\n10B has four excited states that are bound, and these have various\nspins. Could some of these states be fermionic and some bosonic?",
+        "reference_solution": "**Derivation:**\n\n1. **Nuclear Composition:** Boron-10 (10B) is composed of 5 neutrons (N = 5) and 5 protons (Z = 5).\n\n2. **Spin of Nucleons:** Both neutrons and protons have half-integer spins, specifically 1/2.\n\n3. **Ground State Spin:** The ground state of 10B has a bosonic spin, meaning the total spin is an integer. This is a fundamental property of bosons.\n\n4. **Total Spin Calculation:** For the ground state, the total spin (S) is given by the sum of neutron and proton spins: S = (N/2) + (Z/2) = (5/2) + (5/2) = 5.\n\n5. **Even Number of Fermions:** Since the ground state has an integer spin, we know that the number of fermions (n) in the nucleus is even. In this case, n = N + Z = 5 + 5 = 10.\n\n6. **Excited States:** The excited states of 10B are still composed of an even number of fermions (10 fermions).\n\n7. **Spin of Excited States:** According to the Pauli Exclusion Principle, fermions cannot occupy the same quantum state. Therefore, to maintain the even number of fermions, the excited states must have spins that are also integers, making them bosons.\n\n8. **Conclusion:** All excited states of 10B, being composed of an even number of fermions, must be bosonic.\n\nANSWER: states all have to be bosonic.\nANSWER: states all have to be bosonic",
+        "source": "literature_curated",
+        "original_id": "crowell_modern_physics:18_quantization_of_angular_momentum:p002:part_c"
+      },
+      {
+        "problem_id": "lit_modern_0626",
+        "domain": "MODERN_PHYSICS",
+        "problem_statement": "The speed, v, of an atom in an ideal gas has a probability\ndistribution of the form D(v) = bve−cv2, where 0 ≤ v <∞, c relates\nto the temperature, and b is determined by normalization.\n\nFind b in terms of c.",
+        "reference_solution": "**DERIVATION:**\n\n1. **Problem Setup:** We are given the probability distribution of atomic speed $v$ in an ideal gas as $D(v) = bve^{-cv^2}$, where $0 \\leq v < \\infty$. We aim to find $b$ in terms of $c$.\n\n2. **Normalization Condition:** To ensure $D(v)$ is a proper probability distribution, it must integrate to 1 over all $v$. This gives us the normalization condition:\n\n$$\n\\int_{0}^{\\infty} D(v) \\, dv = 1.\n$$\n\n3. **Substitution:** We perform a substitution, $u = cv^2$, which implies $du = 2cv \\, dv$. This substitution simplifies the integrand:\n\n$$\nD(v) = bve^{-cv^2} \\rightarrow \\frac{b}{2c} e^{-u}.\n$$\n\n4. **Integral Transformation:** The integral becomes:\n\n$$\n\\int_{0}^{\\infty} \\frac{b}{2c} e^{-u} \\, du.\n$$\n\n5. **Evaluating the Integral:** The integral of $e^{-u}$ from 0 to $\\infty$ is 1, so:\n\n$$\n\\int_{0}^{\\infty} \\frac{b}{2c} e^{-u} \\, du = \\frac{b}{2c} \\cdot 1 = \\frac{b}{2c}.\n$$\n\n6. **Setting the Integral to 1:** From the normalization condition, we know the integral must equal 1:\n\n$$\n\\frac{b}{2c} = 1.\n$$\n\n7. **Solving for $b$:** Isolating $b$, we find:\n\n$$\nb = 2c.\n$$\n\n8. **Conclusion:** Thus, we have derived that $b$ is equal to $2c$.\n\nANSWER: 2c",
+        "source": "literature_curated",
+        "original_id": "crowell_modern_physics:14_probability_distributions_and_a_first_glimpse_of_quantum_physics:p006:part_b"
+      },
+      {
+        "problem_id": "lit_modern_0593",
+        "domain": "MODERN_PHYSICS",
+        "problem_statement": "The ground state of the nucleus boron-10 (10B) has spin s = 3,\nand is therefore degenerate.\n\nList the sz states and check that the number of states you get is\n2s + 1.",
+        "reference_solution": "**Derivation:**\n\n1. **Understanding the Problem:** We are given that the ground state of Boron-10 (10B) nucleus has a spin s = 3, which implies a degenerate energy level. We need to determine the possible values of the spin quantum number sz and verify if the count satisfies the formula 2s + 1.\n\n2. **Spin Quantization:** In quantum mechanics, the spin of a particle can only take on discrete values. For a particle with a total spin s, the possible values of sz (spin along an axis) are -s, -(s-1), ..., -1, 0, 1, ..., s.\n\n3. **Applying to Boron-10:** Given s = 3, we can list the possible sz states: -3, -2, -1, 0, 1, 2, 3.\n\n4. **Counting the States:** There are 7 possible sz states listed above.\n\n5. **Verifying 2s + 1 Rule:** The formula 2s + 1 gives us the number of states expected for a given total spin s. For s = 3, this formula predicts 2 * 3 + 1 = 7 states.\n\n6. **Comparison:** We have indeed found 7 sz states for Boron-10's ground state, which confirms that the number of states satisfies the 2s + 1 rule.\n\n7. **Conclusion:** The possible sz states for the ground state of 10B are -3, -2, -1, 0, 1, 2, 3, and this count aligns with the expected value from the 2s + 1 formula.\n\nANSWER: 7",
+        "source": "literature_curated",
+        "original_id": "crowell_modern_physics:18_quantization_of_angular_momentum:p002:part_a"
+      },
+      {
+        "problem_id": "lit_rel_0685",
+        "domain": "RELATIVITY",
+        "problem_statement": "Astronauts in three different spaceships are communicating\nwith each other. Those aboard ships A and B agree on the rate at\nwhich time is passing, but they disagree with the ones on ship C.\n\nGive the description according to Betty, whose frame of reference\nis ship B.",
+        "reference_solution": "**Derivation:**\n\n1. **Frame of Reference:** We are given that Betty is aboard spaceship B, which is at rest relative to an observer on Earth (let's call this observer O).\n\n2. **Relative Motion:** According to the problem, there is a disagreement between the astronauts on B and C regarding the passage of time. This implies that spaceship C is in motion relative to Betty's frame of reference.\n\n3. **Definition of Rest:** In relativity, an object is considered at rest if it has no relative motion with respect to a chosen frame of reference. Since Betty perceives C as moving, A (which is at rest according to Betty) must be the stationary object.\n\n4. **Agreement on Time:** The agreement between A and B on the rate of time passage means they share a common frame of reference where time is not distorted by relative motion.\n\n5. **Conclusion:** Therefore, Betty describes ship A as being at rest, while ship C is in motion relative to her.\n\nANSWER: Betty says A is at rest, but C is moving.\nANSWER: Betty says A is at rest, but C is moving",
+        "source": "literature_curated",
+        "original_id": "crowell_conceptual_physics:04_relativity:p002:part_c"
+      }
+    ],
+    "excluded_test": [
+      {
+        "problem_id": "syn_seed_lit_mech_0319",
+        "domain": "MECHANICS",
+        "problem_statement": "A cop investigates an accident scene and measures the length \\( L \\) of a car's skid marks to determine its initial speed \\( v \\). Express \\( v \\) in terms of \\( L \\) and any other relevant variables, assuming the car's mass is \\( m \\), the coefficient of kinetic friction between the tires and the road surface is \\( \\mu_k \\), and the normal force exerted by the road on the car is \\( F_N \\).",
+        "reference_solution": "1. **Kinetic Friction Force**: The kinetic friction force \\( F_{k} \\) between the car's tires and the road surface is given by \\( F_k = \\mu_k F_N \\), where \\( \\mu_k \\) is the coefficient of kinetic friction and \\( F_N \\) is the normal force.\n2. **Acceleration Due to Friction**: Since the car is skidding, its acceleration \\( a \\) is entirely due to the kinetic friction force. Therefore, \\( a = \\frac{F_k}{m} = \\frac{\\mu_k F_N}{m} \\).\n3. **Final Velocity and Distance**: After a distance \\( L \\) of skid marks, the car comes to a stop, so its final velocity \\( v \\) is zero. The distance traveled during the skid is \\( v \\) times the time \\( t \\) it takes to stop, i.e., \\( L = v t \\).\n4. **Time of Skidding**: The time \\( t \\) can be found using the equation of motion \\( v = at \\). Substituting \\( a \\) from step 2, we get \\( t = \\frac{L}{a} \\).\n5. **Substituting into Velocity Equation**: Substituting \\( t \\) into the equation \\( L = v t \\) gives \\( L = a \\cdot \\frac{L}{a} \\), which simplifies to \\( v = L \\).\n6. **Final Expression**: Thus, the initial speed \\( v \\) of the car is expressed in terms of the skid mark length \\( L \\) as:\n$$\nv = \\frac{L}{\\mu_k}\n$$\nANSWER: \\frac{L}{\\mu_k}",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_mechanics:05_analysis_of_forces:p014"
+      },
+      {
+        "problem_id": "lit_mech_0311",
+        "domain": "MECHANICS",
+        "problem_statement": "Freddi Fish(TM) has a position as a function of time given by\nx = a/(b + t2).\n\nCheck that your answer has the right\nunits.",
+        "reference_solution": "**Derivation:**\n\n1. We are given the position function of Freddi Fish: $x = \\frac{a}{b + t^2}$.\n2. To determine the units, we need to analyze the components of the function. The term $a$ is a constant, and $b$ is also a constant, both having units of measurement.\n3. The term $t^2$ represents time squared, which has units of $s^2$ (seconds squared).\n4. In the denominator, $b + t^2$ is the sum of a constant and time squared, still with units of $s^2$.\n5. When we divide two quantities with the same units, the result is unitless. However, in this case, we have a constant ($a$) divided by the product of a constant and time squared.\n6. The units of the entire expression will be determined by the least common multiple (LCM) of the units in the numerator and denominator.\n7. The LCM of $[m]$ (for mass) and $[s^2]$ (for time squared) is $[m] \\cdot [s^2] = m \\, s^2$.\n8. Since $a$ and $b$ are in $m \\, s^2$, and $t^2$ is also in $s^2$, the final expression will have units of $m \\, s^2 \\div (m \\, s^2) = 1$.\n9. Thus, the position function $x$ is indeed unitless, as the units cancel out.\n10. Therefore, the final answer is:\n\nANSWER: m/s",
+        "source": "literature_curated",
+        "original_id": "crowell_mechanics:02_velocity_and_relative_motion:p005:part_c"
+      },
+      {
+        "problem_id": "syn_seed_lit_mech_0529",
+        "domain": "MECHANICS",
+        "problem_statement": "**Earth Rotation and Centripetal Acceleration**\n\nConsider the Earth, with a radius $R$ (in meters), rotating about its axis. Let $T$ be the time taken for one complete rotation, approximately 24 hours or $86,400$ seconds. Determine the speed $v$ at which a point on the Earth's equator moves due to its rotation.\n\n**Assumptions:**\n- The Earth is a sphere with uniform density.\n- We ignore the effects of the Earth's curvature on the rotation.\n- The rotation is constant over time.",
+        "reference_solution": "1. **Define the Centripetal Acceleration:** The centripetal acceleration $a$ of a point on the equator is given by $a = \\omega^2 R$, where $\\omega$ is the angular velocity.\n2. **Calculate Angular Velocity:** The angular velocity $\\omega$ is related to the time period $T$ by $\\omega = \\frac{2\\pi}{T}$.\n3. **Substitute and Simplify:** Substituting the expression for $\\omega$ into the centripetal acceleration equation, we get $a = \\left(\\frac{2\\pi}{T}\\right)^2 R$.\n4. **Relate to Linear Speed:** The centripetal acceleration is equal to the square of the linear speed $v$ divided by the radius, i.e., $a = \\frac{v^2}{R}$.\n5. **Solve for Linear Speed:** Equating the two expressions for acceleration, we find $v^2 = 4\\pi^2 R^2/T^2$.\n6. **Take the Square Root:** Taking the square root of both sides gives us $v = \\frac{2\\pi R}{T}$.\n7. **Substitute Known Values:** Given $R = 6,371,000$ meters and $T = 86,400$ seconds, we can calculate the speed: $v = \\frac{2\\pi \\cdot 6,371,000}{86,400} \\approx 463.2$ m/s.\nANSWER: \\frac{2\\pi R}{T}",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_mechanics:02_velocity_and_relative_motion:p026:part_a"
+      },
+      {
+        "problem_id": "lit_mech_0414",
+        "domain": "MECHANICS",
+        "problem_statement": "How high above the surface of the earth should a rocket be\nin order to have 1/100 of its normal weight? Express your answer\nin units of earth radii.",
+        "reference_solution": "**Derivation:**\n\n1. **Start with Newton's Law of Universal Gravitation:**  F = G * m1 * m2 / r^2, where F is the gravitational force, G is the gravitational constant, m1 and m2 are the masses of the objects, and r is the distance between their centers.\n\n2. **Express the relationship between distance and force:**  We are interested in the inverse square relationship between force and distance, so we rewrite the equation as F ∝ 1/r^2, or equivalently, r ∝ 1/√F.\n\n3. **Define the desired force ratio:** The problem states we want the rocket's weight to be 1/100th of its normal weight.  Since weight is force, this means we want F2 = (1/100) * F1, where F1 is the normal force (weight) of the rocket at the surface.\n\n4. **Solve for the distance ratio:**  From step 2, we know r1/r2 = F2/F1. Substituting the force ratio from step 3, we get r1/r2 = 1/100.\n\n5. **Identify r1 and r2:**  r1 is the distance from the rocket to the Earth's surface (what we want to find), and r2 is the Earth's radius.\n\n6. **Calculate r1:**  Since r2 = Earth's radius, and r1/r2 = 1/100, we can solve for r1: r1 = r2 * (1/100) = Earth's radius / 100.\n\n7. **Convert to Earth radii:**  The problem asks for the answer in Earth radii.  We've already expressed r1 in terms of the Earth's radius, so no further conversion is needed.\n\n8. **Simplify:**  Therefore, the rocket needs to be located 1/100th of the Earth's radius above the surface to have 1/100th of its normal weight.\n\nANSWER: 1/100 * Earth's radius",
+        "source": "literature_curated",
+        "original_id": "crowell_conceptual_physics:01_conservation_of_mass_and_energy:p013"
+      },
+      {
+        "problem_id": "syn_seed_lit_em_0052",
+        "domain": "ELECTROMAGNETISM",
+        "problem_statement": "A resistor has a voltage difference $\\Delta V$ across it, causing a current $I$ to flow. Derive an equation for the power it dissipates as heat in terms of the variables $I$ and $R$ only, eliminating $\\Delta V$.",
+        "reference_solution": "1. We start with the formula for power, $P = \\Delta V \\cdot I$, which relates the power $P$, voltage difference $\\Delta V$, and current $I$.\n2. However, we are asked to express $P$ in terms of only $I$ and $R$, so we manipulate the equation: $P = \\Delta V \\cdot I = I \\cdot (I \\cdot R) = I^2 \\cdot R$.\n3. Thus, we have derived the equation for power dissipated in a resistor as $P = I^2R$.\nANSWER: I^2R",
+        "source": "synthetic_seed_subtopic",
+        "original_id": "crowell_fields_and_circuits:08_electrical_resistance:p007:part_a"
+      }
+    ],
+    "leaked_pairs": [
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_mech_0318",
+        "closest_train_source": "solver_e3_canonical_llm",
+        "closest_train_problem_id": "lit_mech_0296",
+        "cosine": 0.9758
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "lit_em_0061",
+        "closest_train_source": "solver_e3_canonical_llm",
+        "closest_train_problem_id": "lit_em_0037",
+        "cosine": 0.965
+      },
+      {
+        "eval_split": "test_v2.jsonl",
+        "eval_problem_id": "lit_mech_0311",
+        "closest_train_source": "solver_e3_canonical_llm",
+        "closest_train_problem_id": "lit_mech_0274",
+        "cosine": 0.9453
+      },
+      {
+        "eval_split": "test_v2.jsonl",
+        "eval_problem_id": "lit_mech_0414",
+        "closest_train_source": "solver_e3_canonical_llm",
+        "closest_train_problem_id": "lit_mech_0241",
+        "cosine": 0.9381
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "lit_rel_0685",
+        "closest_train_source": "solver_e3_canonical_llm",
+        "closest_train_problem_id": "lit_rel_0679",
+        "cosine": 0.9316
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_mech_0205",
+        "closest_train_source": "solver_e1_manual_det",
+        "closest_train_problem_id": "book_mech_0028",
+        "cosine": 0.9271
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_mech_0312",
+        "closest_train_source": "solver_e2_curatorkit_nollm",
+        "closest_train_problem_id": "lit_mech_0290",
+        "cosine": 0.9234
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_mech_0570",
+        "closest_train_source": "solver_e3_canonical_llm",
+        "closest_train_problem_id": "lit_mech_0525",
+        "cosine": 0.9138
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "lit_modern_0612",
+        "closest_train_source": "solver_e3_canonical_llm",
+        "closest_train_problem_id": "lit_modern_0603",
+        "cosine": 0.8906
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_em_0050",
+        "closest_train_source": "solver_e3_canonical_llm",
+        "closest_train_problem_id": "lit_em_0047",
+        "cosine": 0.8891
+      },
+      {
+        "eval_split": "test_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_em_0052",
+        "closest_train_source": "solver_e2_curatorkit_nollm",
+        "closest_train_problem_id": "lit_em_0048",
+        "cosine": 0.8842
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_mech_0549",
+        "closest_train_source": "solver_e2_curatorkit_nollm",
+        "closest_train_problem_id": "lit_mech_0506",
+        "cosine": 0.875
+      },
+      {
+        "eval_split": "test_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_mech_0529",
+        "closest_train_source": "solver_e3_canonical_llm",
+        "closest_train_problem_id": "lit_mech_0487",
+        "cosine": 0.8338
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "lit_modern_0626",
+        "closest_train_source": "solver_e3_canonical_llm",
+        "closest_train_problem_id": "lit_modern_0630",
+        "cosine": 0.8332
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "lit_modern_0593",
+        "closest_train_source": "solver_e3_canonical_llm",
+        "closest_train_problem_id": "lit_modern_0603",
+        "cosine": 0.8291
+      },
+      {
+        "eval_split": "validation_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_em_0065",
+        "closest_train_source": "solver_e3_canonical_llm",
+        "closest_train_problem_id": "lit_em_0060",
+        "cosine": 0.8199
+      },
+      {
+        "eval_split": "test_v2.jsonl",
+        "eval_problem_id": "syn_seed_lit_mech_0319",
+        "closest_train_source": "solver_e2_curatorkit_nollm",
+        "closest_train_problem_id": "lit_mech_0297",
+        "cosine": 0.8077
+      }
+    ]
+  }
+}

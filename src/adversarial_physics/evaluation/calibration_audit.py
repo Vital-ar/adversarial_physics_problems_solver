@@ -4,7 +4,9 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
+
+import numpy as np
 
 from adversarial_physics.evaluation.auditkit_bridge import (
     _safe_aligntune_grade,
@@ -66,12 +68,171 @@ def _load_jsonl(path: Path) -> list[dict[str, Any]]:
     return rows
 
 
+_EMBEDDING_MODEL_CACHE: dict[str, Any] = {}
+_EMBEDDING_TEXT_CACHE: dict[tuple[str, str], np.ndarray] = {}
+
+
+def _get_sentence_transformer(model_name: str) -> Any:
+    """Lazily load and cache SentenceTransformer, trying local cache first."""
+    if model_name in _EMBEDDING_MODEL_CACHE:
+        return _EMBEDDING_MODEL_CACHE[model_name]
+    from sentence_transformers import SentenceTransformer
+
+    try:
+        model = SentenceTransformer(model_name, local_files_only=True)
+    except Exception:
+        model = SentenceTransformer(model_name)
+    _EMBEDDING_MODEL_CACHE[model_name] = model
+    return model
+
+
+def _l2_normalize_rows(arr: np.ndarray) -> np.ndarray:
+    mat = np.asarray(arr, dtype=np.float32)
+    if mat.ndim == 1:
+        mat = mat.reshape(1, -1)
+    norms = np.linalg.norm(mat, axis=1, keepdims=True)
+    norms = np.where(norms == 0.0, 1.0, norms)
+    return mat / norms
+
+
+def _encode_texts_normalized(
+    texts: list[str],
+    *,
+    model_name: str,
+    embed_fn: Callable[[list[str]], Any] | None = None,
+) -> np.ndarray:
+    """Encode unique texts into L2-normalized vectors with process-level caching."""
+    if not texts:
+        return np.zeros((0, 0), dtype=np.float32)
+    if embed_fn is not None:
+        return _l2_normalize_rows(embed_fn(texts))
+
+    unseen = sorted({t for t in texts if (model_name, t) not in _EMBEDDING_TEXT_CACHE})
+    if unseen:
+        model = _get_sentence_transformer(model_name)
+        encoded = model.encode(
+            unseen,
+            normalize_embeddings=True,
+            batch_size=128,
+            show_progress_bar=False,
+        )
+        normed = _l2_normalize_rows(encoded)
+        for txt, vec in zip(unseen, normed):
+            _EMBEDDING_TEXT_CACHE[(model_name, txt)] = vec
+    return np.vstack([_EMBEDDING_TEXT_CACHE[(model_name, t)] for t in texts])
+
+
+def check_embedding_train_eval_leakage(
+    train_paths: list[Path],
+    eval_paths: list[Path],
+    *,
+    model_name: str = "all-MiniLM-L6-v2",
+    cosine_threshold: float = 0.80,
+    embed_fn: Callable[[list[str]], Any] | None = None,
+    eval_rows_override: list[tuple[str, dict[str, Any]]] | None = None,
+) -> dict[str, Any]:
+    """Audit semantic train-eval leakage using dense cosine similarity (`cos >= threshold`)."""
+    # Deduplicate identical normalized problem strings on train side to avoid redundant matmul rows
+    train_unique: dict[str, tuple[str, str, str]] = {}
+    train_rows_checked = 0
+    for tp in train_paths:
+        src_label = tp.parent.name if tp.name == "train.jsonl" else tp.name
+        for row in _load_jsonl(tp):
+            train_rows_checked += 1
+            pid = str(row.get("problem_id", "")).strip()
+            q = extract_question_text(row)
+            if q and q not in train_unique:
+                train_unique[q] = (src_label, pid, q)
+
+    eval_items: list[tuple[str, str, str]] = []
+    if eval_rows_override is not None:
+        for split_label, row in eval_rows_override:
+            pid = str(row.get("problem_id", "")).strip()
+            q = extract_question_text(row)
+            eval_items.append((split_label, pid, q))
+    else:
+        for ep in eval_paths:
+            for row in _load_jsonl(ep):
+                pid = str(row.get("problem_id", "")).strip()
+                q = extract_question_text(row)
+                eval_items.append((ep.name, pid, q))
+
+    train_list = list(train_unique.values())
+    leaked_pairs: list[dict[str, Any]] = []
+    leaked_by_split: dict[str, list[str]] = {}
+    clean_by_split: dict[str, list[str]] = {}
+    max_cosine_overall = 0.0
+    max_cosine_pair: dict[str, Any] | None = None
+    max_clean_cosine = 0.0
+    max_clean_pair: dict[str, Any] | None = None
+
+    valid_eval_indices = [i for i, (_, _, q) in enumerate(eval_items) if q]
+    if train_list and valid_eval_indices:
+        t_emb = _encode_texts_normalized([x[2] for x in train_list], model_name=model_name, embed_fn=embed_fn)
+        e_emb = _encode_texts_normalized(
+            [eval_items[i][2] for i in valid_eval_indices],
+            model_name=model_name,
+            embed_fn=embed_fn,
+        )
+        sims = e_emb @ t_emb.T
+        for row_idx, orig_idx in enumerate(valid_eval_indices):
+            split_label, epid, _ = eval_items[orig_idx]
+            best_j = int(np.argmax(sims[row_idx]))
+            max_cos = float(sims[row_idx, best_j])
+            t_src, t_pid, _ = train_list[best_j]
+            pair_info = {
+                "eval_split": split_label,
+                "eval_problem_id": epid,
+                "closest_train_source": t_src,
+                "closest_train_problem_id": t_pid,
+                "cosine": round(max_cos, 4),
+            }
+            if max_cos > max_cosine_overall:
+                max_cosine_overall = max_cos
+                max_cosine_pair = pair_info
+            if max_cos >= cosine_threshold:
+                leaked_pairs.append(pair_info)
+                leaked_by_split.setdefault(split_label, []).append(epid)
+            else:
+                clean_by_split.setdefault(split_label, []).append(epid)
+                if max_cos > max_clean_cosine:
+                    max_clean_cosine = max_cos
+                    max_clean_pair = pair_info
+
+    for split_label, epid, q in eval_items:
+        if not q:
+            clean_by_split.setdefault(split_label, []).append(epid)
+
+    leaked_pairs.sort(key=lambda d: (-float(d["cosine"]), str(d["eval_split"]), str(d["eval_problem_id"])))
+    return {
+        "train_files": [str(p).replace("\\", "/") for p in train_paths],
+        "eval_files": [str(p).replace("\\", "/") for p in eval_paths],
+        "embedding_model": model_name,
+        "cosine_threshold": cosine_threshold,
+        "train_rows_checked": train_rows_checked,
+        "train_unique_texts": len(train_list),
+        "eval_rows_checked": len(eval_items),
+        "leaked_eval_count": len(leaked_pairs),
+        "leaked_by_split": {k: sorted(set(v)) for k, v in sorted(leaked_by_split.items())},
+        "clean_by_split": {k: sorted(set(v)) for k, v in sorted(clean_by_split.items())},
+        "leaked_pairs": leaked_pairs,
+        "max_cosine_overall": round(max_cosine_overall, 4),
+        "max_cosine_pair": max_cosine_pair,
+        "max_clean_cosine": round(max_clean_cosine, 4),
+        "max_clean_pair": max_clean_pair,
+        "leak_free": len(leaked_pairs) == 0,
+    }
+
+
 def check_train_eval_leakage(
     train_paths: list[Path],
     eval_paths: list[Path],
     *,
     shingle_n: int = 5,
     jaccard_threshold: float = 0.75,
+    embedding_cosine_threshold: float | None = None,
+    embedding_model_name: str = "all-MiniLM-L6-v2",
+    embed_fn: Callable[[list[str]], Any] | None = None,
 ) -> dict[str, Any]:
     """Check ID overlap, exact normalized question matches, and word n-gram near-duplicates."""
     train_records: dict[str, tuple[str, str, set[str]]] = {}
@@ -128,7 +289,7 @@ def check_train_eval_leakage(
 
     unique_id_overlaps = sorted(set(id_overlaps))
     unique_exact_matches = sorted(set(exact_matches))
-    return {
+    result: dict[str, Any] = {
         "train_files": [str(p).replace("\\", "/") for p in train_paths],
         "eval_files": [str(p).replace("\\", "/") for p in eval_paths],
         "train_unique_problem_ids": len(train_pids),
@@ -151,6 +312,17 @@ def check_train_eval_leakage(
             and len(near_duplicates) == 0
         ),
     }
+    if embedding_cosine_threshold is not None:
+        emb_audit = check_embedding_train_eval_leakage(
+            train_paths,
+            eval_paths,
+            model_name=embedding_model_name,
+            cosine_threshold=embedding_cosine_threshold,
+            embed_fn=embed_fn,
+        )
+        result["embedding_leak_audit"] = emb_audit
+        result["leak_free"] = bool(result["leak_free"] and emb_audit["leak_free"])
+    return result
 
 
 def compute_confusion_kappa(tp: int, fp: int, tn: int, fn: int) -> dict[str, Any]:

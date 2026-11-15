@@ -512,13 +512,13 @@ def run_physics_eval_audit(
         if "is_equivalent" in row and "match_method" in row:
             is_eq = bool(row["is_equivalent"])
             method = str(row["match_method"] or "unknown")
-            has_sent = bool(row.get("has_answer_sentinel", bool(extract_answer_line(pred))))
+            has_sent = bool(row.get("has_answer_sentinel", extract_answer_line(pred)[0]))
             pred_ans = (
                 str(row["predicted_answer"] or "")
                 if "predicted_answer" in row
-                else (extract_answer_line(pred) if has_sent else "")
+                else (extract_answer_line(pred)[1] if has_sent else "")
             )
-            ref_ans = str(row.get("reference_answer") or extract_answer_line(ref_sol) or "")
+            ref_ans = str(row.get("reference_answer") or extract_answer_line(ref_sol)[1] or "")
         elif ref_for_scoring:
             scored = score_solver_output(pred, ref_for_scoring)
             is_eq = scored.is_equivalent
@@ -529,11 +529,11 @@ def run_physics_eval_audit(
         else:
             is_eq = bool(row.get("is_equivalent", False))
             method = str(row.get("match_method") or "unknown")
-            has_sent = bool(row.get("has_answer_sentinel", bool(extract_answer_line(pred))))
+            has_sent = bool(row.get("has_answer_sentinel", extract_answer_line(pred)[0]))
             pred_ans = (
                 str(row["predicted_answer"] or "")
                 if "predicted_answer" in row
-                else (extract_answer_line(pred) if has_sent else "")
+                else (extract_answer_line(pred)[1] if has_sent else "")
             )
             ref_ans = ref_ans_fallback
 

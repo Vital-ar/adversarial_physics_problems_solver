@@ -387,10 +387,10 @@
           "physgym_total": 38,
           "physgym_correct": 0,
           "physgym_accuracy": 0.0,
-          "rouge1_f1": 0.3189,
-          "rougeL_f1": 0.1813,
+          "rouge1_f1": 0.3193,
+          "rougeL_f1": 0.1818,
           "bleu_score": 0.0133,
-          "physics_equation_token_f1": 0.2977,
+          "physics_equation_token_f1": 0.2981,
           "step_structure_rate": 0.9474,
           "mean_equations_per_response": 33.1842,
           "degenerate_rate": 0.5789,
@@ -477,10 +477,10 @@
           "physgym_total": 38,
           "physgym_correct": 0,
           "physgym_accuracy": 0.0,
-          "rouge1_f1": 0.2241,
-          "rougeL_f1": 0.1634,
+          "rouge1_f1": 0.2247,
+          "rougeL_f1": 0.1638,
           "bleu_score": 0.0086,
-          "physics_equation_token_f1": 0.2203,
+          "physics_equation_token_f1": 0.2208,
           "step_structure_rate": 0.0,
           "mean_equations_per_response": 13.9474,
           "degenerate_rate": 0.3421,
@@ -567,10 +567,10 @@
           "physgym_total": 38,
           "physgym_correct": 0,
           "physgym_accuracy": 0.0,
-          "rouge1_f1": 0.2605,
-          "rougeL_f1": 0.1883,
+          "rouge1_f1": 0.2611,
+          "rougeL_f1": 0.1886,
           "bleu_score": 0.0119,
-          "physics_equation_token_f1": 0.2564,
+          "physics_equation_token_f1": 0.2569,
           "step_structure_rate": 0.0263,
           "mean_equations_per_response": 13.8158,
           "degenerate_rate": 0.3421,
@@ -657,10 +657,10 @@
           "physgym_total": 38,
           "physgym_correct": 0,
           "physgym_accuracy": 0.0,
-          "rouge1_f1": 0.1735,
-          "rougeL_f1": 0.1327,
+          "rouge1_f1": 0.1739,
+          "rougeL_f1": 0.1326,
           "bleu_score": 0.0089,
-          "physics_equation_token_f1": 0.1772,
+          "physics_equation_token_f1": 0.1775,
           "step_structure_rate": 0.0,
           "mean_equations_per_response": 16.8421,
           "degenerate_rate": 0.3947,
@@ -4198,6 +4198,4184 @@
       }
     }
   },
+  "versions_clean_080": {
+    "v1": {
+      "validation": {
+        "E0": {
+          "version": "v1",
+          "experiment_id": "E0",
+          "split": "validation",
+          "source_path": "results/eval_v1/E0_v1_validation_eval.json",
+          "total": 38,
+          "correct": 0,
+          "accuracy": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "tolerant_5pct_accuracy": 0.0,
+          "aligntune_math_grade_accuracy": 0.0,
+          "sentinel_rate": 0.5263,
+          "unit_consistency_rate": 0.5263,
+          "curated_total": 0,
+          "curated_correct": 0,
+          "curated_accuracy": 0.0,
+          "curated_tol5_accuracy": 0.0,
+          "physgym_total": 38,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.336,
+          "rougeL_f1": 0.1857,
+          "bleu_score": 0.0127,
+          "physics_equation_token_f1": 0.3059,
+          "step_structure_rate": 0.9474,
+          "mean_equations_per_response": 30.0,
+          "degenerate_rate": 0.7105,
+          "repetition_ratio": 0.3553,
+          "avg_response_tokens": 513.74,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "d0d522de81ed8eee9866b4ed8648d5b40e29d8942c8b3ff6d7508f61318f675e",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 12,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.5,
+              "degenerate_rate": 0.6667
+            },
+            "MECHANICS": {
+              "total": 15,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.4,
+              "degenerate_rate": 0.7333
+            },
+            "MODERN_PHYSICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.6667,
+              "degenerate_rate": 0.6667
+            },
+            "OPTICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.6667
+            },
+            "RELATIVITY": {
+              "total": 1,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.0,
+              "degenerate_rate": 0.0
+            },
+            "THERMODYNAMICS": {
+              "total": 4,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.75,
+              "degenerate_rate": 1.0
+            }
+          },
+          "match_method_breakdown": {
+            "missing_sentinel": 18,
+            "mismatch": 20
+          },
+          "loop_diagnostics": null
+        },
+        "E1": {
+          "version": "v1",
+          "experiment_id": "E1",
+          "split": "validation",
+          "source_path": "results/eval_v1/E1_v1_validation_eval.json",
+          "total": 38,
+          "correct": 0,
+          "accuracy": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "tolerant_5pct_accuracy": 0.0,
+          "aligntune_math_grade_accuracy": 0.0,
+          "sentinel_rate": 0.5,
+          "unit_consistency_rate": 0.5,
+          "curated_total": 0,
+          "curated_correct": 0,
+          "curated_accuracy": 0.0,
+          "curated_tol5_accuracy": 0.0,
+          "physgym_total": 38,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.2506,
+          "rougeL_f1": 0.1756,
+          "bleu_score": 0.0082,
+          "physics_equation_token_f1": 0.2379,
+          "step_structure_rate": 0.0,
+          "mean_equations_per_response": 17.4474,
+          "degenerate_rate": 0.3947,
+          "repetition_ratio": 0.4468,
+          "avg_response_tokens": 251.45,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "8be5570ed06b5c8e5d53ae05b6d608201e1565ff0e0a80b1467d13493514f050",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 12,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.5833,
+              "degenerate_rate": 0.25
+            },
+            "MECHANICS": {
+              "total": 15,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.4667,
+              "degenerate_rate": 0.4
+            },
+            "MODERN_PHYSICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.3333,
+              "degenerate_rate": 0.6667
+            },
+            "OPTICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.3333,
+              "degenerate_rate": 0.6667
+            },
+            "RELATIVITY": {
+              "total": 1,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.0,
+              "degenerate_rate": 1.0
+            },
+            "THERMODYNAMICS": {
+              "total": 4,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.75,
+              "degenerate_rate": 0.25
+            }
+          },
+          "match_method_breakdown": {
+            "missing_sentinel": 19,
+            "mismatch": 19
+          },
+          "loop_diagnostics": null
+        },
+        "E2": {
+          "version": "v1",
+          "experiment_id": "E2",
+          "split": "validation",
+          "source_path": "results/eval_v1/E2_v1_validation_eval.json",
+          "total": 38,
+          "correct": 0,
+          "accuracy": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "tolerant_5pct_accuracy": 0.0,
+          "aligntune_math_grade_accuracy": 0.0,
+          "sentinel_rate": 0.6316,
+          "unit_consistency_rate": 0.6316,
+          "curated_total": 0,
+          "curated_correct": 0,
+          "curated_accuracy": 0.0,
+          "curated_tol5_accuracy": 0.0,
+          "physgym_total": 38,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.2808,
+          "rougeL_f1": 0.1953,
+          "bleu_score": 0.0094,
+          "physics_equation_token_f1": 0.2694,
+          "step_structure_rate": 0.0,
+          "mean_equations_per_response": 25.7105,
+          "degenerate_rate": 0.2895,
+          "repetition_ratio": 0.3627,
+          "avg_response_tokens": 204.39,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "fbd4189f99e04d91de3640bd94d52054649154b87cd1e3f86625ce4834bd0a4b",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 12,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.75,
+              "degenerate_rate": 0.1667
+            },
+            "MECHANICS": {
+              "total": 15,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.4667,
+              "degenerate_rate": 0.4667
+            },
+            "MODERN_PHYSICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "OPTICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "RELATIVITY": {
+              "total": 1,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.0,
+              "degenerate_rate": 1.0
+            },
+            "THERMODYNAMICS": {
+              "total": 4,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.5,
+              "degenerate_rate": 0.25
+            }
+          },
+          "match_method_breakdown": {
+            "missing_sentinel": 14,
+            "mismatch": 24
+          },
+          "loop_diagnostics": null
+        },
+        "E4a": {
+          "version": "v1",
+          "experiment_id": "E4a",
+          "split": "validation",
+          "source_path": "results/eval_v1/E4a_v1_validation_eval.json",
+          "total": 38,
+          "correct": 0,
+          "accuracy": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "tolerant_5pct_accuracy": 0.0,
+          "aligntune_math_grade_accuracy": 0.0,
+          "sentinel_rate": 0.6316,
+          "unit_consistency_rate": 0.6316,
+          "curated_total": 0,
+          "curated_correct": 0,
+          "curated_accuracy": 0.0,
+          "curated_tol5_accuracy": 0.0,
+          "physgym_total": 38,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.1955,
+          "rougeL_f1": 0.1467,
+          "bleu_score": 0.0063,
+          "physics_equation_token_f1": 0.1937,
+          "step_structure_rate": 0.0,
+          "mean_equations_per_response": 18.5526,
+          "degenerate_rate": 0.3684,
+          "repetition_ratio": 0.3744,
+          "avg_response_tokens": 244.87,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "57292eab061f54f982880ae38074a7bc966f4430e549d3ec3b97f37bc8e9bb5d",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 12,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.3333,
+              "degenerate_rate": 0.6667
+            },
+            "MECHANICS": {
+              "total": 15,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.8,
+              "degenerate_rate": 0.2
+            },
+            "MODERN_PHYSICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.6667,
+              "degenerate_rate": 0.3333
+            },
+            "OPTICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "RELATIVITY": {
+              "total": 1,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.0,
+              "degenerate_rate": 1.0
+            },
+            "THERMODYNAMICS": {
+              "total": 4,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.75,
+              "degenerate_rate": 0.25
+            }
+          },
+          "match_method_breakdown": {
+            "missing_sentinel": 14,
+            "mismatch": 24
+          },
+          "loop_diagnostics": null
+        }
+      },
+      "test": {
+        "E0": {
+          "version": "v1",
+          "experiment_id": "E0",
+          "split": "test",
+          "source_path": "results/eval_v1/E0_v1_test_eval.json",
+          "total": 37,
+          "correct": 0,
+          "accuracy": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "tolerant_5pct_accuracy": 0.0,
+          "aligntune_math_grade_accuracy": 0.0,
+          "sentinel_rate": 0.5135,
+          "unit_consistency_rate": 0.5135,
+          "curated_total": 0,
+          "curated_correct": 0,
+          "curated_accuracy": 0.0,
+          "curated_tol5_accuracy": 0.0,
+          "physgym_total": 37,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.32,
+          "rougeL_f1": 0.1819,
+          "bleu_score": 0.0135,
+          "physics_equation_token_f1": 0.2978,
+          "step_structure_rate": 0.9459,
+          "mean_equations_per_response": 33.5135,
+          "degenerate_rate": 0.5676,
+          "repetition_ratio": 0.3451,
+          "avg_response_tokens": 519.03,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "734105c18e014c4b40abd408a23a8d193da4939b1b6966dac47aaf1b9b4e737a",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 11,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.3636,
+              "degenerate_rate": 0.6364
+            },
+            "MECHANICS": {
+              "total": 15,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.6667,
+              "degenerate_rate": 0.6
+            },
+            "MODERN_PHYSICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.3333,
+              "degenerate_rate": 0.6667
+            },
+            "OPTICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.3333,
+              "degenerate_rate": 0.3333
+            },
+            "RELATIVITY": {
+              "total": 1,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.0,
+              "degenerate_rate": 0.0
+            },
+            "THERMODYNAMICS": {
+              "total": 4,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.75,
+              "degenerate_rate": 0.5
+            }
+          },
+          "match_method_breakdown": {
+            "mismatch": 19,
+            "missing_sentinel": 18
+          },
+          "loop_diagnostics": null
+        },
+        "E1": {
+          "version": "v1",
+          "experiment_id": "E1",
+          "split": "test",
+          "source_path": "results/eval_v1/E1_v1_test_eval.json",
+          "total": 37,
+          "correct": 0,
+          "accuracy": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "tolerant_5pct_accuracy": 0.0,
+          "aligntune_math_grade_accuracy": 0.0,
+          "sentinel_rate": 0.5676,
+          "unit_consistency_rate": 0.5676,
+          "curated_total": 0,
+          "curated_correct": 0,
+          "curated_accuracy": 0.0,
+          "curated_tol5_accuracy": 0.0,
+          "physgym_total": 37,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.2262,
+          "rougeL_f1": 0.1639,
+          "bleu_score": 0.0088,
+          "physics_equation_token_f1": 0.22,
+          "step_structure_rate": 0.0,
+          "mean_equations_per_response": 13.7838,
+          "degenerate_rate": 0.3243,
+          "repetition_ratio": 0.4653,
+          "avg_response_tokens": 241.14,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "cd1f5c8a3bb639bb9b56b75d0600782b3c1d8d0260690598767bf319507a5b62",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 11,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.4545,
+              "degenerate_rate": 0.4545
+            },
+            "MECHANICS": {
+              "total": 15,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.6667,
+              "degenerate_rate": 0.2
+            },
+            "MODERN_PHYSICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.3333,
+              "degenerate_rate": 0.6667
+            },
+            "OPTICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "RELATIVITY": {
+              "total": 1,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.0,
+              "degenerate_rate": 0.0
+            },
+            "THERMODYNAMICS": {
+              "total": 4,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.5,
+              "degenerate_rate": 0.5
+            }
+          },
+          "match_method_breakdown": {
+            "missing_sentinel": 16,
+            "mismatch": 21
+          },
+          "loop_diagnostics": null
+        },
+        "E2": {
+          "version": "v1",
+          "experiment_id": "E2",
+          "split": "test",
+          "source_path": "results/eval_v1/E2_v1_test_eval.json",
+          "total": 37,
+          "correct": 0,
+          "accuracy": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "tolerant_5pct_accuracy": 0.0,
+          "aligntune_math_grade_accuracy": 0.0,
+          "sentinel_rate": 0.5946,
+          "unit_consistency_rate": 0.5946,
+          "curated_total": 0,
+          "curated_correct": 0,
+          "curated_accuracy": 0.0,
+          "curated_tol5_accuracy": 0.0,
+          "physgym_total": 37,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.2551,
+          "rougeL_f1": 0.1857,
+          "bleu_score": 0.0121,
+          "physics_equation_token_f1": 0.2495,
+          "step_structure_rate": 0.027,
+          "mean_equations_per_response": 13.8919,
+          "degenerate_rate": 0.3514,
+          "repetition_ratio": 0.401,
+          "avg_response_tokens": 252.76,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "18bc2fbee3899cab04bba108d93c22d206a5fd91948709ac27bea6cc33c65ef3",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 11,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.4545,
+              "degenerate_rate": 0.5455
+            },
+            "MECHANICS": {
+              "total": 15,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.6,
+              "degenerate_rate": 0.3333
+            },
+            "MODERN_PHYSICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.3333,
+              "degenerate_rate": 0.3333
+            },
+            "OPTICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.6667,
+              "degenerate_rate": 0.3333
+            },
+            "RELATIVITY": {
+              "total": 1,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "THERMODYNAMICS": {
+              "total": 4,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            }
+          },
+          "match_method_breakdown": {
+            "mismatch": 22,
+            "missing_sentinel": 15
+          },
+          "loop_diagnostics": null
+        },
+        "E4a": {
+          "version": "v1",
+          "experiment_id": "E4a",
+          "split": "test",
+          "source_path": "results/eval_v1/E4a_v1_test_eval.json",
+          "total": 37,
+          "correct": 0,
+          "accuracy": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "tolerant_5pct_accuracy": 0.0,
+          "aligntune_math_grade_accuracy": 0.0,
+          "sentinel_rate": 0.5946,
+          "unit_consistency_rate": 0.5946,
+          "curated_total": 0,
+          "curated_correct": 0,
+          "curated_accuracy": 0.0,
+          "curated_tol5_accuracy": 0.0,
+          "physgym_total": 37,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.168,
+          "rougeL_f1": 0.1296,
+          "bleu_score": 0.0085,
+          "physics_equation_token_f1": 0.1713,
+          "step_structure_rate": 0.0,
+          "mean_equations_per_response": 16.8378,
+          "degenerate_rate": 0.4054,
+          "repetition_ratio": 0.4432,
+          "avg_response_tokens": 275.62,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "4a2373ac2b064e9952b2a116d12766ceae4d8da3c7272a78d7adf4aaac829204",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 11,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.4545,
+              "degenerate_rate": 0.5455
+            },
+            "MECHANICS": {
+              "total": 15,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.6667,
+              "degenerate_rate": 0.3333
+            },
+            "MODERN_PHYSICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.3333,
+              "degenerate_rate": 0.6667
+            },
+            "OPTICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "RELATIVITY": {
+              "total": 1,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "THERMODYNAMICS": {
+              "total": 4,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.5,
+              "degenerate_rate": 0.5
+            }
+          },
+          "match_method_breakdown": {
+            "missing_sentinel": 15,
+            "mismatch": 22
+          },
+          "loop_diagnostics": null
+        }
+      },
+      "significance_validation": {
+        "E1_vs_E0": {
+          "n_samples": 38,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0,
+          "delta_mean": 0.0,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 1.0,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 0,
+          "ties": 38
+        },
+        "E2_vs_E0": {
+          "n_samples": 38,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0,
+          "delta_mean": 0.0,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 1.0,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 0,
+          "ties": 38
+        },
+        "E4a_vs_E0": {
+          "n_samples": 38,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0,
+          "delta_mean": 0.0,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 1.0,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 0,
+          "ties": 38
+        },
+        "E0_vs_E1": {
+          "n_samples": 38,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0,
+          "delta_mean": 0.0,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 1.0,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 0,
+          "ties": 38
+        },
+        "E2_vs_E1": {
+          "n_samples": 38,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0,
+          "delta_mean": 0.0,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 1.0,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 0,
+          "ties": 38
+        },
+        "E4a_vs_E1": {
+          "n_samples": 38,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0,
+          "delta_mean": 0.0,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 1.0,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 0,
+          "ties": 38
+        }
+      },
+      "significance_test": {
+        "E1_vs_E0": {
+          "n_samples": 37,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0,
+          "delta_mean": 0.0,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 1.0,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 0,
+          "ties": 37
+        },
+        "E2_vs_E0": {
+          "n_samples": 37,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0,
+          "delta_mean": 0.0,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 1.0,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 0,
+          "ties": 37
+        },
+        "E4a_vs_E0": {
+          "n_samples": 37,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0,
+          "delta_mean": 0.0,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 1.0,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 0,
+          "ties": 37
+        },
+        "E0_vs_E1": {
+          "n_samples": 37,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0,
+          "delta_mean": 0.0,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 1.0,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 0,
+          "ties": 37
+        },
+        "E2_vs_E1": {
+          "n_samples": 37,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0,
+          "delta_mean": 0.0,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 1.0,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 0,
+          "ties": 37
+        },
+        "E4a_vs_E1": {
+          "n_samples": 37,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0,
+          "delta_mean": 0.0,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 1.0,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 0,
+          "ties": 37
+        }
+      }
+    },
+    "v2": {
+      "validation": {
+        "E0": {
+          "version": "v2",
+          "experiment_id": "E0",
+          "split": "validation",
+          "source_path": "results/eval_e0_v2/E0_v2_validation_eval.json",
+          "total": 44,
+          "correct": 0,
+          "accuracy": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "tolerant_5pct_accuracy": 0.0,
+          "aligntune_math_grade_accuracy": 0.0,
+          "sentinel_rate": 0.9318,
+          "unit_consistency_rate": 0.8636,
+          "curated_total": 6,
+          "curated_correct": 0,
+          "curated_accuracy": 0.0,
+          "curated_tol5_accuracy": 0.0,
+          "physgym_total": 38,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.3042,
+          "rougeL_f1": 0.1866,
+          "bleu_score": 0.0132,
+          "physics_equation_token_f1": 0.2911,
+          "step_structure_rate": 0.5909,
+          "mean_equations_per_response": 33.0455,
+          "degenerate_rate": 0.3864,
+          "repetition_ratio": 0.5677,
+          "avg_response_tokens": 542.34,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "40c40b71c60bdfd82b377b2098ce1db4cabd3b679f00e4bd284d7ff490d39962",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 13,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.5385
+            },
+            "MECHANICS": {
+              "total": 17,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.9412,
+              "degenerate_rate": 0.2353
+            },
+            "MODERN_PHYSICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.6667,
+              "degenerate_rate": 0.0
+            },
+            "OPTICS": {
+              "total": 4,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.75
+            },
+            "RELATIVITY": {
+              "total": 2,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.5
+            },
+            "THERMODYNAMICS": {
+              "total": 5,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.8,
+              "degenerate_rate": 0.4
+            }
+          },
+          "match_method_breakdown": {
+            "mismatch": 41,
+            "missing_sentinel": 3
+          },
+          "loop_diagnostics": null
+        },
+        "E1": {
+          "version": "v2",
+          "experiment_id": "E1",
+          "split": "validation",
+          "source_path": "results/eval_e1_v2/E1_v2_validation_eval.json",
+          "total": 44,
+          "correct": 0,
+          "accuracy": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "tolerant_5pct_accuracy": 0.0,
+          "aligntune_math_grade_accuracy": 0.0,
+          "sentinel_rate": 0.4318,
+          "unit_consistency_rate": 0.4318,
+          "curated_total": 6,
+          "curated_correct": 0,
+          "curated_accuracy": 0.0,
+          "curated_tol5_accuracy": 0.0,
+          "physgym_total": 38,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.2157,
+          "rougeL_f1": 0.1598,
+          "bleu_score": 0.0085,
+          "physics_equation_token_f1": 0.2028,
+          "step_structure_rate": 0.0,
+          "mean_equations_per_response": 12.0227,
+          "degenerate_rate": 0.5227,
+          "repetition_ratio": 0.5721,
+          "avg_response_tokens": 355.43,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "124af55126a025dce69c00475a7ebe358206a2ac090122255a82d6ac895421dc",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 13,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.3077,
+              "degenerate_rate": 0.6923
+            },
+            "MECHANICS": {
+              "total": 17,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.2353,
+              "degenerate_rate": 0.7059
+            },
+            "MODERN_PHYSICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "OPTICS": {
+              "total": 4,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "RELATIVITY": {
+              "total": 2,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.5,
+              "degenerate_rate": 0.0
+            },
+            "THERMODYNAMICS": {
+              "total": 5,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.6,
+              "degenerate_rate": 0.4
+            }
+          },
+          "match_method_breakdown": {
+            "missing_sentinel": 25,
+            "mismatch": 19
+          },
+          "loop_diagnostics": null
+        },
+        "E2": {
+          "version": "v2",
+          "experiment_id": "E2",
+          "split": "validation",
+          "source_path": "results/eval_e2_v2/E2_v2_validation_eval.json",
+          "total": 44,
+          "correct": 1,
+          "accuracy": 0.0227,
+          "ci95": [
+            0.0,
+            0.0682
+          ],
+          "tolerant_5pct_accuracy": 0.0227,
+          "aligntune_math_grade_accuracy": 0.0227,
+          "sentinel_rate": 0.8864,
+          "unit_consistency_rate": 0.8409,
+          "curated_total": 6,
+          "curated_correct": 1,
+          "curated_accuracy": 0.1667,
+          "curated_tol5_accuracy": 0.1667,
+          "physgym_total": 38,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.2977,
+          "rougeL_f1": 0.1923,
+          "bleu_score": 0.0163,
+          "physics_equation_token_f1": 0.2722,
+          "step_structure_rate": 0.3409,
+          "mean_equations_per_response": 11.8864,
+          "degenerate_rate": 0.0455,
+          "repetition_ratio": 0.1901,
+          "avg_response_tokens": 158.75,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "e5cbf2fe605929dc1a227e54d5c930574fbb3542c53936d20d7f4eee21bfb05b",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 13,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.8462,
+              "degenerate_rate": 0.1538
+            },
+            "MECHANICS": {
+              "total": 17,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.9412,
+              "degenerate_rate": 0.0
+            },
+            "MODERN_PHYSICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.6667,
+              "degenerate_rate": 0.0
+            },
+            "OPTICS": {
+              "total": 4,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "RELATIVITY": {
+              "total": 2,
+              "correct": 1,
+              "accuracy": 0.5,
+              "tolerant_5pct_accuracy": 0.5,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "THERMODYNAMICS": {
+              "total": 5,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.8,
+              "degenerate_rate": 0.0
+            }
+          },
+          "match_method_breakdown": {
+            "mismatch": 38,
+            "missing_sentinel": 5,
+            "exact_normalized": 1
+          },
+          "loop_diagnostics": null
+        },
+        "E3": {
+          "version": "v2",
+          "experiment_id": "E3",
+          "split": "validation",
+          "source_path": "results/eval_e3_v2/E3_v2_validation_eval.json",
+          "total": 44,
+          "correct": 1,
+          "accuracy": 0.0227,
+          "ci95": [
+            0.0,
+            0.0682
+          ],
+          "tolerant_5pct_accuracy": 0.0227,
+          "aligntune_math_grade_accuracy": 0.0227,
+          "sentinel_rate": 0.9318,
+          "unit_consistency_rate": 0.8636,
+          "curated_total": 6,
+          "curated_correct": 1,
+          "curated_accuracy": 0.1667,
+          "curated_tol5_accuracy": 0.1667,
+          "physgym_total": 38,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.4076,
+          "rougeL_f1": 0.2337,
+          "bleu_score": 0.0311,
+          "physics_equation_token_f1": 0.3683,
+          "step_structure_rate": 1.0,
+          "mean_equations_per_response": 21.2955,
+          "degenerate_rate": 0.0,
+          "repetition_ratio": 0.1012,
+          "avg_response_tokens": 264.16,
+          "meta_leakage_rate": 0.0227,
+          "sha256_fingerprint": "9c90a28390cdc905dc5345792bb517a9b96935c29f3cefffb25c685da6fd482c",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 13,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.8462,
+              "degenerate_rate": 0.0
+            },
+            "MECHANICS": {
+              "total": 17,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.9412,
+              "degenerate_rate": 0.0
+            },
+            "MODERN_PHYSICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "OPTICS": {
+              "total": 4,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "RELATIVITY": {
+              "total": 2,
+              "correct": 1,
+              "accuracy": 0.5,
+              "tolerant_5pct_accuracy": 0.5,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "THERMODYNAMICS": {
+              "total": 5,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            }
+          },
+          "match_method_breakdown": {
+            "missing_sentinel": 3,
+            "mismatch": 40,
+            "exact_normalized": 1
+          },
+          "loop_diagnostics": null
+        },
+        "E4a": {
+          "version": "v2",
+          "experiment_id": "E4a",
+          "split": "validation",
+          "source_path": "results/eval_e4a_v2/E4a_v2_validation_eval.json",
+          "total": 44,
+          "correct": 0,
+          "accuracy": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "tolerant_5pct_accuracy": 0.0,
+          "aligntune_math_grade_accuracy": 0.0,
+          "sentinel_rate": 1.0,
+          "unit_consistency_rate": 0.9545,
+          "curated_total": 6,
+          "curated_correct": 0,
+          "curated_accuracy": 0.0,
+          "curated_tol5_accuracy": 0.0,
+          "physgym_total": 38,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.4016,
+          "rougeL_f1": 0.2337,
+          "bleu_score": 0.0318,
+          "physics_equation_token_f1": 0.3526,
+          "step_structure_rate": 1.0,
+          "mean_equations_per_response": 19.5909,
+          "degenerate_rate": 0.0,
+          "repetition_ratio": 0.0932,
+          "avg_response_tokens": 249.73,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "6065b868eb6dc4ec7f302f6137fcf711a3adfa9b1c5e149fa061ce7aee4ffb53",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 13,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "MECHANICS": {
+              "total": 17,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "MODERN_PHYSICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "OPTICS": {
+              "total": 4,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "RELATIVITY": {
+              "total": 2,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "THERMODYNAMICS": {
+              "total": 5,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            }
+          },
+          "match_method_breakdown": {
+            "mismatch": 44
+          },
+          "loop_diagnostics": null
+        }
+      },
+      "test": {
+        "E0": {
+          "version": "v2",
+          "experiment_id": "E0",
+          "split": "test",
+          "source_path": "results/eval_e0_v2/E0_v2_test_eval.json",
+          "total": 49,
+          "correct": 0,
+          "accuracy": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "tolerant_5pct_accuracy": 0.0,
+          "aligntune_math_grade_accuracy": 0.0,
+          "sentinel_rate": 0.9184,
+          "unit_consistency_rate": 0.8571,
+          "curated_total": 12,
+          "curated_correct": 0,
+          "curated_accuracy": 0.0,
+          "curated_tol5_accuracy": 0.0,
+          "physgym_total": 37,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.3058,
+          "rougeL_f1": 0.1875,
+          "bleu_score": 0.0166,
+          "physics_equation_token_f1": 0.2902,
+          "step_structure_rate": 0.7347,
+          "mean_equations_per_response": 31.5714,
+          "degenerate_rate": 0.3265,
+          "repetition_ratio": 0.5016,
+          "avg_response_tokens": 564.02,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "912100709ec3c8c3defebceb033273a5bee18733150a4f965708e319f1610d7c",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 13,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.3077
+            },
+            "MECHANICS": {
+              "total": 16,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.9375,
+              "degenerate_rate": 0.3125
+            },
+            "MODERN_PHYSICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.8333,
+              "degenerate_rate": 0.1667
+            },
+            "OPTICS": {
+              "total": 5,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.8,
+              "degenerate_rate": 0.2
+            },
+            "RELATIVITY": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.3333
+            },
+            "THERMODYNAMICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.8333,
+              "degenerate_rate": 0.6667
+            }
+          },
+          "match_method_breakdown": {
+            "mismatch": 45,
+            "missing_sentinel": 4
+          },
+          "loop_diagnostics": null
+        },
+        "E1": {
+          "version": "v2",
+          "experiment_id": "E1",
+          "split": "test",
+          "source_path": "results/eval_e1_v2/E1_v2_test_eval.json",
+          "total": 49,
+          "correct": 0,
+          "accuracy": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "tolerant_5pct_accuracy": 0.0,
+          "aligntune_math_grade_accuracy": 0.0,
+          "sentinel_rate": 0.4694,
+          "unit_consistency_rate": 0.4286,
+          "curated_total": 12,
+          "curated_correct": 0,
+          "curated_accuracy": 0.0,
+          "curated_tol5_accuracy": 0.0,
+          "physgym_total": 37,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.1828,
+          "rougeL_f1": 0.1413,
+          "bleu_score": 0.0047,
+          "physics_equation_token_f1": 0.1818,
+          "step_structure_rate": 0.0,
+          "mean_equations_per_response": 9.9796,
+          "degenerate_rate": 0.5306,
+          "repetition_ratio": 0.5874,
+          "avg_response_tokens": 320.55,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "646a6618eb0ada06eee8c72e7cc18941f4e71bd37bac00d799286965dd6dbe92",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 13,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.3846,
+              "degenerate_rate": 0.6154
+            },
+            "MECHANICS": {
+              "total": 16,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.5,
+              "degenerate_rate": 0.5
+            },
+            "MODERN_PHYSICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.5,
+              "degenerate_rate": 0.5
+            },
+            "OPTICS": {
+              "total": 5,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.8,
+              "degenerate_rate": 0.2
+            },
+            "RELATIVITY": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.3333,
+              "degenerate_rate": 0.6667
+            },
+            "THERMODYNAMICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.3333,
+              "degenerate_rate": 0.6667
+            }
+          },
+          "match_method_breakdown": {
+            "missing_sentinel": 26,
+            "mismatch": 23
+          },
+          "loop_diagnostics": null
+        },
+        "E2": {
+          "version": "v2",
+          "experiment_id": "E2",
+          "split": "test",
+          "source_path": "results/eval_e2_v2/E2_v2_test_eval.json",
+          "total": 49,
+          "correct": 0,
+          "accuracy": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "tolerant_5pct_accuracy": 0.0,
+          "aligntune_math_grade_accuracy": 0.0,
+          "sentinel_rate": 0.898,
+          "unit_consistency_rate": 0.8776,
+          "curated_total": 12,
+          "curated_correct": 0,
+          "curated_accuracy": 0.0,
+          "curated_tol5_accuracy": 0.0,
+          "physgym_total": 37,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.2904,
+          "rougeL_f1": 0.1912,
+          "bleu_score": 0.0181,
+          "physics_equation_token_f1": 0.2681,
+          "step_structure_rate": 0.4082,
+          "mean_equations_per_response": 11.2449,
+          "degenerate_rate": 0.0816,
+          "repetition_ratio": 0.1744,
+          "avg_response_tokens": 190.51,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "40624b5b588e3daf03a97c0cfb5cc1dea545a7262cd699b39a60b77ad496b7f9",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 13,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.7692,
+              "degenerate_rate": 0.2308
+            },
+            "MECHANICS": {
+              "total": 16,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "MODERN_PHYSICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.8333,
+              "degenerate_rate": 0.0
+            },
+            "OPTICS": {
+              "total": 5,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "RELATIVITY": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "THERMODYNAMICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.8333,
+              "degenerate_rate": 0.1667
+            }
+          },
+          "match_method_breakdown": {
+            "mismatch": 44,
+            "missing_sentinel": 5
+          },
+          "loop_diagnostics": null
+        },
+        "E3": {
+          "version": "v2",
+          "experiment_id": "E3",
+          "split": "test",
+          "source_path": "results/eval_e3_v2/E3_v2_test_eval.json",
+          "total": 49,
+          "correct": 1,
+          "accuracy": 0.0204,
+          "ci95": [
+            0.0,
+            0.0612
+          ],
+          "tolerant_5pct_accuracy": 0.0204,
+          "aligntune_math_grade_accuracy": 0.0204,
+          "sentinel_rate": 0.9388,
+          "unit_consistency_rate": 0.8776,
+          "curated_total": 12,
+          "curated_correct": 1,
+          "curated_accuracy": 0.0833,
+          "curated_tol5_accuracy": 0.0833,
+          "physgym_total": 37,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.4005,
+          "rougeL_f1": 0.2281,
+          "bleu_score": 0.0327,
+          "physics_equation_token_f1": 0.3733,
+          "step_structure_rate": 1.0,
+          "mean_equations_per_response": 19.898,
+          "degenerate_rate": 0.0,
+          "repetition_ratio": 0.1185,
+          "avg_response_tokens": 258.98,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "164dfb2933eb661b66004298a9962b640388598d89510338c816608a77951a92",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 13,
+              "correct": 1,
+              "accuracy": 0.0769,
+              "tolerant_5pct_accuracy": 0.0769,
+              "sentinel_rate": 0.9231,
+              "degenerate_rate": 0.0
+            },
+            "MECHANICS": {
+              "total": 16,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "MODERN_PHYSICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.8333,
+              "degenerate_rate": 0.0
+            },
+            "OPTICS": {
+              "total": 5,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "RELATIVITY": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.6667,
+              "degenerate_rate": 0.0
+            },
+            "THERMODYNAMICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            }
+          },
+          "match_method_breakdown": {
+            "mismatch": 45,
+            "missing_sentinel": 3,
+            "exact_normalized": 1
+          },
+          "loop_diagnostics": null
+        },
+        "E4a": {
+          "version": "v2",
+          "experiment_id": "E4a",
+          "split": "test",
+          "source_path": "results/eval_e4a_v2/E4a_v2_test_eval.json",
+          "total": 49,
+          "correct": 1,
+          "accuracy": 0.0204,
+          "ci95": [
+            0.0,
+            0.0612
+          ],
+          "tolerant_5pct_accuracy": 0.0204,
+          "aligntune_math_grade_accuracy": 0.0,
+          "sentinel_rate": 0.9796,
+          "unit_consistency_rate": 0.9388,
+          "curated_total": 12,
+          "curated_correct": 1,
+          "curated_accuracy": 0.0833,
+          "curated_tol5_accuracy": 0.0833,
+          "physgym_total": 37,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.3878,
+          "rougeL_f1": 0.2257,
+          "bleu_score": 0.035,
+          "physics_equation_token_f1": 0.363,
+          "step_structure_rate": 1.0,
+          "mean_equations_per_response": 17.7959,
+          "degenerate_rate": 0.0204,
+          "repetition_ratio": 0.0917,
+          "avg_response_tokens": 236.82,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "b8ab3a2b0505260a841d93a8aecc4a2f90b60e91543bd2891f0d02fb2786a837",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 13,
+              "correct": 1,
+              "accuracy": 0.0769,
+              "tolerant_5pct_accuracy": 0.0769,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "MECHANICS": {
+              "total": 16,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "MODERN_PHYSICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "OPTICS": {
+              "total": 5,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "RELATIVITY": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "THERMODYNAMICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.8333,
+              "degenerate_rate": 0.1667
+            }
+          },
+          "match_method_breakdown": {
+            "mismatch": 47,
+            "missing_sentinel": 1,
+            "sympy_symbolic": 1
+          },
+          "loop_diagnostics": null
+        },
+        "E4b": {
+          "version": "v2",
+          "experiment_id": "E4b",
+          "split": "test",
+          "source_path": "results/eval_e4_loop_v2_test/summary.json",
+          "total": 37,
+          "correct": 0,
+          "accuracy": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "tolerant_5pct_accuracy": 0.0,
+          "aligntune_math_grade_accuracy": 0.0,
+          "sentinel_rate": 0.973,
+          "unit_consistency_rate": 0.9189,
+          "curated_total": 0,
+          "curated_correct": 0,
+          "curated_accuracy": 0.0,
+          "curated_tol5_accuracy": 0.0,
+          "physgym_total": 37,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.3663,
+          "rougeL_f1": 0.208,
+          "bleu_score": 0.0153,
+          "physics_equation_token_f1": 0.3106,
+          "step_structure_rate": 1.0,
+          "mean_equations_per_response": 21.5405,
+          "degenerate_rate": 0.027,
+          "repetition_ratio": 0.0921,
+          "avg_response_tokens": 244.84,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "1631443ac19c82b0818c57b0ff9235bd4298090da091a6c5a74c5a254a650bb8",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "count": 11,
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            },
+            "MECHANICS": {
+              "count": 15,
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            },
+            "MODERN_PHYSICS": {
+              "count": 3,
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            },
+            "OPTICS": {
+              "count": 3,
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            },
+            "RELATIVITY": {
+              "count": 1,
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            },
+            "THERMODYNAMICS": {
+              "count": 4,
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            }
+          },
+          "match_method_breakdown": {
+            "mismatch": 36,
+            "missing_sentinel": 1
+          },
+          "loop_diagnostics": {
+            "solver": {
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "turn0_sentinel_compliance_rate": 0.918919,
+              "final_sentinel_compliance_rate": 0.972973,
+              "converted_count": 0,
+              "turn0_wrong_count": 37,
+              "correction_conversion_rate": 0.0,
+              "regressed_count": 0,
+              "regression_rate": null,
+              "per_iteration_cumulative": {
+                "iter_1": {
+                  "correct": 0,
+                  "total": 37,
+                  "accuracy": 0.0
+                },
+                "iter_2": {
+                  "correct": 0,
+                  "total": 37,
+                  "accuracy": 0.0
+                },
+                "iter_3": {
+                  "correct": 0,
+                  "total": 37,
+                  "accuracy": 0.0
+                }
+              },
+              "final_match_method_counts": {
+                "mismatch": 36,
+                "missing_sentinel": 1
+              }
+            },
+            "verifier": {
+              "total_reviews": 109,
+              "tp_true_challenge": 107,
+              "fp_false_challenge": 0,
+              "tn_true_approve": 0,
+              "fn_false_approve": 0,
+              "unknown_no_sentinel": 2,
+              "verifier_sentinel_accuracy": 0.981651,
+              "verifier_challenge_precision": 1.0,
+              "verifier_challenge_recall": 1.0,
+              "verifier_challenge_f1": 1.0,
+              "verifier_false_approval_rate": 0.0,
+              "verifier_false_challenge_rate": null,
+              "verifier_overall_false_approval_rate": 0.0,
+              "verifier_approve_rate": 0.0,
+              "verifier_challenge_rate": 0.981651,
+              "directive_self_containment_no_leak_rate": 1.0,
+              "auditkit_directive_actionability_score": 1.0
+            },
+            "loop_efficiency": {
+              "mean_iterations_used": 2.9459,
+              "mean_latency_s": 199.0475,
+              "total_latency_s": 7364.7581,
+              "mean_tokens_per_problem": 1734.54,
+              "stop_reason_counts": {
+                "max_iterations_reached": 35,
+                "verifier_no_sentinel": 2
+              }
+            }
+          }
+        }
+      },
+      "significance_validation": {
+        "E1_vs_E0": {
+          "n_samples": 44,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0,
+          "delta_mean": 0.0,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 1.0,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 0,
+          "ties": 44
+        },
+        "E2_vs_E0": {
+          "n_samples": 44,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0227,
+          "delta_mean": 0.0227,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0682
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0682
+          ],
+          "paired_bootstrap_p_value": 0.722,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 1,
+          "wins_baseline": 0,
+          "ties": 43
+        },
+        "E3_vs_E0": {
+          "n_samples": 44,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0227,
+          "delta_mean": 0.0227,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0682
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0682
+          ],
+          "paired_bootstrap_p_value": 0.722,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 1,
+          "wins_baseline": 0,
+          "ties": 43
+        },
+        "E4a_vs_E0": {
+          "n_samples": 44,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0,
+          "delta_mean": 0.0,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 1.0,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 0,
+          "ties": 44
+        },
+        "E0_vs_E1": {
+          "n_samples": 44,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0,
+          "delta_mean": 0.0,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 1.0,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 0,
+          "ties": 44
+        },
+        "E2_vs_E1": {
+          "n_samples": 44,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0227,
+          "delta_mean": 0.0227,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0682
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0682
+          ],
+          "paired_bootstrap_p_value": 0.722,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 1,
+          "wins_baseline": 0,
+          "ties": 43
+        },
+        "E3_vs_E1": {
+          "n_samples": 44,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0227,
+          "delta_mean": 0.0227,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0682
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0682
+          ],
+          "paired_bootstrap_p_value": 0.722,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 1,
+          "wins_baseline": 0,
+          "ties": 43
+        },
+        "E4a_vs_E1": {
+          "n_samples": 44,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0,
+          "delta_mean": 0.0,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 1.0,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 0,
+          "ties": 44
+        }
+      },
+      "significance_test": {
+        "E1_vs_E0": {
+          "n_samples": 49,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0,
+          "delta_mean": 0.0,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 1.0,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 0,
+          "ties": 49
+        },
+        "E2_vs_E0": {
+          "n_samples": 49,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0,
+          "delta_mean": 0.0,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 1.0,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 0,
+          "ties": 49
+        },
+        "E3_vs_E0": {
+          "n_samples": 49,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0204,
+          "delta_mean": 0.0204,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0612
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0612
+          ],
+          "paired_bootstrap_p_value": 0.725,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 1,
+          "wins_baseline": 0,
+          "ties": 48
+        },
+        "E4a_vs_E0": {
+          "n_samples": 49,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0204,
+          "delta_mean": 0.0204,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0612
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0612
+          ],
+          "paired_bootstrap_p_value": 0.725,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 1,
+          "wins_baseline": 0,
+          "ties": 48
+        },
+        "E0_vs_E1": {
+          "n_samples": 49,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0,
+          "delta_mean": 0.0,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 1.0,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 0,
+          "ties": 49
+        },
+        "E2_vs_E1": {
+          "n_samples": 49,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0,
+          "delta_mean": 0.0,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 1.0,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 0,
+          "ties": 49
+        },
+        "E3_vs_E1": {
+          "n_samples": 49,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0204,
+          "delta_mean": 0.0204,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0612
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0612
+          ],
+          "paired_bootstrap_p_value": 0.725,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 1,
+          "wins_baseline": 0,
+          "ties": 48
+        },
+        "E4a_vs_E1": {
+          "n_samples": 49,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0204,
+          "delta_mean": 0.0204,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0612
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0612
+          ],
+          "paired_bootstrap_p_value": 0.725,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 1,
+          "wins_baseline": 0,
+          "ties": 48
+        }
+      }
+    },
+    "v3": {
+      "validation": {
+        "E0": {
+          "version": "v3",
+          "experiment_id": "E0",
+          "split": "validation",
+          "source_path": "results/eval_e0_v2/E0_v2_validation_eval.json",
+          "total": 48,
+          "correct": 0,
+          "accuracy": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "tolerant_5pct_accuracy": 0.0,
+          "aligntune_math_grade_accuracy": 0.0,
+          "sentinel_rate": 0.9375,
+          "unit_consistency_rate": 0.8542,
+          "curated_total": 10,
+          "curated_correct": 0,
+          "curated_accuracy": 0.0,
+          "curated_tol5_accuracy": 0.0,
+          "physgym_total": 38,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.3069,
+          "rougeL_f1": 0.1885,
+          "bleu_score": 0.015,
+          "physics_equation_token_f1": 0.2935,
+          "step_structure_rate": 0.6042,
+          "mean_equations_per_response": 33.5833,
+          "degenerate_rate": 0.3542,
+          "repetition_ratio": 0.5505,
+          "avg_response_tokens": 542.85,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "4e38d8ff10b96af4e1d2ceb017e29e948b30df174ee7688a67ba0c75651a15a6",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 14,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.5
+            },
+            "MECHANICS": {
+              "total": 18,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.9444,
+              "degenerate_rate": 0.2222
+            },
+            "MODERN_PHYSICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.6667,
+              "degenerate_rate": 0.0
+            },
+            "OPTICS": {
+              "total": 5,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.6
+            },
+            "RELATIVITY": {
+              "total": 2,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.5
+            },
+            "THERMODYNAMICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.8333,
+              "degenerate_rate": 0.3333
+            }
+          },
+          "match_method_breakdown": {
+            "mismatch": 45,
+            "missing_sentinel": 3
+          },
+          "loop_diagnostics": null
+        },
+        "E1": {
+          "version": "v3",
+          "experiment_id": "E1",
+          "split": "validation",
+          "source_path": "results/eval_e1_v3/E1_v3_validation_eval.json",
+          "total": 48,
+          "correct": 1,
+          "accuracy": 0.0208,
+          "ci95": [
+            0.0,
+            0.0625
+          ],
+          "tolerant_5pct_accuracy": 0.0208,
+          "aligntune_math_grade_accuracy": 0.0,
+          "sentinel_rate": 0.3958,
+          "unit_consistency_rate": 0.375,
+          "curated_total": 10,
+          "curated_correct": 1,
+          "curated_accuracy": 0.1,
+          "curated_tol5_accuracy": 0.1,
+          "physgym_total": 38,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.1667,
+          "rougeL_f1": 0.125,
+          "bleu_score": 0.0114,
+          "physics_equation_token_f1": 0.1592,
+          "step_structure_rate": 0.0625,
+          "mean_equations_per_response": 24.5,
+          "degenerate_rate": 0.4375,
+          "repetition_ratio": 0.438,
+          "avg_response_tokens": 296.0,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "1b61856eadbf217db04fb5dafb711fa199ab6990b770c5a09054aa4d0fa56877",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 14,
+              "correct": 1,
+              "accuracy": 0.0714,
+              "tolerant_5pct_accuracy": 0.0714,
+              "sentinel_rate": 0.2143,
+              "degenerate_rate": 0.4286
+            },
+            "MECHANICS": {
+              "total": 18,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.4444,
+              "degenerate_rate": 0.5
+            },
+            "MODERN_PHYSICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.3333,
+              "degenerate_rate": 0.3333
+            },
+            "OPTICS": {
+              "total": 5,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.2,
+              "degenerate_rate": 0.8
+            },
+            "RELATIVITY": {
+              "total": 2,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "THERMODYNAMICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.6667,
+              "degenerate_rate": 0.1667
+            }
+          },
+          "match_method_breakdown": {
+            "missing_sentinel": 29,
+            "mismatch": 18,
+            "sympy_symbolic": 1
+          },
+          "loop_diagnostics": null
+        },
+        "E2": {
+          "version": "v3",
+          "experiment_id": "E2",
+          "split": "validation",
+          "source_path": "results/eval_e2_v3/E2_v3_validation_eval.json",
+          "total": 48,
+          "correct": 2,
+          "accuracy": 0.0417,
+          "ci95": [
+            0.0,
+            0.1042
+          ],
+          "tolerant_5pct_accuracy": 0.0417,
+          "aligntune_math_grade_accuracy": 0.0208,
+          "sentinel_rate": 0.875,
+          "unit_consistency_rate": 0.8542,
+          "curated_total": 10,
+          "curated_correct": 2,
+          "curated_accuracy": 0.2,
+          "curated_tol5_accuracy": 0.2,
+          "physgym_total": 38,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.2931,
+          "rougeL_f1": 0.1971,
+          "bleu_score": 0.0172,
+          "physics_equation_token_f1": 0.2791,
+          "step_structure_rate": 0.9167,
+          "mean_equations_per_response": 14.6458,
+          "degenerate_rate": 0.0833,
+          "repetition_ratio": 0.2531,
+          "avg_response_tokens": 142.62,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "e2e571602700d03391ff5a97802fcd7ab56fbc135d52079a910393cb50a45794",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 14,
+              "correct": 1,
+              "accuracy": 0.0714,
+              "tolerant_5pct_accuracy": 0.0714,
+              "sentinel_rate": 0.7857,
+              "degenerate_rate": 0.1429
+            },
+            "MECHANICS": {
+              "total": 18,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.8889,
+              "degenerate_rate": 0.1111
+            },
+            "MODERN_PHYSICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "OPTICS": {
+              "total": 5,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "RELATIVITY": {
+              "total": 2,
+              "correct": 1,
+              "accuracy": 0.5,
+              "tolerant_5pct_accuracy": 0.5,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "THERMODYNAMICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.8333,
+              "degenerate_rate": 0.0
+            }
+          },
+          "match_method_breakdown": {
+            "mismatch": 40,
+            "missing_sentinel": 6,
+            "sympy_symbolic": 1,
+            "exact_normalized": 1
+          },
+          "loop_diagnostics": null
+        },
+        "E3": {
+          "version": "v3",
+          "experiment_id": "E3",
+          "split": "validation",
+          "source_path": "results/eval_e3_v3/E3_v3_validation_eval.json",
+          "total": 48,
+          "correct": 2,
+          "accuracy": 0.0417,
+          "ci95": [
+            0.0,
+            0.1042
+          ],
+          "tolerant_5pct_accuracy": 0.0417,
+          "aligntune_math_grade_accuracy": 0.0417,
+          "sentinel_rate": 0.875,
+          "unit_consistency_rate": 0.8542,
+          "curated_total": 10,
+          "curated_correct": 2,
+          "curated_accuracy": 0.2,
+          "curated_tol5_accuracy": 0.2,
+          "physgym_total": 38,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.3886,
+          "rougeL_f1": 0.238,
+          "bleu_score": 0.0349,
+          "physics_equation_token_f1": 0.3544,
+          "step_structure_rate": 0.9167,
+          "mean_equations_per_response": 18.4792,
+          "degenerate_rate": 0.0208,
+          "repetition_ratio": 0.1309,
+          "avg_response_tokens": 233.54,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "5cd03d91f9b5311aa6da09a0056addce883b85b65baf29edf85bafd69332847c",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 14,
+              "correct": 1,
+              "accuracy": 0.0714,
+              "tolerant_5pct_accuracy": 0.0714,
+              "sentinel_rate": 0.9286,
+              "degenerate_rate": 0.0
+            },
+            "MECHANICS": {
+              "total": 18,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.8333,
+              "degenerate_rate": 0.0
+            },
+            "MODERN_PHYSICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.6667,
+              "degenerate_rate": 0.3333
+            },
+            "OPTICS": {
+              "total": 5,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.8,
+              "degenerate_rate": 0.0
+            },
+            "RELATIVITY": {
+              "total": 2,
+              "correct": 1,
+              "accuracy": 0.5,
+              "tolerant_5pct_accuracy": 0.5,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "THERMODYNAMICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            }
+          },
+          "match_method_breakdown": {
+            "mismatch": 40,
+            "missing_sentinel": 6,
+            "sympy_symbolic": 1,
+            "exact_normalized": 1
+          },
+          "loop_diagnostics": null
+        },
+        "E4a": {
+          "version": "v3",
+          "experiment_id": "E4a",
+          "split": "validation",
+          "source_path": "results/eval_e4a_v3/E4a_v3_validation_eval.json",
+          "total": 48,
+          "correct": 1,
+          "accuracy": 0.0208,
+          "ci95": [
+            0.0,
+            0.0625
+          ],
+          "tolerant_5pct_accuracy": 0.0208,
+          "aligntune_math_grade_accuracy": 0.0208,
+          "sentinel_rate": 0.8958,
+          "unit_consistency_rate": 0.8542,
+          "curated_total": 10,
+          "curated_correct": 1,
+          "curated_accuracy": 0.1,
+          "curated_tol5_accuracy": 0.1,
+          "physgym_total": 38,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.3997,
+          "rougeL_f1": 0.2303,
+          "bleu_score": 0.0347,
+          "physics_equation_token_f1": 0.3559,
+          "step_structure_rate": 0.9792,
+          "mean_equations_per_response": 18.7292,
+          "degenerate_rate": 0.0208,
+          "repetition_ratio": 0.1136,
+          "avg_response_tokens": 253.12,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "0d06b37811fe319bd4c5d20651b066ad0bb367c17d6909b0eef7e7dbebd9fb43",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 14,
+              "correct": 1,
+              "accuracy": 0.0714,
+              "tolerant_5pct_accuracy": 0.0714,
+              "sentinel_rate": 0.7857,
+              "degenerate_rate": 0.0714
+            },
+            "MECHANICS": {
+              "total": 18,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.9444,
+              "degenerate_rate": 0.0
+            },
+            "MODERN_PHYSICS": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.6667,
+              "degenerate_rate": 0.0
+            },
+            "OPTICS": {
+              "total": 5,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "RELATIVITY": {
+              "total": 2,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "THERMODYNAMICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            }
+          },
+          "match_method_breakdown": {
+            "mismatch": 42,
+            "missing_sentinel": 5,
+            "exact_normalized": 1
+          },
+          "loop_diagnostics": null
+        },
+        "E4b": {
+          "version": "v3",
+          "experiment_id": "E4b",
+          "split": "validation",
+          "source_path": "results/eval_e4_loop_v3_val/summary.json",
+          "total": 48,
+          "correct": 2,
+          "accuracy": 0.0417,
+          "ci95": [
+            0.0,
+            0.1042
+          ],
+          "tolerant_5pct_accuracy": 0.0417,
+          "aligntune_math_grade_accuracy": 0.0208,
+          "sentinel_rate": 1.0,
+          "unit_consistency_rate": 0.9167,
+          "curated_total": 10,
+          "curated_correct": 2,
+          "curated_accuracy": 0.2,
+          "curated_tol5_accuracy": 0.2,
+          "physgym_total": 38,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.4008,
+          "rougeL_f1": 0.2356,
+          "bleu_score": 0.0369,
+          "physics_equation_token_f1": 0.3566,
+          "step_structure_rate": 1.0,
+          "mean_equations_per_response": 18.9167,
+          "degenerate_rate": 0.0,
+          "repetition_ratio": 0.099,
+          "avg_response_tokens": 239.83,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "dd8d3450a3372325624d3a2932663eaab911e76685c88db88b2929753b511d10",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "count": 14,
+              "turn0_correct": 1,
+              "turn0_accuracy": 0.071429,
+              "final_correct": 1,
+              "final_accuracy": 0.071429,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            },
+            "MECHANICS": {
+              "count": 18,
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            },
+            "MODERN_PHYSICS": {
+              "count": 3,
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            },
+            "OPTICS": {
+              "count": 5,
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            },
+            "RELATIVITY": {
+              "count": 2,
+              "turn0_correct": 1,
+              "turn0_accuracy": 0.5,
+              "final_correct": 1,
+              "final_accuracy": 0.5,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            },
+            "THERMODYNAMICS": {
+              "count": 6,
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            }
+          },
+          "match_method_breakdown": {
+            "mismatch": 46,
+            "exact_normalized": 2
+          },
+          "loop_diagnostics": {
+            "solver": {
+              "turn0_correct": 2,
+              "turn0_accuracy": 0.041667,
+              "final_correct": 2,
+              "final_accuracy": 0.041667,
+              "net_revision_gain": 0.0,
+              "turn0_sentinel_compliance_rate": 0.958333,
+              "final_sentinel_compliance_rate": 1.0,
+              "converted_count": 0,
+              "turn0_wrong_count": 46,
+              "correction_conversion_rate": 0.0,
+              "regressed_count": 0,
+              "regression_rate": 0.0,
+              "per_iteration_cumulative": {
+                "iter_1": {
+                  "correct": 2,
+                  "total": 48,
+                  "accuracy": 0.041667
+                },
+                "iter_2": {
+                  "correct": 2,
+                  "total": 48,
+                  "accuracy": 0.041667
+                },
+                "iter_3": {
+                  "correct": 2,
+                  "total": 48,
+                  "accuracy": 0.041667
+                }
+              },
+              "final_match_method_counts": {
+                "mismatch": 46,
+                "exact_normalized": 2
+              }
+            },
+            "verifier": {
+              "total_reviews": 113,
+              "tp_true_challenge": 94,
+              "fp_false_challenge": 1,
+              "tn_true_approve": 2,
+              "fn_false_approve": 14,
+              "unknown_no_sentinel": 2,
+              "verifier_sentinel_accuracy": 0.849558,
+              "verifier_challenge_precision": 0.989474,
+              "verifier_challenge_recall": 0.87037,
+              "verifier_challenge_f1": 0.926108,
+              "verifier_false_approval_rate": 0.12963,
+              "verifier_false_challenge_rate": 0.333333,
+              "verifier_overall_false_approval_rate": 0.123894,
+              "verifier_approve_rate": 0.141593,
+              "verifier_challenge_rate": 0.840708,
+              "directive_self_containment_no_leak_rate": 1.0,
+              "auditkit_directive_actionability_score": 1.0
+            },
+            "loop_efficiency": {
+              "mean_iterations_used": 2.3542,
+              "mean_latency_s": 134.0501,
+              "total_latency_s": 6434.4034,
+              "mean_tokens_per_problem": 1377.44,
+              "stop_reason_counts": {
+                "duplicate_hint_stopped": 12,
+                "max_iterations_reached": 18,
+                "approved": 16,
+                "verifier_no_sentinel": 2
+              }
+            }
+          }
+        }
+      },
+      "test": {
+        "E0": {
+          "version": "v3",
+          "experiment_id": "E0",
+          "split": "test",
+          "source_path": "results/eval_e0_v2/E0_v2_test_eval.json",
+          "total": 55,
+          "correct": 0,
+          "accuracy": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "tolerant_5pct_accuracy": 0.0,
+          "aligntune_math_grade_accuracy": 0.0,
+          "sentinel_rate": 0.9273,
+          "unit_consistency_rate": 0.8727,
+          "curated_total": 17,
+          "curated_correct": 0,
+          "curated_accuracy": 0.0,
+          "curated_tol5_accuracy": 0.0,
+          "physgym_total": 38,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.2996,
+          "rougeL_f1": 0.1826,
+          "bleu_score": 0.0166,
+          "physics_equation_token_f1": 0.285,
+          "step_structure_rate": 0.7455,
+          "mean_equations_per_response": 30.5636,
+          "degenerate_rate": 0.3273,
+          "repetition_ratio": 0.5061,
+          "avg_response_tokens": 568.05,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "c85425bcff0a3175795069736106c5490c8da66f0e0550b5750f92d1f32b95aa",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 16,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.3125
+            },
+            "MECHANICS": {
+              "total": 19,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.9474,
+              "degenerate_rate": 0.3158
+            },
+            "MODERN_PHYSICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.8333,
+              "degenerate_rate": 0.1667
+            },
+            "OPTICS": {
+              "total": 5,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.8,
+              "degenerate_rate": 0.2
+            },
+            "RELATIVITY": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.3333
+            },
+            "THERMODYNAMICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.8333,
+              "degenerate_rate": 0.6667
+            }
+          },
+          "match_method_breakdown": {
+            "mismatch": 51,
+            "missing_sentinel": 4
+          },
+          "loop_diagnostics": null
+        },
+        "E1": {
+          "version": "v3",
+          "experiment_id": "E1",
+          "split": "test",
+          "source_path": "results/eval_e1_v3/E1_v3_test_eval.json",
+          "total": 55,
+          "correct": 1,
+          "accuracy": 0.0182,
+          "ci95": [
+            0.0,
+            0.0545
+          ],
+          "tolerant_5pct_accuracy": 0.0182,
+          "aligntune_math_grade_accuracy": 0.0,
+          "sentinel_rate": 0.4545,
+          "unit_consistency_rate": 0.4545,
+          "curated_total": 17,
+          "curated_correct": 1,
+          "curated_accuracy": 0.0588,
+          "curated_tol5_accuracy": 0.0588,
+          "physgym_total": 38,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.1522,
+          "rougeL_f1": 0.1155,
+          "bleu_score": 0.0054,
+          "physics_equation_token_f1": 0.1453,
+          "step_structure_rate": 0.0,
+          "mean_equations_per_response": 9.7455,
+          "degenerate_rate": 0.3455,
+          "repetition_ratio": 0.357,
+          "avg_response_tokens": 203.15,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "e38b39f4c098e908473858fda9a2dd643083053a34d6623d65845d1415e45b00",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 16,
+              "correct": 1,
+              "accuracy": 0.0625,
+              "tolerant_5pct_accuracy": 0.0625,
+              "sentinel_rate": 0.4375,
+              "degenerate_rate": 0.375
+            },
+            "MECHANICS": {
+              "total": 19,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.3684,
+              "degenerate_rate": 0.3684
+            },
+            "MODERN_PHYSICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.6667,
+              "degenerate_rate": 0.3333
+            },
+            "OPTICS": {
+              "total": 5,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.6,
+              "degenerate_rate": 0.6
+            },
+            "RELATIVITY": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.3333,
+              "degenerate_rate": 0.3333
+            },
+            "THERMODYNAMICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.5,
+              "degenerate_rate": 0.0
+            }
+          },
+          "match_method_breakdown": {
+            "missing_sentinel": 30,
+            "mismatch": 24,
+            "numerical_tolerance": 1
+          },
+          "loop_diagnostics": null
+        },
+        "E2": {
+          "version": "v3",
+          "experiment_id": "E2",
+          "split": "test",
+          "source_path": "results/eval_e2_v3/E2_v3_test_eval.json",
+          "total": 55,
+          "correct": 2,
+          "accuracy": 0.0364,
+          "ci95": [
+            0.0,
+            0.0909
+          ],
+          "tolerant_5pct_accuracy": 0.0364,
+          "aligntune_math_grade_accuracy": 0.0182,
+          "sentinel_rate": 0.9636,
+          "unit_consistency_rate": 0.9455,
+          "curated_total": 17,
+          "curated_correct": 2,
+          "curated_accuracy": 0.1176,
+          "curated_tol5_accuracy": 0.1176,
+          "physgym_total": 38,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.3133,
+          "rougeL_f1": 0.2068,
+          "bleu_score": 0.0156,
+          "physics_equation_token_f1": 0.3013,
+          "step_structure_rate": 0.9636,
+          "mean_equations_per_response": 8.6727,
+          "degenerate_rate": 0.1091,
+          "repetition_ratio": 0.2446,
+          "avg_response_tokens": 145.65,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "2b5919e8fec4c3e61fca6ee44ac1bd563fc0078f8aca3c0177945a1303cc9567",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 16,
+              "correct": 2,
+              "accuracy": 0.125,
+              "tolerant_5pct_accuracy": 0.125,
+              "sentinel_rate": 0.9375,
+              "degenerate_rate": 0.1875
+            },
+            "MECHANICS": {
+              "total": 19,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.9474,
+              "degenerate_rate": 0.1579
+            },
+            "MODERN_PHYSICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "OPTICS": {
+              "total": 5,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "RELATIVITY": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "THERMODYNAMICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            }
+          },
+          "match_method_breakdown": {
+            "mismatch": 51,
+            "missing_sentinel": 2,
+            "exact_normalized": 1,
+            "numerical_tolerance": 1
+          },
+          "loop_diagnostics": null
+        },
+        "E3": {
+          "version": "v3",
+          "experiment_id": "E3",
+          "split": "test",
+          "source_path": "results/eval_e3_v3/E3_v3_test_eval.json",
+          "total": 55,
+          "correct": 1,
+          "accuracy": 0.0182,
+          "ci95": [
+            0.0,
+            0.0545
+          ],
+          "tolerant_5pct_accuracy": 0.0182,
+          "aligntune_math_grade_accuracy": 0.0182,
+          "sentinel_rate": 0.8909,
+          "unit_consistency_rate": 0.8182,
+          "curated_total": 17,
+          "curated_correct": 1,
+          "curated_accuracy": 0.0588,
+          "curated_tol5_accuracy": 0.0588,
+          "physgym_total": 38,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.3823,
+          "rougeL_f1": 0.2261,
+          "bleu_score": 0.0369,
+          "physics_equation_token_f1": 0.3566,
+          "step_structure_rate": 0.9636,
+          "mean_equations_per_response": 17.4364,
+          "degenerate_rate": 0.0182,
+          "repetition_ratio": 0.1781,
+          "avg_response_tokens": 247.78,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "3306dd6b36e171e4360e0bec2624a5570722da541a4b9fd4e20216ffa901e734",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 16,
+              "correct": 1,
+              "accuracy": 0.0625,
+              "tolerant_5pct_accuracy": 0.0625,
+              "sentinel_rate": 0.9375,
+              "degenerate_rate": 0.0
+            },
+            "MECHANICS": {
+              "total": 19,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.7368,
+              "degenerate_rate": 0.0
+            },
+            "MODERN_PHYSICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "OPTICS": {
+              "total": 5,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.2
+            },
+            "RELATIVITY": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "THERMODYNAMICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            }
+          },
+          "match_method_breakdown": {
+            "mismatch": 48,
+            "missing_sentinel": 6,
+            "exact_normalized": 1
+          },
+          "loop_diagnostics": null
+        },
+        "E4a": {
+          "version": "v3",
+          "experiment_id": "E4a",
+          "split": "test",
+          "source_path": "results/eval_e4a_v3/E4a_v3_test_eval.json",
+          "total": 55,
+          "correct": 2,
+          "accuracy": 0.0364,
+          "ci95": [
+            0.0,
+            0.0909
+          ],
+          "tolerant_5pct_accuracy": 0.0364,
+          "aligntune_math_grade_accuracy": 0.0182,
+          "sentinel_rate": 0.9455,
+          "unit_consistency_rate": 0.9273,
+          "curated_total": 17,
+          "curated_correct": 2,
+          "curated_accuracy": 0.1176,
+          "curated_tol5_accuracy": 0.1176,
+          "physgym_total": 38,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.401,
+          "rougeL_f1": 0.2358,
+          "bleu_score": 0.0393,
+          "physics_equation_token_f1": 0.3714,
+          "step_structure_rate": 1.0,
+          "mean_equations_per_response": 16.8727,
+          "degenerate_rate": 0.0182,
+          "repetition_ratio": 0.1225,
+          "avg_response_tokens": 254.18,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "c14167da1f2b55198129af1ef393bf0d61e6269ec867717528817bdc29eb0b0a",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "total": 16,
+              "correct": 1,
+              "accuracy": 0.0625,
+              "tolerant_5pct_accuracy": 0.0625,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "MECHANICS": {
+              "total": 19,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.9474,
+              "degenerate_rate": 0.0
+            },
+            "MODERN_PHYSICS": {
+              "total": 6,
+              "correct": 1,
+              "accuracy": 0.1667,
+              "tolerant_5pct_accuracy": 0.1667,
+              "sentinel_rate": 0.8333,
+              "degenerate_rate": 0.0
+            },
+            "OPTICS": {
+              "total": 5,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 0.8,
+              "degenerate_rate": 0.2
+            },
+            "RELATIVITY": {
+              "total": 3,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            },
+            "THERMODYNAMICS": {
+              "total": 6,
+              "correct": 0,
+              "accuracy": 0.0,
+              "tolerant_5pct_accuracy": 0.0,
+              "sentinel_rate": 1.0,
+              "degenerate_rate": 0.0
+            }
+          },
+          "match_method_breakdown": {
+            "mismatch": 50,
+            "missing_sentinel": 3,
+            "numerical_tolerance": 1,
+            "sympy_symbolic": 1
+          },
+          "loop_diagnostics": null
+        },
+        "E4b": {
+          "version": "v3",
+          "experiment_id": "E4b",
+          "split": "test",
+          "source_path": "results/eval_e4_loop_v3_test/summary.json",
+          "total": 55,
+          "correct": 2,
+          "accuracy": 0.0364,
+          "ci95": [
+            0.0,
+            0.0909
+          ],
+          "tolerant_5pct_accuracy": 0.0364,
+          "aligntune_math_grade_accuracy": 0.0182,
+          "sentinel_rate": 1.0,
+          "unit_consistency_rate": 0.9636,
+          "curated_total": 17,
+          "curated_correct": 2,
+          "curated_accuracy": 0.1176,
+          "curated_tol5_accuracy": 0.1176,
+          "physgym_total": 38,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.4107,
+          "rougeL_f1": 0.2425,
+          "bleu_score": 0.0417,
+          "physics_equation_token_f1": 0.3774,
+          "step_structure_rate": 1.0,
+          "mean_equations_per_response": 15.5636,
+          "degenerate_rate": 0.0,
+          "repetition_ratio": 0.1047,
+          "avg_response_tokens": 234.22,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "02a8cae07fea5fa05bda4d7acdf7a569be5d8c0291f12b68f3c3ac840e09461d",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "count": 16,
+              "turn0_correct": 2,
+              "turn0_accuracy": 0.125,
+              "final_correct": 2,
+              "final_accuracy": 0.125,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            },
+            "MECHANICS": {
+              "count": 19,
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            },
+            "MODERN_PHYSICS": {
+              "count": 6,
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            },
+            "OPTICS": {
+              "count": 5,
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            },
+            "RELATIVITY": {
+              "count": 3,
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            },
+            "THERMODYNAMICS": {
+              "count": 6,
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            }
+          },
+          "match_method_breakdown": {
+            "mismatch": 53,
+            "exact_normalized": 1,
+            "numerical_tolerance": 1
+          },
+          "loop_diagnostics": {
+            "solver": {
+              "turn0_correct": 2,
+              "turn0_accuracy": 0.036364,
+              "final_correct": 2,
+              "final_accuracy": 0.036364,
+              "net_revision_gain": 0.0,
+              "turn0_sentinel_compliance_rate": 0.945455,
+              "final_sentinel_compliance_rate": 1.0,
+              "converted_count": 0,
+              "turn0_wrong_count": 53,
+              "correction_conversion_rate": 0.0,
+              "regressed_count": 0,
+              "regression_rate": 0.0,
+              "per_iteration_cumulative": {
+                "iter_1": {
+                  "correct": 2,
+                  "total": 55,
+                  "accuracy": 0.036364
+                },
+                "iter_2": {
+                  "correct": 2,
+                  "total": 55,
+                  "accuracy": 0.036364
+                },
+                "iter_3": {
+                  "correct": 2,
+                  "total": 55,
+                  "accuracy": 0.036364
+                }
+              },
+              "final_match_method_counts": {
+                "mismatch": 53,
+                "exact_normalized": 1,
+                "numerical_tolerance": 1
+              }
+            },
+            "verifier": {
+              "total_reviews": 115,
+              "tp_true_challenge": 82,
+              "fp_false_challenge": 3,
+              "tn_true_approve": 1,
+              "fn_false_approve": 26,
+              "unknown_no_sentinel": 3,
+              "verifier_sentinel_accuracy": 0.721739,
+              "verifier_challenge_precision": 0.964706,
+              "verifier_challenge_recall": 0.759259,
+              "verifier_challenge_f1": 0.849741,
+              "verifier_false_approval_rate": 0.240741,
+              "verifier_false_challenge_rate": 0.75,
+              "verifier_overall_false_approval_rate": 0.226087,
+              "verifier_approve_rate": 0.234783,
+              "verifier_challenge_rate": 0.73913,
+              "directive_self_containment_no_leak_rate": 0.976471,
+              "auditkit_directive_actionability_score": 0.992941
+            },
+            "loop_efficiency": {
+              "mean_iterations_used": 2.0909,
+              "mean_latency_s": 109.916,
+              "total_latency_s": 6045.3814,
+              "mean_tokens_per_problem": 1144.58,
+              "stop_reason_counts": {
+                "verifier_no_sentinel": 3,
+                "duplicate_hint_stopped": 13,
+                "max_iterations_reached": 12,
+                "approved": 27
+              }
+            }
+          }
+        }
+      },
+      "significance_validation": {
+        "E1_vs_E0": {
+          "n_samples": 48,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0208,
+          "delta_mean": 0.0208,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0625
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0625
+          ],
+          "paired_bootstrap_p_value": 0.716,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 1,
+          "wins_baseline": 0,
+          "ties": 47
+        },
+        "E2_vs_E0": {
+          "n_samples": 48,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0417,
+          "delta_mean": 0.0417,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.1042
+          ],
+          "delta_ci95": [
+            0.0,
+            0.1042
+          ],
+          "paired_bootstrap_p_value": 0.249,
+          "mcnemar_p_value": 0.5,
+          "wins_candidate": 2,
+          "wins_baseline": 0,
+          "ties": 46
+        },
+        "E3_vs_E0": {
+          "n_samples": 48,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0417,
+          "delta_mean": 0.0417,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.1042
+          ],
+          "delta_ci95": [
+            0.0,
+            0.1042
+          ],
+          "paired_bootstrap_p_value": 0.249,
+          "mcnemar_p_value": 0.5,
+          "wins_candidate": 2,
+          "wins_baseline": 0,
+          "ties": 46
+        },
+        "E4a_vs_E0": {
+          "n_samples": 48,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0208,
+          "delta_mean": 0.0208,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0625
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0625
+          ],
+          "paired_bootstrap_p_value": 0.716,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 1,
+          "wins_baseline": 0,
+          "ties": 47
+        },
+        "E4b_vs_E0": {
+          "n_samples": 48,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0417,
+          "delta_mean": 0.0417,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.1042
+          ],
+          "delta_ci95": [
+            0.0,
+            0.1042
+          ],
+          "paired_bootstrap_p_value": 0.249,
+          "mcnemar_p_value": 0.5,
+          "wins_candidate": 2,
+          "wins_baseline": 0,
+          "ties": 46
+        },
+        "E0_vs_E1": {
+          "n_samples": 48,
+          "baseline_mean": 0.0208,
+          "candidate_mean": 0.0,
+          "delta_mean": -0.0208,
+          "baseline_ci95": [
+            0.0,
+            0.0625
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0
+          ],
+          "delta_ci95": [
+            -0.0625,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 0.716,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 1,
+          "ties": 47
+        },
+        "E2_vs_E1": {
+          "n_samples": 48,
+          "baseline_mean": 0.0208,
+          "candidate_mean": 0.0417,
+          "delta_mean": 0.0208,
+          "baseline_ci95": [
+            0.0,
+            0.0625
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.1042
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0625
+          ],
+          "paired_bootstrap_p_value": 0.724,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 1,
+          "wins_baseline": 0,
+          "ties": 47
+        },
+        "E3_vs_E1": {
+          "n_samples": 48,
+          "baseline_mean": 0.0208,
+          "candidate_mean": 0.0417,
+          "delta_mean": 0.0208,
+          "baseline_ci95": [
+            0.0,
+            0.0625
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.1042
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0625
+          ],
+          "paired_bootstrap_p_value": 0.724,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 1,
+          "wins_baseline": 0,
+          "ties": 47
+        },
+        "E4a_vs_E1": {
+          "n_samples": 48,
+          "baseline_mean": 0.0208,
+          "candidate_mean": 0.0208,
+          "delta_mean": 0.0,
+          "baseline_ci95": [
+            0.0,
+            0.0625
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0625
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 1.0,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 0,
+          "ties": 48
+        },
+        "E4b_vs_E1": {
+          "n_samples": 48,
+          "baseline_mean": 0.0208,
+          "candidate_mean": 0.0417,
+          "delta_mean": 0.0208,
+          "baseline_ci95": [
+            0.0,
+            0.0625
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.1042
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0625
+          ],
+          "paired_bootstrap_p_value": 0.724,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 1,
+          "wins_baseline": 0,
+          "ties": 47
+        }
+      },
+      "significance_test": {
+        "E1_vs_E0": {
+          "n_samples": 55,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0182,
+          "delta_mean": 0.0182,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0545
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0545
+          ],
+          "paired_bootstrap_p_value": 0.712,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 1,
+          "wins_baseline": 0,
+          "ties": 54
+        },
+        "E2_vs_E0": {
+          "n_samples": 55,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0364,
+          "delta_mean": 0.0364,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0909
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0909
+          ],
+          "paired_bootstrap_p_value": 0.25,
+          "mcnemar_p_value": 0.5,
+          "wins_candidate": 2,
+          "wins_baseline": 0,
+          "ties": 53
+        },
+        "E3_vs_E0": {
+          "n_samples": 55,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0182,
+          "delta_mean": 0.0182,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0545
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0545
+          ],
+          "paired_bootstrap_p_value": 0.686,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 1,
+          "wins_baseline": 0,
+          "ties": 54
+        },
+        "E4a_vs_E0": {
+          "n_samples": 55,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0364,
+          "delta_mean": 0.0364,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0909
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0909
+          ],
+          "paired_bootstrap_p_value": 0.251,
+          "mcnemar_p_value": 0.5,
+          "wins_candidate": 2,
+          "wins_baseline": 0,
+          "ties": 53
+        },
+        "E4b_vs_E0": {
+          "n_samples": 55,
+          "baseline_mean": 0.0,
+          "candidate_mean": 0.0364,
+          "delta_mean": 0.0364,
+          "baseline_ci95": [
+            0.0,
+            0.0
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0909
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0909
+          ],
+          "paired_bootstrap_p_value": 0.25,
+          "mcnemar_p_value": 0.5,
+          "wins_candidate": 2,
+          "wins_baseline": 0,
+          "ties": 53
+        },
+        "E0_vs_E1": {
+          "n_samples": 55,
+          "baseline_mean": 0.0182,
+          "candidate_mean": 0.0,
+          "delta_mean": -0.0182,
+          "baseline_ci95": [
+            0.0,
+            0.0545
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0
+          ],
+          "delta_ci95": [
+            -0.0545,
+            0.0
+          ],
+          "paired_bootstrap_p_value": 0.712,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 0,
+          "wins_baseline": 1,
+          "ties": 54
+        },
+        "E2_vs_E1": {
+          "n_samples": 55,
+          "baseline_mean": 0.0182,
+          "candidate_mean": 0.0364,
+          "delta_mean": 0.0182,
+          "baseline_ci95": [
+            0.0,
+            0.0545
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0909
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0545
+          ],
+          "paired_bootstrap_p_value": 0.686,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 1,
+          "wins_baseline": 0,
+          "ties": 54
+        },
+        "E3_vs_E1": {
+          "n_samples": 55,
+          "baseline_mean": 0.0182,
+          "candidate_mean": 0.0182,
+          "delta_mean": 0.0,
+          "baseline_ci95": [
+            0.0,
+            0.0545
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0545
+          ],
+          "delta_ci95": [
+            -0.0545,
+            0.0545
+          ],
+          "paired_bootstrap_p_value": 1.0,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 1,
+          "wins_baseline": 1,
+          "ties": 53
+        },
+        "E4a_vs_E1": {
+          "n_samples": 55,
+          "baseline_mean": 0.0182,
+          "candidate_mean": 0.0364,
+          "delta_mean": 0.0182,
+          "baseline_ci95": [
+            0.0,
+            0.0545
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0909
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0545
+          ],
+          "paired_bootstrap_p_value": 0.741,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 1,
+          "wins_baseline": 0,
+          "ties": 54
+        },
+        "E4b_vs_E1": {
+          "n_samples": 55,
+          "baseline_mean": 0.0182,
+          "candidate_mean": 0.0364,
+          "delta_mean": 0.0182,
+          "baseline_ci95": [
+            0.0,
+            0.0545
+          ],
+          "candidate_ci95": [
+            0.0,
+            0.0909
+          ],
+          "delta_ci95": [
+            0.0,
+            0.0545
+          ],
+          "paired_bootstrap_p_value": 0.686,
+          "mcnemar_p_value": 1.0,
+          "wins_candidate": 1,
+          "wins_baseline": 0,
+          "ties": 54
+        }
+      }
+    }
+  },
   "training_dynamics": [
     {
       "version": "v1",
@@ -4460,109 +8638,339 @@
       "experiment_id": "E0",
       "split": "validation",
       "v1_accuracy": 0.0,
+      "v1_total": 38,
       "v2_accuracy": 0.0,
+      "v2_total": 60,
       "v2_curated_accuracy": 0.0,
+      "v2_physgym_accuracy": 0.0,
       "v3_accuracy": 0.0,
-      "v3_curated_accuracy": 0.0
+      "v3_total": 60,
+      "v3_curated_accuracy": 0.0,
+      "v3_physgym_accuracy": 0.0
     },
     {
       "experiment_id": "E1",
       "split": "validation",
       "v1_accuracy": 0.0,
+      "v1_total": 38,
       "v2_accuracy": 0.0333,
+      "v2_total": 60,
       "v2_curated_accuracy": 0.0909,
+      "v2_physgym_accuracy": 0.0,
       "v3_accuracy": 0.05,
-      "v3_curated_accuracy": 0.1364
+      "v3_total": 60,
+      "v3_curated_accuracy": 0.1364,
+      "v3_physgym_accuracy": 0.0
     },
     {
       "experiment_id": "E2",
       "split": "validation",
       "v1_accuracy": 0.0,
+      "v1_total": 38,
       "v2_accuracy": 0.0333,
+      "v2_total": 60,
       "v2_curated_accuracy": 0.0909,
+      "v2_physgym_accuracy": 0.0,
       "v3_accuracy": 0.0667,
-      "v3_curated_accuracy": 0.1818
+      "v3_total": 60,
+      "v3_curated_accuracy": 0.1818,
+      "v3_physgym_accuracy": 0.0
     },
     {
       "experiment_id": "E3",
       "split": "validation",
       "v1_accuracy": null,
+      "v1_total": null,
       "v2_accuracy": 0.0833,
+      "v2_total": 60,
       "v2_curated_accuracy": 0.2273,
+      "v2_physgym_accuracy": 0.0,
       "v3_accuracy": 0.0833,
-      "v3_curated_accuracy": 0.2273
+      "v3_total": 60,
+      "v3_curated_accuracy": 0.2273,
+      "v3_physgym_accuracy": 0.0
     },
     {
       "experiment_id": "E4a",
       "split": "validation",
       "v1_accuracy": 0.0,
+      "v1_total": 38,
       "v2_accuracy": 0.0667,
+      "v2_total": 60,
       "v2_curated_accuracy": 0.1818,
+      "v2_physgym_accuracy": 0.0,
       "v3_accuracy": 0.05,
-      "v3_curated_accuracy": 0.1364
+      "v3_total": 60,
+      "v3_curated_accuracy": 0.1364,
+      "v3_physgym_accuracy": 0.0
     },
     {
       "experiment_id": "E4b",
       "split": "validation",
       "v1_accuracy": null,
+      "v1_total": null,
       "v2_accuracy": null,
+      "v2_total": null,
       "v2_curated_accuracy": null,
+      "v2_physgym_accuracy": null,
       "v3_accuracy": 0.066667,
-      "v3_curated_accuracy": 0.1818
+      "v3_total": 60,
+      "v3_curated_accuracy": 0.1818,
+      "v3_physgym_accuracy": 0.0
     },
     {
       "experiment_id": "E0",
       "split": "test",
       "v1_accuracy": 0.0,
+      "v1_total": 38,
       "v2_accuracy": 0.0167,
+      "v2_total": 60,
       "v2_curated_accuracy": 0.0455,
+      "v2_physgym_accuracy": 0.0,
       "v3_accuracy": 0.0167,
-      "v3_curated_accuracy": 0.0455
+      "v3_total": 60,
+      "v3_curated_accuracy": 0.0455,
+      "v3_physgym_accuracy": 0.0
     },
     {
       "experiment_id": "E1",
       "split": "test",
       "v1_accuracy": 0.0,
+      "v1_total": 38,
       "v2_accuracy": 0.0333,
+      "v2_total": 60,
       "v2_curated_accuracy": 0.0909,
+      "v2_physgym_accuracy": 0.0,
       "v3_accuracy": 0.0167,
-      "v3_curated_accuracy": 0.0455
+      "v3_total": 60,
+      "v3_curated_accuracy": 0.0455,
+      "v3_physgym_accuracy": 0.0
     },
     {
       "experiment_id": "E2",
       "split": "test",
       "v1_accuracy": 0.0,
+      "v1_total": 38,
       "v2_accuracy": 0.0333,
+      "v2_total": 60,
       "v2_curated_accuracy": 0.0909,
+      "v2_physgym_accuracy": 0.0,
       "v3_accuracy": 0.05,
-      "v3_curated_accuracy": 0.1364
+      "v3_total": 60,
+      "v3_curated_accuracy": 0.1364,
+      "v3_physgym_accuracy": 0.0
     },
     {
       "experiment_id": "E3",
       "split": "test",
       "v1_accuracy": null,
+      "v1_total": null,
       "v2_accuracy": 0.0333,
+      "v2_total": 60,
       "v2_curated_accuracy": 0.0909,
+      "v2_physgym_accuracy": 0.0,
       "v3_accuracy": 0.0333,
-      "v3_curated_accuracy": 0.0909
+      "v3_total": 60,
+      "v3_curated_accuracy": 0.0909,
+      "v3_physgym_accuracy": 0.0
     },
     {
       "experiment_id": "E4a",
       "split": "test",
       "v1_accuracy": 0.0,
+      "v1_total": 38,
       "v2_accuracy": 0.0333,
+      "v2_total": 60,
       "v2_curated_accuracy": 0.0909,
+      "v2_physgym_accuracy": 0.0,
       "v3_accuracy": 0.0333,
-      "v3_curated_accuracy": 0.0909
+      "v3_total": 60,
+      "v3_curated_accuracy": 0.0909,
+      "v3_physgym_accuracy": 0.0
     },
     {
       "experiment_id": "E4b",
       "split": "test",
       "v1_accuracy": null,
+      "v1_total": null,
       "v2_accuracy": 0.0,
+      "v2_total": 37,
       "v2_curated_accuracy": 0.0,
+      "v2_physgym_accuracy": 0.0,
       "v3_accuracy": 0.033333,
-      "v3_curated_accuracy": 0.0909
+      "v3_total": 60,
+      "v3_curated_accuracy": 0.0909,
+      "v3_physgym_accuracy": 0.0
+    }
+  ],
+  "cross_version_progression_clean_080": [
+    {
+      "experiment_id": "E0",
+      "split": "validation",
+      "v1_accuracy": 0.0,
+      "v1_total": 38,
+      "v2_accuracy": 0.0,
+      "v2_total": 44,
+      "v2_curated_accuracy": 0.0,
+      "v2_physgym_accuracy": 0.0,
+      "v3_accuracy": 0.0,
+      "v3_total": 48,
+      "v3_curated_accuracy": 0.0,
+      "v3_physgym_accuracy": 0.0
+    },
+    {
+      "experiment_id": "E1",
+      "split": "validation",
+      "v1_accuracy": 0.0,
+      "v1_total": 38,
+      "v2_accuracy": 0.0,
+      "v2_total": 44,
+      "v2_curated_accuracy": 0.0,
+      "v2_physgym_accuracy": 0.0,
+      "v3_accuracy": 0.020833333333333332,
+      "v3_total": 48,
+      "v3_curated_accuracy": 0.1,
+      "v3_physgym_accuracy": 0.0
+    },
+    {
+      "experiment_id": "E2",
+      "split": "validation",
+      "v1_accuracy": 0.0,
+      "v1_total": 38,
+      "v2_accuracy": 0.022727272727272728,
+      "v2_total": 44,
+      "v2_curated_accuracy": 0.1667,
+      "v2_physgym_accuracy": 0.0,
+      "v3_accuracy": 0.041666666666666664,
+      "v3_total": 48,
+      "v3_curated_accuracy": 0.2,
+      "v3_physgym_accuracy": 0.0
+    },
+    {
+      "experiment_id": "E3",
+      "split": "validation",
+      "v1_accuracy": null,
+      "v1_total": null,
+      "v2_accuracy": 0.022727272727272728,
+      "v2_total": 44,
+      "v2_curated_accuracy": 0.1667,
+      "v2_physgym_accuracy": 0.0,
+      "v3_accuracy": 0.041666666666666664,
+      "v3_total": 48,
+      "v3_curated_accuracy": 0.2,
+      "v3_physgym_accuracy": 0.0
+    },
+    {
+      "experiment_id": "E4a",
+      "split": "validation",
+      "v1_accuracy": 0.0,
+      "v1_total": 38,
+      "v2_accuracy": 0.0,
+      "v2_total": 44,
+      "v2_curated_accuracy": 0.0,
+      "v2_physgym_accuracy": 0.0,
+      "v3_accuracy": 0.020833333333333332,
+      "v3_total": 48,
+      "v3_curated_accuracy": 0.1,
+      "v3_physgym_accuracy": 0.0
+    },
+    {
+      "experiment_id": "E4b",
+      "split": "validation",
+      "v1_accuracy": null,
+      "v1_total": null,
+      "v2_accuracy": null,
+      "v2_total": null,
+      "v2_curated_accuracy": null,
+      "v2_physgym_accuracy": null,
+      "v3_accuracy": 0.041667,
+      "v3_total": 48,
+      "v3_curated_accuracy": 0.2,
+      "v3_physgym_accuracy": 0.0
+    },
+    {
+      "experiment_id": "E0",
+      "split": "test",
+      "v1_accuracy": 0.0,
+      "v1_total": 37,
+      "v2_accuracy": 0.0,
+      "v2_total": 49,
+      "v2_curated_accuracy": 0.0,
+      "v2_physgym_accuracy": 0.0,
+      "v3_accuracy": 0.0,
+      "v3_total": 55,
+      "v3_curated_accuracy": 0.0,
+      "v3_physgym_accuracy": 0.0
+    },
+    {
+      "experiment_id": "E1",
+      "split": "test",
+      "v1_accuracy": 0.0,
+      "v1_total": 37,
+      "v2_accuracy": 0.0,
+      "v2_total": 49,
+      "v2_curated_accuracy": 0.0,
+      "v2_physgym_accuracy": 0.0,
+      "v3_accuracy": 0.01818181818181818,
+      "v3_total": 55,
+      "v3_curated_accuracy": 0.0588,
+      "v3_physgym_accuracy": 0.0
+    },
+    {
+      "experiment_id": "E2",
+      "split": "test",
+      "v1_accuracy": 0.0,
+      "v1_total": 37,
+      "v2_accuracy": 0.0,
+      "v2_total": 49,
+      "v2_curated_accuracy": 0.0,
+      "v2_physgym_accuracy": 0.0,
+      "v3_accuracy": 0.03636363636363636,
+      "v3_total": 55,
+      "v3_curated_accuracy": 0.1176,
+      "v3_physgym_accuracy": 0.0
+    },
+    {
+      "experiment_id": "E3",
+      "split": "test",
+      "v1_accuracy": null,
+      "v1_total": null,
+      "v2_accuracy": 0.02040816326530612,
+      "v2_total": 49,
+      "v2_curated_accuracy": 0.0833,
+      "v2_physgym_accuracy": 0.0,
+      "v3_accuracy": 0.01818181818181818,
+      "v3_total": 55,
+      "v3_curated_accuracy": 0.0588,
+      "v3_physgym_accuracy": 0.0
+    },
+    {
+      "experiment_id": "E4a",
+      "split": "test",
+      "v1_accuracy": 0.0,
+      "v1_total": 37,
+      "v2_accuracy": 0.02040816326530612,
+      "v2_total": 49,
+      "v2_curated_accuracy": 0.0833,
+      "v2_physgym_accuracy": 0.0,
+      "v3_accuracy": 0.03636363636363636,
+      "v3_total": 55,
+      "v3_curated_accuracy": 0.1176,
+      "v3_physgym_accuracy": 0.0
+    },
+    {
+      "experiment_id": "E4b",
+      "split": "test",
+      "v1_accuracy": null,
+      "v1_total": null,
+      "v2_accuracy": 0.0,
+      "v2_total": 37,
+      "v2_curated_accuracy": 0.0,
+      "v2_physgym_accuracy": 0.0,
+      "v3_accuracy": 0.036364,
+      "v3_total": 55,
+      "v3_curated_accuracy": 0.1176,
+      "v3_physgym_accuracy": 0.0
     }
   ]
 }
