@@ -3,14 +3,15 @@ runtime:
 
 orchestrator:
   base_model: "CohereLabs/tiny-aya-global"
-  solver_adapter_repo_id: "vital-ar/adversarial-physics-solver-curated-lora"
-  verifier_adapter_repo_id: "vital-ar/adversarial-physics-verifier-curated-lora"
-  solver_adapter_path: "checkpoints/solver_curated_lora"
-  verifier_adapter_path: "checkpoints/verifier_curated_lora"
-  max_revision_iterations: 2       # 1 initial attempt (Turn 0) + up to 2 hinted revisions (Turns 1 & 2)
-  solver_max_new_tokens: 512
-  verifier_max_new_tokens: 128
-  temperature_solver: 0.1          # Low temperature for deterministic math derivation
+  solver_adapter_repo_id: "vital-ar/adversarial-physics-solver-e4-adversarial-v3-lora"
+  verifier_adapter_repo_id: "vital-ar/adversarial-physics-verifier-e4-curated-v3-lora"
+  solver_adapter_path: "models/adapters/solver_e4_adversarial_v3_lora/final_adapter"
+  verifier_adapter_path: "models/adapters/verifier_e4_curated_v3_lora/final_adapter"
+  prompt_mode: "raw"
+  max_revision_iterations: 3       # Turn 0 + up to 2 accumulated-hint revision turns
+  solver_max_new_tokens: 1024
+  verifier_max_new_tokens: 384     # Generous budget avoids mid-[[CHALLENGE]] sentinel truncation
+  temperature_solver: 0.0          # Greedy decoding for reproducible physics derivation
   temperature_verifier: 0.0        # Greedy decoding for consistent verdict classification
   stop_strings:
     - "[[APPROVE]]"

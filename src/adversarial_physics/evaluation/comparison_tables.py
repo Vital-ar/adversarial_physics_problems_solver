@@ -497,10 +497,16 @@ def discover_version_runs(root_dir: str | Path = ".") -> dict[str, dict[str, dic
     }
 
     for ver_tag in ("v2", "v3"):
+        e0_val_candidates = [root / f"results/eval_e0_{ver_tag}/E0_{ver_tag}_validation_eval.json"]
+        e0_test_candidates = [root / f"results/eval_e0_{ver_tag}/E0_{ver_tag}_test_eval.json"]
+        if ver_tag == "v3":
+            # Validation/test v2 and v3 share the identical 60-problem prompts and untrained base model.
+            e0_val_candidates.append(root / "results/eval_e0_v2/E0_v2_validation_eval.json")
+            e0_test_candidates.append(root / "results/eval_e0_v2/E0_v2_test_eval.json")
         ver_map = {
             "E0": {
-                "validation": [root / f"results/eval_e0_{ver_tag}/E0_{ver_tag}_validation_eval.json"],
-                "test": [root / f"results/eval_e0_{ver_tag}/E0_{ver_tag}_test_eval.json"],
+                "validation": e0_val_candidates,
+                "test": e0_test_candidates,
             },
             "E1": {
                 "validation": [root / f"results/eval_e1_{ver_tag}/E1_{ver_tag}_validation_eval.json"],

@@ -1,0 +1,43 @@
+{
+  "adapter_name": "solver_e2_curatorkit_nollm_v3_lora",
+  "dataset_key": "solver_e2_curatorkit_nollm",
+  "experiment_id": "E2_solver_curatorkit_no_llm",
+  "base_model": "CohereLabs/tiny-aya-global",
+  "aligntune_backend": "trl",
+  "effective_batch_size": 16,
+  "per_device_batch_size": 1,
+  "gradient_accumulation_steps": 16,
+  "learning_rate": 0.0001,
+  "lora_r": 16,
+  "lora_alpha": 24,
+  "max_epochs": 7,
+  "completion_only_loss": true,
+  "early_stopping_patience": 3,
+  "early_stopping_threshold": 0.001,
+  "final_adapter_dir": "models/adapters/solver_e2_curatorkit_nollm_v3_lora/final_adapter",
+  "train_metrics": {
+    "training_time": 2950.109836101532,
+    "final_loss": 1.1962495854026394,
+    "model_path": "models/adapters/solver_e2_curatorkit_nollm_v3_lora",
+    "steps": 190,
+    "epochs": 0,
+    "metrics": {
+      "train_runtime": 2949.3004,
+      "train_samples_per_second": 1.031,
+      "train_steps_per_second": 0.064,
+      "total_flos": 2.034014602303488e+16,
+      "train_loss": 1.1962495854026394,
+      "epoch": 5.0
+    },
+    "task_type": "instruction_following"
+  },
+  "checkpoint_selection": {
+    "checkpoint_dir": "models/adapters/solver_e2_curatorkit_nollm_v3_lora/checkpoint-114",
+    "step": 114,
+    "eval_loss": 1.1629530191421509,
+    "val_accuracy": 0.0667,
+    "correct": 4,
+    "total": 60,
+    "composite_score": 1.062903019142151
+  }
+}
