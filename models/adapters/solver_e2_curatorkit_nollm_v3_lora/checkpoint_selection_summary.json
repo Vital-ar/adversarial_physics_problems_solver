@@ -1,0 +1,59 @@
+{
+  "formula": "1.0 * eval_loss - 1.5 * val_accuracy (lower is better)",
+  "winner": {
+    "checkpoint_dir": "models/adapters/solver_e2_curatorkit_nollm_v3_lora/checkpoint-114",
+    "step": 114,
+    "eval_loss": 1.1629530191421509,
+    "val_accuracy": 0.0667,
+    "correct": 4,
+    "total": 60,
+    "composite_score": 1.062903019142151
+  },
+  "all_checkpoints": [
+    {
+      "checkpoint_dir": "models/adapters/solver_e2_curatorkit_nollm_v3_lora/checkpoint-38",
+      "step": 38,
+      "eval_loss": 1.166170358657837,
+      "val_accuracy": 0.0167,
+      "correct": 1,
+      "total": 60,
+      "composite_score": 1.141120358657837
+    },
+    {
+      "checkpoint_dir": "models/adapters/solver_e2_curatorkit_nollm_v3_lora/checkpoint-76",
+      "step": 76,
+      "eval_loss": 1.1535967588424683,
+      "val_accuracy": 0.0333,
+      "correct": 2,
+      "total": 60,
+      "composite_score": 1.1036467588424683
+    },
+    {
+      "checkpoint_dir": "models/adapters/solver_e2_curatorkit_nollm_v3_lora/checkpoint-114",
+      "step": 114,
+      "eval_loss": 1.1629530191421509,
+      "val_accuracy": 0.0667,
+      "correct": 4,
+      "total": 60,
+      "composite_score": 1.062903019142151
+    },
+    {
+      "checkpoint_dir": "models/adapters/solver_e2_curatorkit_nollm_v3_lora/checkpoint-152",
+      "step": 152,
+      "eval_loss": 1.1707249879837036,
+      "val_accuracy": 0.05,
+      "correct": 3,
+      "total": 60,
+      "composite_score": 1.0957249879837037
+    },
+    {
+      "checkpoint_dir": "models/adapters/solver_e2_curatorkit_nollm_v3_lora/checkpoint-190",
+      "step": 190,
+      "eval_loss": 1.1907378435134888,
+      "val_accuracy": 0.05,
+      "correct": 3,
+      "total": 60,
+      "composite_score": 1.1157378435134888
+    }
+  ]
+}
