@@ -66,8 +66,151 @@ def format_solver_prompt(problem_statement: str, accumulated_directives: list[st
     return f"{base}\n\nCRITICAL PHYSICAL CONSTRAINTS TO FOLLOW:\n{bullet_lines}"
 
 
+def _unwrap_all_boxed(text: str) -> str:
+    """Unwrap balanced `\\boxed{...}` macros so zero-shot `\\boxed` formatting cannot leak candidate source."""
+    out = text
+    token = "\\boxed{"
+    while token in out:
+        idx = out.find(token)
+        if idx == -1:
+            break
+        start_inner = idx + len(token)
+        depth = 1
+        pos = start_inner
+        while pos < len(out) and depth > 0:
+            if out[pos] == "{":
+                depth += 1
+            elif out[pos] == "}":
+                depth -= 1
+            pos += 1
+        if depth == 0:
+            inner = out[start_inner : pos - 1].strip()
+            out = out[:idx] + inner + out[pos:]
+        else:
+            break
+    return out
+
+
+_BOILERPLATE_STEP_TITLE_RE = re.compile(
+    r"(?:Identify\s+the\s+(?:governing\s+physical\s+principles(?:\s+and\s+equations)?|given\s+(?:values|quantities|parameters)[^:.\n]*|target\s+variable[^:.\n]*)|"
+    r"Governing\s+Physical\s+(?:Principles|Equations|Laws)(?:\s+and\s+Setup)?|"
+    r"Set\s+up\s+the\s+governing\s+equations?|"
+    r"Substitute\s+the\s+given\s+(?:values|expressions)(?:\s+into\s+the\s+equation)?|"
+    r"Perform\s+algebraic\s+(?:substitutions?|simplifications?)|"
+    r"Solve\s+for\s+the\s+target\s+(?:variable|quantity|expression)|"
+    r"Calculate\s+the\s+final\s+(?:value|expression|answer)|"
+    r"State\s+the\s+final\s+answer(?:\s+with\s+SI\s+units)?)\s*[:.\-–—]*\s*",
+    flags=re.IGNORECASE,
+)
+
+
+def normalize_proposed_solution_for_verifier(proposed_solution: str) -> str:
+    """Normalize any candidate derivation into uniform `**Derivation:**\\nStep 1: ...\\nANSWER: ...` format.
+
+    Eliminates surface formatting differences between canonical reference derivations, synthetic
+    flawed derivations, and zero-shot/fine-tuned student generations so the Verifier cannot use
+    header style (`**Derivation:**` vs `**Step-by-Step Solution:**` vs `\\boxed`) as a shortcut.
+    """
+    text = (proposed_solution or "").strip()
+    if len(text) < 40:
+        return text
+
+    text = _unwrap_all_boxed(text)
+
+    # Strip leading zero-shot/reference title lines
+    text = re.sub(
+        r"^\s*(?:\*\*\s*(?:Step-by-Step\s+(?:Solution|Derivation)|Derivation|Solution|Proposed\s+Solution)\s*:?\s*\*\*|"
+        r"#{1,4}\s*(?:Step-by-Step\s+(?:Solution|Derivation)|Derivation|Solution)\s*:?|"
+        r"(?:Let's|We\s+can|To)\s+solve\s+(?:this|the)\s+problem[^:\n]*:?)\s*\n*",
+        "",
+        text,
+        flags=re.IGNORECASE,
+    ).strip()
+
+    # Normalize bold/markdown step headers (`**Step 1: Title**`, `### Step 1:`, `**Step 1**:`) -> `Step 1: `
+    text = re.sub(
+        r"(?:^|\n)\s*(?:#{1,4}\s*)?\*{0,2}Step\s+(\d+)\s*[:.\-–—]?\s*([^*\n]*?)\*{0,2}\s*[:.\-–—]?\s*(?=\n|$|[A-Z$\\])",
+        lambda m: f"\nStep {m.group(1)}: {m.group(2).strip()}: " if m.group(2).strip() else f"\nStep {m.group(1)}: ",
+        text,
+        flags=re.IGNORECASE,
+    ).strip()
+    text = re.sub(r"\*{2,}", "", text)
+
+    # Strip boilerplate step sub-titles right after `Step k:`
+    def _clean_step_line(match: re.Match[str]) -> str:
+        prefix = f"Step {match.group(1)}: "
+        rest = match.group(2).strip()
+        rest = _BOILERPLATE_STEP_TITLE_RE.sub("", rest).strip(" :.-–—")
+        return prefix + rest
+
+    text = re.sub(
+        r"(?:^|\n)Step\s+(\d+)\s*:\s*([^\n]+)",
+        lambda m: ("\n" if m.start() > 0 else "") + _clean_step_line(m),
+        text,
+        flags=re.IGNORECASE,
+    ).strip()
+
+    # Merge `Step k:\n<next line>` when a step header was on its own line
+    text = re.sub(r"(Step\s+\d+\s*:)\s*\n+\s*", r"\1 ", text, flags=re.IGNORECASE)
+
+    # Extract final ANSWER: line if present
+    ans_matches = list(re.finditer(r"(?:^|\n)\s*ANSWER\s*:\s*(.+)$", text, flags=re.IGNORECASE))
+    if ans_matches:
+        last_m = ans_matches[-1]
+        body = text[: last_m.start()].strip()
+        ans_line = f"ANSWER: {last_m.group(1).strip()}"
+    else:
+        body = text
+        ans_line = ""
+
+    # If the body does not yet contain `Step 1:`, segment paragraphs/sentences into `Step 1: ... Step k:`
+    if not re.search(r"(?:^|\n)Step\s+1\s*:", body, flags=re.IGNORECASE) and body:
+        paras = [p.strip() for p in re.split(r"\n\s*\n+", body) if p.strip()]
+        chunks: list[str] = []
+        if len(paras) >= 2:
+            for p in paras:
+                if chunks and (p.startswith("$$") or p.startswith("\\[")) and len(chunks[-1]) < 260:
+                    chunks[-1] = f"{chunks[-1]}\n{p}"
+                else:
+                    chunks.append(p)
+        else:
+            sents = [s.strip() for s in re.split(r"(?<=[.!?])\s+(?=[A-Z$(\\[])", body) if s.strip()]
+            cur = ""
+            for s in sents:
+                if not cur:
+                    cur = s
+                elif len(cur) < 110:
+                    cur = f"{cur} {s}"
+                else:
+                    chunks.append(cur)
+                    cur = s
+            if cur:
+                chunks.append(cur)
+        while len(chunks) > 8:
+            chunks = [*chunks[:-2], f"{chunks[-2]} {chunks[-1]}"]
+        body = "\n".join(f"Step {i}: {ch}" for i, ch in enumerate(chunks, start=1))
+
+    if not re.match(r"^Step\s+1\s*:", body, flags=re.IGNORECASE) and body:
+        m_step1 = re.search(r"\nStep\s+1\s*:\s*", body, flags=re.IGNORECASE)
+        if m_step1:
+            preamble = body[: m_step1.start()].strip()
+            rest_from_step1 = body[m_step1.end() :].strip()
+            # Drop short title preambles ("for Inkjet Printer Deflection Angle"), keep equation/sentence preambles
+            if preamble and (any(ch in preamble for ch in ("=", "\\", "$")) or len(preamble) > 45):
+                body = f"Step 1: {preamble} {rest_from_step1}".strip()
+            else:
+                body = f"Step 1: {rest_from_step1}".strip()
+        else:
+            body = f"Step 1: {body}".strip()
+
+    if ans_line:
+        return f"**Derivation:**\n{body}\n{ans_line}".strip()
+    return f"**Derivation:**\n{body}".strip()
+
+
 def format_verifier_prompt(problem_statement: str, proposed_solution: str) -> str:
     """Format the Model B (Verifier) input prompt inspecting `[problem_statement + proposed_solution]`."""
+    normalized_solution = normalize_proposed_solution_for_verifier(proposed_solution)
     return (
         "Review the proposed solution to the physics problem below. First, write a concise, self-contained "
         "physical or mathematical directive that either confirms why the derivation is valid or states the "
@@ -75,7 +218,7 @@ def format_verifier_prompt(problem_statement: str, proposed_solution: str) -> st
         "new final line, output [[APPROVE]] if the solution and final answer are completely correct, or "
         "[[CHALLENGE]] if any physical, algebraic, or unit error exists.\n\n"
         f"PROBLEM:\n{problem_statement.strip()}\n\n"
-        f"PROPOSED SOLUTION:\n{proposed_solution.strip()}"
+        f"PROPOSED SOLUTION:\n{normalized_solution}"
     )
 
 

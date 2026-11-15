@@ -247,32 +247,66 @@ def _sanitize_hallucinated_equations_in_directive(
     return cleaned
 
 
-def _build_deterministic_approve_rationale(problem: CanonicalProblem, proposed_solution: str) -> str:
-    """Build a problem-grounded, self-contained [[APPROVE]] rationale from a verified correct derivation."""
-    dom_name = problem.domain.replace("_", " ").lower()
-    ans = extract_answer_line(proposed_solution) or ""
-    # Extract 2 key content terms (>4 chars) from the problem statement
-    words = [
-        w.lower()
-        for w in re.findall(r"[a-zA-Z]{5,}", problem.problem_statement)
-        if w.lower() not in _STOP_WORDS
-    ]
-    uniq_words: list[str] = []
-    for w in words:
-        if w not in uniq_words:
-            uniq_words.append(w)
-        if len(uniq_words) >= 3:
-            break
-    topic_phrase = ", ".join(uniq_words) if uniq_words else dom_name
+def _harmonize_approve_rationale_opening(directive_body: str, idx: int) -> str:
+    """Rewrite `[[APPROVE]]` openings ('The derivation...', 'The solution...') into the same analytical
+    infinitive/participial openings ('To solve...', 'To find...', 'Applying...') used by `[[CHALLENGE]]`
+    directives so Token 0 cannot act as a binary class shortcut."""
+    text = (directive_body or "").strip()
+    if not text:
+        return text
 
-    # Extract first clean equation from proposed_solution if present
-    eq_matches = re.findall(r"\$[^$\n]{3,60}\$", proposed_solution)
-    eq_clause = f" using {eq_matches[0]}" if eq_matches else ""
-
-    return (
-        f"The derivation correctly applies the governing {dom_name} principles for {topic_phrase}{eq_clause}, "
-        f"maintains dimensional consistency throughout the algebraic steps, and arrives at the valid final expression {ans}."
+    openers = (
+        "To solve this problem, ",
+        "To find the target expression, ",
+        "To correctly determine the result, ",
+        "To derive the governing relation, ",
+        "Applying the governing principles, ",
+        "Using the physical constraints, ",
     )
+    prefix = openers[idx % len(openers)]
+
+    # Strip leading "The (proposed )?(derivation|solution) (accurately |correctly |properly )?"
+    stripped = re.sub(
+        r"^(?:\*\*\s*)?The\s+(?:proposed\s+)?(?:derivation|solution)\s+(?:is\s+sound\s+(?:because|as)\s+it\s+|(?:accurately|correctly|properly|directly|effectively)\s+)?",
+        "",
+        text,
+        flags=re.IGNORECASE,
+    ).strip()
+
+    # Convert finite 3rd-person singular verb at start of stripped clause ("applies", "identifies", "uses", "employs")
+    # into a gerund ("applying", "identifying", "using", "employing") so it reads naturally after the opener
+    verb_map = {
+        "applies": "applying",
+        "identifies": "identifying",
+        "uses": "using",
+        "employs": "employing",
+        "demonstrates": "demonstrating",
+        "sets": "setting",
+        "calculates": "calculating",
+        "solves": "solving",
+        "combines": "combining",
+        "relates": "relating",
+        "leverages": "leveraging",
+        "considers": "considering",
+        "establishes": "establishing",
+        "tracks": "tracking",
+        "evaluates": "evaluating",
+        "integrates": "integrating",
+        "equates": "equating",
+        "substitutes": "substituting",
+    }
+    first_word_m = re.match(r"^([A-Za-z]+)(\b.*)$", stripped, flags=re.DOTALL)
+    if first_word_m:
+        fw_lower = first_word_m.group(1).lower()
+        rest = first_word_m.group(2)
+        if fw_lower in verb_map:
+            stripped = f"{verb_map[fw_lower]}{rest} and confirms the valid final result."
+            stripped = re.sub(r"\.\s+and\s+confirms\s+the\s+valid\s+final\s+result\.$", ", confirming the valid final result.", stripped)
+        else:
+            stripped = fw_lower + rest
+    if not stripped.endswith((".", "!", "?")):
+        stripped += "."
+    return f"{prefix}{stripped}"
 
 
 def _normalize_exported_prompts_and_checksums_v3(sft_root: Path) -> None:
@@ -431,17 +465,9 @@ def build_and_verify_v3() -> dict[str, Any]:
     save_candidates_jsonl(v3_tiny_ok, PROJECT_ROOT / "data/synthetic/02d_tiny_aya_correct_curated_v3.jsonl")
     print(f"[v3 Step 4] Harvested verified alternative derivations: sol2={len(v3_sol2)}, tiny_correct={len(v3_tiny_ok)}.")
 
-    # 6. Curate & Rebalance Verifier Directives (~30% [[APPROVE]] / ~70% [[CHALLENGE]], 0 shifted rows, 0 hallucinated formulas)
-    v2_dir_raw = [
-        r
-        for r in _load_jsonl_dicts(PROJECT_ROOT / "data/synthetic/02e_aya8b_directives_checkpoint_v2.jsonl")
-        if r.get("is_valid", True)
-    ]
-    v1_dir_raw = [
-        r
-        for r in _load_jsonl_dicts(PROJECT_ROOT / "data/synthetic/02g_directives_checkpoint.jsonl")
-        if r.get("is_valid", True)
-    ]
+    # 6. Curate & Rebalance Verifier Directives (~15% [[APPROVE]] / ~85% [[CHALLENGE]], 0 shifted rows, 0 hallucinated formulas)
+    v2_dir_raw = _load_jsonl_dicts(PROJECT_ROOT / "data/synthetic/02e_aya8b_directives_checkpoint_v2.jsonl")
+    v1_dir_raw = _load_jsonl_dicts(PROJECT_ROOT / "data/synthetic/02g_directives_checkpoint.jsonl")
 
     clean_approvals: dict[tuple[str, str], dict[str, Any]] = {}
     clean_challenges: dict[tuple[str, str], dict[str, Any]] = {}
@@ -460,6 +486,8 @@ def build_and_verify_v3() -> dict[str, Any]:
             body = str(r.get("directive_body") or "").strip()
 
             if verdict == VERDICT_APPROVE or kind == "domain_balanced_approval":
+                if body.startswith("The derivation correctly applies the governing"):
+                    continue
                 prop_sol = (
                     sol2_by_pid[pid].solution_text
                     if (src == "minority_solution2" and pid in sol2_by_pid)
@@ -469,13 +497,15 @@ def build_and_verify_v3() -> dict[str, Any]:
                 if not score_solver_output(prop_sol, prob.reference_solution).is_equivalent:
                     purged_shifted_approvals += 1
                     continue
-                # Guard 2: Purge off-by-one shifted approvals with lexical overlap < 0.28
-                if _prompt_directive_lexical_overlap(prob.problem_statement, prop_sol, body) < 0.28:
+                # Guard 2: Purge off-by-one shifted approvals with lexical overlap < 0.25
+                if _prompt_directive_lexical_overlap(prob.problem_statement, prop_sol, body) < 0.25:
                     purged_shifted_approvals += 1
                     continue
                 rec = dict(r)
                 rec["proposed_solution"] = prop_sol
                 rec["verdict"] = VERDICT_APPROVE
+                rec["directive_body"] = body
+                rec.pop("formatted_output", None)
                 akey = (pid, src or "sol1_approve")
                 if akey not in clean_approvals:
                     clean_approvals[akey] = rec
@@ -495,91 +525,47 @@ def build_and_verify_v3() -> dict[str, Any]:
                     sanitized_challenge_formulas += 1
                 rec = dict(r)
                 rec["directive_body"] = new_body
+                rec.pop("formatted_output", None)
                 rec["verdict"] = VERDICT_CHALLENGE
                 ckey = (pid, src)
                 if ckey not in clean_challenges:
                     clean_challenges[ckey] = rec
 
-    # Add deterministic problem-grounded [[APPROVE]] rows from v3_tiny_ok, v3_sol2, and domain-stratified e3_pool
-    # Target ~235 [[APPROVE]] rows and ~545 [[CHALLENGE]] rows (~30.1% [[APPROVE]] rate)
-    for cand in v3_tiny_ok:
-        pid = cand.problem_id
-        akey = (pid, "tiny_aya_correct_approve")
-        if akey not in clean_approvals:
-            prob = e3_map[pid]
-            clean_approvals[akey] = {
-                "item_id": f"approve:tiny_aya:{pid}",
-                "candidate_id": f"{pid}_tiny_ok_approve",
-                "problem_id": pid,
-                "domain": prob.domain,
-                "kind": "domain_balanced_approval",
-                "source": "tiny_aya_correct",
-                "error_type": None,
-                "proposed_solution": cand.solution_text,
-                "verdict": VERDICT_APPROVE,
-                "directive_body": _build_deterministic_approve_rationale(prob, cand.solution_text),
-                "is_valid": True,
-            }
+    # Select calibrated ~15% [[APPROVE]] (108 genuine LLM-authored approvals, 0 synthetic templates)
+    # and ~85% [[CHALLENGE]] (612 challenges: balanced 60% aya_expanse_8b_synthetic_error + 40% tiny_aya_global_zero_shot
+    # so LaTeX density \frac, \text, \cdot matches [[APPROVE]]).
+    target_approvals = 108
+    all_clean_approvals = list(clean_approvals.values())
+    by_dom_app: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for row in all_clean_approvals:
+        pid = str(row["problem_id"])
+        dom = e3_map[pid].domain if pid in e3_map else str(row.get("domain") or "MECHANICS")
+        by_dom_app[dom].append(row)
+    for dom in by_dom_app:
+        by_dom_app[dom].sort(
+            key=lambda r: (
+                0 if str(r.get("source") or "") == "minority_solution2" else 1,
+                0 if "\\frac" in str(r.get("proposed_solution") or "") else 1,
+                str(r.get("problem_id") or ""),
+            )
+        )
 
-    for cand in v3_sol2:
-        pid = cand.problem_id
-        akey = (pid, "minority_solution2")
-        if akey not in clean_approvals:
-            prob = e3_map[pid]
-            clean_approvals[akey] = {
-                "item_id": f"approve:sol2:{pid}",
-                "candidate_id": f"{pid}_sol2_approve",
-                "problem_id": pid,
-                "domain": prob.domain,
-                "kind": "domain_balanced_approval",
-                "source": "minority_solution2",
-                "error_type": None,
-                "proposed_solution": cand.solution_text,
-                "verdict": VERDICT_APPROVE,
-                "directive_body": _build_deterministic_approve_rationale(prob, cand.solution_text),
-                "is_valid": True,
-            }
-
-    # Top up domain-balanced Sol1 approvals to reach 235 total approvals
-    target_approvals = 235
-    by_dom_e3: dict[str, list[CanonicalProblem]] = defaultdict(list)
-    for p in e3_pool:
-        by_dom_e3[p.domain].append(p)
-    for dom in by_dom_e3:
-        rng.shuffle(by_dom_e3[dom])
-
-    dom_keys = sorted(by_dom_e3.keys())
-    while len(clean_approvals) < target_approvals and any(by_dom_e3.values()):
-        for dom in dom_keys:
-            if len(clean_approvals) >= target_approvals:
+    approvals_list: list[dict[str, Any]] = []
+    while len(approvals_list) < target_approvals and any(by_dom_app.values()):
+        for dom in sorted(by_dom_app.keys()):
+            if len(approvals_list) >= target_approvals:
                 break
-            while by_dom_e3[dom]:
-                prob = by_dom_e3[dom].pop(0)
-                akey = (prob.problem_id, "sol1_canonical_approve")
-                if akey not in clean_approvals and (prob.problem_id, "canonical_sol1") not in clean_approvals:
-                    clean_approvals[akey] = {
-                        "item_id": f"approve:sol1:{prob.problem_id}",
-                        "candidate_id": f"{prob.problem_id}_sol1_approve",
-                        "problem_id": prob.problem_id,
-                        "domain": prob.domain,
-                        "kind": "domain_balanced_approval",
-                        "source": "canonical_sol1",
-                        "error_type": None,
-                        "proposed_solution": prob.reference_solution,
-                        "verdict": VERDICT_APPROVE,
-                        "directive_body": _build_deterministic_approve_rationale(prob, prob.reference_solution),
-                        "is_valid": True,
-                    }
-                    break
+            if by_dom_app[dom]:
+                approvals_list.append(by_dom_app[dom].pop(0))
 
-    # Select 545 balanced challenges (prioritizing Sol2 coverage + real tiny_aya student failures, max 35 2-hint pairs)
+    # Select 612 balanced challenges (prioritizing aya_expanse_8b_synthetic_error so LaTeX density matches e3_pool)
     by_pid_ch: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for row in clean_challenges.values():
         by_pid_ch[str(row["problem_id"])].append(row)
     for pid in by_pid_ch:
         by_pid_ch[pid].sort(
             key=lambda r: (
-                0 if "tiny_aya" in str(r.get("source") or "") else 1,
+                1 if "tiny_aya" in str(r.get("source") or "") else 0,
                 str(r.get("source") or ""),
             )
         )
@@ -587,7 +573,7 @@ def build_and_verify_v3() -> dict[str, Any]:
     selected_challenges: list[dict[str, Any]] = []
     seen_ch_keys: set[tuple[str, str]] = set()
     used_pids_ch: Counter[str] = Counter()
-    max_challenges = 545
+    max_challenges = 612
     max_pairs = 35
 
     def _add_ch(row: dict[str, Any]) -> bool:
@@ -616,16 +602,24 @@ def build_and_verify_v3() -> dict[str, Any]:
         if used_pids_ch[pid] >= 2:
             pairs_added += 1
 
-    # (c) Fill remaining budget with 1 challenge per problem (prioritizing real tiny_aya failures)
+    # (c) Fill remaining budget with 1 challenge per problem first, then 2nd challenge if needed
     single_cands = [rows[0] for pid, rows in by_pid_ch.items() if used_pids_ch[pid] == 0]
-    single_cands.sort(key=lambda r: (0 if "tiny_aya" in str(r.get("source") or "") else 1, str(r["problem_id"])))
+    single_cands.sort(key=lambda r: str(r["problem_id"]))
     for row in single_cands:
         if len(selected_challenges) >= max_challenges:
             break
         _add_ch(row)
 
-    approvals_list = list(clean_approvals.values())
+    for pid in sorted(by_pid_ch.keys()):
+        if len(selected_challenges) >= max_challenges:
+            break
+        for row in by_pid_ch[pid]:
+            if len(selected_challenges) >= max_challenges:
+                break
+            _add_ch(row)
+
     v3_directives = approvals_list + selected_challenges
+    rng.shuffle(v3_directives)
     _save_jsonl_dicts(v3_directives, PROJECT_ROOT / "data/synthetic/02e_aya8b_directives_curated_v3.jsonl")
     print(
         f"[v3 Step 5] Curated v3 directives: total={len(v3_directives)} "
@@ -655,7 +649,11 @@ def build_and_verify_v3() -> dict[str, Any]:
 
     # Convert any synthetic "Additionally, verify dimensional consistency..." 2nd bullet in E4a into a clean 1-hint Turn-1 row,
     # and enforce max_completion_multiplicity <= 2 in solver_e4_adversarial/train.jsonl
-    from adversarial_physics.data.schemas.trajectory import format_solver_prompt
+    from adversarial_physics.data.schemas.trajectory import (
+        format_solver_prompt,
+        format_verifier_prompt,
+        normalize_proposed_solution_for_verifier,
+    )
 
     e4a_train_path = sft_root / "solver_e4_adversarial" / "train.jsonl"
     e4a_rows = _load_jsonl_dicts(e4a_train_path)
@@ -686,6 +684,39 @@ def build_and_verify_v3() -> dict[str, Any]:
         deduped_e4a.append(r)
     _save_jsonl_dicts(deduped_e4a, e4a_train_path)
     print(f"[v3 Step 6] Normalized E4a turns & capped multiplicity <= 2: {len(e4a_rows)} -> {len(deduped_e4a)} rows.")
+
+    # Post-normalize `verifier_e4_curated/train.jsonl`:
+    # 1. Normalize 100% of proposed_solution strings (both [[APPROVE]] and [[CHALLENGE]]) to uniform
+    #    `**Derivation:**\nStep 1: ...\nANSWER: ...` format (0% format leak, 0% \boxed).
+    # 2. Harmonize `[[APPROVE]]` target openings ('To solve...', 'To find...', 'Applying...') with `[[CHALLENGE]]`
+    #    openings so Token 0 cannot act as a class shortcut.
+    # 3. Deterministically shuffle `verifier_e4_curated/train.jsonl` so every batch and 10% validation slice
+    #    has the exact calibrated ~15% [[APPROVE]] / ~85% [[CHALLENGE]] balance.
+    e4b_train_path = sft_root / "verifier_e4_curated" / "train.jsonl"
+    e4b_rows = _load_jsonl_dicts(e4b_train_path)
+    app_idx = 0
+    for r in e4b_rows:
+        pid = str(r.get("problem_id") or "")
+        stmt = prob_stmt_by_pid.get(pid, "")
+        raw_prop = str(r.get("proposed_solution") or "")
+        norm_prop = normalize_proposed_solution_for_verifier(raw_prop)
+        r["proposed_solution"] = norm_prop
+        if stmt:
+            norm_prompt = format_verifier_prompt(stmt, norm_prop).rstrip() + "\n\n"
+            r["prompt"] = norm_prompt
+            r["instruction"] = norm_prompt
+        if r.get("verdict") == VERDICT_APPROVE:
+            raw_dir = str(r.get("directive_text") or "").strip()
+            harm_dir = _harmonize_approve_rationale_opening(raw_dir, app_idx)
+            app_idx += 1
+            r["directive_text"] = harm_dir
+            r["target_output"] = f"{harm_dir}\n{VERDICT_APPROVE}"
+            r["output"] = r["target_output"]
+
+    rng_shuf = random.Random(42)
+    rng_shuf.shuffle(e4b_rows)
+    _save_jsonl_dicts(e4b_rows, e4b_train_path)
+    print(f"[v3 Step 6b] Post-normalized & shuffled verifier_e4_curated: {len(e4b_rows)} rows.")
 
     _normalize_exported_prompts_and_checksums_v3(sft_root)
 
@@ -749,10 +780,30 @@ def build_and_verify_v3() -> dict[str, Any]:
             )
             assert app_n + ch_n == len(train_rows), "verifier_e4_curated has rows without terminal verdict!"
             app_rate = app_n / len(train_rows)
-            assert 0.25 <= app_rate <= 0.35, f"verifier_e4_curated approval rate {app_rate:.4f} outside [0.25, 0.35]!"
+            assert 0.13 <= app_rate <= 0.18, f"verifier_e4_curated approval rate {app_rate:.4f} outside [0.13, 0.18]!"
+            # Verify 100% of both [[APPROVE]] and [[CHALLENGE]] prompts use `**Derivation:**\nStep 1:`
+            deriv_app = sum(1 for r in train_rows if r.get("verdict") == VERDICT_APPROVE and "**Derivation:**\nStep 1:" in str(r.get("prompt") or ""))
+            deriv_ch = sum(1 for r in train_rows if r.get("verdict") == VERDICT_CHALLENGE and "**Derivation:**\nStep 1:" in str(r.get("prompt") or ""))
+            assert deriv_app == app_n and deriv_ch == ch_n, (
+                f"Format leak check failed: deriv_app={deriv_app}/{app_n}, deriv_ch={deriv_ch}/{ch_n}"
+            )
+            # Verify 0% of [[APPROVE]] targets start with 'The derivation' or 'The solution'
+            the_deriv_n = sum(
+                1
+                for r in train_rows
+                if r.get("verdict") == VERDICT_APPROVE
+                and str(r.get("target_output") or "").startswith(("The derivation", "The solution"))
+            )
+            assert the_deriv_n == 0, f"Found {the_deriv_n} [[APPROVE]] targets still starting with 'The derivation/solution'!"
+            # Verify last 10% (val_split_ratio=0.10 slice) has both classes balanced
+            tail_n = max(1, len(train_rows) // 10)
+            tail_app = sum(1 for r in train_rows[-tail_n:] if r.get("verdict") == VERDICT_APPROVE)
+            tail_rate = tail_app / tail_n
+            assert 0.08 <= tail_rate <= 0.25, f"Tail 10% validation slice approval rate {tail_rate:.3f} is unstratified!"
             split_stats["approve_count"] = app_n
             split_stats["challenge_count"] = ch_n
             split_stats["approve_rate"] = round(app_rate, 4)
+            split_stats["tail_10pct_approve_rate"] = round(tail_rate, 4)
 
         split_stats["domain_dist"] = dict(sorted(Counter(str(r.get("domain") or "") for r in train_rows).items()))
         audit_report[folder] = split_stats

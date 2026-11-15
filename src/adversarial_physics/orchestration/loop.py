@@ -205,11 +205,27 @@ def _download_validation_from_hf_hub(
     repo_candidates: Sequence[str],
     token: str | None,
 ) -> ValidationDataLoadResult | None:
-    """Attempt to download ``validation.jsonl`` from Hub repositories or datasets splits."""
+    """Attempt to download ``validation.jsonl`` (or ``test.jsonl`` for test splits) from Hub repositories."""
     from huggingface_hub import hf_hub_download
 
     target_path.parent.mkdir(parents=True, exist_ok=True)
-    filenames = ("validation.jsonl", "data/validation.jsonl", "data/splits/validation.jsonl")
+    is_test_split = "test" in target_path.stem.lower()
+    if is_test_split:
+        filenames = (
+            "test.jsonl",
+            "data/test.jsonl",
+            "data/splits/test.jsonl",
+            "data/splits/test_v2.jsonl",
+        )
+        dataset_splits = ("test", "validation")
+    else:
+        filenames = (
+            "validation.jsonl",
+            "data/validation.jsonl",
+            "data/splits/validation.jsonl",
+            "data/splits/validation_v2.jsonl",
+        )
+        dataset_splits = ("validation", "train")
 
     for repo_id in repo_candidates:
         if not repo_id:
@@ -242,7 +258,7 @@ def _download_validation_from_hf_hub(
         try:
             from datasets import load_dataset
 
-            for split_name in ("validation", "train"):
+            for split_name in dataset_splits:
                 try:
                     ds = load_dataset(repo_id, split=split_name, token=token)
                 except Exception:
@@ -360,25 +376,43 @@ def ensure_validation_dataset(
                 source_used=f"local:{resolved_target}",
             )
 
-    if str(local_path).replace("\\", "/") == DEFAULT_VALIDATION_PATH:
-        sft_fallback = resolve_project_path("data/sft/solver_e4_adversarial/validation.jsonl")
-        if sft_fallback.is_file():
-            problems = load_validation_problems_file(sft_fallback)
-            if problems:
-                save_problems_jsonl(problems, resolved_target)
-                logger.info(
-                    f"Loaded {len(problems)} validation problems from {sft_fallback} -> {resolved_target}"
-                )
-                return ValidationDataLoadResult(
-                    problems=problems,
-                    local_path=resolved_target,
-                    source_used=f"local:{sft_fallback}",
-                )
+    norm_local = str(local_path).replace("\\", "/")
+    is_v2_or_v3 = any(tag in norm_local.lower() for tag in ("_v2", "_v3", "sft_v2", "sft_v3"))
+    is_test_split = "test" in Path(norm_local).stem.lower()
+    split_fname = "test.jsonl" if is_test_split else "validation.jsonl"
+
+    if norm_local == DEFAULT_VALIDATION_PATH or is_v2_or_v3:
+        fallback_dirs = (
+            ("data/sft_v3/solver_e4_adversarial", "data/sft_v2/solver_e4_adversarial")
+            if is_v2_or_v3
+            else ("data/sft/solver_e4_adversarial",)
+        )
+        for fb_dir in fallback_dirs:
+            sft_fallback = resolve_project_path(f"{fb_dir}/{split_fname}")
+            if sft_fallback.is_file():
+                problems = load_validation_problems_file(sft_fallback)
+                if problems:
+                    save_problems_jsonl(problems, resolved_target)
+                    logger.info(
+                        f"Loaded {len(problems)} validation problems from {sft_fallback} -> {resolved_target}"
+                    )
+                    return ValidationDataLoadResult(
+                        problems=problems,
+                        local_path=resolved_target,
+                        source_used=f"local:{sft_fallback}",
+                    )
 
     token = _resolve_hf_token(hf_token)
     repo_candidates: list[str] = []
     if hf_repo_id:
         repo_candidates.append(hf_repo_id)
+    if is_v2_or_v3:
+        for v_repo in (
+            "vital-ar/physics-solver-e4-adversarial-v3",
+            "vital-ar/physics-solver-e4-adversarial-v2",
+        ):
+            if v_repo not in repo_candidates:
+                repo_candidates.append(v_repo)
     for default_repo in DEFAULT_VALIDATION_HF_REPOS:
         if default_repo not in repo_candidates:
             repo_candidates.append(default_repo)
@@ -994,6 +1028,28 @@ def _is_near_duplicate_directive(
     return False
 
 
+def _check_solver_structural_defect(solver_output: str) -> str | None:
+    """Reference-free structural check: return a corrective directive if `solver_output` is missing
+    a closed-form `ANSWER:` sentinel, leaves an un-evaluated `\\int` integral, or has unbalanced delimiters."""
+    ans = extract_answer_line(solver_output)
+    if not ans:
+        return (
+            "Complete the step-by-step physical derivation and state the final closed-form symbolic "
+            "or numerical expression on a dedicated final line prefixed with ANSWER:."
+        )
+    if "\\int" in ans or "+ C" in ans or "+C" in ans:
+        return (
+            "Evaluate the definite integral completely by applying the physical boundary limits and "
+            "simplify the final closed-form expression on the ANSWER: line."
+        )
+    if ans.count("(") != ans.count(")") or ans.count("{") != ans.count("}"):
+        return (
+            "Check algebraic grouping and balance all parentheses and LaTeX braces when isolating "
+            "the target quantity on the ANSWER: line."
+        )
+    return None
+
+
 def _is_structurally_sound_trace(trace: TurnTrace) -> bool:
     """Check whether a turn produced a non-empty, unit-consistent, non-unintegrated ANSWER: sentinel."""
     sv = trace.solver_validation or {}
@@ -1083,9 +1139,14 @@ def run_single_problem_loop(
             parsed = parse_verifier_response(verifier_raw, problem_statement=problem.problem_statement)
             verifier_verdict = parsed.verdict
             verifier_directive = parsed.directive
-            if parsed.verdict == "APPROVE":
+            if verifier_verdict == "APPROVE":
+                structural_defect = _check_solver_structural_defect(solver_raw)
+                if structural_defect is not None:
+                    verifier_verdict = "CHALLENGE"
+                    verifier_directive = structural_defect
+            if verifier_verdict == "APPROVE":
                 verifier_decision_ok = bool(val_res.is_equivalent)
-            elif parsed.verdict == "CHALLENGE":
+            elif verifier_verdict == "CHALLENGE":
                 verifier_decision_ok = not bool(val_res.is_equivalent)
 
         traces.append(
@@ -1250,9 +1311,14 @@ def run_batch_problems_loop(
                 )
                 verifier_verdict = parsed.verdict
                 verifier_directive = parsed.directive
-                if parsed.verdict == "APPROVE":
+                if verifier_verdict == "APPROVE":
+                    structural_defect = _check_solver_structural_defect(solver_raw)
+                    if structural_defect is not None:
+                        verifier_verdict = "CHALLENGE"
+                        verifier_directive = structural_defect
+                if verifier_verdict == "APPROVE":
                     verifier_decision_ok = bool(val_res.is_equivalent)
-                elif parsed.verdict == "CHALLENGE":
+                elif verifier_verdict == "CHALLENGE":
                     verifier_decision_ok = not bool(val_res.is_equivalent)
 
             traces_per_prob[i].append(
