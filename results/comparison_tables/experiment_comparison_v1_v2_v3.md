@@ -155,4 +155,5 @@ and SHA-256 `RunResult` provenance fingerprints.
 | `v2` | `solver_e4_adversarial_v2_lora` | 0.0001 | 16/32 | 5 | 3.0 | 156 | 0.8400 | `checkpoint-156` | 1.1319 | 6.67% | 1.0318 |
 | `v1` | `verifier_e4_curated_lora` | 0.00015 | 16/32 | 10 | 5.0 | 425 | 0.6626 | `final` | — | — | — |
 | `v2` | `verifier_e4_curated_v2_lora` | 0.00015 | 16/32 | 5 | 5.0 | 240 | 0.7214 | `final` | — | — | — |
+| `v3` | `verifier_e4_curated_v3_lora` | 0.0001 | 8/16 | 7 | 7.0 | 287 | 0.8361 | `final` | — | — | — |
 

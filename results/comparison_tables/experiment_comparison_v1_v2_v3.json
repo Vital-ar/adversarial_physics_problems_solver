@@ -2479,6 +2479,23 @@
       "selected_val_accuracy": null,
       "selected_composite_score": null,
       "train_runtime_s": 6903.9
+    },
+    {
+      "version": "v3",
+      "adapter_name": "verifier_e4_curated_v3_lora",
+      "dataset_key": "verifier_e4_curated",
+      "learning_rate": 0.0001,
+      "lora_r": 8,
+      "lora_alpha": 16,
+      "max_epochs_configured": 7,
+      "epochs_completed": 7.0,
+      "total_steps": 287,
+      "final_train_loss": 0.8361,
+      "selected_checkpoint": "final",
+      "selected_eval_loss": null,
+      "selected_val_accuracy": null,
+      "selected_composite_score": null,
+      "train_runtime_s": 6866.4
     }
   ],
   "cross_version_progression": [
