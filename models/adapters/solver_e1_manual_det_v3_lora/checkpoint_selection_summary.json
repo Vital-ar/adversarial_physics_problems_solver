@@ -1,0 +1,50 @@
+{
+  "formula": "1.0 * eval_loss - 1.5 * val_accuracy (lower is better)",
+  "winner": {
+    "checkpoint_dir": "models/adapters/solver_e1_manual_det_v3_lora/checkpoint-29",
+    "step": 29,
+    "eval_loss": 1.1980363130569458,
+    "val_accuracy": 0.05,
+    "correct": 3,
+    "total": 60,
+    "composite_score": 1.1230363130569458
+  },
+  "all_checkpoints": [
+    {
+      "checkpoint_dir": "models/adapters/solver_e1_manual_det_v3_lora/checkpoint-29",
+      "step": 29,
+      "eval_loss": 1.1980363130569458,
+      "val_accuracy": 0.05,
+      "correct": 3,
+      "total": 60,
+      "composite_score": 1.1230363130569458
+    },
+    {
+      "checkpoint_dir": "models/adapters/solver_e1_manual_det_v3_lora/checkpoint-58",
+      "step": 58,
+      "eval_loss": 1.2395919561386108,
+      "val_accuracy": 0.0167,
+      "correct": 1,
+      "total": 60,
+      "composite_score": 1.2145419561386108
+    },
+    {
+      "checkpoint_dir": "models/adapters/solver_e1_manual_det_v3_lora/checkpoint-87",
+      "step": 87,
+      "eval_loss": 1.2635018825531006,
+      "val_accuracy": 0.0167,
+      "correct": 1,
+      "total": 60,
+      "composite_score": 1.2384518825531006
+    },
+    {
+      "checkpoint_dir": "models/adapters/solver_e1_manual_det_v3_lora/checkpoint-116",
+      "step": 116,
+      "eval_loss": 1.262701392173767,
+      "val_accuracy": 0.0,
+      "correct": 0,
+      "total": 60,
+      "composite_score": 1.262701392173767
+    }
+  ]
+}
