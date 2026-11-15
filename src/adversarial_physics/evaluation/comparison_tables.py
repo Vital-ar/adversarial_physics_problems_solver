@@ -266,11 +266,17 @@ def load_and_normalize_eval_json(
     p = Path(path)
     raw = json.loads(p.read_text(encoding="utf-8"))
 
-    # Handle E4b multi-turn loop summary.json format if passed
-    if "metrics" in raw and "solver" in raw.get("metrics", {}):
-        metrics = raw["metrics"]
+    # Handle multi-turn loop summary.json format (both wrapped {"metrics": {"solver": ...}} and flat validate_e4_loop.py schema)
+    if ("metrics" in raw and "solver" in raw.get("metrics", {})) or (
+        "solver" in raw and "total_problems" in raw
+    ):
+        metrics = raw["metrics"] if isinstance(raw.get("metrics"), dict) else raw
         solver = metrics["solver"]
-        lexsi_final = (raw.get("lexsi_audit") or {}).get("final") or {}
+        lexsi_final = (
+            raw.get("lexsi_audit_final")
+            or (raw.get("lexsi_audit") or {}).get("final")
+            or {}
+        )
         pa = lexsi_final.get("physics_accuracy_metrics", {})
         ds = lexsi_final.get("derivation_similarity_metrics", {})
         rs = lexsi_final.get("reasoning_structure_metrics", {})
@@ -279,10 +285,28 @@ def load_and_normalize_eval_json(
         cur = tiers.get("curated_in_domain", {}) or (metrics.get("per_tier") or {}).get("curated_in_domain", {})
         pg = tiers.get("physgym_olympiad", {}) or (metrics.get("per_tier") or {}).get("physgym_olympiad", {})
 
+        per_problem_correct: dict[str, int] = {}
+        traces_path = p.parent / "results_per_problem.jsonl"
+        if traces_path.is_file():
+            for line in traces_path.read_text(encoding="utf-8").splitlines():
+                if not line.strip():
+                    continue
+                try:
+                    rec = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                pid = str(rec.get("problem_id", ""))
+                if pid:
+                    per_problem_correct[pid] = 1 if rec.get("final_correct") else 0
+
         total = int(metrics.get("total_problems", 0))
         correct = int(solver.get("final_correct", 0))
         acc = float(solver.get("final_accuracy") or 0.0)
-        binary_vec = [1] * correct + [0] * max(0, total - correct)
+        binary_vec = (
+            [per_problem_correct[pid] for pid in sorted(per_problem_correct)]
+            if per_problem_correct
+            else ([1] * correct + [0] * max(0, total - correct))
+        )
         ci = bootstrap_ci95_and_p_value(binary_vec, binary_vec) if binary_vec else None
 
         return NormalizedExperimentRun(
@@ -323,7 +347,7 @@ def load_and_normalize_eval_json(
             sha256_fingerprint=hashlib.sha256(p.read_bytes()).hexdigest(),
             domain_breakdown=metrics.get("per_domain", {}),
             match_method_breakdown=solver.get("final_match_method_counts", {}),
-            per_problem_correct={},
+            per_problem_correct=per_problem_correct,
             loop_diagnostics={
                 "solver": solver,
                 "verifier": metrics.get("verifier", {}),
@@ -451,10 +475,24 @@ def discover_version_runs(root_dir: str | Path = ".") -> dict[str, dict[str, dic
         },
         "E4b": {
             "validation": [
+                root / "results/eval_e4_loop_v1_val/summary.json",
                 root / "results/eval_v1/E4b_v1_validation_eval.json",
                 root / "outputs/validation/e4_loop_v1/summary.json",
             ],
-            "test": [root / "results/eval_v1/E4b_v1_test_eval.json"],
+            "test": [
+                root / "results/eval_e4_loop_v1_test/summary.json",
+                root / "results/eval_v1/E4b_v1_test_eval.json",
+            ],
+        },
+        "E3+E4b": {
+            "validation": [
+                root / "results/eval_e3_e4b_loop_v1_val/summary.json",
+                root / "results/eval_v1/E3_E4b_v1_validation_eval.json",
+            ],
+            "test": [
+                root / "results/eval_e3_e4b_loop_v1_test/summary.json",
+                root / "results/eval_v1/E3_E4b_v1_test_eval.json",
+            ],
         },
     }
 
@@ -482,14 +520,33 @@ def discover_version_runs(root_dir: str | Path = ".") -> dict[str, dict[str, dic
             },
             "E4b": {
                 "validation": [
+                    root / f"results/eval_e4_loop_{ver_tag}_val/summary.json",
+                    root / f"results/eval_e4_loop_{ver_tag}_validation/summary.json",
                     root / f"results/eval_e4b_{ver_tag}/E4b_{ver_tag}_validation_eval.json",
                     root / f"results/eval_e4b_{ver_tag}/summary.json",
                     root / f"outputs/validation/e4_loop_{ver_tag}/summary.json",
                     root / ("outputs/validation/e4_loop_iter3/summary.json" if ver_tag == "v2" else "nonexistent"),
                 ],
                 "test": [
+                    root / f"results/eval_e4_loop_{ver_tag}_test/summary.json",
                     root / f"results/eval_e4b_{ver_tag}/E4b_{ver_tag}_test_eval.json",
+                    root / f"results/eval_e4b_{ver_tag}/summary.json",
                     root / f"outputs/test/e4_loop_{ver_tag}/summary.json",
+                ],
+            },
+            "E3+E4b": {
+                "validation": [
+                    root / f"results/eval_e3_e4b_loop_{ver_tag}_val/summary.json",
+                    root / f"results/eval_e3_e4b_loop_{ver_tag}_validation/summary.json",
+                    root / f"results/eval_e3_e4b_{ver_tag}/E3_E4b_{ver_tag}_validation_eval.json",
+                    root / f"results/eval_e3_e4b_{ver_tag}/summary.json",
+                    root / f"outputs/validation/e3_e4b_loop_{ver_tag}/summary.json",
+                ],
+                "test": [
+                    root / f"results/eval_e3_e4b_loop_{ver_tag}_test/summary.json",
+                    root / f"results/eval_e3_e4b_{ver_tag}/E3_E4b_{ver_tag}_test_eval.json",
+                    root / f"results/eval_e3_e4b_{ver_tag}/summary.json",
+                    root / f"outputs/test/e3_e4b_loop_{ver_tag}/summary.json",
                 ],
             },
         }
@@ -623,7 +680,15 @@ def build_all_version_tables(
         "",
     ]
 
+    exp_order = ("E0", "E1", "E2", "E3", "E4a", "E4b", "E3+E4b")
     csv_rows: list[dict[str, Any]] = []
+
+    def _fmt_curated_cell(run: NormalizedExperimentRun | None, missing_text: str) -> str:
+        if run is None:
+            return missing_text
+        if run.curated_total <= 0:
+            return "N/A (0/0)"
+        return f"**{_fmt_pct(run.curated_accuracy)}** ({run.curated_correct}/{run.curated_total})"
 
     for ver in ("v1", "v2", "v3"):
         ver_data = discovered[ver]
@@ -659,17 +724,13 @@ def build_all_version_tables(
             )
             md_lines.append("|---|---|---|---|---|---|---|---|---|---|")
 
-            for exp_id in ("E0", "E1", "E2", "E3", "E4a", "E4b"):
+            for exp_id in exp_order:
                 if exp_id not in split_runs:
                     continue
                 r = split_runs[exp_id]
                 sig_e0 = sig_map.get(f"{exp_id}_vs_E0")
                 p_str = f"{sig_e0['paired_bootstrap_p_value']:.4f}" if sig_e0 else "—"
-                cur_str = (
-                    f"**{_fmt_pct(r.curated_accuracy)}** ({r.curated_correct}/{r.curated_total})"
-                    if r.curated_total > 0
-                    else "N/A (0/0)"
-                )
+                cur_str = _fmt_curated_cell(r, "N/A (0/0)")
                 pg_str = (
                     f"{_fmt_pct(r.physgym_accuracy)} ({r.physgym_correct}/{r.physgym_total})"
                     if r.physgym_total > 0
@@ -693,7 +754,7 @@ def build_all_version_tables(
                 "Eqs / Resp | Degenerate % | Repetition | Avg Tokens | Meta Leak % | SHA-256 Prefix |"
             )
             md_lines.append("|---|---|---|---|---|---|---|---|---|---|---|---|")
-            for exp_id in ("E0", "E1", "E2", "E3", "E4a", "E4b"):
+            for exp_id in exp_order:
                 if exp_id not in split_runs:
                     continue
                 r = split_runs[exp_id]
@@ -712,7 +773,7 @@ def build_all_version_tables(
             domains = ["MECHANICS", "ELECTROMAGNETISM", "MODERN_PHYSICS", "OPTICS", "RELATIVITY", "THERMODYNAMICS"]
             md_lines.append("| Exp | " + " | ".join(domains) + " |")
             md_lines.append("|---|" + "|".join(["---"] * len(domains)) + "|")
-            for exp_id in ("E0", "E1", "E2", "E3", "E4a", "E4b"):
+            for exp_id in exp_order:
                 if exp_id not in split_runs:
                     continue
                 r = split_runs[exp_id]
@@ -726,6 +787,54 @@ def build_all_version_tables(
                 md_lines.append(f"| **`{exp_id}_{ver}`** | " + " | ".join(cells) + " |")
             md_lines.append("")
 
+            # Adversarial Multi-Turn Loop & Verifier Diagnostics table (E4b = E4a+E4b, E3+E4b, etc.)
+            loop_exp_ids = [eid for eid in exp_order if eid in split_runs and split_runs[eid].loop_diagnostics]
+            if loop_exp_ids:
+                md_lines.append(
+                    f"### `{ver.upper()}` — `{split.capitalize()}` Split: Adversarial Loop & Verifier Diagnostics"
+                )
+                md_lines.append("")
+                md_lines.append(
+                    "| Exp | Turn-0 Acc | Final Acc | Net Gain | Converted | Regressed | Mean Iters | "
+                    "Reviews | Verifier Acc | Challenge F1 | False Approval % | False Challenge % | "
+                    "Approve Rate | Directive Self-Contain % |"
+                )
+                md_lines.append("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|")
+                for exp_id in loop_exp_ids:
+                    r = split_runs[exp_id]
+                    diag = r.loop_diagnostics or {}
+                    s_diag = diag.get("solver") or {}
+                    v_diag = diag.get("verifier") or {}
+                    e_diag = diag.get("loop_efficiency") or {}
+                    gain = s_diag.get("net_revision_gain")
+                    gain_str = f"{float(gain) * 100:+.2f} pp" if gain is not None else "N/A"
+                    t0_wrong = int(s_diag.get("turn0_wrong_count") or 0)
+                    t0_right = max(0, r.total - t0_wrong)
+                    conv = int(s_diag.get("converted_count") or 0)
+                    reg = int(s_diag.get("regressed_count") or 0)
+                    conv_str = f"{_fmt_pct(s_diag.get('correction_conversion_rate'))} ({conv}/{t0_wrong})"
+                    reg_str = (
+                        f"{_fmt_pct(s_diag.get('regression_rate'))} ({reg}/{t0_right})"
+                        if t0_right > 0
+                        else "N/A (0/0)"
+                    )
+                    mean_iters = e_diag.get("mean_iterations_used")
+                    iters_str = f"{float(mean_iters):.2f}" if mean_iters is not None else "—"
+                    reviews_str = str(v_diag.get("total_reviews", "—"))
+                    md_lines.append(
+                        f"| **`{exp_id}_{ver}`** | {_fmt_pct(s_diag.get('turn0_accuracy'))} "
+                        f"({s_diag.get('turn0_correct', 0)}/{r.total}) | "
+                        f"**{_fmt_pct(s_diag.get('final_accuracy'))}** ({r.correct}/{r.total}) | "
+                        f"{gain_str} | {conv_str} | {reg_str} | {iters_str} | {reviews_str} | "
+                        f"{_fmt_pct(v_diag.get('verifier_sentinel_accuracy'))} | "
+                        f"{_fmt_pct(v_diag.get('verifier_challenge_f1'))} | "
+                        f"{_fmt_pct(v_diag.get('verifier_false_approval_rate'))} | "
+                        f"{_fmt_pct(v_diag.get('verifier_false_challenge_rate'))} | "
+                        f"{_fmt_pct(v_diag.get('verifier_approve_rate'))} | "
+                        f"{_fmt_pct(v_diag.get('directive_self_containment_no_leak_rate'))} |"
+                    )
+                md_lines.append("")
+
     # Cross-Version Progression Table (v1 -> v2 -> v3)
     md_lines.append("## Cross-Version Progression (`v1 -> v2 -> v3`)")
     md_lines.append("")
@@ -735,7 +844,7 @@ def build_all_version_tables(
     )
     md_lines.append("|---|---|---|---|---|---|---|---|---|")
     for split in ("validation", "test"):
-        for exp_id in ("E0", "E1", "E2", "E3", "E4a", "E4b"):
+        for exp_id in exp_order:
             r1 = discovered["v1"][split].get(exp_id)
             r2 = discovered["v2"][split].get(exp_id)
             r3 = discovered["v3"][split].get(exp_id)
@@ -743,11 +852,11 @@ def build_all_version_tables(
                 continue
             v1_str = f"{_fmt_pct(r1.accuracy)} ({r1.correct}/{r1.total})" if r1 else "—"
             v2_all = f"{_fmt_pct(r2.accuracy)} ({r2.correct}/{r2.total})" if r2 else "—"
-            v2_cur = f"**{_fmt_pct(r2.curated_accuracy)}** ({r2.curated_correct}/{r2.curated_total})" if r2 else "—"
+            v2_cur = _fmt_curated_cell(r2, "—")
             v2_sent = _fmt_pct(r2.sentinel_rate) if r2 else "—"
             v2_deg = _fmt_pct(r2.degenerate_rate) if r2 else "—"
             v3_all = f"{_fmt_pct(r3.accuracy)} ({r3.correct}/{r3.total})" if r3 else "*Pending v3*"
-            v3_cur = f"**{_fmt_pct(r3.curated_accuracy)}** ({r3.curated_correct}/{r3.curated_total})" if r3 else "*Pending v3*"
+            v3_cur = _fmt_curated_cell(r3, "*Pending v3*")
             md_lines.append(
                 f"| **`{exp_id}`** | `{split}` | {v1_str} | {v2_all} | {v2_cur} | {v2_sent} | {v2_deg} | {v3_all} | {v3_cur} |"
             )

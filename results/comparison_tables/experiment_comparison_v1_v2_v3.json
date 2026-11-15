@@ -1927,6 +1927,173 @@
             "numerical_tolerance": 1
           },
           "loop_diagnostics": null
+        },
+        "E4b": {
+          "version": "v2",
+          "experiment_id": "E4b",
+          "split": "test",
+          "source_path": "results/eval_e4_loop_v2_test/summary.json",
+          "total": 37,
+          "correct": 0,
+          "accuracy": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "tolerant_5pct_accuracy": 0.0,
+          "aligntune_math_grade_accuracy": 0.0,
+          "sentinel_rate": 0.973,
+          "unit_consistency_rate": 0.9189,
+          "curated_total": 0,
+          "curated_correct": 0,
+          "curated_accuracy": 0.0,
+          "curated_tol5_accuracy": 0.0,
+          "physgym_total": 37,
+          "physgym_correct": 0,
+          "physgym_accuracy": 0.0,
+          "rouge1_f1": 0.3663,
+          "rougeL_f1": 0.208,
+          "bleu_score": 0.0153,
+          "physics_equation_token_f1": 0.3106,
+          "step_structure_rate": 1.0,
+          "mean_equations_per_response": 21.5405,
+          "degenerate_rate": 0.027,
+          "repetition_ratio": 0.0921,
+          "avg_response_tokens": 244.84,
+          "meta_leakage_rate": 0.0,
+          "sha256_fingerprint": "73ebb202f3d27f2e712c0ae9e7b5cddc31b414087f3571e9e683e888aab760a4",
+          "domain_breakdown": {
+            "ELECTROMAGNETISM": {
+              "count": 11,
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            },
+            "MECHANICS": {
+              "count": 15,
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            },
+            "MODERN_PHYSICS": {
+              "count": 3,
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            },
+            "OPTICS": {
+              "count": 3,
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            },
+            "RELATIVITY": {
+              "count": 1,
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            },
+            "THERMODYNAMICS": {
+              "count": 4,
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "converted": 0,
+              "regressed": 0
+            }
+          },
+          "match_method_breakdown": {
+            "mismatch": 36,
+            "missing_sentinel": 1
+          },
+          "loop_diagnostics": {
+            "solver": {
+              "turn0_correct": 0,
+              "turn0_accuracy": 0.0,
+              "final_correct": 0,
+              "final_accuracy": 0.0,
+              "net_revision_gain": 0.0,
+              "turn0_sentinel_compliance_rate": 0.918919,
+              "final_sentinel_compliance_rate": 0.972973,
+              "converted_count": 0,
+              "turn0_wrong_count": 37,
+              "correction_conversion_rate": 0.0,
+              "regressed_count": 0,
+              "regression_rate": null,
+              "per_iteration_cumulative": {
+                "iter_1": {
+                  "correct": 0,
+                  "total": 37,
+                  "accuracy": 0.0
+                },
+                "iter_2": {
+                  "correct": 0,
+                  "total": 37,
+                  "accuracy": 0.0
+                },
+                "iter_3": {
+                  "correct": 0,
+                  "total": 37,
+                  "accuracy": 0.0
+                }
+              },
+              "final_match_method_counts": {
+                "mismatch": 36,
+                "missing_sentinel": 1
+              }
+            },
+            "verifier": {
+              "total_reviews": 109,
+              "tp_true_challenge": 107,
+              "fp_false_challenge": 0,
+              "tn_true_approve": 0,
+              "fn_false_approve": 0,
+              "unknown_no_sentinel": 2,
+              "verifier_sentinel_accuracy": 0.981651,
+              "verifier_challenge_precision": 1.0,
+              "verifier_challenge_recall": 1.0,
+              "verifier_challenge_f1": 1.0,
+              "verifier_false_approval_rate": 0.0,
+              "verifier_false_challenge_rate": null,
+              "verifier_overall_false_approval_rate": 0.0,
+              "verifier_approve_rate": 0.0,
+              "verifier_challenge_rate": 0.981651,
+              "directive_self_containment_no_leak_rate": 1.0,
+              "auditkit_directive_actionability_score": 1.0
+            },
+            "loop_efficiency": {
+              "mean_iterations_used": 2.9459,
+              "mean_latency_s": 199.0475,
+              "total_latency_s": 7364.7581,
+              "mean_tokens_per_problem": 1734.54,
+              "stop_reason_counts": {
+                "max_iterations_reached": 35,
+                "verifier_no_sentinel": 2
+              }
+            }
+          }
         }
       },
       "significance_validation": {
@@ -2569,6 +2736,15 @@
       "v1_accuracy": 0.0,
       "v2_accuracy": 0.0333,
       "v2_curated_accuracy": 0.0909,
+      "v3_accuracy": null,
+      "v3_curated_accuracy": null
+    },
+    {
+      "experiment_id": "E4b",
+      "split": "test",
+      "v1_accuracy": null,
+      "v2_accuracy": 0.0,
+      "v2_curated_accuracy": 0.0,
       "v3_accuracy": null,
       "v3_curated_accuracy": null
     }

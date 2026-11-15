@@ -413,3 +413,112 @@ def test_semantic_duplicate_hint_and_turn_regression_guard() -> None:
     assert res.regressed is False
 
 
+def test_comparison_tables_discovers_loop_and_e3_e4b_runs(tmp_path: Path) -> None:
+    """Verify comparison_tables discovers flat loop summaries (E4b & E3+E4b), per_problem_correct, and renders tables."""
+    import json
+
+    from adversarial_physics.evaluation.comparison_tables import (
+        build_all_version_tables,
+        discover_version_runs,
+    )
+
+    # Create E0_v3 single-turn validation baseline
+    e0_dir = tmp_path / "results/eval_e0_v3"
+    e0_dir.mkdir(parents=True)
+    e0_payload = {
+        "total": 2,
+        "correct": 0,
+        "accuracy": 0.0,
+        "sentinel_rate": 1.0,
+        "domain_breakdown": {"MECHANICS": {"total": 2, "correct": 0, "accuracy": 0.0}},
+        "per_sample": [
+            {"problem_id": "p1", "domain": "MECHANICS", "source": "curated", "is_equivalent": False, "match_method": "mismatch", "has_answer_sentinel": True, "predicted_answer": "1", "reference_answer": "2"},
+            {"problem_id": "p2", "domain": "MECHANICS", "source": "physgym", "is_equivalent": False, "match_method": "mismatch", "has_answer_sentinel": True, "predicted_answer": "3", "reference_answer": "4"},
+        ],
+        "lexsi_audit": {
+            "physics_accuracy_metrics": {"tolerant_5pct_accuracy": 0.0, "aligntune_math_grade_accuracy": 0.0, "unit_consistency_rate": 1.0},
+            "derivation_similarity_metrics": {"rouge1_f1": 0.2, "rougeL_f1": 0.15, "bleu_score": 0.01, "physics_equation_token_f1": 0.25},
+            "reasoning_structure_metrics": {"step_structure_rate": 1.0, "mean_equations_per_response": 3.0},
+            "alignment_audit": {"degenerate_rate": 0.0, "repetition_ratio": 0.1, "avg_response_tokens": 150.0, "meta_leakage_rate": 0.0},
+            "stratified_breakdown": {
+                "by_tier": {
+                    "curated_in_domain": {"total": 1, "correct": 0, "accuracy": 0.0, "tolerant_5pct_accuracy": 0.0},
+                    "physgym_olympiad": {"total": 1, "correct": 0, "accuracy": 0.0},
+                }
+            },
+        },
+    }
+    (e0_dir / "E0_v3_validation_eval.json").write_text(json.dumps(e0_payload), encoding="utf-8")
+
+    # Create E4a+E4b and E3+E4b flat loop summaries matching validate_e4_loop.py schema
+    for subdir, turn0_corr, final_corr, f1, fal_rate, p1_ok, p2_ok in [
+        ("results/eval_e4_loop_v3_val", 0, 1, 0.75, 0.25, True, False),
+        ("results/eval_e3_e4b_loop_v3_val", 1, 2, 0.85, 0.0, True, True),
+    ]:
+        d = tmp_path / subdir
+        d.mkdir(parents=True)
+        summary = {
+            "total_problems": 2,
+            "max_iterations": 3,
+            "solver": {
+                "turn0_correct": turn0_corr,
+                "turn0_accuracy": turn0_corr / 2.0,
+                "final_correct": final_corr,
+                "final_accuracy": final_corr / 2.0,
+                "net_revision_gain": (final_corr - turn0_corr) / 2.0,
+                "final_sentinel_compliance_rate": 1.0,
+                "converted_count": final_corr - turn0_corr,
+                "turn0_wrong_count": 2 - turn0_corr,
+                "correction_conversion_rate": (final_corr - turn0_corr) / max(1, 2 - turn0_corr),
+                "regressed_count": 0,
+                "regression_rate": 0.0 if turn0_corr > 0 else None,
+                "final_match_method_counts": {"sympy_symbolic": final_corr, "mismatch": 2 - final_corr},
+            },
+            "verifier": {
+                "total_reviews": 3,
+                "verifier_sentinel_accuracy": 0.85,
+                "verifier_challenge_f1": f1,
+                "verifier_false_approval_rate": fal_rate,
+                "verifier_false_challenge_rate": 0.0,
+                "verifier_approve_rate": 0.5,
+                "directive_self_containment_no_leak_rate": 1.0,
+                "auditkit_directive_actionability_score": 0.9,
+            },
+            "loop_efficiency": {"mean_iterations_used": 1.5, "mean_tokens_per_problem": 300.0},
+            "per_domain": {"MECHANICS": {"count": 2, "turn0_correct": turn0_corr, "final_correct": final_corr, "final_accuracy": final_corr / 2.0}},
+            "lexsi_audit_final": {
+                "physics_accuracy_metrics": {"tolerant_5pct_accuracy": final_corr / 2.0, "aligntune_math_grade_accuracy": final_corr / 2.0, "unit_consistency_rate": 1.0},
+                "derivation_similarity_metrics": {"rouge1_f1": 0.4, "rougeL_f1": 0.3, "bleu_score": 0.05, "physics_equation_token_f1": 0.45},
+                "reasoning_structure_metrics": {"step_structure_rate": 1.0, "mean_equations_per_response": 6.0},
+                "alignment_audit": {"degenerate_rate": 0.0, "repetition_ratio": 0.05, "avg_response_tokens": 220.0, "meta_leakage_rate": 0.0},
+                "stratified_breakdown": {
+                    "by_tier": {
+                        "curated_in_domain": {"total": 1, "correct": 1 if p1_ok else 0, "accuracy": 1.0 if p1_ok else 0.0, "tolerant_5pct_accuracy": 1.0},
+                        "physgym_olympiad": {"total": 1, "correct": 1 if p2_ok else 0, "accuracy": 1.0 if p2_ok else 0.0},
+                    }
+                },
+            },
+        }
+        (d / "summary.json").write_text(json.dumps(summary), encoding="utf-8")
+        (d / "results_per_problem.jsonl").write_text(
+            json.dumps({"problem_id": "p1", "final_correct": p1_ok}) + "\n"
+            + json.dumps({"problem_id": "p2", "final_correct": p2_ok}) + "\n",
+            encoding="utf-8",
+        )
+
+    runs = discover_version_runs(tmp_path)
+    assert "E4b" in runs["v3"]["validation"]
+    assert "E3+E4b" in runs["v3"]["validation"]
+    assert runs["v3"]["validation"]["E3+E4b"].per_problem_correct == {"p1": 1, "p2": 1}
+    assert runs["v3"]["validation"]["E4b"].curated_correct == 1
+
+    built = build_all_version_tables(tmp_path)
+    md_text = Path(built["markdown_path"]).read_text(encoding="utf-8")
+    assert "**`E4b_v3`**" in md_text
+    assert "**`E3+E4b_v3`**" in md_text
+    assert "Adversarial Loop & Verifier Diagnostics" in md_text
+    assert "E3+E4b_vs_E0" in built["payload"]["versions"]["v3"]["significance_validation"]
+    assert Path(built["csv_path"]).is_file()
+
+
+
