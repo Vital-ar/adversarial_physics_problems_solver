@@ -486,10 +486,33 @@ Built directly from measured eager HF/PEFT inference telemetry (`n=120` pooled `
 
 * [`configs/`](configs/): YAML specs for data ingestion/curation (`curatorkit_pipeline.yaml`, `book_ingestion.yaml`, `generation_aya.yaml`, `split_21_38_38.yaml`), training (`aligntune_training{,_v2,_v3}.yaml`), inference (`orchestrator.yaml`), and `AuditKIT` benchmarks (`auditkit_benchmark.yaml`).
 * [`src/adversarial_physics/`](src/adversarial_physics/): Modular package (`data/ingestion/`, `data/processing/`, `data/curation/`, `data/generation/`, `data/schemas/`, `training/`, `orchestration/`, `evaluation/` including `auditkit_native.py` & `auditkit_bridge.py`, `utils/`).
-* [`scripts/`](scripts/): Ordered CLI stages (`01_ingest_and_split.py` → `02_extract_literature.py` → `02b_extract_subtopics.py` → `03_build_canonical_pool.py` → `03b_generate_synthetic_e2.py` → `04a`–`04f` → `05_train_aligntune.py` → `06_eval_solver.py` → `validate_e4_loop.py` → `07_build_experiment_tables.py` → `09_leak_and_calibration_audit.py`).
+* [`scripts/`](scripts/): Ordered CLI pipeline (`01_ingest_and_split.py` → `10_build_and_push_model_cards.py`, detailed below).
 * [`results/`](results/): Saved per-sample evaluation JSONs (`eval_v1/`, `eval_e*_v2/`, `eval_e*_v3/`), multi-turn loop traces (`eval_e4_loop_v3_{val,test}/`), prefix ablation (`results/ablations/`), audit reports (`leak_and_calibration_summary.json`, `auditkit_native_summary.json`, `excluded_leaked_eval_items_080.json`), and comparison tables (`experiment_comparison_v1_v2_v3.{md,json}`).
 * [`notebooks/`](notebooks/): Four GPU Kaggle notebooks covering `v3` training and loop evaluation.
-* [`tests/`](tests/): Eleven unit & integration test suites (`test_config.py`, `test_splitting.py`, `test_aligntune_training.py`, `test_orchestration_loop.py`, `test_calibration_audit.py`, `test_auditkit_native.py`, etc.).
+* [`tests/`](tests/): Twelve unit & integration test suites (`test_config.py`, `test_splitting.py`, `test_aligntune_training.py`, `test_orchestration_loop.py`, `test_calibration_audit.py`, `test_auditkit_native.py`, `test_model_cards.py`, etc.).
+
+#### Script Execution Order (`scripts/`)
+
+| Order | Script | Purpose (Brief) |
+|---|---|---|
+| `1` | `01_ingest_and_split.py` | Ingest `YimengChen/PhysGym` and build domain-stratified `21/38/38` train/val/test splits (`seed=42`). |
+| `2` | `02_extract_literature.py` | Download Crowell open books/manuals, pair chapter exercises with official answers, and extract pairs via `aya-expanse-8b`. |
+| `3` | `02b_extract_subtopics.py` | Chunk textbooks and deduplicate chapter theory snippets via `CuratorKIT` for grounded problem synthesis. |
+| `4` | `03_build_canonical_pool.py` | Run anti-leakage gate (`E1` raw pool), deterministic `CuratorKIT` filtering, optional Part-2 LLM gates/recovery, and build canonical `Sol1`. |
+| `5` | `03b_generate_synthetic_e2.py` | Synthesize subtopic-grounded, seed-guided problems via `aya-expanse-8b`, verify with `SymPy`, and export `E2` & `E3`. |
+| `6` | `04a_generate_aya8b_trajectories.py` | Generate minority-domain Alternative Solution 2s and controlled 5-taxonomy flawed derivations via `aya-expanse-8b`. |
+| `7` | `04b_harvest_tiny_aya_failures.py` | Run `CohereLabs/tiny-aya-global` directly on training problems to harvest real failures (and accidental valid derivations). |
+| `8` | `04c_curatorkit_dedup_trajectories.py` | Deduplicate flawed trajectories via `CuratorKIT` (`Exact`/`MinHash`) and drop solved student attempts before hint writing. |
+| `9` | `04d_generate_aya8b_directives_and_export.py` | Generate self-contained `[[CHALLENGE]]` / balanced `[[APPROVE]]` directives via `aya-expanse-8b` and export `v1` SFT datasets. |
+| `10` | `04e_rescue_and_upload_v2.py` | Deterministically clean, verify, and upload the five `v2` SFT datasets (`-v2` repos on HF Hub). |
+| `11` | `04f_build_and_upload_v3.py` | Enforce uniform `Step 1..` format, min-length pruning (`220/260/400`), prefix/formula cleanup, and upload `v3` datasets (`-v3`). |
+| `12` | `prepare_experiment.py` / `inspect_dataset.py` | *(Optional pre-train)* Resolve pinned Hub revisions into a provenance manifest / inspect any split locally. |
+| `13` | `05_train_aligntune.py` | Fine-tune `CohereLabs/tiny-aya-global` LoRAs (`E1–E4a` Solvers, `E4b` Verifier) via `AlignTune` across `v1–v3`. |
+| `14` | `06_eval_solver.py` | Evaluate base `E0` and `E1–E4a` Solvers via batched greedy decoding, `SymPy` grading, and `AuditKIT`. |
+| `15` | `validate_e4_loop.py` | Execute the dual-LoRA `E4a` Solver + `E4b` Verifier loop (`max 3` turns) and save per-problem loop traces. |
+| `16` | `07_build_experiment_tables.py` | Aggregate `v1–v3` Original and Clean (`< 0.80`) metrics, CIs, and domain scores into Markdown/JSON/CSV tables. |
+| `17` | `09_leak_and_calibration_audit.py` | Run `< 0.80` MiniLM leak audits, `SymPy` vs. `AlignTune` κ calibration, compute sums, and full native `AuditKIT` suites. |
+| `18` | `10_build_and_push_model_cards.py` | Build verified concise model cards from saved JSON/dataset stats and upload `README.md` to all 15 HF model repos. |
 
 ```bash
 # 1. Setup environment and run unit test suite
