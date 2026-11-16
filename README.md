@@ -4,7 +4,7 @@
 
 ### Tracks & Problem Statements Covered
 
-* **Track 1 (`[T1]`) — Fine-tuning**: **Problem Statement 8 — Data-Scarce Domains** (university-level symbolic and quantitative physics across Mechanics, Electromagnetism, Modern Physics, Optics, Relativity, and Thermodynamics trained from `21` `PhysGym` seeds paired with five open-licensed textbooks).
+* **Track 1 — Fine-tuning**: **Problem Statement 8 — Data-Scarce Domains** (university-level symbolic and quantitative physics across Mechanics, Electromagnetism, Modern Physics, Optics, Relativity, and Thermodynamics trained from `21` `PhysGym` seeds paired with five open-licensed textbooks).
 
 ---
 
@@ -150,12 +150,12 @@ I audit every held-out validation and test file across `v1`, `v2`, and `v3` agai
 * **`v3` Clean Split Breakdown:** `v3_val_48` = `38` PhysGym + `10` clean textbook-derived problems (`5` extracted book exercises, `5` synthetic; `MECH 18, EM 14, THERMO 6, OPT 5, MOD 3, REL 2`). `v3_test_55` = `38` PhysGym + `17` clean textbook-derived problems (`11` extracted book exercises, `6` synthetic; `MECH 19, EM 16, MOD 6, THERMO 6, OPT 5, REL 3`).
 * **Post-filter verdict:** `leak_free: true` (`0` ID, `0` exact text, `0` near-duplicate shingle `>= 0.75`, and `0` MiniLM cosine `>= 0.80` pairs across all clean evaluation splits).
 
-### General Capability Benchmark(s) `[T1]`
+### General Capability Benchmark(s)
 
 * **Focus Task & Out-of-Distribution Stress Benchmark:** Stratified `YimengChen/PhysGym` held-out `validation` (`38`) and `test` (`38`, English + symbolic LaTeX) splits function as the uncontaminated out-of-distribution physics benchmark alongside held-out problems derived from textbooks (`22` raw → `10` Val / `17` Test clean `< 0.80` in `v3`).
 * **Scope Disclosure:** Broad non-physics general chat benchmarks (e.g., MMLU, HellaSwag, IFEval) were **not** run in this domain-specialized Track 1 study; instead, reasoning/formatting retention is measured directly on held-out physics evaluations via sentinel compliance, step structure, repetition collapse, unit consistency, and zero-leak checks.
 
-### `CuratorKIT` Filtering `[T1]`
+### `CuratorKIT` Filtering
 
 1. **Deterministic Ingestion & Hygiene (`data/intermediate/manifest.json`):** From `1,437` raw Crowell chapter exercises, `986` paired with official solutions (`252` unmatched skipped). Deterministic filters rejected: `diagram_or_figure_dependent: 338`, `external_problem_or_page_dependency: 49`, `solution_diagram_dependent: 30`, `statement_too_short: 10`, `solution_too_short: 8`, `unsplit_multipart_question: 3`, and `curatorkit_minhash_duplicate>=0.85: 91`. Among `21` `PhysGym` training seeds, `15` passed token bounds (`6` rejected: `1` >450 problem tokens, `5` >1,200 solution tokens).
 2. **Stage 1.3 `CuratorKIT` LLM Gates (`807` normalized candidates):**
