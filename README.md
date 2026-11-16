@@ -10,7 +10,7 @@
 
 ## Abstract
 
-Olympiad physics benchmarks like `YimengChen/PhysGym` provide too few training problems (`21` seeds after holding out validation and test), while raw textbook PDFs trigger repetition collapse in small models. My goal is to train `CohereLabs/tiny-aya-global` (`3.35B`) on easier problems derived from textbooks paired with an iterative **Solver–Evaluator** loop — where an Evaluator catches reasoning mistakes and enforces physical corrections so the Solver avoids repeating errors until reaching the right answer. Across **>55 Kaggle `2x T4` GPU-hours** (`v1 → v2 → v3`) using Lexsi AI (`CuratorKIT`, `AlignTune`, `AuditKIT`), **`CohereForAI/aya-expanse-8b`** handled filtering and data generation exclusively, while **`CohereLabs/tiny-aya-global`** handled failure harvesting and all adapter training exclusively.
+Olympiad physics benchmarks like `YimengChen/PhysGym` provide too few training problems (`21` seeds after holding out validation and test), while raw textbook PDFs trigger repetition collapse in small models. My goal is to train `CohereLabs/tiny-aya-global` (`3.35B`) on easier textbook-derived problems paired with an iterative **Solver–Evaluator** loop — where an Evaluator catches mistakes and enforces corrections until the Solver reaches the right answer. Across **22.25h on HF GPU Endpoints** (`$6.60` logged Stage 1.3; `$0` CPU steps) for data/curation and **>55 Kaggle `2x T4` GPU-hours** (`$0`) for training/eval (`v1 → v2 → v3`) using Lexsi AI (`CuratorKIT`, `AlignTune`, `AuditKIT`), **`aya-expanse-8b`** handled filtering/generation while **`tiny-aya-global`** handled failure harvesting and adapter training.
 
 Within each version, `E1 → E4a` measures gradual progress on clean, leak-free validation problems derived from textbooks: untrained **Base Model (`E0`)** → **raw extracted textbook/seed data (`E1`)** → **`CuratorKIT` PDF chunking, subtopic context retrieval, and deduplication *before* `aya-expanse-8b` `SymPy`-verified synthesis (`E2`)** → **full `CuratorKIT` LLM gating, `RewardRefiner` recovery, and step normalization (`E3`)** → **hint-conditioned recovery (`E4a`)** → and the **dual-LoRA critique loop (`E4b`)** targeting `PhysGym`. **`CuratorKIT` does not generate synthetic problems directly**; it prepares text, retrieves chapter context, filters, gates, and rewrites borderline solutions while custom `aya-expanse-8b` scripts generate problems, errors, and critique directives.
 
@@ -20,7 +20,7 @@ Auditing every split at `all-MiniLM-L6-v2` `cosine < 0.80` removes leaked matche
 * **Base model + method in one line:** Exclusive `tiny-aya-global` (`3.35B`) training (`Solver r=16`, `Verifier r=8`, `AlignTune`) and failure harvesting; exclusive `aya-expanse-8b` filtering and generation (`CuratorKIT`, `AuditKIT`).
 
 > ### For judges: one minute
-> 1. **Idea & Roles:** Train `tiny-aya-global` (`3.35B`, sole trained/harvested model) on textbook data with a Verifier critique loop toward `PhysGym`; use `aya-expanse-8b` solely for filtering/generation (`>55` Kaggle hrs).
+> 1. **Idea & Roles:** Train `tiny-aya-global` (`3.35B`) with a Verifier critique loop toward `PhysGym`; use `aya-expanse-8b` solely for filtering/generation (`22.25h` HF GPU data/curation + `>55h` Kaggle `2x T4` train/eval).
 > 2. **Pipeline:** `E0` Base → `E1` Raw books → `E2` `CuratorKIT` prep + `aya-expanse-8b` synth → `E3` LLM gating + norm → `E4a` Hinted Solver → `E4b` Loop.
 > 3. **Clean `< 0.80` Outcome:** Textbook Val **0.00% → 20.00%** (`2/10`), Test **11.76%** (`2/17`), `0.00%` collapse; `E3` matches/edges `E4b`, needing more books + compute for `PhysGym` (`0/38`).
 > 4. **Honesty:** **Table 2 (Clean `< 0.80`)** drives all headline claims; raw **Table 1** stays in Results for transparency.
@@ -396,18 +396,41 @@ Not run for Track 1: all `E0–E4b` Solver and Verifier LoRAs were trained and e
 
 ### Compute Used
 
-All experiments ran at **$0 out-of-pocket cost** on free **Kaggle `2x NVIDIA T4 (16 GB)`** sessions (`seed=42`). Across the full hackathon cycle — including all successful runs, failed/timed-out Kaggle notebook sessions, textbook extraction, synthetic generation, prefix-leaked ablations, and loop evaluations — I spent **over 55 GPU-hours in total on Kaggle**. Out of that total, the saved telemetry for the **15 final released SFT adapter training runs** plus `v3` loop evaluation breaks down cleanly as follows:
+Compute across the pipeline split cleanly across **three environments**:
 
-| Logged Workload Subset | Steps / Items | Logged Time | `$0` Kaggle Cost | Modal Single-T4 Equiv. (`$0.59/hr`) |
+1. **Local Workstation CPU (`$0.00`):** Textbook PDF extraction (`01`, `02`), subtopic chunking (`02b`), `CuratorKIT` Part-1 deterministic gates and MiniLM anti-leakage (`03` no-LLM, `04c`), `v2` rescue (`04e`), `v3` rebuild (`04f`, **`0` new LLM calls**), SFT exports (`DatasetExporter`), and `AuditKIT`/leak audits (`07`, `09`).
+2. **Hugging Face Dedicated GPU Inference Endpoints (`--backend hf_gpu`, `nvidia-l4` `l4x1` `~$0.80/hr` / `t4-small` `~$0.50/hr` configured in [`runtime.py`](src/adversarial_physics/utils/runtime.py)):** Remote calls from the local workstation ran all LLM curation, `03b` synthesis, `04a` trajectories, `04b` `tiny-aya-global` harvesting, and `04d` directives across **`80,093.75s` (`22.25h`)** of logged API latency (**`6,356`** calls). [`generation_aya.yaml`](configs/data/generation_aya.yaml) logs **`~$6.60`** billed for Stage 1.3 (`6.16h`); separate HF billing receipts for the remaining `16.09h` were not logged in-repo *(rate-based active compute est.: `~$8.05–$12.87` at `$0.50–$0.80/hr`, or up to `~$17.25` at Stage 1.3's realized `$1.07/hr` rate including endpoint idle/scale-to-zero windows)*.
+3. **Kaggle Free `2x NVIDIA T4 (16 GB)` (`$0.00` out-of-pocket, `seed=42`):** All **`15`** SFT adapter training runs (`v1`, `v2`, `v3`), baseline single-turn evaluations, and `E4b` multi-turn loop evaluations totaled **`> 55 GPU-hours`** across final runs, prefix-leaked ablations, and failed/timed-out sessions.
+
+#### Data Extraction, Curation & Synthetic Generation Compute
+
+| Data Stage / Script | Model / Engine | Device / Backend | Calls / Items | Logged Time | Cost / Billing Status |
+|---|---|---|---|---|---|
+| **`01` + `02` PhysGym & Crowell PDFs** | `PyMuPDF` + `TextCleaner` | Local Workstation CPU | `1,437 → 986` pairs | `10.76s` (`0.003h`) | **`$0.00`** |
+| **`02b` + `03` Det. + `04c` Filtering** | `PDFChunker`, `MinHash`/`MiniLM` | Local Workstation CPU | `1,491` chunks / `v1, v2` pools | `67.69s` (`v1`) / `93.85s` (`v2`)* | **`$0.00`** |
+| **`03` Stage 1.3 LLM Norm (`v1`)** | `aya-expanse-8b` | HF Dedicated GPU (`hf_gpu`) | `800` problems | `22,163.88s` (`6.16h`) | **`~$6.60` billed** (logged) |
+| **`03b` Grounded E2 Synth (`v2`)** | `aya-expanse-8b` | HF Dedicated GPU (`hf_gpu`) | `452` attempts (`45` `SymPy` OK) | `4,212.62s` (`1.17h`) | Invoice not saved *(est. `~$0.59–$0.94` active)* |
+| **`04a` `v1` Alt `Sol2` + 5-Tax. Errors** | `aya-expanse-8b` | HF Dedicated GPU (`hf_gpu`) | `763` calls (`82` + `681`) | `11,036.86s` (`3.07h`) | Invoice not saved *(est. `~$1.53–$2.45` active)* |
+| **`04b` `v1` Base-Model Failures** | `tiny-aya-global` (`3.35B`) | HF Dedicated GPU (`hf_gpu`) | `681` calls | `13,689.50s` (`3.80h`) | Invoice not saved *(est. `~$1.90–$3.04` active)* |
+| **`04d` `v1` Directives + Approvals** | `aya-expanse-8b` | HF Dedicated GPU (`hf_gpu`) | `1,511` calls (`1,331` / `180`) | `6,205.17s` (`1.72h`) | Invoice not saved *(est. `~$0.86–$1.38` active)* |
+| **`04a` `v2` Alt `Sol2` + Errors** | `aya-expanse-8b` | HF Dedicated GPU (`hf_gpu`) | `535` calls (`54` + `481` ckpts) | `8,640.31s` (`2.40h`) | Invoice not saved *(est. `~$1.20–$1.92` active)* |
+| **`04b` `v2` Base-Model Failures** | `tiny-aya-global` (`3.35B`) | HF Dedicated GPU (`hf_gpu`) | `481` calls | `9,574.12s` (`2.66h`) | Invoice not saved *(est. `~$1.33–$2.13` active)* |
+| **`04d` `v2` Directives + Approvals** | `aya-expanse-8b` | HF Dedicated GPU (`hf_gpu`) | `1,133` calls (`1,114` + `19`) | `4,571.28s` (`1.27h`) | Invoice not saved *(est. `~$0.63–$1.02` active)* |
+| **`04e` (`v2`) + `04f` (`v3`) + SFT Exports** | `CuratorKIT` + `DatasetExporter` | Local Workstation CPU | `0` new LLM calls (`v2`, `v3`) | `0.07s–0.41s` per SFT export* | **`$0.00`** |
+| **Total Data Extraction & Generation** | **CPU + HF GPU Endpoints** | **Local CPU + `hf_gpu`** | **`6,356` LLM calls (`+ CPU`)** | **`80,093.75s` (`22.25h`) HF GPU** + CPU | **`$6.60` logged** + `16.09h` unlogged *(`~$14.65–$23.85` est. total)* |
+
+*\*Note: Standalone wrapper timers were not saved in-repo for deterministic CPU scripts `02b`, `04c`, `04e`, and `04f` (only `initial_book_dataset_summary.json`, `canonical_train_manifest.json`, and `sft*/manifest.json` persisted sub-`2m` timings). HF GPU call latencies come directly from saved `03b_e2_synthetic_summary_v2.json` and per-row `latency_seconds` inside `canonical_train_llm_checkpoint.jsonl` and `data/synthetic/*.jsonl`; active-rate cost estimates apply `runtime.py`'s `$0.50/hr` (`t4-small`) – `$0.80/hr` (`l4x1`) tiers (upper total bound reflects Stage 1.3's `$1.07/hr` realized endpoint billing incl. idle scale-to-zero).*
+
+#### Fine-Tuning & Evaluation Compute (`Kaggle 2x NVIDIA T4 (16 GB)` — `$0.00` Free Quota)
+
+| Logged Kaggle Workload Subset | Steps / Items | Logged Time | `$0` Kaggle Cost | Modal Single-T4 Equiv. (`$0.59/hr`) |
 |---|---|---|---|---|
-| **`v1` Final SFT Training (5 adapters)** | `1,531` steps | `29,935.92s` (`8.3155h`) | $0.00 | ~$4.91 (`~$9.81` dual-T4) |
-| **`v2` Final SFT Training (5 adapters)** | `1,094` steps | `20,360.15s` (`5.6556h`) | $0.00 | ~$3.34 (`~$6.67` dual-T4) |
-| **`v3` Final SFT Training (5 adapters)** | `1,028` steps | `19,800.65s` (`5.5002h`) | $0.00 | ~$3.25 (`~$6.49` dual-T4) |
-| **Subtotal Logged Final SFT (`15` adapters)** | **`3,653` steps** | **`70,096.72s` (`19.4713h`)** | **$0.00** | **~$11.49 (`~$22.98` dual-T4)** |
-| **`v3` Multi-Turn Loop Eval (`val+test`)** | `120` probs (`266` iters) | `14,169.11s` (`3.9359h`) | $0.00 | ~$2.32 (`~$4.64` dual-T4) |
-| **Total Actual Kaggle Spend (All Runs)** | Failed + retries + curation + evals + SFT | **`> 55 GPU-hours`** | **$0.00** | **`> $32.45` (`1x T4` equiv.)** |
-
-*(Stage 1.3 LLM curation across ~800 examples was also logged in `configs/data/generation_aya.yaml` at ~`6.17h` / `~$6.60` on HF GPU prior to migrating the full pipeline onto Kaggle.)*
+| **`v1` Final SFT Training (5 adapters)** | `1,531` steps | `29,935.92s` (`8.3155h`) | `$0.00` | `~$4.91` (`~$9.81` dual-T4) |
+| **`v2` Final SFT Training (5 adapters)** | `1,094` steps | `20,360.15s` (`5.6556h`) | `$0.00` | `~$3.34` (`~$6.67` dual-T4) |
+| **`v3` Final SFT Training (5 adapters)** | `1,028` steps | `19,800.65s` (`5.5002h`) | `$0.00` | `~$3.25` (`~$6.49` dual-T4) |
+| **Subtotal Logged Final SFT (`15` adapters)** | **`3,653` steps** | **`70,096.72s` (`19.4713h`)** | **`$0.00`** | **`~$11.49` (`~$22.98` dual-T4)** |
+| **`v3` Multi-Turn Loop Eval (`val+test`)** | `120` probs (`266` iters) | `14,169.11s` (`3.9359h`) | `$0.00` | `~$2.32` (`~$4.64` dual-T4) |
+| **Total Actual Kaggle Spend (All Runs)** | Failed + retries + evals + SFT | **`> 55 GPU-hours`** | **`$0.00`** | **`> $32.45` (`1x T4` equiv.)** |
 
 ### Cost per 1k Replies vs. API
 
@@ -479,7 +502,7 @@ Built directly from measured eager HF/PEFT inference telemetry (`n=120` pooled `
 
 ### Environment Requirements
 
-* **Hardware:** `2x NVIDIA T4 (16 GB)` (or `>= 24 GB` single GPU) for 4-bit `aya-expanse-8b` extraction/curation, FP16 dual-LoRA `tiny-aya-global` training, and loop inference; standard multi-core CPU sufficient for `pytest`, table regeneration, and `< 0.80` embedding/shingle leak audits.
+* **Hardware:** **Kaggle `2x NVIDIA T4 (16 GB)`** for FP16 dual-LoRA `tiny-aya-global` training and loop evaluation; **Hugging Face Dedicated GPU Inference Endpoints (`nvidia-l4` `l4x1` / `t4-small`, `--backend hf_gpu`)** for remote `aya-expanse-8b` curation/synthesis and `tiny-aya-global` failure harvesting; **Local Workstation CPU** for PDF ingestion, subtopic chunking, deterministic `CuratorKIT` gates (`04c`/`04e`/`04f`), `pytest`, table regeneration, and `< 0.80` embedding/shingle leak audits.
 * **Verified Software Stack ([requirements/core.txt](requirements/core.txt), [requirements/kaggle.txt](requirements/kaggle.txt), [requirements/local.txt](requirements/local.txt)):** Python `3.11+` (`3.13.14` verified locally), `torch==2.13.0`, `transformers==5.22.2`, `peft==0.21.2`, `trl==1.7.1`, `accelerate==1.15.0`, `bitsandbytes==0.50.2`, `curatorkit==0.1.22`, `aligntune==0.1.32`, `auditkit==1.1.12`, `sympy==1.14.0`, `sentence-transformers==6.2.0`, `datasets==5.1.0`, `huggingface-hub==1.33.0`, `scipy==1.18.1`, `pytest==9.2.0`.
 
 ### Repo Layout and Run Instructions
