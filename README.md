@@ -1,28 +1,30 @@
-# Adversarial Physics Solver–Verifier: Post-Training a 3.35B Aya Model on Data-Scarce University Physics via `CuratorKIT` Ablations and Anti-Leak Critique
+# Adversarial Physics Solver–Verifier: Post-Training `CohereLabs/tiny-aya-global` on Data-Scarce University Physics via `CuratorKIT` Ablations and Anti-Leak Critique
 
-> **One-line claim:** Progressive `CuratorKIT` filtering, teacher-guided structural canonicalization, and anti-leak dual-LoRA post-training on `CohereLabs/tiny-aya-global` (`3.35B`) lift held-out university physics accuracy from **0.00% → 8.33%** (**22.73%** curated, *p* = 0.0050) on full `v3` validation (`n=60`) — and from **0.00% (0/48 & 0/55) → 4.17% / 3.64%** (**20.00% / 11.76%** curated) under strict `all-MiniLM-L6-v2` cosine `< 0.80` zero-leak recalculation — while eliminating decoding collapse (**31.67–36.67% → 0.00%**) and recovering Verifier calibration (**92.50% → 12.96%** false approvals, **91.94% / 92.61%** Challenge F1, **100.00%** sentinel compliance).
+> **One-line claim:** Exclusively fine-tuning `CohereLabs/tiny-aya-global` (`3.35B`) on data extracted, synthesized, and curated with `CohereForAI/aya-expanse-8b` lifts university physics accuracy from **0.00% → 8.33%** (**22.73%** curated, *p* = 0.0050) on full `v3` validation (`n=60`) and **0.00% → 4.17% / 3.64%** on strict `cosine < 0.80` clean splits, while eliminating decoding collapse (**31.67–36.67% → 0.00%**) and recovering Verifier calibration (**92.50% → 12.96%** false approvals, **92.61%** clean Challenge F1).
 
 ### Tracks & Problem Statements Covered
 
-* **Track 1 (`[T1]`) — Fine-tuning**: **Problem Statement 8 — Data-Scarce Domains** (university-level symbolic and quantitative physics across Mechanics, Electromagnetism, Modern Physics, Optics, Relativity, and Thermodynamics from `21` labeled `PhysGym` training seeds and five open-licensed textbooks).
+* **Track 1 (`[T1]`) — Fine-tuning**: **Problem Statement 8 — Data-Scarce Domains** (university-level symbolic and quantitative physics across Mechanics, Electromagnetism, Modern Physics, Optics, Relativity, and Thermodynamics trained from `21` `PhysGym` seeds paired with five open-licensed textbooks).
 
 ---
 
 ## Abstract
 
-University-level symbolic physics is an archetypal data-scarce reasoning domain: benchmarks like `YimengChen/PhysGym` provide fewer than 100 problems total (`21` training seeds after holding out `38` validation and `38` test problems), and fine-tuning compact 3B models directly on noisy textbook PDFs reinforces brittle answer shortcuts rather than coherent derivations. Using Lexsi AI's end-to-end stack (`CuratorKIT`, `AlignTune`, and `AuditKIT`), we post-train a `3.35B` multilingual foundation model (`CohereLabs/tiny-aya-global`) on free Kaggle `2x NVIDIA T4` GPUs (`19.47` total training GPU-hours across three experimental iterations `v1 → v2 → v3`).
+University symbolic physics is a severe data-scarce reasoning domain: `YimengChen/PhysGym` leaves only `21` training seeds once held-out validation and test splits are locked, while raw textbook PDFs push compact models into format collapse. Using Lexsi AI's stack (`CuratorKIT`, `AlignTune`, `AuditKIT`), I spent **over 55 GPU-hours** across free Kaggle `2x NVIDIA T4` sessions (including failed, retried, extraction, synthesis, evaluation, and final runs across `v1 → v2 → v3`) with a strict two-model split: **`CohereLabs/tiny-aya-global` (`3.35B`) exclusively for all trainable Solvers and Verifier**, and **`CohereForAI/aya-expanse-8b` exclusively for data extraction, synthetic generation, trajectory authoring, and `CuratorKIT` curation**.
 
-Starting from `21` `PhysGym` seeds and five open-licensed Benjamin Crowell physics books (`986` paired textbook exercises), we isolate each curation stage through a controlled ablation ladder: zero-shot base (`E0`), manual deterministic extraction (`E1`), zero-LLM `CuratorKIT` deduplication plus SymPy-verified subtopic-grounded synthesis (`E2`), `CuratorKIT` LLM quality gating and structural normalization via `CohereForAI/aya-expanse-8b` (`E3`), hint-conditioned Solver adaptation (`E4a`), and a dual-LoRA iterative **Solver–Verifier** loop (`E4b`) exchanging self-contained physical directives (`[[CHALLENGE]]` / `[[APPROVE]]`) with zero step-number leakage. Crucially, we audit every split with exact/shingle checks and dense `all-MiniLM-L6-v2` semantic similarity (`cosine < 0.80`), purging `17` overlapping `v3` problems (`v2`: `27`, `v1`: `1`) and reporting both historical splits (`n=60/60`) and clean recalculated subsets (`n=48/55`). On `v3`, stabilized rank-16/8 LoRAs lift `n=60` validation accuracy from **0.00% → 8.33%** (`E3`, *p* = 0.0050) and test from **1.67% → 5.00%** (`E2`); on clean `< 0.80` splits (`0.00%` baseline on both), **`E4b_v3`** matches top curated accuracy (**20.00%** val, **11.76%** test) with **0.00%** degeneracy and **98.83%** SymPy-vs-`AlignTune` grader agreement (`κ = 0.8234`).
+To build sufficient physics data from paired Crowell textbooks and subtopic chunks, I isolated six progressive setups: evaluating the untrained **Base Model (`E0`)**; training on **raw extracted textbook and seed problems (`E1`)** cleaned only with manual Python rules; adding **`aya-expanse-8b` subtopic-grounded synthetic problems** verified via `SymPy` and deterministic `CuratorKIT` deduplication while skipping LLM judge gates (**`E2`**); turning on **`CuratorKIT` LLM quality gates (`Schema`, `Reward`, `Hallucination`, `Diversity`), recovery, and step canonicalization (`E3`)**; adapting a **hint-conditioned Solver (`E4a`)** on alternative derivations, injected errors, and base-model failures paired with leak-free constraints; and pairing a **Solver–Verifier critique loop (`E4b`)**. I audited all splits with exact, shingle, and `all-MiniLM-L6-v2` (`cosine < 0.80`) checks.
 
-* **Headline before → after number:** **0.00% → 8.33%** (**22.73%** curated, *p* = 0.0050) on full `v3` Val (`n=60`); **0.00% → 4.17% / 3.64%** (**20.00% / 11.76%** curated) on clean `< 0.80` Val/Test (`n=48/55`); **31.67–36.67% → 0.00%** decoding collapse; **92.50% → 12.96%** Verifier false approvals (**92.61%** clean Challenge F1).
-* **Base model + method in one line:** Single shared `CohereLabs/tiny-aya-global` (`3.35B`, FP16) hot-swapping `AlignTune` LoRA adapters — **Model A Solver (`r=16, α=24`)** and **Model B Verifier (`r=8, α=16`)** — curated with `CuratorKIT` + `CohereForAI/aya-expanse-8b` and audited via `AuditKIT` + `SymPy`.
+On `v3`, stabilized rank-16/8 training raises full validation accuracy from **0.00% → 8.33%** (`E3`, *p* = 0.0050), holds gains on clean `< 0.80` splits (**0.00% → 4.17% / 3.64%** with `E4b_v3`), eliminates collapse (**0.00%**), restores Verifier discrimination (**92.61%** clean Challenge F1, **98.83%** SymPy–`AlignTune` agreement), and exposes `PhysGym`'s `0/38` `3.35B` SFT boundary.
+
+* **Headline before → after number:** **0.00% → 8.33%** (**22.73%** curated) on full `v3` Val (`n=60`); **0.00% → 4.17% / 3.64%** (**20.00% / 11.76%** curated) on clean `< 0.80` Val/Test; **31.67–36.67% → 0.00%** decoding collapse; **92.50% → 12.96%** Verifier false approvals.
+* **Base model + method in one line:** Exclusive `CohereLabs/tiny-aya-global` (`3.35B`, FP16) training hot-swapping `AlignTune` **Solver (`r=16, α=24`)** and **Verifier (`r=8, α=16`)** LoRAs, fed by data generated and curated exclusively with `CohereForAI/aya-expanse-8b`, `CuratorKIT`, and `AuditKIT`.
 
 > ### For judges: one minute
-> 1. **Problem:** Only `21` `PhysGym` training seeds exist; naive SFT (`v1`, `E1`) collapsed into repetitive loops (`39.5–46.7%`) and `0%` accuracy.
-> 2. **Fix (`CuratorKIT` + `AlignTune`):** Enforced `< 0.80` MiniLM anti-leakage, `SymPy`-checked chapter synthesis, uniform 1–10 step canonicalization (`aya-expanse-8b`), stabilized LRs (`1e-4`), and calibrated dual-LoRA critique (`[[CHALLENGE]]` / `[[APPROVE]]`).
-> 3. **Results (`v3`):** Full `n=60` rises `0.00% → 8.33%` (`E3`, `22.73%` curated); clean `< 0.80` (`n=48/55`) rises `0.00% → 4.17% / 3.64%` (`E4b_v3`, `20.00% / 11.76%` curated, `100.00%` sentinel compliance, `0.00%` degeneracy).
-> 4. **Audit Rigor:** Both **Table 1 (Original)** and **Table 2 (Clean `< 0.80`)** are reported, openly documenting `PhysGym`'s `0/38` OOD ceiling on `3.35B` SFT-only weights.
-> 5. **Artifacts:** Public un-gated HF [Models Collection](https://huggingface.co/collections/vital-ar/adversarial-physics-solver-verifier-models-track-1-6af21ed6fe3d3d356ac11bc9) (`15` LoRA adapters), [Datasets Collection](https://huggingface.co/collections/vital-ar/adversarial-physics-solver-verifier-datasets-and-traces-6af9bd217256661d47a74225) (`16` repos), and [GitHub Repo](https://github.com/vital-ar/adversarial_physics_problems_solver).
+> 1. **Scarcity & Split:** Only `21` `PhysGym` seeds exist. I used `aya-expanse-8b` exclusively to generate/curate data and `tiny-aya-global` exclusively for training (>55 total Kaggle GPU-hours).
+> 2. **Experiments:** Untrained Base (`E0`) → Raw extracted data (`E1`) → `SymPy`-verified synthetic augmentation + deterministic `CuratorKIT` (`E2`) → LLM-gated step canonicalization (`E3`) → hinted recovery (`E4a`) → dual-LoRA loop (`E4b`).
+> 3. **Results (`v3`):** Full Val hits **8.33%** (`E3`, `22.73%` curated vs `0.00%` `E0`); clean `< 0.80` hits **4.17% / 3.64%** (`E4b_v3`, **100.00%** sentinel, **0.00%** collapse).
+> 4. **Honesty:** **Table 1 (Orig)** and **Table 2 (Clean `< 0.80`)** report `PhysGym`'s `0/38` OOD limit.
+> 5. **Artifacts:** Un-gated HF [Models](https://huggingface.co/collections/vital-ar/adversarial-physics-solver-verifier-models-track-1-6af21ed6fe3d3d356ac11bc9), [Datasets](https://huggingface.co/collections/vital-ar/adversarial-physics-solver-verifier-datasets-and-traces-6af9bd217256661d47a74225), and [GitHub](https://github.com/vital-ar/adversarial_physics_problems_solver).
 
 ---
 
@@ -32,13 +34,13 @@ Starting from `21` `PhysGym` seeds and five open-licensed Benjamin Crowell physi
 
 Symbolic university physics requires simultaneous conservation-law identification, multi-step symbolic algebra, and dimensional unit tracking. Unlike broad instruction tuning where tens of thousands of examples exist, high-quality, step-verified physics corpora are scarce: `YimengChen/PhysGym` has only `97` problems across six subfields. Leaving `38` validation and `38` test problems strictly held out leaves just `21` training seeds. Scraping raw open textbooks alone (`986` Crowell exercises) fails because PDF extraction introduces diagram-dependent questions, implicit steps, answer-only keys, and mixed formatting that push small `3B` models into repetition collapse (`39.5–46.7%`) rather than generalizable reasoning.
 
-Practically, educational tutors and local STEM assistants running on commodity `16 GB` GPUs cannot afford frontier API calls per reasoning attempt or `32B+` clusters. We address this gap by pairing textbook-grounded `CuratorKIT` data engineering with an asymmetric single-backbone **Solver–Verifier** loop: one `3.35B` FP16 backbone hot-swaps a rank-16 **Solver** (`Model A`) and a constrained rank-8 **Verifier** (`Model B`). When Model A errs, Model B issues a concise, **self-contained physical constraint** (`[[CHALLENGE]]`) without referencing line/step numbers or leaking the answer, allowing Model A to re-derive from scratch (`max 3` iterations).
+Practically, educational tutors and local STEM assistants running on commodity `16 GB` GPUs cannot afford frontier API calls per reasoning attempt or `32B+` clusters. I address this gap by pairing textbook-grounded `CuratorKIT` data engineering with an asymmetric single-backbone **Solver–Verifier** loop: one `3.35B` FP16 backbone hot-swaps a rank-16 **Solver** (`Model A`) and a constrained rank-8 **Verifier** (`Model B`). When Model A errs, Model B issues a concise, **self-contained physical constraint** (`[[CHALLENGE]]`) without referencing line/step numbers or leaking the answer, allowing Model A to re-derive from scratch (`max 3` iterations).
 
 ### Research Questions and Hypotheses
 
-1. **H1 — Deterministic `CuratorKIT` Hygiene vs. Raw Extraction (`E2` vs. `E1`):** Replacing brittle PDF regex extraction (`E1`) with `CuratorKIT` MinHash/embedding deduplication, `SentinelGate`, and `SymPy`-verified chapter synthesis (`E2`) will improve sentinel compliance, halve decoding collapse, and raise out-of-sample accuracy without touching LLM judges.
-2. **H2 — Structural Normalization & LLM Gating (`E3` vs. `E2`):** Filtering with `CuratorKIT`'s `SchemaGate`, `RewardGate` (6-dimension physics rubric), `HallucinationGate`, and `DiversityGate` paired with `CohereForAI/aya-expanse-8b` step normalization (`E3`) will outperform both raw volume and deterministic rules in accuracy and equation token F1.
-3. **H3 — Self-Contained Solver–Verifier Self-Correction (`E4a/E4b` vs. `E3`):** Training Model A on hinted recovery trajectories (`E4a`) and pairing it with a counterfactual/real-failure Model B Verifier (`E4b`) will catch algebraic/sign errors at test time while preventing step-reference hallucination (`Meta Leak = 0%`).
+1. **H1 — Synthetic Augmentation + Deterministic `CuratorKIT` Hygiene vs. Raw Extractions (`E2` vs. `E1`):** Replacing raw extracted textbook training (`E1`) with deterministic `CuratorKIT` deduplication plus `aya-expanse-8b` subtopic-grounded, `SymPy`-verified synthetic physics problems (`E2`, skipping Part-2 LLM judge gates) will lift sentinel compliance, curb decoding collapse, and improve held-out accuracy.
+2. **H2 — Full LLM Quality Curation & Step Canonicalization (`E3` vs. `E2`):** Enabling `CuratorKIT`'s LLM quality gates (`SchemaGate`, 6-dimension `RewardGate`, `HallucinationGate`, `DiversityGate`), `AdaptiveRecovery`, and uniform 1–10 step canonicalization (`E3`) will beat `E2` on both exact accuracy and Equation Token F1.
+3. **H3 — Self-Contained Solver–Verifier Self-Correction (`E4a/E4b` vs. `E3`):** Training Model A on hinted recovery trajectories (`E4a`) and pairing it with a calibrated Model B Verifier (`E4b`) will repair algebraic/sign mistakes across turns while preventing step-reference hallucination (`Meta Leak = 0%`).
 4. **H4 — Calibration & Semantic Anti-Leakage (`v3`, `< 0.80`):** Aligning Verifier evaluation prompts with exact SFT training templates (`format_verifier_prompt`) and auditing splits at `all-MiniLM-L6-v2` cosine `< 0.80` will eliminate false-approval collapse (`92.50% → <15%`) and separate true generalization from near-duplicate template memorization.
 
 ---
@@ -49,14 +51,14 @@ Practically, educational tutors and local STEM assistants running on commodity `
 
 Used across Stage 1 deterministic cleanup, Stage 1.3 LLM quality gating, and Stage 2 trajectory deduplication ([curatorkit_stage1.py](src/adversarial_physics/data/curation/curatorkit_stage1.py), [curatorkit_runner.py](src/adversarial_physics/data/curation/curatorkit_runner.py)):
 * **Normalizers & Deduplicators:** `TextCleaner`, `ExactDeduplicator`, `MinHashDeduplicator` (`jaccard >= 0.75–0.85`), and `EmbeddingDeduplicator` (`all-MiniLM-L6-v2`, `cosine >= 0.80` anti-leakage against held-out val/test splits and `0.85` near-duplicate trajectory pruning).
-* **Quality Gates & Recovery:** `SchemaGate` (`schema_min_tokens: 25`, `max_tokens: 2048`), `RewardGate` driven by our custom 6-dimension `STAGE1_PHYSICS_RUBRIC_PROMPT` (`reward_threshold: 0.82`, `on_judge_error: "reject"`), `HallucinationGate` (`threshold: 0.85` against chapter context), `DiversityGate` (`threshold: 0.82`), and `AdaptiveRecovery` (`STAGE1_PHYSICS_REFINE_PROMPT`) for borderline solutions.
+* **Quality Gates & Recovery:** `SchemaGate` (`schema_min_tokens: 25`, `max_tokens: 2048`), `RewardGate` driven by my custom 6-dimension `STAGE1_PHYSICS_RUBRIC_PROMPT` (`reward_threshold: 0.82`, `on_judge_error: "reject"`), `HallucinationGate` (`threshold: 0.85` against chapter context), `DiversityGate` (`threshold: 0.82`), and `AdaptiveRecovery` (`STAGE1_PHYSICS_REFINE_PROMPT`) for borderline solutions.
 * **Provenance Tracking:** `ProvenanceManifest` and `build_provenance` recording accepted/rejected counts and SHA-256 export manifests.
 
 ### `AlignTune` (`aligntune==0.1.32`, [Lexsi-Labs/aligntune](https://github.com/Lexsi-Labs/aligntune))
 
 Used for both adapter fine-tuning ([run_aligntune.py](src/adversarial_physics/training/run_aligntune.py)) and standardized math/text post-hoc evaluation ([auditkit_bridge.py](src/adversarial_physics/evaluation/auditkit_bridge.py)):
 * **Training Engine:** `aligntune.create_sft_trainer` (`backend="trl"`, `task_type="instruction_following"`) with PEFT LoRA, `completion_only_loss=true`, `paged_adamw_8bit`, `cosine_with_restarts`, and checkpoint selection across `v1`, `v2`, and `v3` (`configs/training/aligntune_training*.yaml`).
-* **Evaluation Cross-Checks:** `aligntune.utils.math_grading.grade_math_answer`, `aligntune.eval.metrics` (`BleuMetric`, `RougeMetric`, `VerbosityDelta`), and `aligntune.eval.alignment_auditor.AuditReport` integrated into our 22-metric bridge (`98.83%` agreement with our primary `SymPy` physics grader).
+* **Evaluation Cross-Checks:** `aligntune.utils.math_grading.grade_math_answer`, `aligntune.eval.metrics` (`BleuMetric`, `RougeMetric`, `VerbosityDelta`), and `aligntune.eval.alignment_auditor.AuditReport` integrated into my 22-metric bridge (`98.83%` agreement with my primary `SymPy` physics grader).
 
 ### `AuditKIT` (`auditkit`, [Lexsi-Labs/AuditKIT](https://github.com/Lexsi-Labs/AuditKIT))
 
@@ -70,47 +72,54 @@ Used to enforce structured evaluation contracts, safety/regression gates, and re
 
 ```mermaid
 flowchart LR
-    RAW["YimengChen/PhysGym (21/38/38)<br/>+ 5 Crowell Books (986 paired)"] --> CK1["CuratorKIT Part 1 (No-LLM)<br/>Clean + MinHash + MiniLM cos < 0.80 + Subtopics"]
-    CK1 -->|"E1 Raw / E2 Deterministic"| EXP["Clean SFT Exports<br/>(v1 -> v2 -> v3)"]
-    CK1 -->|"Stage 1.3 + Stage 2 Teacher<br/>CohereForAI/aya-expanse-8b"| CK2["CuratorKIT LLM Gates + Recovery<br/>Schema + Reward(6-dim) + Hallucination + Diversity"]
-    CK2 -->|"E3 Canonical + Alt Sol 2"| EXP
-    CK2 -->|"5-Tax Flawed + Harvested Fails<br/>+ Leak-Checked Directives"| EXP
-    EXP -->|"AlignTune SFT (2x T4 FP16)<br/>r=16 Solvers / r=8 Verifier"| LORA["CohereLabs/tiny-aya-global<br/>Dual-LoRA Adapters (v1, v2, v3)"]
+    RAW["YimengChen/PhysGym (21/38/38)<br/>+ 5 Crowell Books (986 paired)"] --> EXT["Manual Rules & Subtopic Chunks<br/>(01a Raw Extracted Pool -> E1)"]
+    EXT -->|"Stage 2.0 Synthesis<br/>aya-expanse-8b + SymPy"| SYN["E2: Part-1 Deterministic CuratorKIT<br/>+ Synthetic Data (No Part-2 LLM Judges)"]
+    SYN -->|"Stage 1.3 + CuratorKIT Part-2<br/>aya-expanse-8b Judges & Norm"| CK2["E3: LLM Quality Gates + Recovery<br/>Schema + Reward(6-dim) + Hallucination + Diversity"]
+    CK2 -->|"Alt Sol 2 + 5-Tax Errors + Tiny-Aya Fails<br/>+ Leak-Checked Directives"| EXP["E4a Solver & E4b Verifier<br/>SFT Exports (v1 -> v2 -> v3)"]
+    EXT --> EXP
+    SYN --> EXP
+    CK2 --> EXP
+    EXP -->|"AlignTune SFT (tiny-aya-global ONLY)<br/>r=16 Solvers / r=8 Verifier"| LORA["CohereLabs/tiny-aya-global<br/>Dual-LoRA Adapters (v1, v2, v3)"]
     LORA --> LOOP["Adversarial Solver-Verifier Loop<br/>Max 3 iters, greedy, [[CHALLENGE]]/[[APPROVE]]"]
     LOOP --> AUD["AuditKIT + SymPy + AlignTune Graders<br/>22 Metrics, Table 1 Orig & Table 2 Clean (< 0.80)"]
     AUD --> HF["Public HF Model & Dataset Collections + GitHub"]
 ```
 
-1. **Ingestion & Zero-LLM Curation:** `PhysGym` (`seed=42`, `21/38/38`) and 5 Crowell books are parsed into canonical problems (`scripts/01`–`03`). Zero-LLM `CuratorKIT` deduplication (`< 0.80` vs val/test) creates `E1` (manual baseline) and `E2` (`+` deterministic chapter-grounded `SymPy`-checked synthetics via `03b_generate_synthetic_e2.py`).
-2. **Teacher Canonicalization & Adversarial Trajectory Synthesis:** `CohereForAI/aya-expanse-8b` normalizes derivations into 1–10 steps validated by `CuratorKIT`'s LLM gates (`E3`), then generates minority-domain Alternative Solution 2s (`82`), controlled 5-taxonomy flawed derivations (`681`), real `tiny-aya-global` harvested failures (`681`), and leak-checked `[[CHALLENGE]]` / `[[APPROVE]]` directives (`E4a`/`E4b`).
-3. **Training, Loop Inference & Auditing:** `AlignTune` fine-tunes all 5 adapters per version on `2x T4`. At inference, a single `tiny-aya-global` backbone swaps **Solver** and **Verifier** LoRAs for up to 3 revisions. `AuditKIT`, `SymPy`, and `AlignTune`'s math grader evaluate all runs once before and once after `< 0.80` semantic decontamination.
+1. **Raw Textbook Extraction & Scarcity Mitigation (`E1`):** `PhysGym` (`seed=42`, `21/38/38`) provides only `21` train seeds (`15` within token limits). I extract `986` paired textbook problems and `1,491` subtopic chunks from 5 Crowell books (`scripts/01`–`02b`). Filtering strictly with manual deterministic Python heuristics (no `CuratorKIT` gates, no synthetic generation) produces **`E1`** to test raw extracted problem training.
+2. **Subtopic-Grounded Synthetic Augmentation & Deterministic `CuratorKIT` (`E2`):** In `scripts/03b_generate_synthetic_e2.py`, **`CohereForAI/aya-expanse-8b` generates synthetic physics problems and step-by-step solutions** conditioned on clean textbook kernels, matched chapter subtopic text, and domain-matched `PhysGym` seeds. Outputs pass `SymPy` consistency checks plus deterministic `CuratorKIT` Part-1 deduplication/hygiene (`cos < 0.80`, MinHash `>= 0.75`), **bypassing Part-2 LLM quality judge gates**.
+3. **Full `CuratorKIT` LLM Quality Gating, Trajectory Synthesis & Auditing (`E3 → E4b`):** Turning on `CuratorKIT` Part-2 LLM judges (`RewardGate`, `HallucinationGate`, `DiversityGate`, `AdaptiveRecovery`) and `aya-expanse-8b` 1–10 step canonicalization yields **`E3`**. Stage 2 scripts (`04a`–`04d`) then generate minority-domain Alternative Solution 2s (`82`), controlled 5-taxonomy flawed derivations (`681`), harvested `tiny-aya-global` base failures (`681`), and leak-checked `[[CHALLENGE]]`/`[[APPROVE]]` directives (`E4a`/`E4b`). `AlignTune` exclusively trains `CohereLabs/tiny-aya-global` adapters, while `AuditKIT`, `SymPy`, and `AlignTune`'s math grader audit every version before and after `< 0.80` semantic decontamination.
 
 ---
 
 ## Models and Licenses
 
-| Role | Model / Repo | Params / Precision | License | Rationale |
+**Exclusive Two-Model Architecture:** Across the entire pipeline, I enforced a clean separation of roles with **zero** non-Aya training or proprietary generation APIs — **`CohereLabs/tiny-aya-global` (`3.35B`) is used exclusively for all model fine-tuning (`E1–E4a`, `E4b`) and evaluation**, while **`CohereForAI/aya-expanse-8b` (`8.03B`) is used exclusively as the synthetic data generator, failure-trajectory/directive author, and `CuratorKIT` LLM curator**.
+
+| Role | Model / Repo | Params / Precision | License | Exclusive Scope & Rationale |
 |---|---|---|---|---|
-| **Base Model (Backbone)** | [`CohereLabs/tiny-aya-global`](https://huggingface.co/CohereLabs/tiny-aya-global) | `3.35B` (`3,349,227,520`), FP16 | `cc-by-nc-4.0` | Compact 3B footprint fits dual-LoRA hot-swapping cleanly in free Kaggle `2x 16 GB T4` VRAM while challenging small-model symbolic math reasoning. |
-| **Teacher Model `[T1]`** | [`CohereForAI/aya-expanse-8b`](https://huggingface.co/CohereForAI/aya-expanse-8b) | `8.03B` (`8,028,033,024`), 4-bit NF4 | `cc-by-nc-4.0` | Same Aya family/tokenizer style; fits in a single `16 GB T4` under 4-bit NF4 for >6h extraction and 3–4 trajectories/problem synthesis, avoiding >4x GPU cost of `32B` while keeping `CuratorKIT` ablations controlled on a fixed teacher. |
-| **Released Adapters (`15`)** | [`vital-ar/adversarial-physics-*-lora`](https://huggingface.co/collections/vital-ar/adversarial-physics-solver-verifier-models-track-1-6af21ed6fe3d3d356ac11bc9) | LoRA `r=16` (Solvers), `r=8/16` (Verifier), FP16 | `cc-by-nc-4.0` | Five per version (`E1, E2, E3, E4a, E4b`) across `v1`, `v2`, and `v3`; adapter-only weights allow sub-second switching over one shared backbone. |
+| **Trainable Model (Exclusive)** | [`CohereLabs/tiny-aya-global`](https://huggingface.co/CohereLabs/tiny-aya-global) | `3.35B` (`3,349,227,520`), FP16 | `cc-by-nc-4.0` | **Only model fine-tuned or evaluated.** Compact 3B footprint fits dual-LoRA hot-swapping on Kaggle `2x 16 GB T4` GPUs while testing small-model symbolic physics post-training. |
+| **Generator & Curation Model (Exclusive)** | [`CohereForAI/aya-expanse-8b`](https://huggingface.co/CohereForAI/aya-expanse-8b) | `8.03B` (`8,028,033,024`), 4-bit NF4 | `cc-by-nc-4.0` | **Only model used for data creation/curation** (`02` book extraction, `03b` synthetic problems, `CuratorKIT` LLM gating/normalization, `04a`/`04d` errors, Alt Sol 2, and directives). Same Aya tokenizer family; fits a `16 GB T4` in 4-bit NF4 without 4x multi-GPU `32B` cost. |
+| **Released Adapters (`15`)** | [`vital-ar/adversarial-physics-*-lora`](https://huggingface.co/collections/vital-ar/adversarial-physics-solver-verifier-models-track-1-6af21ed6fe3d3d356ac11bc9) | LoRA `r=16` (Solvers), `r=8/16` (Verifier), FP16 | `cc-by-nc-4.0` | Five `tiny-aya-global` adapters per version (`E1, E2, E3, E4a, E4b`) across `v1`, `v2`, and `v3`; adapter-only weights switch on one shared backbone. |
 
 ---
 
 ## Datasets, Benchmarks and Licenses
 
-### Source(s) of Data
+### Source(s) of Data & Creation Rationale
 
-All data combines open-licensed university textbooks, one public physics benchmark, and controlled synthetic derivations derived strictly from training splits (`v1`, `v2`, `v3`):
+Because `YimengChen/PhysGym` has only `21` training seeds after holding out `76` stratified evaluation problems (`38` validation, `38` test), I constructed a multi-stage physics corpus combining open textbooks with controlled `aya-expanse-8b` data generation and curation:
+1. **Raw Extracted Textbook Pool (`E1`):** Extracted `986` paired problem–solution exercises from five Crowell books (`02_extract_literature.py`), plus `PhysGym` seeds filtered strictly with manual deterministic regex rules and length thresholds (`v3`: `452` rows after purging terse `< 220`-char answer keys).
+2. **Subtopic-Grounded Synthetic Data + Deterministic `CuratorKIT` (`E2`):** Because `E1`'s PDF solutions vary wildly in structure and notation, I chunked Crowell chapters into `1,491` subtopic passages (`02b_extract_subtopics.py`) and prompted **`CohereForAI/aya-expanse-8b`** (`03b_generate_synthetic_e2.py`) to synthesize new LaTeX problems and derivations seeded by textbook kernels, matched subtopics, and `PhysGym` formatting exemplars (`SymPy`-verified). Combining these synthetic problems with deterministic `CuratorKIT` Part-1 filtering (MinHash `>= 0.75`, MiniLM `cosine < 0.80`) forms `E2` (`608` rows in `v3`: `literature_curated 332`, `book_initial 238`, `synthetic_seed_subtopic 32`, `physgym 6`). *(Note: the legacy `nollm` slug denotes bypassing `CuratorKIT`'s Part-2 LLM quality judge gates, NOT absence of LLM data synthesis.)*
+3. **LLM Quality Curation (`E3`) & Adversarial/Verifier Trajectories (`E4a/E4b`):** Running `CuratorKIT`'s Part-2 LLM judges (`Schema`, `Reward >= 0.82`, `Hallucination >= 0.85`, `Diversity >= 0.82`), `AdaptiveRecovery`, and 1–10 step canonicalization yields `E3` (`622` rows). Adding `aya-expanse-8b` Alternative Solution 2s (`82`), 5-taxonomy flawed derivations (`681`), real `tiny-aya-global` harvested failures, and formula-sanitized directives produces `E4a` (`758` rows: `623` Turn-0, `100` Turn-1, `35` Turn-2) and `E4b` (`720` rows: `108` `[[APPROVE]]` / `612` `[[CHALLENGE]]` in `v3`).
 
 | Source / Artifact | Type | Counts (`Raw / v3 Train`) | License |
 |---|---|---|---|
 | **Benjamin Crowell Textbooks** (5 books + `solns-all.pdf`) | Public open physics textbooks | `1,437` chapter exercises → `986` paired → `466` `v2/v3` gated | `CC BY-SA 4.0` |
 | [`YimengChen/PhysGym`](https://huggingface.co/datasets/YimengChen/PhysGym) (rev `8e12255`) | Public hard symbolic benchmark | `97` total (`21` train seeds → `15` within token budget; `38` val, `38` test) | `CC0-1.0` |
-| `aya-expanse-8b` Synthetic Extensions & Errors | Teacher-distilled from train seeds/books | `82` minority Alt Sol 2 + `681` 5-tax errors + chapter synthetics + `180` approvals | `cc-by-nc-4.0` |
-| [`vital-ar/physics-solver-e1-manual-rules{,-v2,-v3}`](https://huggingface.co/collections/vital-ar/adversarial-physics-solver-verifier-datasets-and-traces-6af9bd217256661d47a74225) | SFT dataset (`E1`) | `1,076` (`v1`) → `907` (`v2`) → **`452`** (`v3`) | `CC BY-SA 4.0` / `cc-by-nc-4.0` |
-| [`vital-ar/physics-solver-e2-curatorkit-nollm{,-v2,-v3}`](https://huggingface.co/collections/vital-ar/adversarial-physics-solver-verifier-datasets-and-traces-6af9bd217256661d47a74225) | SFT dataset (`E2`) | `728` (`v1`) → `865` (`v2`) → **`608`** (`v3`) | `cc-by-nc-4.0` |
-| [`vital-ar/physics-solver-e3-canonical-llm{,-v2,-v3}`](https://huggingface.co/collections/vital-ar/adversarial-physics-solver-verifier-datasets-and-traces-6af9bd217256661d47a74225) | SFT dataset (`E3`) | `681` (`v1`) → `622` (`v2`) → **`622`** (`v3`) | `cc-by-nc-4.0` |
+| `aya-expanse-8b` Synthetic Extensions & Errors | Generated via `03b`, `04a`, `04d` from train seeds/books | Chapter synthetics + `82` Alt Sol 2 + `681` 5-tax errors + `180` approvals | `cc-by-nc-4.0` |
+| [`vital-ar/physics-solver-e1-manual-rules{,-v2,-v3}`](https://huggingface.co/collections/vital-ar/adversarial-physics-solver-verifier-datasets-and-traces-6af9bd217256661d47a74225) | SFT dataset (`E1` raw extracted) | `1,076` (`v1`) → `907` (`v2`) → **`452`** (`v3`) | `CC BY-SA 4.0` / `cc-by-nc-4.0` |
+| [`vital-ar/physics-solver-e2-curatorkit-nollm{,-v2,-v3}`](https://huggingface.co/collections/vital-ar/adversarial-physics-solver-verifier-datasets-and-traces-6af9bd217256661d47a74225) | SFT dataset (`E2` Part-1 + `03b` synth) | `728` (`v1`) → `865` (`v2`) → **`608`** (`v3`) | `cc-by-nc-4.0` |
+| [`vital-ar/physics-solver-e3-canonical-llm{,-v2,-v3}`](https://huggingface.co/collections/vital-ar/adversarial-physics-solver-verifier-datasets-and-traces-6af9bd217256661d47a74225) | SFT dataset (`E3` Part-2 LLM gated) | `681` (`v1`) → `622` (`v2`) → **`622`** (`v3`) | `cc-by-nc-4.0` |
 | [`vital-ar/physics-solver-e4-adversarial{,-v2,-v3}`](https://huggingface.co/collections/vital-ar/adversarial-physics-solver-verifier-datasets-and-traces-6af9bd217256661d47a74225) | SFT dataset (`E4a` Solver) | `1,444` (`v1`) → `826` (`v2`) → **`758`** (`v3`) | `cc-by-nc-4.0` |
 | [`vital-ar/physics-verifier-e4-curated{,-v2,-v3}`](https://huggingface.co/collections/vital-ar/adversarial-physics-solver-verifier-datasets-and-traces-6af9bd217256661d47a74225) | SFT dataset (`E4b` Verifier) | `1,511` (`v1`) → `848` (`v2`) → **`720`** (`v3`) | `cc-by-nc-4.0` |
 | [`vital-ar/adversarial-physics-eval-traces-benchmarks`](https://huggingface.co/datasets/vital-ar/adversarial-physics-eval-traces-benchmarks) | Raw + Clean `< 0.80` splits & logs | `156` original (`60+60` `v2/v3` + `v1`) / Clean `< 0.80` splits + full loop traces | `CC BY-SA 4.0` |
@@ -120,11 +129,11 @@ Enabled Crowell problem books (`configs/data/book_ingestion.yaml`, `87` domain c
 ### Languages Covered
 
 * **Primary language:** English (`en`) university physics word problems interleaved with formal `LaTeX` equations and SI units.
-* While `CohereLabs/tiny-aya-global` supports 70+ languages, all supervised training data and evaluation benchmarks in this Track 1 submission are strictly **English + symbolic LaTeX** to maintain exact comparability with `YimengChen/PhysGym` and Crowell's English editions. Cross-lingual generalization remains untested future work.
+* While `CohereLabs/tiny-aya-global` supports 70+ languages, all supervised training data and evaluation benchmarks in this Track 1 study are strictly **English + symbolic LaTeX** to match `YimengChen/PhysGym` and Crowell's English editions. Cross-lingual generalization remains untested future work.
 
 ### Train / Test Splits and Leak Check
 
-We audit every held-out validation and test file across `v1`, `v2`, and `v3` against **all** rows across **all five** training files (`E1, E2, E3, E4a, E4b`) using three complementary checks ([09_leak_and_calibration_audit.py](scripts/09_leak_and_calibration_audit.py)): (1) exact `problem_id` overlap, (2) exact normalized text match + 5-shingle Jaccard (`< 0.75`), and (3) dense `sentence-transformers/all-MiniLM-L6-v2` cosine similarity strictly `< 0.80`.
+I audit every held-out validation and test file across `v1`, `v2`, and `v3` against **all** rows across **all five** training files (`E1, E2, E3, E4a, E4b`) using three complementary checks ([09_leak_and_calibration_audit.py](scripts/09_leak_and_calibration_audit.py)): (1) exact `problem_id` overlap, (2) exact normalized text match + 5-shingle Jaccard (`< 0.75`), and (3) dense `sentence-transformers/all-MiniLM-L6-v2` cosine similarity strictly `< 0.80`.
 
 | Version | Train Rows Audited | Orig Val / Test | Purged (`cos >= 0.80`) | Clean `< 0.80` Val / Test | ID / Text Overlaps | Max Shingle Jaccard | Max Clean Cosine |
 |---|---|---|---|---|---|---|---|
@@ -137,7 +146,7 @@ We audit every held-out validation and test file across `v1`, `v2`, and `v3` aga
 
 ### General Capability Benchmark(s) `[T1]`
 
-* **Focus Task & Out-of-Distribution Stress Benchmark:** Stratified `YimengChen/PhysGym` held-out `validation` (`38`) and `test` (`38`, English + symbolic LaTeX) splits function as our uncontaminated out-of-distribution physics benchmark alongside held-out Curated textbook/synthetic problems (`22` raw → `10` Val / `17` Test clean `< 0.80` in `v3`).
+* **Focus Task & Out-of-Distribution Stress Benchmark:** Stratified `YimengChen/PhysGym` held-out `validation` (`38`) and `test` (`38`, English + symbolic LaTeX) splits function as the uncontaminated out-of-distribution physics benchmark alongside held-out Curated textbook/synthetic problems (`22` raw → `10` Val / `17` Test clean `< 0.80` in `v3`).
 * **Scope Disclosure:** Broad non-physics general chat benchmarks (e.g., MMLU, HellaSwag, IFEval) were **not** run in this domain-specialized Track 1 study; instead, reasoning/formatting retention is measured directly on held-out physics evaluations via sentinel compliance, step structure, repetition collapse, unit consistency, and zero-leak checks.
 
 ### `CuratorKIT` Filtering `[T1]`
@@ -147,7 +156,7 @@ We audit every held-out validation and test file across `v1`, `v2`, and `v3` aga
    * `SchemaGate` (`>= 25` tokens, `ANSWER:` format): **`807 → 535`** (`272` rejected).
    * `RewardGate` (`6`-dimension physics rubric, threshold `0.82`, `on_judge_error="reject"`): **`535 → 535`**.
    * `DiversityGate` (`threshold: 0.82`): **`535 → 466`** (`69` rejected).
-3. **Subtopic Grounding & `v3` Export Integrity (`data/sft_v3/*/manifest.json`):** Zero-LLM chapter subtopic chunker compressed `1,776 → 1,491` chunks (`285` dups removed) with **`452/452` (`100.0%`)** subtopic hit rate (`414` tier-1, `38` tier-2). `v3` SFT deduplication and `SentinelGate` then refined each export cleanly:
+3. **Subtopic Grounding & `v3` Export Integrity (`data/sft_v3/*/manifest.json`):** The deterministic subtopic chunker compressed `1,776 → 1,491` chunks (`285` dups removed) with **`452/452` (`100.0%`)** subtopic hit rate (`414` tier-1, `38` tier-2). `v3` SFT deduplication and `SentinelGate` then refined each export cleanly:
    * `E1`: `498 → 452` (`46` exact duplicates removed).
    * `E2`: `857 → 617` (`240` dups removed) → **`608`** (`9` `SentinelGate` rejects).
    * `E3`: `642 → 622` (`20` `SentinelGate` rejects).
@@ -188,15 +197,15 @@ We audit every held-out validation and test file across `v1`, `v2`, and `v3` aga
 
 ### Training Setup, Adapter Ladder, and Cross-Kit Hyperparameters
 
-We run a controlled six-step experimental ladder across three codebase/training iterations (**`v1 → v2 → v3`**) on the same base model (`CohereLabs/tiny-aya-global`):
-* **`E0`**: Zero-shot `CohereLabs/tiny-aya-global` baseline.
-* **`E1`**: Fine-tuned on raw deterministic regex extraction (`configs/training/aligntune_training*.yaml`).
-* **`E2`**: Zero-LLM `CuratorKIT` MinHash/embedding dedup + deterministic `SymPy`-checked subtopic-grounded synthetics (`03b`).
-* **`E3`**: Full `CuratorKIT` LLM gates (`Schema`, `Reward`, `Hallucination`, `Diversity`) + `aya-expanse-8b` 1–10 step canonicalization (`04a`).
-* **`E4a`**: `E3` Solver retrained on hint-conditioned multi-turn trajectories (`0/1/2` self-contained constraints, `04d`).
-* **`E4b`**: Dual-LoRA collaborative loop (`Solver E4a` + `Verifier LoRA`, `max 3` iterations via `validate_e4_loop.py`).
+I ran a controlled six-step experimental ladder across three codebase/training iterations (**`v1 → v2 → v3`**) training **exclusively `CohereLabs/tiny-aya-global` (`3.35B`)**, with all data generation, synthesis, error authoring, and LLM quality curation performed **exclusively by `CohereForAI/aya-expanse-8b`**:
+* **`E0` — Base Model (Untrained `CohereLabs/tiny-aya-global`)**: Evaluates the raw foundation weights prior to any domain fine-tuning.
+* **`E1` — Raw Extracted Problems (`solver_e1_manual_det`)**: Fine-tunes on raw textbook extractions + `PhysGym` seeds filtered only by manual deterministic Python rules (diagram/reference/length checks and anti-leakage), without `CuratorKIT` gates or synthetic data.
+* **`E2` — Synthetic Augmentation + Deterministic `CuratorKIT` Filtering (`solver_e2_curatorkit_nollm`)**: Combines raw/book extractions with new formal LaTeX problems and derivations **synthesized by `CohereForAI/aya-expanse-8b`** from textbook kernels, subtopic theory chunks, and `PhysGym` seeds (`03b_generate_synthetic_e2.py`), verified via `SymPy` and filtered with `CuratorKIT` Part-1 deterministic deduplication (`cos < 0.80`, MinHash `>= 0.75`) — **skipping `CuratorKIT`'s Part-2 LLM quality judge gates**.
+* **`E3` — Full `CuratorKIT` LLM Quality Curation & Step Canonicalization (`solver_e3_canonical_llm`)**: Adds `CuratorKIT` Part-2 LLM quality/reward/hallucination gates + `AdaptiveRecovery` + `aya-expanse-8b` 1–10 step normalization over the curated book and synthetic pool.
+* **`E4a` — Multi-Turn Hint-Conditioned Solver (`solver_e4_adversarial`)**: Extends `E3` (`Turn 0` problems + minority Alternative Solution 2s) with `Turn 1/2` revision trajectories combining controlled 5-taxonomy errors, harvested `tiny-aya-global` failures, and self-contained corrective constraints (`04a`–`04d`).
+* **`E4b` — Dual-LoRA Critic Loop**: Swaps `E4a` (Model A Solver) with a separate `AlignTune` Verifier adapter (Model B, trained on domain-balanced `[[APPROVE]]` and leak-free `[[CHALLENGE]]` critiques) over up to 3 iterations (`validate_e4_loop.py`).
 
-**Version Evolution (`v1 → v2 → v3`):** `v1` exposed high LR instability (`2e-4`), unstandardized step styles, and 21x repeated PhysGym seeds. `v2` expanded eval splits (`38 → 60`), lowered Solver LR (`1e-4`), added uniform step formatting, and normalized `E1` shortcuts — solving validation (`8.33%`), yet a Verifier prompt-prefix mismatch (`**Derivation:**` missing at eval time) caused `92.50%` false approvals. `v3` decoupled Solver (`r=16, α=24, dropout=0.08`) from Verifier (`r=8, α=16, dropout=0.10, lr=1e-4, wd=0.03`), regularized `patience=3, threshold=0.001`, added `10%` Verifier val split, fixed the `format_verifier_prompt` wrapper, and purged all `cos >= 0.80` split leaks in Table 2.
+**Version Evolution (`v1 → v2 → v3`):** `v1` exposed high LR instability (`2e-4`), unstandardized step styles, and 21x repeated PhysGym seeds. `v2` expanded eval splits (`38 → 60`), lowered Solver LR (`1e-4`), added uniform step formatting, and normalized `E1` shortcuts — solving validation (`8.33%`), yet a Verifier prompt-prefix mismatch (`**Derivation:**` missing at eval time) caused `92.50%` false approvals. `v3` decoupled Solver (`r=16, α=24, dropout=0.08`) from Verifier (`r=8, α=16, dropout=0.10, lr=1e-4, wd=0.03`), regularized `patience=3, threshold=0.001`, added a `10%` Verifier val split, fixed the `format_verifier_prompt` wrapper, and purged all `cos >= 0.80` split leaks in Table 2.
 
 #### `CuratorKIT` Hyperparameters & Defaults (`configs/data/curatorkit_pipeline.yaml`)
 
@@ -228,7 +237,7 @@ All deterministic data splitting (`21/38/38` `PhysGym` stratification, `configs/
 ### Ablations
 
 Four empirical ablations isolate every design choice in this repository:
-1. **Curation Ladder Ablation (`E0 → E1 → E2 → E3 → E4a → E4b`):** Isolates zero-shot vs. raw regex vs. zero-LLM `CuratorKIT` dedup + synthetics vs. LLM gating/canonicalization vs. multi-turn critic loop.
+1. **Curation & Augmentation Ladder (`E0 → E1 → E2 → E3 → E4a → E4b`):** Isolates untrained base model vs. raw extracted textbook training (`E1`) vs. `aya-expanse-8b` synthetic augmentation + Part-1 deterministic `CuratorKIT` (`E2`) vs. Part-2 LLM quality curation/canonicalization (`E3`) vs. multi-turn critic loop (`E4a/E4b`).
 2. **Hyperparameter & Step Normalization Sweep (`v1 → v2 → v3`):** Tests LR decay (`2e-4 → 1e-4`), rank/dropout regularization (`r=16/α=32 → r=16/α=24` and Verifier `r=8/α=16`), and step-format canonicalization.
 3. **Verifier Prompt-Prefix Calibration Ablation (`E4b_v3_prefix_leaked` vs. `E4b_v3`):** Demonstrates how omitting the SFT `**Derivation:**\n` wrapper during inference caused `92.50%` false approvals (`37/40`), whereas restoring `format_verifier_prompt` drops false approvals to `12.96%` (`Clean Val`).
 4. **Anti-Leakage Cosine Sensitivity Ablation (Table 1 Orig vs. Table 2 Clean `< 0.80`):** Quantifies exact score inflation when near-duplicate template paraphrases (`0.80 <= cos <= 0.9758`) remain inside eval sets (`E3_v2` Val `8.33% → 2.27%`) versus `v3` clean retention (`4.17% Val / 3.64% Test`).
@@ -308,7 +317,7 @@ Two views are presented identically for complete transparency: **Table 1** prese
 
 ### Confidence Intervals (95% Bootstrap) and Significance Tests
 
-Paired 95% confidence intervals and two-sided bootstrap *p*-values (`n_resamples=2000, seed=42`), paired with exact two-sided McNemar binomial *p*-values vs. zero-shot `E0`:
+Paired 95% confidence intervals and two-sided bootstrap *p*-values (`n_resamples=2000, seed=42`), paired with exact two-sided McNemar binomial *p*-values vs. untrained base model `E0`:
 
 | Run | Split | Orig Acc (`n=60`) | Orig 95% CI | Orig `p_bs` / `p_McN` | Clean Acc (`< 0.80`) | Clean 95% CI | Clean `p_bs` / `p_McN` |
 |---|---|---|---|---|---|---|---|
@@ -324,15 +333,15 @@ Paired 95% confidence intervals and two-sided bootstrap *p*-values (`n_resamples
 | `E4a_v3` | `test` | 3.33% (2/60) | `[0.00%, 8.33%]` | 0.7420 / 1.0000 (`+2/-1`) | **3.64%** (2/55) | `[0.00%, 9.09%]` | 0.2510 / 0.5000 (`+2/-0`) |
 | `E4b_v3` | `test` | 3.33% (2/60) | `[0.00%, 8.33%]` | 0.7330 / 1.0000 (`+2/-1`) | **3.64%** (2/55) | `[0.00%, 9.09%]` | 0.2500 / 0.5000 (`+2/-0`) |
 
-* **Inter-Grader Reliability (`SymPy + Numeric` vs. `AlignTune` `grade_math_answer`):** Across all `n = 600` pooled `v3` (`E0–E4a`) Val + Test predictions, agreement is **98.83%** (`17 TP, 576 TN, 0 FP, 7 FN`, precision `1.0000`, recall `0.7083`, F1 `0.8293`, Cohen's **`κ = 0.8234`**). Zero predictions pass `AlignTune` without also passing our primary `SymPy` oracle (`FP = 0`).
+* **Inter-Grader Reliability (`SymPy + Numeric` vs. `AlignTune` `grade_math_answer`):** Across all `n = 600` pooled `v3` (`E0–E4a`) Val + Test predictions, agreement is **98.83%** (`17 TP, 576 TN, 0 FP, 7 FN`, precision `1.0000`, recall `0.7083`, F1 `0.8293`, Cohen's **`κ = 0.8234`**). Zero predictions pass `AlignTune` without also passing my primary `SymPy` oracle (`FP = 0`).
 
 ### Findings
 
 #### 1. Structural Canonicalization (`E3`) Beats Raw Volume (`E1`)
 Dropping `E1` from `1,076` (`v1`) to `452` cleaner rows (`v3`) failed to prevent format collapse (`40.00–43.75%` degeneracy, `39.58–45.45%` sentinel rate, `0.1453–0.1592` clean Eq F1) because unnormalized textbook solutions mix bare numbers with abbreviated steps. Canonicalizing derivations into explicit 1–10 step derivations via `CuratorKIT` LLM gates (`E3_v3`, `622` examples) and loop-ready hints (`E4b_v3`) drove Equation Token F1 up `+124%` relative (`0.1592 → 0.3566` clean val; `0.1453 → 0.3774` clean test) while eliminating decoding loops (`0.00%` in `E4b_v3`).
 
-#### 2. Zero-LLM `CuratorKIT` Hygiene (`E2`) Alone Yields Clean Generalization
-Even without LLM quality judges, enabling deterministic `CuratorKIT` MinHash/embedding anti-leakage + `SymPy`-verified chapter synthetics (`E2_v3`, `608` rows) lifted clean sentinel compliance from `39.58% → 87.50%` (Val) and `45.45% → 96.36%` (Test), slashed clean degeneracy by `>3x` (`34.55% → 10.91%` Test), and matched top clean accuracy (`4.17%` Val / `3.64%` Test).
+#### 2. Synthetic Augmentation + Deterministic `CuratorKIT` Hygiene (`E2`) Alone Yields Clean Generalization
+Without turning on `CuratorKIT`'s Part-2 LLM judge gates, combining manual extractions with `aya-expanse-8b` subtopic-grounded, `SymPy`-verified synthetic problems and deterministic `CuratorKIT` Part-1 deduplication (`E2_v3`, `608` rows) lifted clean sentinel compliance from `39.58% → 87.50%` (Val) and `45.45% → 96.36%` (Test), cut clean degeneracy by `>3x` (`34.55% → 10.91%` Test), and matched top clean accuracy (`4.17%` Val / `3.64%` Test).
 
 #### 3. `< 0.80` Semantic Decontamination Exposes `v2` Inflation vs. `v3` Clean Transfer
 Comparing **Table 1** and **Table 2** proves why dense `< 0.80` auditing is essential on small datasets: on `v2`, `16/22` curated validation items exceeded `0.80` MiniLM cosine similarity against training splits, dropping `E3_v2` Val from `8.33%` (`5/60`, *p* = 0.0100) to `2.27%` (`1/44`) and `E4a_v2` from `6.67%` to `0.00%`. Conversely, in `v3`, improved regularization retained genuine out-of-sample wins across both splits (`4.17%` Val, `3.64%` Test; `+4/-0` pooled clean wins over `E0` `0/103`, exact McNemar *p* = 0.1250).
@@ -378,17 +387,18 @@ Not run for Track 1: all `E0–E4b` Solver and Verifier LoRAs were trained and e
 
 ### Compute Used
 
-All model training and loop inference ran at **$0 out-of-pocket cost** on free **Kaggle `2x NVIDIA T4 (16 GB)`** sessions (`seed=42`):
+All experiments ran at **$0 out-of-pocket cost** on free **Kaggle `2x NVIDIA T4 (16 GB)`** sessions (`seed=42`). Across the full hackathon cycle — including all successful runs, failed/timed-out Kaggle notebook sessions, textbook extraction, synthetic generation, prefix-leaked ablations, and loop evaluations — I spent **over 55 GPU-hours in total on Kaggle**. Out of that total, the saved telemetry for the **15 final released SFT adapter training runs** plus `v3` loop evaluation breaks down cleanly as follows:
 
-| Workload | Steps / Items | Wall / GPU Time | `$0` Kaggle Cost | Modal Single-T4 Equiv. (`$0.59/hr`) |
+| Logged Workload Subset | Steps / Items | Logged Time | `$0` Kaggle Cost | Modal Single-T4 Equiv. (`$0.59/hr`) |
 |---|---|---|---|---|
-| **`v1` SFT Training (5 adapters)** | `1,531` steps | `29,935.92s` (`8.3155h`) | $0.00 | ~$4.91 (`~$9.81` dual-T4) |
-| **`v2` SFT Training (5 adapters)** | `1,094` steps | `20,360.15s` (`5.6556h`) | $0.00 | ~$3.34 (`~$6.67` dual-T4) |
-| **`v3` SFT Training (5 adapters)** | `1,028` steps | `19,800.65s` (`5.5002h`) | $0.00 | ~$3.25 (`~$6.49` dual-T4) |
-| **Total SFT (`15` adapters, `v1–v3`)** | **`3,653` steps** | **`70,096.72s` (`19.4713h`)** | **$0.00** | **~$11.49 (`~$22.98` dual-T4)** |
+| **`v1` Final SFT Training (5 adapters)** | `1,531` steps | `29,935.92s` (`8.3155h`) | $0.00 | ~$4.91 (`~$9.81` dual-T4) |
+| **`v2` Final SFT Training (5 adapters)** | `1,094` steps | `20,360.15s` (`5.6556h`) | $0.00 | ~$3.34 (`~$6.67` dual-T4) |
+| **`v3` Final SFT Training (5 adapters)** | `1,028` steps | `19,800.65s` (`5.5002h`) | $0.00 | ~$3.25 (`~$6.49` dual-T4) |
+| **Subtotal Logged Final SFT (`15` adapters)** | **`3,653` steps** | **`70,096.72s` (`19.4713h`)** | **$0.00** | **~$11.49 (`~$22.98` dual-T4)** |
 | **`v3` Multi-Turn Loop Eval (`val+test`)** | `120` probs (`266` iters) | `14,169.11s` (`3.9359h`) | $0.00 | ~$2.32 (`~$4.64` dual-T4) |
+| **Total Actual Kaggle Spend (All Runs)** | Failed + retries + curation + evals + SFT | **`> 55 GPU-hours`** | **$0.00** | **`> $32.45` (`1x T4` equiv.)** |
 
-*(Stage 1.3 LLM teacher curation across ~800 examples was noted in `configs/data/generation_aya.yaml` at ~`6.17h` / `~$6.60` on HF GPU.)*
+*(Stage 1.3 LLM curation across ~800 examples was also logged in `configs/data/generation_aya.yaml` at ~`6.17h` / `~$6.60` on HF GPU prior to migrating the full pipeline onto Kaggle.)*
 
 ### Cost per 1k Replies vs. API
 
@@ -418,10 +428,10 @@ Built directly from measured eager HF/PEFT inference telemetry (`n=120` pooled `
 
 ### Planned Approach
 
-1. **Cross-Pair `E3_v3` Solver + `E4b_v3` Verifier & Sweep `max_revision_iterations` (`5–8`):** Run `validate_e4_loop.py` pairing `solver_e3_canonical_llm_v3_lora` with `verifier_e4_curated_v3_lora` on `PhysGym` with deeper iteration budgets (`5–8`) and deterministic `SymPy` syntax hints injected between turns.
-2. **RL Preference Optimization (`AlignTune` GRPO / DPO):** Replace pure SFT with verifiable outcome rewards (`SymPy` exactness + zero-false-challenge penalties) to cut Model B's false-challenge rate below `15%`.
-3. **Hard Symbolic Textbook Ingestion:** Enable Crowell's calculus-heavy *Simple Nature* (`enabled: false` in `v3`) plus Olympiad derivations to bridge the difficulty gap into `PhysGym`.
-4. **Multilingual Transfer + `vLLM` / GGUF 4-Bit Benchmarking:** Serve merged adapters under `vLLM` (`>100 tok/s`) and evaluate Tiny-Aya on translated physics test sets and 4-bit GGUF quantization (`[T2b]`).
+1. **More Testing Across Cross-Pairings, Seeds & Expanded Benchmarks:** Run `validate_e4_loop.py` pairing `E3_v3` Solver (`solver_e3_canonical_llm_v3_lora`) with `E4b_v3` Verifier (`verifier_e4_curated_v3_lora`), sweep deeper loop budgets (`max_revision_iterations = 5–8`) on `PhysGym`, expand clean out-of-sample curated test sets beyond `n=17`, and run multi-seed validation (`seed=42, 43, 44`).
+2. **Test with Zero Temperature Everywhere (`temperature = 0.0` Verification Sweep):** Audit and re-run every single-turn (`auditkit_benchmark.yaml` currently lists `temperature_solver: 0.1`), multi-turn loop, and teacher data-curation pipeline strictly at **`temperature = 0.0` (`do_sample=False`)** — measuring exact determinism vs. low-temperature (`0.1`–`0.2`) variance across both Solvers and `aya-expanse-8b` synthetic extraction.
+3. **RL Preference Optimization (`AlignTune` GRPO / DPO):** Replace pure SFT with verifiable outcome rewards (`SymPy` exactness + zero-false-challenge penalties) to cut Model B's false-challenge rate below `15%`.
+4. **Hard Symbolic Textbook Ingestion & `vLLM` / GGUF 4-Bit Benchmarking:** Enable Crowell's calculus-heavy *Simple Nature* (`enabled: false` in `v3`), serve merged adapters under `vLLM` (`>100 tok/s`), and evaluate Tiny-Aya across translated physics benchmarks and 4-bit GGUF quantization (`[T2b]`).
 
 ### Expected Before / After
 
@@ -429,7 +439,8 @@ Built directly from measured eager HF/PEFT inference telemetry (`n=120` pooled `
 
 | Experiment Extension | Current Observed (`v3` Clean `< 0.80`) | Forecast Target | Hypothesis Mechanism |
 |---|---|---|---|
-| **`E3_v3` Solver + `E4b_v3` Verifier + `5–8` Iters** | `4.17%` Val / `3.64%` Test (`0/38` PhysGym) | ~`6–8%` Overall (~`2–5%` PhysGym) | Combines strongest `E3` Turn-0 prior with calibrated `r=8` Verifier over deeper revision budgets |
+| **More Testing + Cross-Paired `E3_v3` + `E4b_v3` (`5–8` Iters)** | `4.17%` Val / `3.64%` Test (`0/38` PhysGym) | ~`6–8%` Overall (~`2–5%` PhysGym) | Tighter CIs on larger clean eval sets + stronger Turn-0 `E3` prior inside deeper Verifier revisions |
+| **Zero-Temperature Full-Suite Re-Test (`T = 0.0` vs. `0.1–0.2`)** | Greedy `E4b` only; `auditkit_benchmark.yaml` `T=0.1` | `0.00%` run-to-run variance across all suites | Guarantees bit-reproducible Solver/Verifier traces and quantifies determinism vs. sampling trade-offs |
 | **`AlignTune` GRPO (`SymPy` Verifiable Rewards)** | `33.3–75.0%` False Chal / `0%` PhysGym | `< 15%` False Chal / `8–15%` Clean Overall | Outcome rewards penalize spurious challenges and reinforce multi-step algebraic conservation checks |
 | **`vLLM` Serving + 4-Bit AWQ/GGUF** | `10.37 tok/s` (`$3.74` / `$19.35` per 1k Modal T4) | `>= 80–150 tok/s` (`< $0.50` / 1k 1-turn) | Removes Python PEFT swap latency and batches shared prompt KV prefixes |
 
@@ -439,7 +450,7 @@ Built directly from measured eager HF/PEFT inference telemetry (`n=120` pooled `
 
 * **GitHub Repository:** [vital-ar/adversarial_physics_problems_solver](https://github.com/vital-ar/adversarial_physics_problems_solver) (full `src/` package, YAML configs, unit tests, CLI scripts, offline audit reports, and 4 Kaggle notebooks under [`notebooks/`](notebooks/): `training-v3-e3-e4v-e1.ipynb`, `training-v3-e4s-e2.ipynb`, `retrain-v3-verifier-and-eval.ipynb`, `eval-v3-loop.ipynb`).
 * **Demo / Space:** None deployed (`0` Hugging Face Spaces); interactive execution runs via `notebooks/*.ipynb` on Kaggle or local CLI scripts.
-* **HF Models Collection:** [Adversarial Physics Solver-Verifier Models (Track 1)](https://huggingface.co/collections/vital-ar/adversarial-physics-solver-verifier-models-track-1-6af21ed6fe3d3d356ac11bc9) — public, un-gated (`cc-by-nc-4.0`):
+* **HF Models Collection:** [Adversarial Physics Solver-Verifier Models (Track 1)](https://huggingface.co/collections/vital-ar/adversarial-physics-solver-verifier-models-track-1-6af21ed6fe3d3d356ac11bc9) — public, un-gated (`cc-by-nc-4.0`, exclusively `CohereLabs/tiny-aya-global` LoRAs):
 
 | Adapter | `v1` Repo | `v2` Repo | `v3` Repo (`Final`) |
 |---|---|---|---|
@@ -459,14 +470,14 @@ Built directly from measured eager HF/PEFT inference telemetry (`n=120` pooled `
 
 ### Environment Requirements
 
-* **Hardware:** `2x NVIDIA T4 (16 GB)` (or `>= 24 GB` single GPU) for 4-bit teacher curation, FP16 dual-LoRA `AlignTune` training, and loop inference; standard multi-core CPU sufficient for `pytest`, table regeneration, and `< 0.80` embedding/shingle leak audits.
+* **Hardware:** `2x NVIDIA T4 (16 GB)` (or `>= 24 GB` single GPU) for 4-bit `aya-expanse-8b` extraction/curation, FP16 dual-LoRA `tiny-aya-global` training, and loop inference; standard multi-core CPU sufficient for `pytest`, table regeneration, and `< 0.80` embedding/shingle leak audits.
 * **Verified Software Stack ([requirements/core.txt](requirements/core.txt), [requirements/kaggle.txt](requirements/kaggle.txt)):** Python `3.11+` (`3.13.14` verified locally), `torch==2.13.0`, `transformers==5.22.2`, `peft==0.21.2`, `trl==1.7.1`, `accelerate==1.15.0`, `bitsandbytes==0.50.2`, `curatorkit==0.1.22`, `aligntune==0.1.32`, `auditkit`, `sympy==1.14.0`, `sentence-transformers==6.2.0`, `datasets==5.1.0`, `huggingface-hub==1.33.0`, `scipy==1.18.1`, `pytest==9.2.0`.
 
 ### Repo Layout and Run Instructions
 
 * [`configs/`](configs/): YAML specs for data ingestion/curation (`curatorkit_pipeline.yaml`, `book_ingestion.yaml`, `generation_aya.yaml`, `split_21_38_38.yaml`), training (`aligntune_training{,_v2,_v3}.yaml`), inference (`orchestrator.yaml`), and `AuditKIT` benchmarks (`auditkit_benchmark.yaml`).
 * [`src/adversarial_physics/`](src/adversarial_physics/): Modular package (`data/ingestion/`, `data/processing/`, `data/curation/`, `data/generation/`, `data/schemas/`, `training/`, `orchestration/`, `evaluation/`, `utils/`).
-* [`scripts/`](scripts/): Ordered CLI stages (`01_ingest_and_split.py` → `04f_build_and_upload_v3.py` → `05_train_aligntune.py` → `06_eval_solver.py` → `validate_e4_loop.py` → `07_build_experiment_tables.py` → `09_leak_and_calibration_audit.py`).
+* [`scripts/`](scripts/): Ordered CLI stages (`01_ingest_and_split.py` → `02_extract_literature.py` → `02b_extract_subtopics.py` → `03_build_canonical_pool.py` → `03b_generate_synthetic_e2.py` → `04a`–`04f` → `05_train_aligntune.py` → `06_eval_solver.py` → `validate_e4_loop.py` → `07_build_experiment_tables.py` → `09_leak_and_calibration_audit.py`).
 * [`results/`](results/): Saved per-sample evaluation JSONs (`eval_v1/`, `eval_e*_v2/`, `eval_e*_v3/`), multi-turn loop traces (`eval_e4_loop_v3_{val,test}/`), prefix ablation (`results/ablations/`), audit reports (`leak_and_calibration_summary.json`, `excluded_leaked_eval_items_080.json`), and comparison tables (`experiment_comparison_v1_v2_v3.{md,json}`).
 * [`notebooks/`](notebooks/): Four GPU Kaggle notebooks covering `v3` training and loop evaluation.
 * [`tests/`](tests/): Ten unit & integration test suites (`test_config.py`, `test_splitting.py`, `test_aligntune_training.py`, `test_orchestration_loop.py`, `test_calibration_audit.py`, etc.).
@@ -494,11 +505,11 @@ python scripts/09_leak_and_calibration_audit.py
 
 ### Declaration of Work Done Outside the Hackathon
 
-**No work was done outside the hackathon terms.** Standard open-source/open-research dependencies permitted under hackathon rules (`CohereLabs/tiny-aya-global`, `CohereForAI/aya-expanse-8b`, `YimengChen/PhysGym`, Benjamin Crowell's `CC BY-SA 4.0` textbooks, and Lexsi AI's `CuratorKIT`, `AlignTune`, and `AuditKIT`) are external pre-existing foundations; 100% of this repository's ingestion parsers, subtopic chunkers, `CuratorKIT` gating pipelines, counterfactual error/directive generators, `v1–v3` configs, Kaggle notebooks, `SymPy` + `AuditKIT` evaluation bridges, `< 0.80` clean recalculations, 15 HF model repos, 16 HF dataset repos, and write-up were developed during the hackathon.
+**No work was done outside the hackathon terms.** Standard open-source/open-research dependencies permitted under hackathon rules (`CohereLabs/tiny-aya-global`, `CohereForAI/aya-expanse-8b`, `YimengChen/PhysGym`, Benjamin Crowell's `CC BY-SA 4.0` textbooks, and Lexsi AI's `CuratorKIT`, `AlignTune`, and `AuditKIT`) are external pre-existing foundations; 100% of this repository's ingestion parsers, subtopic chunkers, `CuratorKIT` gating pipelines, `aya-expanse-8b` synthetic problem and error/directive generators, `v1–v3` configs, Kaggle notebooks, `SymPy` + `AuditKIT` evaluation bridges, `< 0.80` clean recalculations, 15 HF model repos, 16 HF dataset repos, and write-up were developed during the hackathon.
 
 ---
 
-## Discussion / What We Learned
+## Discussion / What I Learned
 
 ### Implications
 
@@ -507,7 +518,7 @@ python scripts/09_leak_and_calibration_audit.py
 
 ### Future Work
 
-Evaluate cross-paired `E3_v3 Solver + E4b_v3 Verifier` on `PhysGym` with deeper iteration loops (`5–8`), move from cross-entropy SFT to `AlignTune` `GRPO` with `SymPy`-verifiable rewards to drive false challenges below `15%`, and benchmark `vLLM` + 4-bit GGUF inference across Tiny-Aya's non-English languages.
+Perform more testing across cross-paired `E3_v3 Solver + E4b_v3 Verifier` on `PhysGym` (`5–8` iterations), expanded clean test sets, and multi-seed sweeps (`42–44`); test consistently with **zero temperature (`temperature = 0.0`)** across all evaluation configs and curation checks; transition from cross-entropy SFT to `AlignTune` `GRPO` with `SymPy`-verifiable rewards to drive false challenges below `15%`; and benchmark `vLLM` + 4-bit GGUF inference across Tiny-Aya's non-English languages.
 
 ---
 
