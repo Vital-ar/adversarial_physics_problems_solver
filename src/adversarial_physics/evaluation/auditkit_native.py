@@ -8,13 +8,16 @@ Clean (`all-MiniLM-L6-v2` cosine < 0.80) evaluation splits.
 from __future__ import annotations
 
 import json
-import re
 from pathlib import Path
-from typing import Any, Callable, Iterable, Sequence
+from typing import Any, Iterable, Sequence
 
 from adversarial_physics.data.curation.answer_validator import (
     extract_answer_line,
     validate_candidate_answer,
+)
+from adversarial_physics.evaluation.auditkit_bridge import (
+    STEP_PATTERN,
+    has_degenerate_repetition_loop,
 )
 from adversarial_physics.orchestration.loop import score_solver_output
 
@@ -34,41 +37,6 @@ except Exception:  # pragma: no cover - optional runtime guard
     Direction = None  # type: ignore[assignment]
     ScoreKind = None  # type: ignore[assignment]
     _HAS_AUDITKIT = False
-
-
-_STEP_RE = re.compile(
-    r"(?:^|\n)\s*(?:#{1,4}\s*step|\*\*step|step\s+\d+|\d+\.\s+\*\*)",
-    re.IGNORECASE,
-)
-
-
-def _has_repetition_collapse(text: str) -> bool:
-    """Detect token-level decoding collapse (>=8 identical consecutive tokens or low diversity)."""
-    tokens = [t for t in (text or "").lower().split() if t]
-    if not tokens:
-        return True
-    streak = 1
-    for i in range(1, len(tokens)):
-        if tokens[i] == tokens[i - 1]:
-            streak += 1
-            if streak >= 8:
-                return True
-        else:
-            streak = 1
-    for ngram_n in (2, 3):
-        if len(tokens) >= ngram_n * 5:
-            ng_streak = 1
-            prev = tuple(tokens[:ngram_n])
-            for idx in range(ngram_n, len(tokens) - ngram_n + 1, ngram_n):
-                cur = tuple(tokens[idx : idx + ngram_n])
-                if cur == prev:
-                    ng_streak += 1
-                    if ng_streak >= 5:
-                        return True
-                else:
-                    prev = cur
-                    ng_streak = 1
-    return len(tokens) >= 60 and (len(set(tokens)) / len(tokens)) < 0.15
 
 
 def _ref_from_sample(sample: Any) -> str:
@@ -167,7 +135,7 @@ class PhysicsStepStructureMetric(Metric):
 
     def score(self, sample: Any, output: str, context: Any = None) -> Any:
         del sample, context
-        ok = len(_STEP_RE.findall(output or "")) >= 2
+        ok = len(STEP_PATTERN.findall(output or "")) >= 2
         return ak.Score(
             name=self.name,
             value=1.0 if ok else 0.0,
@@ -188,7 +156,8 @@ class PhysicsDegenerateCollapseMetric(Metric):
 
     def score(self, sample: Any, output: str, context: Any = None) -> Any:
         del sample, context
-        collapsed = _has_repetition_collapse(output or "")
+        tokens = [t for t in (output or "").lower().split() if t]
+        collapsed = has_degenerate_repetition_loop(tokens)
         return ak.Score(
             name=self.name,
             value=1.0 if collapsed else 0.0,

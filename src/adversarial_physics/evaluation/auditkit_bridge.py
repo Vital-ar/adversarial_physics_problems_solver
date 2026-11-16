@@ -59,7 +59,7 @@ _META_LEAKAGE_PATTERNS = (
     re.compile(r"(?:correction directive|verifier hint|system prompt|reference solution)", re.IGNORECASE),
     re.compile(r"<\|(?:im_start|im_end|assistant|user|system)\|>", re.IGNORECASE),
 )
-_STEP_PATTERN = re.compile(
+STEP_PATTERN = re.compile(
     r"(?:^|\n)\s*(?:#{1,4}\s*step|\*\*step|step\s+\d+|\d+\.\s+\*\*)",
     re.IGNORECASE,
 )
@@ -79,7 +79,7 @@ def is_auditkit_installed() -> bool:
     return importlib.util.find_spec("auditkit") is not None
 
 
-def _has_degenerate_repetition_loop(tokens: list[str]) -> bool:
+def has_degenerate_repetition_loop(tokens: list[str]) -> bool:
     """Detect decoding collapse such as 'in in in...' or repeated short n-grams."""
     if not tokens:
         return True
@@ -128,10 +128,13 @@ def _has_clean_ending(prediction: str, has_sentinel: bool) -> bool:
     tail = prediction[m[-1].end() :].strip()
     if len(tail) > 220:
         return False
-    tail_tokens = [t.lower() for t in tail.split()]
-    if _has_degenerate_repetition_loop(tail_tokens) and len(tail_tokens) >= 8:
-        return False
-    return True
+    return not _has_clean_tokens_collapse(tail.split())
+
+
+def _has_clean_tokens_collapse(tail_tokens: list[str]) -> bool:
+    """Return True when the tail after ANSWER: collapses into repeated tokens."""
+    lowered = [t.lower() for t in tail_tokens]
+    return has_degenerate_repetition_loop(lowered) and len(lowered) >= 8
 
 
 def _extract_pre_answer_tokens(prediction: str) -> list[str]:
@@ -307,61 +310,43 @@ def _compute_generation_hygiene(
             rep = 0.0
         rep_ratios.append(rep)
 
-        if _has_degenerate_repetition_loop(tokens):
+        if has_degenerate_repetition_loop(tokens):
             degen_count += 1
 
     n = len(predictions)
-    avg_tok = round(sum(token_counts) / n, 2)
-    rep_ratio = round(sum(rep_ratios) / n, 4)
-    uniq_tok_ratio = round(sum(uniq_ratios) / n, 4)
-    degen_rate = round(degen_count / n, 4)
-    refusal_rate = round(refusal_count / n, 4)
-    sycophancy_rate = round(sycophancy_count / n, 4)
-    reward_hacking_rate = round(reward_hack_count / n, 4)
-
-    verbosity_gain = 0.0
-    if references and len(references) == len(predictions):
-        paired = [(p, r) for p, r in zip(predictions, references) if (p or "").strip() and (r or "").strip()]
-        if paired:
-            vp, vr = zip(*paired)
-            if VerbosityDelta is not None:
-                try:
-                    verbosity_gain = round(float(VerbosityDelta().compute(list(vp), list(vr)).get("verbosity_delta", 0.0)), 4)
-                except Exception:
-                    verbosity_gain = round(
-                        sum(len(p.split()) - len(r.split()) for p, r in paired) / len(paired), 4
-                    )
-            else:
-                verbosity_gain = round(
-                    sum(len(p.split()) - len(r.split()) for p, r in paired) / len(paired), 4
-                )
-
-    ts = datetime.now(timezone.utc).isoformat()
-    if AuditReport is not None:
-        report = AuditReport(
-            reward_hacking=reward_hacking_rate,
-            sycophancy=sycophancy_rate,
-            refusal_collapse=refusal_rate,
-            verbosity_gain=verbosity_gain,
-            timestamp=ts,
-            avg_response_tokens=avg_tok,
-            repetition_ratio=rep_ratio,
-            unique_token_ratio=uniq_tok_ratio,
-            degenerate_rate=degen_rate,
-        )
-        return dict(report.__dict__)
-
-    return {
-        "reward_hacking": reward_hacking_rate,
-        "sycophancy": sycophancy_rate,
-        "refusal_collapse": refusal_rate,
-        "verbosity_gain": verbosity_gain,
-        "timestamp": ts,
-        "avg_response_tokens": avg_tok,
-        "repetition_ratio": rep_ratio,
-        "unique_token_ratio": uniq_tok_ratio,
-        "degenerate_rate": degen_rate,
+    hygiene_fields: dict[str, Any] = {
+        "reward_hacking": round(reward_hack_count / n, 4),
+        "sycophancy": round(sycophancy_count / n, 4),
+        "refusal_collapse": round(refusal_count / n, 4),
+        "verbosity_gain": _compute_verbosity_gain(predictions, references),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "avg_response_tokens": round(sum(token_counts) / n, 2),
+        "repetition_ratio": round(sum(rep_ratios) / n, 4),
+        "unique_token_ratio": round(sum(uniq_ratios) / n, 4),
+        "degenerate_rate": round(degen_count / n, 4),
     }
+    if AuditReport is not None:
+        return dict(AuditReport(**hygiene_fields).__dict__)
+    return hygiene_fields
+
+
+def _compute_verbosity_gain(
+    predictions: list[str],
+    references: list[str] | None,
+) -> float:
+    """Compute mean response word-count delta vs non-empty gold references."""
+    if not references or len(references) != len(predictions):
+        return 0.0
+    paired = [(p, r) for p, r in zip(predictions, references) if (p or "").strip() and (r or "").strip()]
+    if not paired:
+        return 0.0
+    if VerbosityDelta is not None:
+        try:
+            vp, vr = zip(*paired)
+            return round(float(VerbosityDelta().compute(list(vp), list(vr)).get("verbosity_delta", 0.0)), 4)
+        except Exception:
+            pass
+    return round(sum(len(p.split()) - len(r.split()) for p, r in paired) / len(paired), 4)
 
 
 def _safe_aligntune_grade(pred_ans: str, ref_ans: str) -> bool:
@@ -467,6 +452,44 @@ def _finalize_buckets(buckets: dict[str, dict[str, Any]]) -> dict[str, dict[str,
     return out
 
 
+def _extract_row_scoring(
+    row: dict[str, Any],
+    *,
+    pred: str,
+    ref_sol: str,
+    ref_ans_fallback: str,
+    ref_for_scoring: str,
+) -> tuple[bool, str, bool, str, str]:
+    """Resolve equivalence, method, sentinel status, and extracted answers for one row."""
+    if ("is_equivalent" not in row or "match_method" not in row) and ref_for_scoring:
+        scored = score_solver_output(pred, ref_for_scoring)
+        return (
+            scored.is_equivalent,
+            scored.match_method,
+            scored.has_answer_sentinel,
+            scored.extracted_candidate_answer,
+            scored.extracted_reference_answer,
+        )
+    has_sent = bool(row.get("has_answer_sentinel", extract_answer_line(pred)[0]))
+    pred_ans = (
+        str(row["predicted_answer"] or "")
+        if "predicted_answer" in row
+        else (extract_answer_line(pred)[1] if has_sent else "")
+    )
+    ref_ans = (
+        str(row.get("reference_answer") or extract_answer_line(ref_sol)[1] or "")
+        if ("is_equivalent" in row and "match_method" in row)
+        else ref_ans_fallback
+    )
+    return (
+        bool(row.get("is_equivalent", False)),
+        str(row.get("match_method") or "unknown"),
+        has_sent,
+        pred_ans,
+        ref_ans,
+    )
+
+
 def run_physics_eval_audit(
     eval_result: dict[str, Any],
     *,
@@ -508,34 +531,13 @@ def run_physics_eval_audit(
         predictions.append(pred)
         references_full.append(ref_sol)
 
-        # Read pre-scored values if present; only score on the fly when omitted and reference exists
-        if "is_equivalent" in row and "match_method" in row:
-            is_eq = bool(row["is_equivalent"])
-            method = str(row["match_method"] or "unknown")
-            has_sent = bool(row.get("has_answer_sentinel", extract_answer_line(pred)[0]))
-            pred_ans = (
-                str(row["predicted_answer"] or "")
-                if "predicted_answer" in row
-                else (extract_answer_line(pred)[1] if has_sent else "")
-            )
-            ref_ans = str(row.get("reference_answer") or extract_answer_line(ref_sol)[1] or "")
-        elif ref_for_scoring:
-            scored = score_solver_output(pred, ref_for_scoring)
-            is_eq = scored.is_equivalent
-            method = scored.match_method
-            has_sent = scored.has_answer_sentinel
-            pred_ans = scored.extracted_candidate_answer
-            ref_ans = scored.extracted_reference_answer
-        else:
-            is_eq = bool(row.get("is_equivalent", False))
-            method = str(row.get("match_method") or "unknown")
-            has_sent = bool(row.get("has_answer_sentinel", extract_answer_line(pred)[0]))
-            pred_ans = (
-                str(row["predicted_answer"] or "")
-                if "predicted_answer" in row
-                else (extract_answer_line(pred)[1] if has_sent else "")
-            )
-            ref_ans = ref_ans_fallback
+        is_eq, method, has_sent, pred_ans, ref_ans = _extract_row_scoring(
+            row,
+            pred=pred,
+            ref_sol=ref_sol,
+            ref_ans_fallback=ref_ans_fallback,
+            ref_for_scoring=ref_for_scoring,
+        )
 
         has_sentinels.append(has_sent)
         match_counts[method] += 1
@@ -574,7 +576,7 @@ def run_physics_eval_audit(
             aligntune_grade_n += 1
 
         # Reasoning structure & meta leakage signals
-        if len(_STEP_PATTERN.findall(pred)) >= 2:
+        if len(STEP_PATTERN.findall(pred)) >= 2:
             step_struct_n += 1
         eq_counts.append(len(_EQUATION_PATTERN.findall(pred)))
         if _VERIFICATION_CUE_PATTERN.search(pred):
@@ -584,7 +586,7 @@ def run_physics_eval_audit(
         if any(pat.search(pred) for pat in _META_LEAKAGE_PATTERNS):
             meta_leak_n += 1
 
-        is_degen = _has_degenerate_repetition_loop([t for t in pred.lower().split() if t])
+        is_degen = has_degenerate_repetition_loop([t for t in pred.lower().split() if t])
         tier = _infer_tier(str(row.get("source") or ""), row.get("problem_id"))
         domain = str(row.get("domain") or "UNKNOWN")
 
