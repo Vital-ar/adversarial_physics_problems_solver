@@ -275,7 +275,7 @@ Two views are presented identically for complete transparency: **Table 1** prese
 | **`E4a`** | `test` | 0.00% (0/38) | 3.33% (2/60) | **9.09%** (2/22) | 0.00% (0/38) | 3.33% (2/60) | **9.09%** (2/22) | 0.00% (0/38) |
 | **`E4b`** | `test` | — | 0.00% (0/37) | N/A (0/0) | 0.00% (0/37) | 3.33% (2/60) | **9.09%** (2/22) | 0.00% (0/38) |
 
-#### Table 2: Clean Recalculated Splits (`all-MiniLM-L6-v2` Cosine `< 0.80` — Headline Splits)
+#### Table 2: Clean Recalculated Splits (Headline Leak-Free Splits)
 
 | Exp | Split | `v1` Overall | `v2` Overall | `v2` Textbook | `v2` PhysGym | `v3` Overall | `v3` Textbook | `v3` PhysGym |
 |---|---|---|---|---|---|---|---|---|
@@ -292,7 +292,7 @@ Two views are presented identically for complete transparency: **Table 1** prese
 | **`E4a`** | `test` | 0.00% (0/37) | 2.04% (1/49) | **8.33%** (1/12) | 0.00% (0/37) | **3.64%** (2/55) | **11.76%** (2/17) | 0.00% (0/38) |
 | **`E4b`** | `test` | — | 0.00% (0/37) | N/A (0/0) | 0.00% (0/37) | **3.64%** (2/55) | **11.76%** (2/17) | 0.00% (0/38) |
 
-#### `V3` Derivation Structure, Equation Fidelity & Safety Retention (Clean `< 0.80` Splits)
+#### `V3` Derivation Structure, Equation Fidelity & Safety Retention (Clean Splits)
 
 | Exp | Split (`n`) | Sentinel % | Unit % | Step % | Eq F1 | ROUGE-L | Degenerate % | Rep Ratio | Meta Leak % |
 |---|---|---|---|---|---|---|---|---|---|
@@ -352,7 +352,7 @@ Dropping `E1` from `1,076` (`v1`) to `452` cleaner rows (`v3`) failed to prevent
 #### 2. Filter-Before-Generation (`CuratorKIT` → `aya-expanse-8b` Synthesis, `E2`) Drives Clear Clean Gains
 Filtering textbook exercises with deterministic `CuratorKIT` gates *before* synthesizing subtopic-grounded, `SymPy`-verified problems (`E2_v3`, `608` rows) — even while skipping Part-2 LLM judge gates — lifted clean sentinel compliance from `39.58% → 87.50%` (Val) and `45.45% → 96.36%` (Test), cut clean degeneracy by `>3x` (`34.55% → 10.91%` Test), and doubled Clean Val/Test accuracy over raw extraction `E1_v3` (`2.08% → 4.17%` Val; `1.82% → 3.64%` Test).
 
-#### 3. `< 0.80` Semantic Decontamination Exposes `v2` Inflation vs. `v3` Clean Transfer
+#### 3. Semantic Decontamination Exposes `v2` Inflation vs. `v3` Clean Transfer
 Comparing **Table 1** and **Table 2** proves why dense `< 0.80` auditing is essential on small datasets: on `v2`, `16/22` textbook-derived validation items exceeded `0.80` MiniLM cosine similarity against training splits, dropping `E3_v2` Val from `8.33%` (`5/60`, *p* = 0.0100) to `2.27%` (`1/44`) and `E4a_v2` from `6.67%` to `0.00%`. Conversely, in `v3`, improved regularization retained genuine out-of-sample wins across both splits (`4.17%` Val / `20.00%` Textbook, `3.64%` Test / `11.76%` Textbook; `+4/-0` pooled clean wins over `E0` `0/103`, exact McNemar *p* = 0.1250).
 
 #### 4. Fixing the Verifier Prompt Prefix Restores Discrimination Calibration
@@ -367,20 +367,20 @@ When evaluated with a prompt missing the SFT `**Derivation:**\n` wrapper (`E4b_v
 
 ### Sample Inputs and Outputs
 
-#### 1. Clean `< 0.80` Two-Turn Recovery & Approval (`syn_seed_lit_rel_0752`, Clean Val, `RELATIVITY`)
+#### 1. Two-Turn Recovery & Approval (`syn_seed_lit_rel_0752`, Clean Val, `RELATIVITY`)
 * **Problem:** Relativistic rotating charged cylinder (`R`, density `n`, velocity `v = (3/5)c`): determine the Lorentz factor `γ`. (**Ref:** `\frac{5}{4}`)
 * **Iter 1 (Solver `547` tok):** Correct derivation → `exact_normalized` match (`Solver OK = True`), but Verifier (`107` tok) issued a conservative false `[[CHALLENGE]]`: *"consider the relativistic effects on the charge density and velocity of the charges..."*
 * **Iter 2 (Solver `303` tok):** Re-solved from scratch obeying both constraints, preserved `\frac{5}{4}` (`exact_normalized` match), and Verifier (`171` tok) verified via `γ = 1 / sqrt(1 - v^2/c^2)` and stopped early with **`[[APPROVE]]` (`stopped=approved`, `final_correct=True`)**.
 
-#### 2. Clean `< 0.80` Test Approval (`syn_seed_lit_em_0038`, Clean Test, `ELECTROMAGNETISM`)
+#### 2. Test Approval (`syn_seed_lit_em_0038`, Clean Test, `ELECTROMAGNETISM`)
 * **Problem:** Light bulb draws `0.9 A` from `110 V`; find resistance `R` in `Ω`. (**Ref:** `122.22 Ω`)
 * **Iter 1 (`203` tok Solver, `62` tok Verifier):** Derived `R = 110 / 0.9 = 122.22 Ω` (`numerical_tolerance` match). Verifier confirmed Ohm's law and emitted **`[[APPROVE]]` (`28.7s`, `iters=1`, `final_correct=True`)**.
 
-#### 3. Clean `< 0.80` Resilience Against False Challenges (`syn_seed_lit_em_0143`, Clean Test, `ELECTROMAGNETISM`)
+#### 3. Resilience Against False Challenges (`syn_seed_lit_em_0143`, Clean Test, `ELECTROMAGNETISM`)
 * **Problem:** Derive parallel-plate electric field `E` in terms of `V` and separation `d`. (**Ref:** `E = \frac{V}{d}`)
 * **Iter 1–3 (`1,209` tok total):** Solver answered `E = V/d` (`exact_normalized` match) on all three turns despite Verifier issuing repeated false `[[CHALLENGE]]` hints (`inv square law` confusion), preserving **`final_correct=True` (`stop=max_iterations_reached`)**.
 
-#### 4. Clean `< 0.80` Failure Case (`syn_seed_lit_mech_0422`, Clean Test & `physgym_0025`, `MECHANICS`/`EM`)
+#### 4. Failure Case (`syn_seed_lit_mech_0422`, Clean Test & `physgym_0025`, `MECHANICS`/`EM`)
 * `syn_seed_lit_mech_0422`: Starship constant-acceleration/deceleration kinematics problem (`MECHANICS`). Turn-1 Solver failed (`581` tok) and Verifier (`192` tok) terminated cleanly via **`stop=verifier_no_sentinel`** (`UNKNOWN` verdict).
 * `physgym_0025`: Coupled polar-coordinates cyclotron trajectory `r(θ) = a(1 - cos θ)` (`PhysGym`). Despite 3 iterations (`max_iterations_reached`), Model A fabricated circular centripetal expressions instead of integrating radial/angular dynamic ODEs.
 
@@ -617,7 +617,7 @@ Respond in JSON format ONLY with "overall_score", "dimension_scores" (helpfulnes
 
 ### Extra Tables: Full Cross-Version Hygiene, Domain Accuracy & Training Dynamics
 
-#### Extended `V1` & `V2` Clean (`< 0.80`) Derivation Hygiene & Equation Fidelity
+#### Extended `V1` & `V2` Clean Derivation Hygiene & Equation Fidelity
 
 | Version / Exp | Split (`n`) | Sentinel % | Step % | Eq F1 | ROUGE-L | Degenerate % | Rep Ratio | Avg Tokens |
 |---|---|---|---|---|---|---|---|---|
@@ -632,7 +632,7 @@ Respond in JSON format ONLY with "overall_score", "dimension_scores" (helpfulnes
 | `E4a_v2` Clean | `val` (`44`) / `test` (`49`) | **100.0% / 97.96%** | 100.0% / 100.0% | 0.3526 / 0.3630 | **0.2337 / 0.2257** | 0.00% / 2.04% | **0.0932 / 0.0917** | 249.7 / 236.8 |
 | `E4b_v2` Clean | `test` (`37` PhysGym) | 97.30% | 100.0% | 0.3106 | 0.2080 | 2.70% | 0.0921 | 244.8 |
 
-#### `V3` Clean (`< 0.80`) Per-Domain Accuracy (`Val n=48` / `Test n=55`)
+#### `V3` Clean Per-Domain Accuracy (`Val n=48` / `Test n=55`)
 
 | Exp (`v3` Clean) | Split (`n`) | `MECH` | `EM` | `MOD` | `OPT` | `REL` | `THERMO` |
 |---|---|---|---|---|---|---|---|
