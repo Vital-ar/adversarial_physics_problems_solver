@@ -6,6 +6,7 @@ import logging
 from pathlib import Path
 from typing import Any, Callable
 
+from adversarial_physics.evaluation.auditkit_native import run_full_auditkit_suite
 from adversarial_physics.evaluation.calibration_audit import (
     audit_grader_agreement_from_eval_jsons,
     audit_verifier_from_loop_summary,
@@ -169,6 +170,22 @@ def run_audit(
     grader_agreement = audit_grader_agreement_from_eval_jsons(eval_json_files)
     compute_summary = summarize_training_and_inference_compute(root)
 
+    clean_ids_map: dict[tuple[str, str], set[str]] = {}
+    for ver_tag, _, eval_paths in version_configs:
+        val_rows = _load_jsonl_rows(eval_paths[0])
+        test_rows = _load_jsonl_rows(eval_paths[1])
+        if val_rows:
+            clean_ids_map[(ver_tag, "validation")] = {str(r["problem_id"]) for r in val_rows if "problem_id" in r}
+        if test_rows:
+            clean_ids_map[(ver_tag, "test")] = {str(r["problem_id"]) for r in test_rows if "problem_id" in r}
+
+    auditkit_native = run_full_auditkit_suite(root, clean_ids_by_version_split=clean_ids_map)
+
+    out_dir = root / "results/audit_reports"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    native_out_path = out_dir / "auditkit_native_summary.json"
+    native_out_path.write_text(json.dumps(auditkit_native, indent=2, ensure_ascii=False), encoding="utf-8")
+
     report = {
         "cosine_threshold": cosine_threshold,
         "embedding_model": "all-MiniLM-L6-v2",
@@ -182,10 +199,29 @@ def run_audit(
         },
         "physics_grader_agreement_sympy_vs_aligntune": grader_agreement,
         "compute_and_latency_telemetry": compute_summary,
+        "auditkit_native_report_path": str(native_out_path.relative_to(root)).replace("\\", "/"),
+        "auditkit_native_highlights": {
+            "auditkit_version": auditkit_native.get("auditkit_version"),
+            "v3_clean_080_validation_comparison": (
+                auditkit_native.get("views", {})
+                .get("clean_080", {})
+                .get("v3", {})
+                .get("validation", {})
+                .get("comparison")
+            ),
+            "v3_clean_080_test_comparison": (
+                auditkit_native.get("views", {})
+                .get("clean_080", {})
+                .get("v3", {})
+                .get("test", {})
+                .get("comparison")
+            ),
+            "loop_agent_eval_and_judge_calibration": auditkit_native.get(
+                "loop_agent_eval_and_judge_calibration"
+            ),
+        },
     }
 
-    out_dir = root / "results/audit_reports"
-    out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / "leak_and_calibration_summary.json"
     out_path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
     logger.info("Audit report written to %s", out_path)

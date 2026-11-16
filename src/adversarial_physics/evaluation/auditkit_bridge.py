@@ -673,6 +673,18 @@ def run_physics_eval_audit(
             payload["auditkit_version"] = importlib.metadata.version("auditkit")
         except Exception:
             payload["auditkit_version"] = "installed"
+        try:
+            from adversarial_physics.evaluation.auditkit_native import (
+                evaluate_predictions_with_auditkit,
+            )
+
+            _, native_summary = evaluate_predictions_with_auditkit(
+                eval_result,
+                experiment_name=experiment_name,
+            )
+            payload["auditkit_native"] = native_summary
+        except Exception as exc:  # pragma: no cover - defensive fallback
+            payload["auditkit_native_error"] = str(exc)
 
     return payload
 

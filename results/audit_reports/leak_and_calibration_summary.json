@@ -1071,5 +1071,1799 @@
         "gpu_hours_per_1k_loops": 30.35
       }
     ]
+  },
+  "auditkit_native_report_path": "results/audit_reports/auditkit_native_summary.json",
+  "auditkit_native_highlights": {
+    "auditkit_version": "1.1.12",
+    "v3_clean_080_validation_comparison": {
+      "auditkit_available": true,
+      "auditkit_version": "1.1.12",
+      "leaderboard": [
+        {
+          "run_id": "abd875664b6c565b",
+          "fingerprint": "abd875664b6c565b",
+          "physics_exact_equiv": 0.041666666666666664,
+          "physics_tolerant_5pct": 0.041666666666666664,
+          "physics_step_structured": 0.9166666666666666,
+          "physics_degenerate_rate": 0.08333333333333333,
+          "regex(ANSWER\\s*:)": 0.8958333333333334,
+          "bleu": 0.013763305424598542,
+          "rouge_l": 0.11965439882481958,
+          "wordcount(15-)": 1.0,
+          "experiment": "E2"
+        },
+        {
+          "run_id": "03d99437e405f920",
+          "fingerprint": "03d99437e405f920",
+          "physics_exact_equiv": 0.041666666666666664,
+          "physics_tolerant_5pct": 0.041666666666666664,
+          "physics_step_structured": 0.9166666666666666,
+          "physics_degenerate_rate": 0.020833333333333332,
+          "regex(ANSWER\\s*:)": 0.9166666666666666,
+          "bleu": 0.03180309261662696,
+          "rouge_l": 0.15223223488745563,
+          "wordcount(15-)": 1.0,
+          "experiment": "E3"
+        },
+        {
+          "run_id": "781e797efc3463b9",
+          "fingerprint": "781e797efc3463b9",
+          "physics_exact_equiv": 0.041666666666666664,
+          "physics_tolerant_5pct": 0.041666666666666664,
+          "physics_step_structured": 1.0,
+          "physics_degenerate_rate": 0.0,
+          "regex(ANSWER\\s*:)": 0.9583333333333334,
+          "bleu": 0.03334014611953498,
+          "rouge_l": 0.1545658067394464,
+          "wordcount(15-)": 1.0,
+          "experiment": "E4b"
+        },
+        {
+          "run_id": "8989a420409462c6",
+          "fingerprint": "8989a420409462c6",
+          "physics_exact_equiv": 0.020833333333333332,
+          "physics_tolerant_5pct": 0.020833333333333332,
+          "physics_step_structured": 0.0625,
+          "physics_degenerate_rate": 0.4375,
+          "regex(ANSWER\\s*:)": 0.4791666666666667,
+          "bleu": 0.009707644480422817,
+          "rouge_l": 0.08412120265527806,
+          "wordcount(15-)": 0.6458333333333334,
+          "experiment": "E1"
+        },
+        {
+          "run_id": "54cbe44db34f8fde",
+          "fingerprint": "54cbe44db34f8fde",
+          "physics_exact_equiv": 0.020833333333333332,
+          "physics_tolerant_5pct": 0.020833333333333332,
+          "physics_step_structured": 0.9791666666666666,
+          "physics_degenerate_rate": 0.020833333333333332,
+          "regex(ANSWER\\s*:)": 0.8958333333333334,
+          "bleu": 0.030903623297713498,
+          "rouge_l": 0.1508982300932156,
+          "wordcount(15-)": 1.0,
+          "experiment": "E4a"
+        },
+        {
+          "run_id": "eaac7b185bfdef90",
+          "fingerprint": "eaac7b185bfdef90",
+          "physics_exact_equiv": 0.0,
+          "physics_tolerant_5pct": 0.0,
+          "physics_step_structured": 0.6041666666666666,
+          "physics_degenerate_rate": 0.3541666666666667,
+          "regex(ANSWER\\s*:)": 0.9375,
+          "bleu": 0.013570627648537918,
+          "rouge_l": 0.09880410929265605,
+          "wordcount(15-)": 1.0,
+          "experiment": "E0"
+        }
+      ],
+      "vs_baseline": {
+        "E1_vs_E0": {
+          "overall_grade": "fail",
+          "significance_exact_equiv": {
+            "n": 48,
+            "mean_baseline": 0.0,
+            "mean_candidate": 0.020833,
+            "delta": 0.020833,
+            "p_value": 0.613387,
+            "significant": false,
+            "ci": [
+              0.0,
+              0.083333
+            ],
+            "ci_level": 0.95
+          },
+          "sample_flips_exact_equiv": {
+            "newly_wrong": 0,
+            "newly_correct": 1,
+            "still_wrong": 47,
+            "still_correct": 0,
+            "unknown": 0
+          },
+          "metric_deltas": {
+            "bleu": {
+              "baseline": 0.013571,
+              "candidate": 0.009708,
+              "delta": -0.003863,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": -28.47
+            },
+            "physics_degenerate_rate": {
+              "baseline": 0.354167,
+              "candidate": 0.4375,
+              "delta": 0.083333,
+              "grade": "fail",
+              "direction": "minimize",
+              "pct_change": 23.53
+            },
+            "physics_exact_equiv": {
+              "baseline": 0.0,
+              "candidate": 0.020833,
+              "delta": 0.020833,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": null
+            },
+            "physics_step_structured": {
+              "baseline": 0.604167,
+              "candidate": 0.0625,
+              "delta": -0.541667,
+              "grade": "fail",
+              "direction": "maximize",
+              "pct_change": -89.66
+            },
+            "physics_tolerant_5pct": {
+              "baseline": 0.0,
+              "candidate": 0.020833,
+              "delta": 0.020833,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": null
+            },
+            "regex(ANSWER\\s*:)": {
+              "baseline": 0.9375,
+              "candidate": 0.479167,
+              "delta": -0.458333,
+              "grade": "fail",
+              "direction": "maximize",
+              "pct_change": -48.89
+            },
+            "rouge_l": {
+              "baseline": 0.098804,
+              "candidate": 0.084121,
+              "delta": -0.014683,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": -14.86
+            },
+            "wordcount(15-)": {
+              "baseline": 1.0,
+              "candidate": 0.645833,
+              "delta": -0.354167,
+              "grade": "fail",
+              "direction": "maximize",
+              "pct_change": -35.42
+            }
+          }
+        },
+        "E2_vs_E0": {
+          "overall_grade": "fail",
+          "significance_exact_equiv": {
+            "n": 48,
+            "mean_baseline": 0.0,
+            "mean_candidate": 0.041667,
+            "delta": 0.041667,
+            "p_value": 0.273726,
+            "significant": false,
+            "ci": [
+              0.0,
+              0.104167
+            ],
+            "ci_level": 0.95
+          },
+          "sample_flips_exact_equiv": {
+            "newly_wrong": 0,
+            "newly_correct": 2,
+            "still_wrong": 46,
+            "still_correct": 0,
+            "unknown": 0
+          },
+          "metric_deltas": {
+            "bleu": {
+              "baseline": 0.013571,
+              "candidate": 0.013763,
+              "delta": 0.000193,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 1.42
+            },
+            "physics_degenerate_rate": {
+              "baseline": 0.354167,
+              "candidate": 0.083333,
+              "delta": -0.270833,
+              "grade": "pass",
+              "direction": "minimize",
+              "pct_change": -76.47
+            },
+            "physics_exact_equiv": {
+              "baseline": 0.0,
+              "candidate": 0.041667,
+              "delta": 0.041667,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": null
+            },
+            "physics_step_structured": {
+              "baseline": 0.604167,
+              "candidate": 0.916667,
+              "delta": 0.3125,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 51.72
+            },
+            "physics_tolerant_5pct": {
+              "baseline": 0.0,
+              "candidate": 0.041667,
+              "delta": 0.041667,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": null
+            },
+            "regex(ANSWER\\s*:)": {
+              "baseline": 0.9375,
+              "candidate": 0.895833,
+              "delta": -0.041667,
+              "grade": "warn",
+              "direction": "maximize",
+              "pct_change": -4.44
+            },
+            "rouge_l": {
+              "baseline": 0.098804,
+              "candidate": 0.119654,
+              "delta": 0.02085,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 21.1
+            },
+            "wordcount(15-)": {
+              "baseline": 1.0,
+              "candidate": 1.0,
+              "delta": 0.0,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 0.0
+            }
+          }
+        },
+        "E3_vs_E0": {
+          "overall_grade": "fail",
+          "significance_exact_equiv": {
+            "n": 48,
+            "mean_baseline": 0.0,
+            "mean_candidate": 0.041667,
+            "delta": 0.041667,
+            "p_value": 0.273726,
+            "significant": false,
+            "ci": [
+              0.0,
+              0.104167
+            ],
+            "ci_level": 0.95
+          },
+          "sample_flips_exact_equiv": {
+            "newly_wrong": 0,
+            "newly_correct": 2,
+            "still_wrong": 46,
+            "still_correct": 0,
+            "unknown": 0
+          },
+          "metric_deltas": {
+            "bleu": {
+              "baseline": 0.013571,
+              "candidate": 0.031803,
+              "delta": 0.018232,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 134.35
+            },
+            "physics_degenerate_rate": {
+              "baseline": 0.354167,
+              "candidate": 0.020833,
+              "delta": -0.333333,
+              "grade": "pass",
+              "direction": "minimize",
+              "pct_change": -94.12
+            },
+            "physics_exact_equiv": {
+              "baseline": 0.0,
+              "candidate": 0.041667,
+              "delta": 0.041667,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": null
+            },
+            "physics_step_structured": {
+              "baseline": 0.604167,
+              "candidate": 0.916667,
+              "delta": 0.3125,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 51.72
+            },
+            "physics_tolerant_5pct": {
+              "baseline": 0.0,
+              "candidate": 0.041667,
+              "delta": 0.041667,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": null
+            },
+            "regex(ANSWER\\s*:)": {
+              "baseline": 0.9375,
+              "candidate": 0.916667,
+              "delta": -0.020833,
+              "grade": "warn",
+              "direction": "maximize",
+              "pct_change": -2.22
+            },
+            "rouge_l": {
+              "baseline": 0.098804,
+              "candidate": 0.152232,
+              "delta": 0.053428,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 54.07
+            },
+            "wordcount(15-)": {
+              "baseline": 1.0,
+              "candidate": 1.0,
+              "delta": 0.0,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 0.0
+            }
+          }
+        },
+        "E4a_vs_E0": {
+          "overall_grade": "fail",
+          "significance_exact_equiv": {
+            "n": 48,
+            "mean_baseline": 0.0,
+            "mean_candidate": 0.020833,
+            "delta": 0.020833,
+            "p_value": 0.613387,
+            "significant": false,
+            "ci": [
+              0.0,
+              0.083333
+            ],
+            "ci_level": 0.95
+          },
+          "sample_flips_exact_equiv": {
+            "newly_wrong": 0,
+            "newly_correct": 1,
+            "still_wrong": 47,
+            "still_correct": 0,
+            "unknown": 0
+          },
+          "metric_deltas": {
+            "bleu": {
+              "baseline": 0.013571,
+              "candidate": 0.030904,
+              "delta": 0.017333,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 127.72
+            },
+            "physics_degenerate_rate": {
+              "baseline": 0.354167,
+              "candidate": 0.020833,
+              "delta": -0.333333,
+              "grade": "pass",
+              "direction": "minimize",
+              "pct_change": -94.12
+            },
+            "physics_exact_equiv": {
+              "baseline": 0.0,
+              "candidate": 0.020833,
+              "delta": 0.020833,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": null
+            },
+            "physics_step_structured": {
+              "baseline": 0.604167,
+              "candidate": 0.979167,
+              "delta": 0.375,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 62.07
+            },
+            "physics_tolerant_5pct": {
+              "baseline": 0.0,
+              "candidate": 0.020833,
+              "delta": 0.020833,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": null
+            },
+            "regex(ANSWER\\s*:)": {
+              "baseline": 0.9375,
+              "candidate": 0.895833,
+              "delta": -0.041667,
+              "grade": "warn",
+              "direction": "maximize",
+              "pct_change": -4.44
+            },
+            "rouge_l": {
+              "baseline": 0.098804,
+              "candidate": 0.150898,
+              "delta": 0.052094,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 52.72
+            },
+            "wordcount(15-)": {
+              "baseline": 1.0,
+              "candidate": 1.0,
+              "delta": 0.0,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 0.0
+            }
+          }
+        },
+        "E4b_vs_E0": {
+          "overall_grade": "fail",
+          "significance_exact_equiv": {
+            "n": 48,
+            "mean_baseline": 0.0,
+            "mean_candidate": 0.041667,
+            "delta": 0.041667,
+            "p_value": 0.273726,
+            "significant": false,
+            "ci": [
+              0.0,
+              0.104167
+            ],
+            "ci_level": 0.95
+          },
+          "sample_flips_exact_equiv": {
+            "newly_wrong": 0,
+            "newly_correct": 2,
+            "still_wrong": 46,
+            "still_correct": 0,
+            "unknown": 0
+          },
+          "metric_deltas": {
+            "bleu": {
+              "baseline": 0.013571,
+              "candidate": 0.03334,
+              "delta": 0.01977,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 145.68
+            },
+            "physics_degenerate_rate": {
+              "baseline": 0.354167,
+              "candidate": 0.0,
+              "delta": -0.354167,
+              "grade": "pass",
+              "direction": "minimize",
+              "pct_change": -100.0
+            },
+            "physics_exact_equiv": {
+              "baseline": 0.0,
+              "candidate": 0.041667,
+              "delta": 0.041667,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": null
+            },
+            "physics_step_structured": {
+              "baseline": 0.604167,
+              "candidate": 1.0,
+              "delta": 0.395833,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 65.52
+            },
+            "physics_tolerant_5pct": {
+              "baseline": 0.0,
+              "candidate": 0.041667,
+              "delta": 0.041667,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": null
+            },
+            "regex(ANSWER\\s*:)": {
+              "baseline": 0.9375,
+              "candidate": 0.958333,
+              "delta": 0.020833,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 2.22
+            },
+            "rouge_l": {
+              "baseline": 0.098804,
+              "candidate": 0.154566,
+              "delta": 0.055762,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 56.44
+            },
+            "wordcount(15-)": {
+              "baseline": 1.0,
+              "candidate": 1.0,
+              "delta": 0.0,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 0.0
+            }
+          }
+        }
+      }
+    },
+    "v3_clean_080_test_comparison": {
+      "auditkit_available": true,
+      "auditkit_version": "1.1.12",
+      "leaderboard": [
+        {
+          "run_id": "7d09ecbc4a13cb3f",
+          "fingerprint": "7d09ecbc4a13cb3f",
+          "physics_exact_equiv": 0.03636363636363636,
+          "physics_tolerant_5pct": 0.03636363636363636,
+          "physics_step_structured": 0.9636363636363636,
+          "physics_degenerate_rate": 0.10909090909090909,
+          "regex(ANSWER\\s*:)": 0.9636363636363636,
+          "bleu": 0.01159072754195449,
+          "rouge_l": 0.13577650196760035,
+          "wordcount(15-)": 1.0,
+          "experiment": "E2"
+        },
+        {
+          "run_id": "29b4374863bc2dfb",
+          "fingerprint": "29b4374863bc2dfb",
+          "physics_exact_equiv": 0.03636363636363636,
+          "physics_tolerant_5pct": 0.03636363636363636,
+          "physics_step_structured": 1.0,
+          "physics_degenerate_rate": 0.01818181818181818,
+          "regex(ANSWER\\s*:)": 0.9454545454545454,
+          "bleu": 0.0362918600867765,
+          "rouge_l": 0.16189256102288124,
+          "wordcount(15-)": 1.0,
+          "experiment": "E4a"
+        },
+        {
+          "run_id": "f6e22dd6625778c7",
+          "fingerprint": "f6e22dd6625778c7",
+          "physics_exact_equiv": 0.03636363636363636,
+          "physics_tolerant_5pct": 0.03636363636363636,
+          "physics_step_structured": 1.0,
+          "physics_degenerate_rate": 0.0,
+          "regex(ANSWER\\s*:)": 0.9636363636363636,
+          "bleu": 0.03829744175139707,
+          "rouge_l": 0.17128009206183495,
+          "wordcount(15-)": 1.0,
+          "experiment": "E4b"
+        },
+        {
+          "run_id": "3140562af08b42af",
+          "fingerprint": "3140562af08b42af",
+          "physics_exact_equiv": 0.01818181818181818,
+          "physics_tolerant_5pct": 0.01818181818181818,
+          "physics_step_structured": 0.0,
+          "physics_degenerate_rate": 0.34545454545454546,
+          "regex(ANSWER\\s*:)": 0.5636363636363636,
+          "bleu": 0.003744664668108058,
+          "rouge_l": 0.06177252511027373,
+          "wordcount(15-)": 0.6181818181818182,
+          "experiment": "E1"
+        },
+        {
+          "run_id": "a466575865c3db0a",
+          "fingerprint": "a466575865c3db0a",
+          "physics_exact_equiv": 0.01818181818181818,
+          "physics_tolerant_5pct": 0.01818181818181818,
+          "physics_step_structured": 0.9636363636363636,
+          "physics_degenerate_rate": 0.01818181818181818,
+          "regex(ANSWER\\s*:)": 0.9272727272727272,
+          "bleu": 0.03435129571721819,
+          "rouge_l": 0.1573450243833651,
+          "wordcount(15-)": 1.0,
+          "experiment": "E3"
+        },
+        {
+          "run_id": "cb27d432a8b53a0f",
+          "fingerprint": "cb27d432a8b53a0f",
+          "physics_exact_equiv": 0.0,
+          "physics_tolerant_5pct": 0.0,
+          "physics_step_structured": 0.7454545454545455,
+          "physics_degenerate_rate": 0.32727272727272727,
+          "regex(ANSWER\\s*:)": 0.9272727272727272,
+          "bleu": 0.014598463883003444,
+          "rouge_l": 0.10571465674218615,
+          "wordcount(15-)": 1.0,
+          "experiment": "E0"
+        }
+      ],
+      "vs_baseline": {
+        "E1_vs_E0": {
+          "overall_grade": "fail",
+          "significance_exact_equiv": {
+            "n": 55,
+            "mean_baseline": 0.0,
+            "mean_candidate": 0.018182,
+            "delta": 0.018182,
+            "p_value": 0.633367,
+            "significant": false,
+            "ci": [
+              0.0,
+              0.054545
+            ],
+            "ci_level": 0.95
+          },
+          "sample_flips_exact_equiv": {
+            "newly_wrong": 0,
+            "newly_correct": 1,
+            "still_wrong": 54,
+            "still_correct": 0,
+            "unknown": 0
+          },
+          "metric_deltas": {
+            "bleu": {
+              "baseline": 0.014598,
+              "candidate": 0.003745,
+              "delta": -0.010854,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": -74.35
+            },
+            "physics_degenerate_rate": {
+              "baseline": 0.327273,
+              "candidate": 0.345455,
+              "delta": 0.018182,
+              "grade": "pass",
+              "direction": "minimize",
+              "pct_change": 5.56
+            },
+            "physics_exact_equiv": {
+              "baseline": 0.0,
+              "candidate": 0.018182,
+              "delta": 0.018182,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": null
+            },
+            "physics_step_structured": {
+              "baseline": 0.745455,
+              "candidate": 0.0,
+              "delta": -0.745455,
+              "grade": "fail",
+              "direction": "maximize",
+              "pct_change": -100.0
+            },
+            "physics_tolerant_5pct": {
+              "baseline": 0.0,
+              "candidate": 0.018182,
+              "delta": 0.018182,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": null
+            },
+            "regex(ANSWER\\s*:)": {
+              "baseline": 0.927273,
+              "candidate": 0.563636,
+              "delta": -0.363636,
+              "grade": "fail",
+              "direction": "maximize",
+              "pct_change": -39.22
+            },
+            "rouge_l": {
+              "baseline": 0.105715,
+              "candidate": 0.061773,
+              "delta": -0.043942,
+              "grade": "warn",
+              "direction": "maximize",
+              "pct_change": -41.57
+            },
+            "wordcount(15-)": {
+              "baseline": 1.0,
+              "candidate": 0.618182,
+              "delta": -0.381818,
+              "grade": "fail",
+              "direction": "maximize",
+              "pct_change": -38.18
+            }
+          }
+        },
+        "E2_vs_E0": {
+          "overall_grade": "fail",
+          "significance_exact_equiv": {
+            "n": 55,
+            "mean_baseline": 0.0,
+            "mean_candidate": 0.036364,
+            "delta": 0.036364,
+            "p_value": 0.27972,
+            "significant": false,
+            "ci": [
+              0.0,
+              0.090909
+            ],
+            "ci_level": 0.95
+          },
+          "sample_flips_exact_equiv": {
+            "newly_wrong": 0,
+            "newly_correct": 2,
+            "still_wrong": 53,
+            "still_correct": 0,
+            "unknown": 0
+          },
+          "metric_deltas": {
+            "bleu": {
+              "baseline": 0.014598,
+              "candidate": 0.011591,
+              "delta": -0.003008,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": -20.6
+            },
+            "physics_degenerate_rate": {
+              "baseline": 0.327273,
+              "candidate": 0.109091,
+              "delta": -0.218182,
+              "grade": "pass",
+              "direction": "minimize",
+              "pct_change": -66.67
+            },
+            "physics_exact_equiv": {
+              "baseline": 0.0,
+              "candidate": 0.036364,
+              "delta": 0.036364,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": null
+            },
+            "physics_step_structured": {
+              "baseline": 0.745455,
+              "candidate": 0.963636,
+              "delta": 0.218182,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 29.27
+            },
+            "physics_tolerant_5pct": {
+              "baseline": 0.0,
+              "candidate": 0.036364,
+              "delta": 0.036364,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": null
+            },
+            "regex(ANSWER\\s*:)": {
+              "baseline": 0.927273,
+              "candidate": 0.963636,
+              "delta": 0.036364,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 3.92
+            },
+            "rouge_l": {
+              "baseline": 0.105715,
+              "candidate": 0.135777,
+              "delta": 0.030062,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 28.44
+            },
+            "wordcount(15-)": {
+              "baseline": 1.0,
+              "candidate": 1.0,
+              "delta": 0.0,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 0.0
+            }
+          }
+        },
+        "E3_vs_E0": {
+          "overall_grade": "fail",
+          "significance_exact_equiv": {
+            "n": 55,
+            "mean_baseline": 0.0,
+            "mean_candidate": 0.018182,
+            "delta": 0.018182,
+            "p_value": 0.617383,
+            "significant": false,
+            "ci": [
+              0.0,
+              0.054545
+            ],
+            "ci_level": 0.95
+          },
+          "sample_flips_exact_equiv": {
+            "newly_wrong": 0,
+            "newly_correct": 1,
+            "still_wrong": 54,
+            "still_correct": 0,
+            "unknown": 0
+          },
+          "metric_deltas": {
+            "bleu": {
+              "baseline": 0.014598,
+              "candidate": 0.034351,
+              "delta": 0.019753,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 135.31
+            },
+            "physics_degenerate_rate": {
+              "baseline": 0.327273,
+              "candidate": 0.018182,
+              "delta": -0.309091,
+              "grade": "pass",
+              "direction": "minimize",
+              "pct_change": -94.44
+            },
+            "physics_exact_equiv": {
+              "baseline": 0.0,
+              "candidate": 0.018182,
+              "delta": 0.018182,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": null
+            },
+            "physics_step_structured": {
+              "baseline": 0.745455,
+              "candidate": 0.963636,
+              "delta": 0.218182,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 29.27
+            },
+            "physics_tolerant_5pct": {
+              "baseline": 0.0,
+              "candidate": 0.018182,
+              "delta": 0.018182,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": null
+            },
+            "regex(ANSWER\\s*:)": {
+              "baseline": 0.927273,
+              "candidate": 0.927273,
+              "delta": 0.0,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 0.0
+            },
+            "rouge_l": {
+              "baseline": 0.105715,
+              "candidate": 0.157345,
+              "delta": 0.05163,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 48.84
+            },
+            "wordcount(15-)": {
+              "baseline": 1.0,
+              "candidate": 1.0,
+              "delta": 0.0,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 0.0
+            }
+          }
+        },
+        "E4a_vs_E0": {
+          "overall_grade": "pass",
+          "significance_exact_equiv": {
+            "n": 55,
+            "mean_baseline": 0.0,
+            "mean_candidate": 0.036364,
+            "delta": 0.036364,
+            "p_value": 0.286713,
+            "significant": false,
+            "ci": [
+              0.0,
+              0.090909
+            ],
+            "ci_level": 0.95
+          },
+          "sample_flips_exact_equiv": {
+            "newly_wrong": 0,
+            "newly_correct": 2,
+            "still_wrong": 53,
+            "still_correct": 0,
+            "unknown": 0
+          },
+          "metric_deltas": {
+            "bleu": {
+              "baseline": 0.014598,
+              "candidate": 0.036292,
+              "delta": 0.021693,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 148.6
+            },
+            "physics_degenerate_rate": {
+              "baseline": 0.327273,
+              "candidate": 0.018182,
+              "delta": -0.309091,
+              "grade": "pass",
+              "direction": "minimize",
+              "pct_change": -94.44
+            },
+            "physics_exact_equiv": {
+              "baseline": 0.0,
+              "candidate": 0.036364,
+              "delta": 0.036364,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": null
+            },
+            "physics_step_structured": {
+              "baseline": 0.745455,
+              "candidate": 1.0,
+              "delta": 0.254545,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 34.15
+            },
+            "physics_tolerant_5pct": {
+              "baseline": 0.0,
+              "candidate": 0.036364,
+              "delta": 0.036364,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": null
+            },
+            "regex(ANSWER\\s*:)": {
+              "baseline": 0.927273,
+              "candidate": 0.945455,
+              "delta": 0.018182,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 1.96
+            },
+            "rouge_l": {
+              "baseline": 0.105715,
+              "candidate": 0.161893,
+              "delta": 0.056178,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 53.14
+            },
+            "wordcount(15-)": {
+              "baseline": 1.0,
+              "candidate": 1.0,
+              "delta": 0.0,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 0.0
+            }
+          }
+        },
+        "E4b_vs_E0": {
+          "overall_grade": "fail",
+          "significance_exact_equiv": {
+            "n": 55,
+            "mean_baseline": 0.0,
+            "mean_candidate": 0.036364,
+            "delta": 0.036364,
+            "p_value": 0.27972,
+            "significant": false,
+            "ci": [
+              0.0,
+              0.090909
+            ],
+            "ci_level": 0.95
+          },
+          "sample_flips_exact_equiv": {
+            "newly_wrong": 0,
+            "newly_correct": 2,
+            "still_wrong": 53,
+            "still_correct": 0,
+            "unknown": 0
+          },
+          "metric_deltas": {
+            "bleu": {
+              "baseline": 0.014598,
+              "candidate": 0.038297,
+              "delta": 0.023699,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 162.34
+            },
+            "physics_degenerate_rate": {
+              "baseline": 0.327273,
+              "candidate": 0.0,
+              "delta": -0.327273,
+              "grade": "pass",
+              "direction": "minimize",
+              "pct_change": -100.0
+            },
+            "physics_exact_equiv": {
+              "baseline": 0.0,
+              "candidate": 0.036364,
+              "delta": 0.036364,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": null
+            },
+            "physics_step_structured": {
+              "baseline": 0.745455,
+              "candidate": 1.0,
+              "delta": 0.254545,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 34.15
+            },
+            "physics_tolerant_5pct": {
+              "baseline": 0.0,
+              "candidate": 0.036364,
+              "delta": 0.036364,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": null
+            },
+            "regex(ANSWER\\s*:)": {
+              "baseline": 0.927273,
+              "candidate": 0.963636,
+              "delta": 0.036364,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 3.92
+            },
+            "rouge_l": {
+              "baseline": 0.105715,
+              "candidate": 0.17128,
+              "delta": 0.065565,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 62.02
+            },
+            "wordcount(15-)": {
+              "baseline": 1.0,
+              "candidate": 1.0,
+              "delta": 0.0,
+              "grade": "pass",
+              "direction": "maximize",
+              "pct_change": 0.0
+            }
+          }
+        }
+      }
+    },
+    "loop_agent_eval_and_judge_calibration": {
+      "E4b_v2_test_original": {
+        "auditkit_available": true,
+        "auditkit_version": "1.1.12",
+        "name": "E4b_v2_test_original",
+        "n_episodes": 37,
+        "verified_success_count": 0,
+        "verified_success_rate": 0.0,
+        "agent_loop_detection_evaluated": 37,
+        "loop_free_rate": 1.0,
+        "flagged_loop_case_ids": [],
+        "verifier_judge_calibration": {
+          "status": "scored",
+          "n": 107,
+          "confusion": {
+            "pp": 0,
+            "pf": 0,
+            "fp": 0,
+            "ff": 107
+          },
+          "n_human_pass": 0,
+          "n_human_fail": 107,
+          "agreement": 1.0,
+          "cohens_kappa": null,
+          "false_pass_rate": 0.0,
+          "false_negative_rate": null,
+          "n_unlabeled": 0,
+          "n_missing_judge": 0,
+          "by_dimension": {
+            "ELECTROMAGNETISM": {
+              "n": 33,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 0,
+                "ff": 33
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 33,
+              "agreement": 1.0,
+              "cohens_kappa": null,
+              "false_pass_rate": 0.0,
+              "false_negative_rate": null
+            },
+            "MECHANICS": {
+              "n": 42,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 0,
+                "ff": 42
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 42,
+              "agreement": 1.0,
+              "cohens_kappa": null,
+              "false_pass_rate": 0.0,
+              "false_negative_rate": null
+            },
+            "MODERN_PHYSICS": {
+              "n": 8,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 0,
+                "ff": 8
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 8,
+              "agreement": 1.0,
+              "cohens_kappa": null,
+              "false_pass_rate": 0.0,
+              "false_negative_rate": null
+            },
+            "OPTICS": {
+              "n": 9,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 0,
+                "ff": 9
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 9,
+              "agreement": 1.0,
+              "cohens_kappa": null,
+              "false_pass_rate": 0.0,
+              "false_negative_rate": null
+            },
+            "RELATIVITY": {
+              "n": 3,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 0,
+                "ff": 3
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 3,
+              "agreement": 1.0,
+              "cohens_kappa": null,
+              "false_pass_rate": 0.0,
+              "false_negative_rate": null
+            },
+            "THERMODYNAMICS": {
+              "n": 12,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 0,
+                "ff": 12
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 12,
+              "agreement": 1.0,
+              "cohens_kappa": null,
+              "false_pass_rate": 0.0,
+              "false_negative_rate": null
+            }
+          }
+        }
+      },
+      "E4b_v2_test_clean_080": {
+        "auditkit_available": true,
+        "auditkit_version": "1.1.12",
+        "name": "E4b_v2_test_clean_080",
+        "n_episodes": 37,
+        "verified_success_count": 0,
+        "verified_success_rate": 0.0,
+        "agent_loop_detection_evaluated": 37,
+        "loop_free_rate": 1.0,
+        "flagged_loop_case_ids": [],
+        "verifier_judge_calibration": {
+          "status": "scored",
+          "n": 107,
+          "confusion": {
+            "pp": 0,
+            "pf": 0,
+            "fp": 0,
+            "ff": 107
+          },
+          "n_human_pass": 0,
+          "n_human_fail": 107,
+          "agreement": 1.0,
+          "cohens_kappa": null,
+          "false_pass_rate": 0.0,
+          "false_negative_rate": null,
+          "n_unlabeled": 0,
+          "n_missing_judge": 0,
+          "by_dimension": {
+            "ELECTROMAGNETISM": {
+              "n": 33,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 0,
+                "ff": 33
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 33,
+              "agreement": 1.0,
+              "cohens_kappa": null,
+              "false_pass_rate": 0.0,
+              "false_negative_rate": null
+            },
+            "MECHANICS": {
+              "n": 42,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 0,
+                "ff": 42
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 42,
+              "agreement": 1.0,
+              "cohens_kappa": null,
+              "false_pass_rate": 0.0,
+              "false_negative_rate": null
+            },
+            "MODERN_PHYSICS": {
+              "n": 8,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 0,
+                "ff": 8
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 8,
+              "agreement": 1.0,
+              "cohens_kappa": null,
+              "false_pass_rate": 0.0,
+              "false_negative_rate": null
+            },
+            "OPTICS": {
+              "n": 9,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 0,
+                "ff": 9
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 9,
+              "agreement": 1.0,
+              "cohens_kappa": null,
+              "false_pass_rate": 0.0,
+              "false_negative_rate": null
+            },
+            "RELATIVITY": {
+              "n": 3,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 0,
+                "ff": 3
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 3,
+              "agreement": 1.0,
+              "cohens_kappa": null,
+              "false_pass_rate": 0.0,
+              "false_negative_rate": null
+            },
+            "THERMODYNAMICS": {
+              "n": 12,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 0,
+                "ff": 12
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 12,
+              "agreement": 1.0,
+              "cohens_kappa": null,
+              "false_pass_rate": 0.0,
+              "false_negative_rate": null
+            }
+          }
+        }
+      },
+      "E4b_v3_val_original": {
+        "auditkit_available": true,
+        "auditkit_version": "1.1.12",
+        "name": "E4b_v3_val_original",
+        "n_episodes": 60,
+        "verified_success_count": 4,
+        "verified_success_rate": 0.066667,
+        "agent_loop_detection_evaluated": 60,
+        "loop_free_rate": 1.0,
+        "flagged_loop_case_ids": [],
+        "verifier_judge_calibration": {
+          "status": "scored",
+          "n": 137,
+          "confusion": {
+            "pp": 3,
+            "pf": 3,
+            "fp": 17,
+            "ff": 114
+          },
+          "n_human_pass": 6,
+          "n_human_fail": 131,
+          "agreement": 0.8540145985401459,
+          "cohens_kappa": 0.17519566526189026,
+          "false_pass_rate": 0.1297709923664122,
+          "false_negative_rate": 0.5,
+          "n_unlabeled": 0,
+          "n_missing_judge": 0,
+          "by_dimension": {
+            "ELECTROMAGNETISM": {
+              "n": 38,
+              "confusion": {
+                "pp": 1,
+                "pf": 0,
+                "fp": 1,
+                "ff": 36
+              },
+              "n_human_pass": 1,
+              "n_human_fail": 37,
+              "agreement": 0.9736842105263158,
+              "cohens_kappa": 0.6545454545454552,
+              "false_pass_rate": 0.02702702702702703,
+              "false_negative_rate": 0.0
+            },
+            "MECHANICS": {
+              "n": 52,
+              "confusion": {
+                "pp": 0,
+                "pf": 1,
+                "fp": 7,
+                "ff": 44
+              },
+              "n_human_pass": 1,
+              "n_human_fail": 51,
+              "agreement": 0.8461538461538461,
+              "cohens_kappa": -0.034825870646766156,
+              "false_pass_rate": 0.13725490196078433,
+              "false_negative_rate": 1.0
+            },
+            "MODERN_PHYSICS": {
+              "n": 15,
+              "confusion": {
+                "pp": 1,
+                "pf": 1,
+                "fp": 3,
+                "ff": 10
+              },
+              "n_human_pass": 2,
+              "n_human_fail": 13,
+              "agreement": 0.7333333333333333,
+              "cohens_kappa": 0.18918918918918906,
+              "false_pass_rate": 0.23076923076923078,
+              "false_negative_rate": 0.5
+            },
+            "OPTICS": {
+              "n": 10,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 4,
+                "ff": 6
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 10,
+              "agreement": 0.6,
+              "cohens_kappa": 0.0,
+              "false_pass_rate": 0.4,
+              "false_negative_rate": null
+            },
+            "RELATIVITY": {
+              "n": 8,
+              "confusion": {
+                "pp": 1,
+                "pf": 1,
+                "fp": 0,
+                "ff": 6
+              },
+              "n_human_pass": 2,
+              "n_human_fail": 6,
+              "agreement": 0.875,
+              "cohens_kappa": 0.6,
+              "false_pass_rate": 0.0,
+              "false_negative_rate": 0.5
+            },
+            "THERMODYNAMICS": {
+              "n": 14,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 2,
+                "ff": 12
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 14,
+              "agreement": 0.8571428571428571,
+              "cohens_kappa": 0.0,
+              "false_pass_rate": 0.14285714285714285,
+              "false_negative_rate": null
+            }
+          }
+        }
+      },
+      "E4b_v3_val_clean_080": {
+        "auditkit_available": true,
+        "auditkit_version": "1.1.12",
+        "name": "E4b_v3_val_clean_080",
+        "n_episodes": 48,
+        "verified_success_count": 2,
+        "verified_success_rate": 0.041667,
+        "agent_loop_detection_evaluated": 48,
+        "loop_free_rate": 1.0,
+        "flagged_loop_case_ids": [],
+        "verifier_judge_calibration": {
+          "status": "scored",
+          "n": 111,
+          "confusion": {
+            "pp": 2,
+            "pf": 1,
+            "fp": 14,
+            "ff": 94
+          },
+          "n_human_pass": 3,
+          "n_human_fail": 108,
+          "agreement": 0.8648648648648649,
+          "cohens_kappa": 0.17287630402384513,
+          "false_pass_rate": 0.12962962962962962,
+          "false_negative_rate": 0.3333333333333333,
+          "n_unlabeled": 0,
+          "n_missing_judge": 0,
+          "by_dimension": {
+            "ELECTROMAGNETISM": {
+              "n": 31,
+              "confusion": {
+                "pp": 1,
+                "pf": 0,
+                "fp": 1,
+                "ff": 29
+              },
+              "n_human_pass": 1,
+              "n_human_fail": 30,
+              "agreement": 0.967741935483871,
+              "cohens_kappa": 0.6516853932584271,
+              "false_pass_rate": 0.03333333333333333,
+              "false_negative_rate": 0.0
+            },
+            "MECHANICS": {
+              "n": 42,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 5,
+                "ff": 37
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 42,
+              "agreement": 0.8809523809523809,
+              "cohens_kappa": 0.0,
+              "false_pass_rate": 0.11904761904761904,
+              "false_negative_rate": null
+            },
+            "MODERN_PHYSICS": {
+              "n": 9,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 2,
+                "ff": 7
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 9,
+              "agreement": 0.7777777777777778,
+              "cohens_kappa": 0.0,
+              "false_pass_rate": 0.2222222222222222,
+              "false_negative_rate": null
+            },
+            "OPTICS": {
+              "n": 10,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 4,
+                "ff": 6
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 10,
+              "agreement": 0.6,
+              "cohens_kappa": 0.0,
+              "false_pass_rate": 0.4,
+              "false_negative_rate": null
+            },
+            "RELATIVITY": {
+              "n": 5,
+              "confusion": {
+                "pp": 1,
+                "pf": 1,
+                "fp": 0,
+                "ff": 3
+              },
+              "n_human_pass": 2,
+              "n_human_fail": 3,
+              "agreement": 0.8,
+              "cohens_kappa": 0.5454545454545455,
+              "false_pass_rate": 0.0,
+              "false_negative_rate": 0.5
+            },
+            "THERMODYNAMICS": {
+              "n": 14,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 2,
+                "ff": 12
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 14,
+              "agreement": 0.8571428571428571,
+              "cohens_kappa": 0.0,
+              "false_pass_rate": 0.14285714285714285,
+              "false_negative_rate": null
+            }
+          }
+        }
+      },
+      "E4b_v3_test_original": {
+        "auditkit_available": true,
+        "auditkit_version": "1.1.12",
+        "name": "E4b_v3_test_original",
+        "n_episodes": 60,
+        "verified_success_count": 2,
+        "verified_success_rate": 0.033333,
+        "agent_loop_detection_evaluated": 60,
+        "loop_free_rate": 1.0,
+        "flagged_loop_case_ids": [],
+        "verifier_judge_calibration": {
+          "status": "scored",
+          "n": 124,
+          "confusion": {
+            "pp": 1,
+            "pf": 3,
+            "fp": 27,
+            "ff": 93
+          },
+          "n_human_pass": 4,
+          "n_human_fail": 120,
+          "agreement": 0.7580645161290323,
+          "cohens_kappa": 0.006410256410256463,
+          "false_pass_rate": 0.225,
+          "false_negative_rate": 0.75,
+          "n_unlabeled": 0,
+          "n_missing_judge": 0,
+          "by_dimension": {
+            "ELECTROMAGNETISM": {
+              "n": 37,
+              "confusion": {
+                "pp": 1,
+                "pf": 3,
+                "fp": 8,
+                "ff": 25
+              },
+              "n_human_pass": 4,
+              "n_human_fail": 33,
+              "agreement": 0.7027027027027027,
+              "cohens_kappa": 0.004889975550122451,
+              "false_pass_rate": 0.24242424242424243,
+              "false_negative_rate": 0.75
+            },
+            "MECHANICS": {
+              "n": 46,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 9,
+                "ff": 37
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 46,
+              "agreement": 0.8043478260869565,
+              "cohens_kappa": 0.0,
+              "false_pass_rate": 0.1956521739130435,
+              "false_negative_rate": null
+            },
+            "MODERN_PHYSICS": {
+              "n": 14,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 3,
+                "ff": 11
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 14,
+              "agreement": 0.7857142857142857,
+              "cohens_kappa": 0.0,
+              "false_pass_rate": 0.21428571428571427,
+              "false_negative_rate": null
+            },
+            "OPTICS": {
+              "n": 11,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 2,
+                "ff": 9
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 11,
+              "agreement": 0.8181818181818182,
+              "cohens_kappa": 0.0,
+              "false_pass_rate": 0.18181818181818182,
+              "false_negative_rate": null
+            },
+            "RELATIVITY": {
+              "n": 5,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 2,
+                "ff": 3
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 5,
+              "agreement": 0.6,
+              "cohens_kappa": 0.0,
+              "false_pass_rate": 0.4,
+              "false_negative_rate": null
+            },
+            "THERMODYNAMICS": {
+              "n": 11,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 3,
+                "ff": 8
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 11,
+              "agreement": 0.7272727272727273,
+              "cohens_kappa": 0.0,
+              "false_pass_rate": 0.2727272727272727,
+              "false_negative_rate": null
+            }
+          }
+        }
+      },
+      "E4b_v3_test_clean_080": {
+        "auditkit_available": true,
+        "auditkit_version": "1.1.12",
+        "name": "E4b_v3_test_clean_080",
+        "n_episodes": 55,
+        "verified_success_count": 2,
+        "verified_success_rate": 0.036364,
+        "agent_loop_detection_evaluated": 55,
+        "loop_free_rate": 1.0,
+        "flagged_loop_case_ids": [],
+        "verifier_judge_calibration": {
+          "status": "scored",
+          "n": 112,
+          "confusion": {
+            "pp": 1,
+            "pf": 3,
+            "fp": 26,
+            "ff": 82
+          },
+          "n_human_pass": 4,
+          "n_human_fail": 108,
+          "agreement": 0.7410714285714286,
+          "cohens_kappa": 0.002457002457002753,
+          "false_pass_rate": 0.24074074074074073,
+          "false_negative_rate": 0.75,
+          "n_unlabeled": 0,
+          "n_missing_judge": 0,
+          "by_dimension": {
+            "ELECTROMAGNETISM": {
+              "n": 34,
+              "confusion": {
+                "pp": 1,
+                "pf": 3,
+                "fp": 8,
+                "ff": 22
+              },
+              "n_human_pass": 4,
+              "n_human_fail": 30,
+              "agreement": 0.6764705882352942,
+              "cohens_kappa": -0.01081081081081063,
+              "false_pass_rate": 0.26666666666666666,
+              "false_negative_rate": 0.75
+            },
+            "MECHANICS": {
+              "n": 37,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 8,
+                "ff": 29
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 37,
+              "agreement": 0.7837837837837838,
+              "cohens_kappa": 0.0,
+              "false_pass_rate": 0.21621621621621623,
+              "false_negative_rate": null
+            },
+            "MODERN_PHYSICS": {
+              "n": 14,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 3,
+                "ff": 11
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 14,
+              "agreement": 0.7857142857142857,
+              "cohens_kappa": 0.0,
+              "false_pass_rate": 0.21428571428571427,
+              "false_negative_rate": null
+            },
+            "OPTICS": {
+              "n": 11,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 2,
+                "ff": 9
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 11,
+              "agreement": 0.8181818181818182,
+              "cohens_kappa": 0.0,
+              "false_pass_rate": 0.18181818181818182,
+              "false_negative_rate": null
+            },
+            "RELATIVITY": {
+              "n": 5,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 2,
+                "ff": 3
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 5,
+              "agreement": 0.6,
+              "cohens_kappa": 0.0,
+              "false_pass_rate": 0.4,
+              "false_negative_rate": null
+            },
+            "THERMODYNAMICS": {
+              "n": 11,
+              "confusion": {
+                "pp": 0,
+                "pf": 0,
+                "fp": 3,
+                "ff": 8
+              },
+              "n_human_pass": 0,
+              "n_human_fail": 11,
+              "agreement": 0.7272727272727273,
+              "cohens_kappa": 0.0,
+              "false_pass_rate": 0.2727272727272727,
+              "false_negative_rate": null
+            }
+          }
+        }
+      }
+    }
   }
 }
