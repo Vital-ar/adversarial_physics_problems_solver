@@ -495,6 +495,17 @@ Built directly from measured eager HF/PEFT inference telemetry (`n=120` pooled `
 * **HF Datasets Collection:** [Adversarial Physics Solver-Verifier Datasets & Traces](https://huggingface.co/collections/vital-ar/adversarial-physics-solver-verifier-datasets-and-traces-6af9bd217256661d47a74225) — public, un-gated:
   * **SFT Datasets (`v1 / v2 / v3`, 15 repos):** `vital-ar/physics-solver-e1-manual-rules{,-v2,-v3}`, `vital-ar/physics-solver-e2-curatorkit-nollm{,-v2,-v3}`, `vital-ar/physics-solver-e3-canonical-llm{,-v2,-v3}`, `vital-ar/physics-solver-e4-adversarial{,-v2,-v3}`, `vital-ar/physics-verifier-e4-curated{,-v2,-v3}`.
   * **Benchmarks, Clean `< 0.80` Splits & Per-Problem Traces:** [`vital-ar/adversarial-physics-eval-traces-benchmarks`](https://huggingface.co/datasets/vital-ar/adversarial-physics-eval-traces-benchmarks) (`CC BY-SA 4.0`).
+* **Kaggle Notebooks (`2x NVIDIA T4`, `v1 → v3`):**
+
+| Kaggle Notebook | Version / Scope | Local Repo Counterpart | Short Description |
+|---|---|---|---|
+| [`v3-loop-train-eval`](https://www.kaggle.com/code/vitaliilavryk/v3-loop-train-eval) | `v3` Verifier + Loop | [`retrain-v3-verifier-and-eval.ipynb`](notebooks/retrain-v3-verifier-and-eval.ipynb) | Retrains `E4b_v3` Verifier after the prompt-prefix parity fix, runs `E4b_v3` loop eval (`val`/`test`), and rebuilds comparison tables. |
+| [`eval-v3-loop`](https://www.kaggle.com/code/vitaliilavryk/eval-v3-loop) | `v3` Loop Eval | [`eval-v3-loop.ipynb`](notebooks/eval-v3-loop.ipynb) | Runs DDP-batched 3-turn Solver–Verifier loop evaluation (`validate_e4_loop.py`) and builds experiment tables. |
+| [`training-v3-e4s-e2`](https://www.kaggle.com/code/vitaliilavryk/training-v3-e4s-e2) | `v3` `E4a` + `E2` | [`training-v3-e4s-e2.ipynb`](notebooks/training-v3-e4s-e2.ipynb) | Trains `v3` `E4a` Adversarial Solver & `E2` Solver LoRAs via `AlignTune` and evaluates both on `validation`/`test`. |
+| [`training-v3-e3-e4v`](https://www.kaggle.com/code/vitaliilavryk/training-v3-e3-e4v) | `v3` `E4b`, `E3` + `E1` | [`training-v3-e3-e4v-e1.ipynb`](notebooks/training-v3-e3-e4v-e1.ipynb) | Trains `v3` `E4b` Verifier, `E3` Canonical Solver, and `E1` Raw Solver LoRAs and runs single-turn evaluations. |
+| [`training-v2-e2-e4s`](https://www.kaggle.com/code/vitaliilavryk/training-v2-e2-e4s) | `v2` `E2`–`E4a` | — | Trains `v2` `E2–E4a` Solver LoRA adapters on rescued `-v2` datasets and runs single-turn `val`/`test` evaluations. |
+| [`estimating-baseline-e1`](https://www.kaggle.com/code/vitaliilavryk/estimating-baseline-e1) | `E0` / `E1` Baseline | — | Evaluates the `E1` baseline adapter / early baseline runs against held-out validation and test splits. |
+| [`adversarial-physics-train-v1`](https://www.kaggle.com/code/vitaliilavryk/adversarial-physics-train-v1) | `v1` Pipeline | — | Initial `v1` Kaggle `2x T4` SFT training notebook (`aligntune_training.yaml`) producing the first `v1` adapters and memory-sharding diagnostics. |
 
 ---
 
